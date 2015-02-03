@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+     >
+    <include 
+        layout="@layout/header_main"
+         />
+        <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/unbound_bottom_height"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:layout_width="@dimen/unbound_bottom_height"
+            android:layout_height="match_parent"
+            android:background="@drawable/unbound_main_bottomswitch"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/unbound_order_tv_bg"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/stroke_width"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/unbound_main_tv_input"
+                android:text="@string/unbound_bottom_tv"
+                android:textSize="@dimen/unbound_bottom_tvsize"
+                android:textColor="@color/unbound_main_tvcolor"
+                android:gravity="center"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.huishen.bound.BoundActivity"
+            android:label="@string/title_activity_bound" >
+        </activity>
+        <activity
+            android:name="com.huishen.unbound.UnboundActivity"
+            android:label="@string/title_activity_unbound" >
+        </activity>
     </application>
 
 </manifest>

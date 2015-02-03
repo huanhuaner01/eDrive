@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用  -->
+    <dimen name="stroke_width">1dp</dimen>
+    <!-- 标题栏 -->
+  <dimen name="header_height">50dp</dimen>
+  <dimen name="header_tvsize">16sp</dimen> 
+   <!-- 未绑定教练的主页面  -->
+  <dimen name="unbound_bottom_height">55dp</dimen>
+  <dimen name="unbound_bottom_tvsize">14sp</dimen>
+</resources>
