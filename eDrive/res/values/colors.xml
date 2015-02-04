@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 通用  -->
-   <color name="main_color">#42b3a5</color> 
-   <color name="white">#ffffff</color>
+   <color name="all_null_color">#00000000</color>
    
-   <!-- 未绑定主页面 -->
+   <color name="main_color">#ff7243</color> 
+   <color name="white">#ffffff</color>
+   <color name="Grey_line">#d8d8d8</color>
+   
+   <!-- 标题栏  -->
+   <color name="back_btn_presscolor">#5a5a5a</color>
+   <!-- 主页面 -->
    <color name="unbound_main_tvcolor">#505050</color>
+   <color name="main_tab_textcolor">#ff656566</color>
+   <color name="main_tab_textcolor_press">#ffff6501</color>
+   <color name="main_tab_backgroundcolor">#f0f0f0</color>
 </resources>

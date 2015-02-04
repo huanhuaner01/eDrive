@@ -2,10 +2,16 @@
 <resources>
     <!-- 通用  -->
     <dimen name="stroke_width">1dp</dimen>
+    <dimen name="divide_line">0.5dp</dimen>
     <!-- 标题栏 -->
   <dimen name="header_height">50dp</dimen>
   <dimen name="header_tvsize">16sp</dimen> 
-   <!-- 未绑定教练的主页面  -->
+  <dimen name="header_back_padding">10dp</dimen>
+  <dimen name="header_title_padding">15dp</dimen>
+   <!-- 找教练页面   -->
   <dimen name="unbound_bottom_height">55dp</dimen>
   <dimen name="unbound_bottom_tvsize">14sp</dimen>
+     <!-- main_buttom 主页底部导航栏 -->
+    <dimen name="main_tab_height">60dp</dimen>
+    <dimen name="main_tab_textsize">12sp</dimen>
 </resources>

@@ -3,24 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/header_height"
     android:background="@color/main_color"
-    android:gravity="center_horizontal"
      >
-    <ImageView
+    <ImageButton
         android:id="@+id/header_menu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="5dp"
-        android:src="@drawable/header_main_leftmenu_ic"
+        android:paddingLeft="@dimen/header_back_padding"
+        android:paddingRight="@dimen/header_back_padding"
+        android:src="@drawable/back_ic"
         android:layout_alignParentLeft="true"
+        android:background="@drawable/selector__default_btn"
         />
-     <TextView
+     <ImageView
          android:id="@+id/header_title"
-         android:layout_width="match_parent"
+         android:layout_width="wrap_content"
          android:layout_height="match_parent"
          android:layout_centerInParent="true"
-         android:text="@string/app_name"
-         android:textSize="@dimen/header_tvsize"
-         android:textColor="@color/white"
+         android:src="@drawable/main_title_ic"
          android:gravity="center"
+         android:paddingTop="@dimen/header_title_padding"
+         android:paddingBottom="@dimen/header_title_padding"
          />
 </RelativeLayout>

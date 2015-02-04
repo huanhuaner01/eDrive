@@ -19,10 +19,10 @@
         android:layout_height="@dimen/unbound_bottom_height"
         android:orientation="horizontal"
         >
-        <Button
+        <ImageButton
             android:layout_width="@dimen/unbound_bottom_height"
             android:layout_height="match_parent"
-            android:background="@drawable/unbound_main_bottomswitch"
+            android:src="@drawable/demand_sound"
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/unbound_main_tv_input"
+                android:drawableLeft="@drawable/demand_tv_input"
                 android:text="@string/unbound_bottom_tv"
                 android:textSize="@dimen/unbound_bottom_tvsize"
                 android:textColor="@color/unbound_main_tvcolor"

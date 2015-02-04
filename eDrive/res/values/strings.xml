@@ -5,8 +5,16 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_bound">BoundActivity</string>
     <string name="title_activity_unbound">UnboundActivity</string>
-    
-    <!-- 未绑定教练主页面  -->
+
+    <!-- 未绑定教练主页面 -->
     <string name="unbound_bottom_tv">你的学车需求</string>
     <string name="unbound_bottom_sound">说出学车需求</string>
+
+    <!-- 首页 -->
+    <string name="main_tab_main">首页</string>
+    <string name="main_tab_appointment">我的预约</string>
+    <string name="main_tab_his">历史记录</string>
+    <string name="main_tab_student">我的学员</string>
+    <string name="title_activity_demand">DemandActivity</string>
+
 </resources>
