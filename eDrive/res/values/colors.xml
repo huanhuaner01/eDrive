@@ -4,14 +4,17 @@
    <color name="all_null_color">#00000000</color>
    
    <color name="main_color">#ff7243</color> 
+   <color name="main_press_color">#f58f6d</color>
    <color name="white">#ffffff</color>
-   <color name="Grey_line">#d8d8d8</color>
-   
+   <color name="black">#000000</color>
+   <color name="Grey_line">#908f8f</color>   
    <!-- 标题栏  -->
    <color name="back_btn_presscolor">#5a5a5a</color>
+   <color name="header_bg_color">#f5f5f5</color>
    <!-- 主页面 -->
    <color name="unbound_main_tvcolor">#505050</color>
    <color name="main_tab_textcolor">#ff656566</color>
    <color name="main_tab_textcolor_press">#ffff6501</color>
    <color name="main_tab_backgroundcolor">#f0f0f0</color>
+   <color name="main_bg_color">#f0f0f0</color>
 </resources>

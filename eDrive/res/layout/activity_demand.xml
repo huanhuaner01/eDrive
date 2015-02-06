@@ -1,47 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-     >
-    <include 
-        layout="@layout/header_main"
-         />
-        <com.baidu.mapapi.map.MapView
+    android:orientation="vertical" 
+    >
+  <include layout="@layout/header_main" />  
+      <com.baidu.mapapi.map.MapView
         android:id="@+id/bmapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clickable="true"
         android:layout_weight="1"
-        android:clickable="true" />
-    <LinearLayout
+         />
+          <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/unbound_bottom_height"
-        android:orientation="horizontal"
-        >
-        <ImageButton
-            android:layout_width="@dimen/unbound_bottom_height"
-            android:layout_height="match_parent"
-            android:src="@drawable/demand_sound"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/unbound_order_tv_bg"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/stroke_width"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:drawableLeft="@drawable/demand_tv_input"
-                android:text="@string/unbound_bottom_tv"
-                android:textSize="@dimen/unbound_bottom_tvsize"
-                android:textColor="@color/unbound_main_tvcolor"
-                android:gravity="center"
-                />
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="@dimen/divide_line"
+        android:background="@color/Grey_line"
+        />
+  <LinearLayout 
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/demand_bottom_height"
+      android:padding="@dimen/demand_bottom_padding"
+      >
+      <ImageButton
+          android:layout_width="@dimen/demand_bottom_height"
+          android:layout_height="match_parent"
+          android:background="@drawable/demand_order_switchbtn"
+          android:src="@drawable/demand_sound"
+          />
+      <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/demand_order_tv"
+              android:gravity="center"
+              android:layout_marginLeft="@dimen/stroke_width"
+              android:clickable="true"
+              android:focusable="true"
+           >
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:drawableLeft="@drawable/demand_input"
+              android:gravity="center"
+              android:text="@string/demand_bottom_tv"
+              />
+          </LinearLayout>
+  </LinearLayout>
 </LinearLayout>
-

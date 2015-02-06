@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/header_height"
-    android:background="@color/main_color"
+    android:background="@color/header_bg_color"
+    android:orientation="vertical"
      >
+     <RelativeLayout 
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             android:layout_weight="1"
+         >
     <ImageButton
         android:id="@+id/header_menu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/header_back_padding"
         android:paddingRight="@dimen/header_back_padding"
-        android:src="@drawable/back_ic"
+        android:src="@drawable/ic_main_menu"
         android:layout_alignParentLeft="true"
         android:background="@drawable/selector__default_btn"
         />
@@ -25,3 +31,9 @@
          android:paddingBottom="@dimen/header_title_padding"
          />
 </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divide_line"
+        android:background="@color/Grey_line"
+        />
+    </LinearLayout>
