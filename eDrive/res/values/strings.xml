@@ -6,7 +6,7 @@
     <string name="title_activity_bound">BoundActivity</string>
     <string name="title_activity_unbound">UnboundActivity</string>
 
-    <!-- 未绑定教练主页面 -->
+    <!-- 需求主页面 -->
     <string name="demand_bottom_tv">你的学车需求</string>
     <string name="demand_bottom_sound">说出学车需求</string>
 
@@ -15,5 +15,8 @@
     <string name="main_tab_appointment">预约管理</string>
     <string name="main_tab_center">我的学员</string>
     <string name="title_activity_demand">DemandActivity</string>
+    
+    <!-- 预约相关 -->
+    <string name="apoint_title">预约学车</string>
 
 </resources>

@@ -10,7 +10,7 @@
         android:background="@color/Grey_line"
         />
         <RadioGroup
-        android:id="@+id/home_radio_button_group"
+        android:id="@+id/main_tab_button_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
@@ -20,19 +20,19 @@
         <RadioButton
             android:id="@+id/main_tab_demand"
             style="@style/main_tab"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/selector_main_tab_demand"
             android:text="@string/main_tab_demand" />
 
         <RadioButton
-            android:id="@+id/home_tab_appointment"
+            android:id="@+id/main_tab_appointment"
             style="@style/main_tab"
-            android:drawableTop="@drawable/appointment_ic"
+            android:drawableTop="@drawable/selector_main_tab_appointment"
             android:text="@string/main_tab_appointment" />
 
         <RadioButton
-            android:id="@+id/home_tab_center"
+            android:id="@+id/main_tab_center"
             style="@style/main_tab"
-            android:drawableTop="@drawable/center_ic"
+            android:drawableTop="@drawable/selector_main_tab_center"
             android:text="@string/main_tab_center" />
     </RadioGroup>
 

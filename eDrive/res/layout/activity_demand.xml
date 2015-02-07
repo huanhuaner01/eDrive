@@ -23,12 +23,14 @@
       android:padding="@dimen/demand_bottom_padding"
       >
       <ImageButton
+          android:id="@+id/demand_btn_switch"
           android:layout_width="@dimen/demand_bottom_height"
           android:layout_height="match_parent"
           android:background="@drawable/demand_order_switchbtn"
           android:src="@drawable/demand_sound"
           />
       <LinearLayout
+          android:id="@+id/demand_lay_switch"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@drawable/demand_order_tv"
@@ -38,6 +40,7 @@
               android:focusable="true"
            >
           <TextView
+              android:id="@+id/demand_tv_switch"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:drawableLeft="@drawable/demand_input"

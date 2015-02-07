@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="@dimen/demand_info_windows"
     android:orientation="horizontal" 
     android:background="@drawable/info_bg"
+    android:gravity="center_vertical"
     >
     <com.huishen.edrive.widget.RoundImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/appointment_ic"
+        android:layout_width="@dimen/demand_info_coachsize"
+        android:layout_height="@dimen/demand_info_coachsize"
+        android:src="@drawable/photo_coach_defualt"
+        android:layout_marginLeft="@dimen/margin_middle"
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,22 +29,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张教练"
-                android:textColor="@color/black"
-                android:textSize="@dimen/demand_coachname_size"
+                android:textColor="@color/tv_light_color"
+                android:textSize="@dimen/txtsize_large"
                 />
             <ImageView
-                android:layout_width="23dp"
-                android:layout_height="23dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_recommend"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
                 />
                 <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(8)"
-                android:textColor="@color/black"
-                android:textSize="@dimen/demand_coachremen_size"
+                android:textColor="@color/tv_light_color"
+                android:textSize="@dimen/txtsize_default"
                 />
             </LinearLayout>
                  <LinearLayout
@@ -66,11 +68,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.8分"
-                android:textColor="@color/black"
-                android:textSize="@dimen/demand_coachremen_size"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
+                android:textColor="@color/tv_gray_color"
+                android:textSize="@dimen/txtsize_middle"
                 />
             </LinearLayout>
         
         </LinearLayout>
-
 </LinearLayout>

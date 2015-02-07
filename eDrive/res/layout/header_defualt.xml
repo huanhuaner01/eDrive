@@ -11,20 +11,23 @@
              android:layout_weight="1"
          >
     <ImageButton
-        android:id="@+id/header_menu"
+        android:id="@+id/header_back"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/header_back_padding"
         android:paddingRight="@dimen/header_back_padding"
-        android:src="@drawable/ic_main_menu"
+        android:src="@drawable/back_ic"
         android:layout_alignParentLeft="true"
         android:background="@drawable/selector_default_btn"
         />
-     <ImageView
+     <TextView
+         android:id="@+id/header_title"
          android:layout_width="wrap_content"
          android:layout_height="match_parent"
          android:layout_centerInParent="true"
-         android:src="@drawable/main_title_ic"
+         android:text="@string/apoint_title"
+         android:textColor="@color/tv_light_color"
+         android:textSize="@dimen/txtsize_default"
          android:gravity="center"
          android:paddingTop="@dimen/header_title_padding"
          android:paddingBottom="@dimen/header_title_padding"
