@@ -10,9 +10,14 @@
    <color name="Grey_line">#908f8f</color>   
    
    <!-- 字体颜色表  -->
-   <color name="tv_light_color">#515151</color>
-   <color name="tv_gray_color">#646464</color>
-   
+   <color name="tv_light_color">#3b3b3b</color>
+   <color name="tv_gray_color">#808080</color>
+   <color name="tv_smallgrap_color">#b8b8b8</color>
+   <!-- calendar 相关 -->
+   <color name="week">#fbe7c1</color>
+   <color name="color_week_bg">#fbe7c1</color>
+   <color name="color_calendar_title">#44423e</color>
+   <color name="color_calendar_exits">#68c1b7</color>
    <!-- 标题栏  -->
    <color name="back_btn_presscolor">#5a5a5a</color>
    <color name="header_bg_color">#f5f5f5</color>

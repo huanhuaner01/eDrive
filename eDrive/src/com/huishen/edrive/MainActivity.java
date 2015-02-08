@@ -61,26 +61,30 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     	
     	//页面切换
     	this.tabGroup.setOnCheckedChangeListener(this);
+    	this.tabGroup.check(R.id.main_tab_appointment);
     }
 
     //radiogroup监听
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
+	    FragmentManager fm = this.getSupportFragmentManager();  
+        FragmentTransaction tx = fm.beginTransaction();  
 		switch(checkedId){
+		
 		case R.id.main_tab_demand:
 			 Intent i = new Intent(MainActivity.this ,DemandActivity.class);
 			 startActivity(i);
 			 group.check(R.id.main_tab_appointment);
 			 break ;
 		case R.id.main_tab_appointment:
-			ApointmentFragment wesu = new ApointmentFragment() ;
-		    FragmentManager fm = this.getSupportFragmentManager();  
-	        FragmentTransaction tx = fm.beginTransaction();  
-	        tx.add(R.id.main_center, wesu);  
-	        tx.commit();
+			ApointmentFragment apointment = new ApointmentFragment() ;	
+			tx.replace(R.id.main_center,apointment);  
 			break ;
 		case R.id.main_tab_center:
+			CenterFragment center = new CenterFragment() ;		
+	        tx.replace(R.id.main_center, center);  
 			break ;
 		}
+		 tx.commit();
 	}
 }
