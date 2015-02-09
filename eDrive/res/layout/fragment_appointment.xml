@@ -3,12 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg_color"
-    android:orientation="vertical" >
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
+    android:orientation="vertical" > 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,13 +17,10 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
             </LinearLayout>
-            
-               <include layout="@layout/calendar_week" />
-       <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            <FrameLayout
+                android:id="@+id/appointment_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
         </LinearLayout>
-    </ScrollView>
-
 </LinearLayout>

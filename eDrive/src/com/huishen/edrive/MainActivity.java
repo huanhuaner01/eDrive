@@ -77,7 +77,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			 group.check(R.id.main_tab_appointment);
 			 break ;
 		case R.id.main_tab_appointment:
-			ApointmentFragment apointment = new ApointmentFragment() ;	
+			ApointmentFragment apointment = new ApointmentFragment(this) ;	
 			tx.replace(R.id.main_center,apointment);  
 			break ;
 		case R.id.main_tab_center:
