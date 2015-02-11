@@ -3,35 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/padding_xlarge"
+        android:layout_height="@dimen/padding_default"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:textColor="@drawable/day_tv_selector" />
 
     <TextView
         android:id="@+id/day"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/day_bg"
         android:gravity="center"
-        android:textColor="@drawable/day_tv_selector"
-        android:text="nihao" />
+        android:text="31" />
 
     <TextView
         android:id="@+id/day_bottomtv"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/padding_xlarge"
+        android:layout_height="@dimen/padding_default"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:textSize="10sp" />
+        android:textSize="8sp" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/stroke_width"
+        android:layout_height="@dimen/divide_line"
         android:background="@color/Grey_line" />
 
 </LinearLayout>

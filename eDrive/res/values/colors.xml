@@ -7,7 +7,9 @@
    <color name="main_press_color">#f58f6d</color>
    <color name="white">#ffffff</color>
    <color name="black">#000000</color>
-   <color name="Grey_line">#908f8f</color>   
+   <color name="Grey_line">#908f8f</color> 
+   <color name="color_deeper_gray">#7F7F7F</color>
+   <color name="color_lighter_gray">#E8E8E8</color>  
    
    <!-- 字体颜色表  -->
    <color name="tv_light_color">#3b3b3b</color>
@@ -26,4 +28,8 @@
    <color name="main_tab_textcolor_press">#ffff6501</color>
    <color name="main_tab_backgroundcolor">#f0f0f0</color>
    <color name="main_bg_color">#f0f0f0</color>
+   
+   <!-- 服务协议界面  -->
+   <color name="service_info_btn_norcolor">#cbc9c9</color>
+   <color name="service_info_btn_presscolor">#454545</color>
 </resources>

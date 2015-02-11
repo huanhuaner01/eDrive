@@ -1,4 +1,4 @@
-package com.edrive.util;
+package com.huishen.edrive.util;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 

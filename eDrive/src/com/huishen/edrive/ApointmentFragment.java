@@ -31,8 +31,8 @@ public class ApointmentFragment extends Fragment implements CalendarResult{
 	        FragmentTransaction tx = fm.beginTransaction();  
 	        String begindate = getToday();
 	        String enddate = gettest() ;
-	        int[] colors = new int[]{R.drawable.day_bg,R.drawable.day_bg,R.drawable.day_bg ,R.drawable.day_bg,
-	        		R.drawable.day_bg,R.drawable.day_bg,R.drawable.day_bg
+	        int[] colors = new int[]{R.drawable.day_bg,R.drawable.day_bg,R.drawable.day_exists ,R.drawable.day_bg,
+	        		R.drawable.day_bg,R.drawable.day_full,R.drawable.day_full
 	        };
 	        		
 	        CalendarFragment calendar = new CalendarFragment(this.activity ,(CalendarResult)this ,true,begindate,enddate,colors ) ;	

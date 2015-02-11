@@ -34,4 +34,12 @@
         <item name="android:minHeight">20dp</item>
         <item name="android:progressDrawable">@drawable/ratingbar</item>
     </style>
+    
+    <style name="style_splash_viewpager_dot">
+        <item name="android:layout_width">@dimen/common_reddot_width</item>
+        <item name="android:layout_height">@dimen/common_reddot_height</item>
+        <item name="android:background">@drawable/bkg_splash_dots</item>
+        <item name="android:layout_marginLeft">@dimen/padding_micro</item>
+        <item name="android:layout_marginRight">@dimen/padding_micro</item>
+    </style>
 </resources>

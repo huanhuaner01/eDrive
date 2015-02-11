@@ -15,8 +15,34 @@
     <string name="main_tab_appointment">预约管理</string>
     <string name="main_tab_center">我的学员</string>
     <string name="title_activity_demand">DemandActivity</string>
-    
+
     <!-- 预约相关 -->
     <string name="apoint_title">预约学车</string>
+
+    <!-- 验证相关 -->
+    <string name="str_verify_phone_title">验证手机</string>
+    <string name="str_verify_phone_purpose">为了方便教练联系您，请验证手机</string>
+    <string name="str_verify_phone_btn_verify">验证</string>
+    <string name="str_verify_phone_countdown">%1$dS</string>
+    <string name="str_verify_phone_btn_start">开始</string>
+    <string name="str_verify_phone_hint_phonenum">手机号</string>
+    <string name="str_verify_phone_hint_verifycode">验证码</string>
+    <string name="str_verify_phone_protocal_prefix">点击开始，即表示同意</string>
+    <string name="str_verify_phone_protocal_name">《e驾学车用户协议》</string>
+    <string name="str_verify_phone_err_not_valid_number">请输入合适的手机号!</string>
+    <string name="str_verify_phone_err_request_retry">重发</string>
+    
+    <!-- 服务协议 -->
+    <string name="service_info_se">服务条款</string>
+    <string name="service_info_pri">隐私政策</string>
+    
+    <!-- 发布需求界面  -->
+    <string name="post_title">学车需求</string>
+    
+    
+    <string name="title_activity_post_demand">PostDemandActivity</string>
+    <string name="title_activity_post_sound">PostSoundActivity</string>
+    <string name="title_activity_coach_detail">CoachDetailActivity</string>
+    <string name="title_activity_service_info">ServiceInfoActivity</string>
 
 </resources>

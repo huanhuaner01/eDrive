@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical"
+     >
+<include layout="@layout/header_defualt"
+    />
+<!--  
+<ScrollView 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" 
+        >
+     <RadioGroup
+        android:id="@+id/service_info_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_xlarge"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/service_info_se"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:text="@string/service_info_se"
+            android:button="@null"
+            android:textSize="@dimen/txtsize_default"
+            android:textColor="@drawable/service_info_tv_selector"
+            android:gravity="center"
+            android:background="@drawable/service_info_btn_bg"
+             />
+
+        <RadioButton
+            android:id="@+id/service_info_pri"
+            android:text="@string/service_info_pri"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/margin_default"
+            android:button="@null"
+            android:textSize="@dimen/txtsize_default"
+            android:textColor="@drawable/service_info_tv_selector"
+            android:gravity="center"
+            android:background="@drawable/service_info_btn_bg"
+             />
+        </RadioGroup>
+        <WebView
+            android:id="@+id/service_info_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+<!--         <TextView
+            android:id="@+id/service_info_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xlarge"
+            android:layout_marginRight="@dimen/margin_xlarge"
+            android:text="服务条款"
+            android:textColor="@color/tv_light_color"
+            android:textSize="@dimen/txtsize_large"
+            />
+             <TextView
+            android:id="@+id/service_info_tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xlarge"
+            android:layout_marginRight="@dimen/margin_xlarge"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="e驾学车******"
+            android:textColor="@color/tv_gray_color"
+            android:textSize="@dimen/txtsize_middle"
+            /> -->
+        </LinearLayout>
+
+<!-- </ScrollView>
+ -->
+</LinearLayout>

@@ -1,21 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:layout_height="wrap_content"
+    android:background="@drawable/calendar_bg"
     android:orientation="vertical"
+    android:padding="@dimen/divide_line"
     >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_calendar_title"
+        android:padding="@dimen/padding_small"
         >
         <ImageButton
             android:id="@+id/calendar_btn_premouth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/calendar_pre"
             android:layout_alignParentLeft="true"
+            android:background="@null"
             />
         <TextView
             android:id="@+id/calendar_tv_mouth"
@@ -23,18 +26,22 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="2015年2月"
+            android:textColor="@color/white"
             />
              <ImageButton
             android:id="@+id/calendar_btn_nextmouth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/calendar_next"
+            android:background="@null"
             android:layout_alignParentRight="true"
             />
         </RelativeLayout>
    <include layout="@layout/calendar_week" />
+
        <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+           android:id="@+id/pager"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+
 </LinearLayout>  

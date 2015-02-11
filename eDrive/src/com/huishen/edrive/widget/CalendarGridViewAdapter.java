@@ -83,12 +83,12 @@ public class CalendarGridViewAdapter extends SimpleAdapter {
 			tv.setEnabled(false) ;
 			tv.setSelected(false);
 			tv.setBackground(null);
-			tv.setTextColor(this.context.getResources().getColor(R.color.Grey_line)) ;
+			tv.setTextColor(this.context.getResources().getColor(R.color.tv_smallgrap_color)) ;
 			break ;
 		case -2: //今天不可选
 			tv.setEnabled(false)  ;
 			tv.setSelected(false);
-			tv.setTextColor(this.context.getResources().getColor(R.color.Grey_line)) ;
+			tv.setTextColor(this.context.getResources().getColor(R.color.tv_smallgrap_color)) ;
 			bottomtv.setText("今日") ;
 			bottomtv.setTextColor(this.context.getResources().getColor(R.color.main_color)) ;
 			break ;

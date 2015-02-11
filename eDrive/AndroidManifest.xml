@@ -9,7 +9,7 @@
         android:targetSdkVersion="21" />
 
     <application
-        android:name="com.edrive.util.AppController"
+        android:name=".util.AppController"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -19,29 +19,56 @@
             android:value="dGT0u6nfc14H0pET1EtPzErB" />
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-           <intent-filter>
+            android:name=".SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+                     <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-       
         </activity>
-        
         <activity
-            android:name="com.huishen.edrive.demand.DemandActivity" >
-           
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
         </activity>
-        
-                       <service
+        <activity android:name=".demand.DemandActivity" >
+        </activity>
+        <activity android:name=".login.VerifyPhoneActivity" >
+        </activity>
+
+        <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" >
         </service>
+
+        <activity
+            android:name=".demand.PostTxtActivity"
+            android:label="@string/title_activity_post_demand" >
+        </activity>
+        <activity
+            android:name=".demand.PostSoundActivity"
+            android:label="@string/title_activity_post_sound" >
+        </activity>
+        <activity
+            android:name=".center.CoachDetailActivity"
+            android:label="@string/title_activity_coach_detail" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.login.ServiceInfoActivity"
+            android:label="@string/title_activity_service_info" >
+        </activity>
     </application>
-    
-       <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" >
+
+    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" >
     </permission>
 
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" >
