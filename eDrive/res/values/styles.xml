@@ -42,4 +42,13 @@
         <item name="android:layout_marginLeft">@dimen/padding_micro</item>
         <item name="android:layout_marginRight">@dimen/padding_micro</item>
     </style>
+    
+       <!-- 通用的数据选择 dialog -->
+    <style name="dataselectstyle" parent="@android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/all_null_color</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>

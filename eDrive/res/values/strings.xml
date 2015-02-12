@@ -2,9 +2,8 @@
 <resources>
 
     <string name="app_name">e驾学车</string>
+    <string name="commit">确定</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_bound">BoundActivity</string>
-    <string name="title_activity_unbound">UnboundActivity</string>
 
     <!-- 需求主页面 -->
     <string name="demand_bottom_tv">你的学车需求</string>
@@ -38,11 +37,10 @@
     
     <!-- 发布需求界面  -->
     <string name="post_title">学车需求</string>
-    
-    
-    <string name="title_activity_post_demand">PostDemandActivity</string>
-    <string name="title_activity_post_sound">PostSoundActivity</string>
-    <string name="title_activity_coach_detail">CoachDetailActivity</string>
-    <string name="title_activity_service_info">ServiceInfoActivity</string>
+    <string name="post_defualt_tv">我需要</string>
+    <string name="post_submmit">确认提交</string>
+    <string name="post_addr_tip">亲~你可点击定位你当下的地址，也可填写你的常用地址，便于我们为你找到距离近的教练</string>
+    <string name="post_dialog_edit_hint">设置常用地址</string>
+   
 
 </resources>

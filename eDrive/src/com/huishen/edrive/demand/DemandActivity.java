@@ -185,6 +185,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 				double y = 104.053333 ;
 				for(int i = 0 ; i<10 ;i++){
 					LatLng point = new LatLng(x,y);
+					
 					BitmapDescriptor bdA = BitmapDescriptorFactory
 							.fromResource(R.drawable.icon_gcoding);
 					OverlayOptions ooA = new MarkerOptions().position(point).icon(bdA)

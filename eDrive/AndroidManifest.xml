@@ -22,11 +22,7 @@
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-                     <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+       
         </activity>
         <activity
             android:name=".MainActivity"
@@ -51,20 +47,21 @@
         </service>
 
         <activity
-            android:name=".demand.PostTxtActivity"
-            android:label="@string/title_activity_post_demand" >
+            android:name=".demand.PostTxtActivity" >
+                          <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
-            android:name=".demand.PostSoundActivity"
-            android:label="@string/title_activity_post_sound" >
+            android:name=".demand.PostSoundActivity" >
         </activity>
         <activity
-            android:name=".center.CoachDetailActivity"
-            android:label="@string/title_activity_coach_detail" >
+            android:name=".center.CoachDetailActivity" >
         </activity>
         <activity
-            android:name="com.huishen.edrive.login.ServiceInfoActivity"
-            android:label="@string/title_activity_service_info" >
+            android:name="com.huishen.edrive.login.ServiceInfoActivity" >
         </activity>
     </application>
 

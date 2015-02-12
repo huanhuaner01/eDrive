@@ -32,4 +32,7 @@
    <!-- 服务协议界面  -->
    <color name="service_info_btn_norcolor">#cbc9c9</color>
    <color name="service_info_btn_presscolor">#454545</color>
+   
+   <!-- 发布需求界面  -->
+   <color name="color_item_post_nor">#807f7e</color>
 </resources>

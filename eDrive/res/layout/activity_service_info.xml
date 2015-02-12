@@ -34,7 +34,7 @@
             android:text="@string/service_info_se"
             android:button="@null"
             android:textSize="@dimen/txtsize_default"
-            android:textColor="@drawable/service_info_tv_selector"
+            android:textColor="@drawable/selector_tv_black_to_white"
             android:gravity="center"
             android:background="@drawable/service_info_btn_bg"
              />
@@ -47,7 +47,7 @@
             android:layout_marginTop="@dimen/margin_default"
             android:button="@null"
             android:textSize="@dimen/txtsize_default"
-            android:textColor="@drawable/service_info_tv_selector"
+            android:textColor="@drawable/selector_tv_black_to_white"
             android:gravity="center"
             android:background="@drawable/service_info_btn_bg"
              />
