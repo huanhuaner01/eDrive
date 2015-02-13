@@ -70,7 +70,17 @@ public class PostTxtActivity extends Activity {
 	private void initView() {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
-		
+		this.addrBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				if(!dialog.isShowing()){
+				dialog = new PostAddrDialog(PostTxtActivity.this,listener);
+				dialog.show() ;
+				}
+			}
+			
+		});
 		//返回按钮监听事件
 		this.back.setOnClickListener(new OnClickListener(){
 			@Override
@@ -119,8 +129,9 @@ public class PostTxtActivity extends Activity {
 	private PostDialogInterface listener= new PostDialogInterface(){
 
 		@Override
-		public void result(String result, int longitude, int Latitude) {
+		public void result(String result, double longitude, double latitude) {
 			addrBtn.setText(result);
+			Log.i(TAG, "("+longitude+","+latitude+")");
 		}
 	} ;
 }

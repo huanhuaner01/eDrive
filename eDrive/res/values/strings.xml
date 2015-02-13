@@ -38,9 +38,11 @@
     <!-- 发布需求界面  -->
     <string name="post_title">学车需求</string>
     <string name="post_defualt_tv">我需要</string>
-    <string name="post_submmit">确认提交</string>
+    <string name="post_submmit">确认发送</string>
     <string name="post_addr_tip">亲~你可点击定位你当下的地址，也可填写你的常用地址，便于我们为你找到距离近的教练</string>
     <string name="post_dialog_edit_hint">设置常用地址</string>
+    <string name="post_sound_btn">亲~按着就说吧</string>
+    <string name="post_sound_btn_press">松开停止录音</string>
    
 
 </resources>

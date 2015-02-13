@@ -213,6 +213,8 @@ public class DemandActivity extends Activity implements OnClickListener{
 					}
 					
 				});
+				
+				mLocClient.stop();
 			}
 		}
 
@@ -281,11 +283,12 @@ public class DemandActivity extends Activity implements OnClickListener{
 			return ;
 		}
 		switch(v.getId()){
-		case R.id.header_back:
-			if(isFirstMain){
+		case R.id.header_menu:
+			Log.i("Demand",isFirstMain+"" );
+			    if(isFirstMain){
 				Intent i = new Intent(DemandActivity.this,MainActivity.class);
 				}else{
-					DemandActivity.this.finish() ;
+					this.finish() ;
 				}
 			break ;
 		case R.id.demand_btn_switch:

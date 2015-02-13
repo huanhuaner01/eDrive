@@ -41,14 +41,16 @@
   <dimen name="common_reddot_width">5dp</dimen>
   <dimen name="common_reddot_height">5dp</dimen>
   
-   <!-- 找教练页面   -->
+   <!-- 需求页面   -->
   <dimen name="demand_bottom_height">55dp</dimen>
   <dimen name="demand_bottom_padding">5dp</dimen>
   <dimen name="demand_info_windows">100dp</dimen>
   <dimen name="demand_info_coachsize">60dp</dimen>
+  <dimen name="post_dialog_ic_size">100dp</dimen>
   
      <!-- main_buttom 主页底部导航栏 -->
     <dimen name="main_tab_height">60dp</dimen>
     <dimen name="f_apoint_coachinfo_height">100dp</dimen>
+    
     
 </resources>
