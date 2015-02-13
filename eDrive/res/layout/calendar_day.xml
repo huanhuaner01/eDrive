@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/padding_default"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textColor="@drawable/day_tv_selector" />
+
+    <TextView
+        android:id="@+id/day"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="31" />
+
+    <TextView
+        android:id="@+id/day_bottomtv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/padding_default"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textSize="8sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divide_line"
+        android:background="@color/Grey_line" />
+
+</LinearLayout>

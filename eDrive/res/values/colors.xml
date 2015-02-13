@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用  -->
+   <color name="all_null_color">#00000000</color>
+
+   <color name="main_color">#ff7243</color> 
+   <color name="main_press_color">#f58f6d</color>
+   <color name="white">#ffffff</color>
+   <color name="black">#000000</color>
+   <color name="Grey_line">#908f8f</color> 
+   <color name="color_deeper_gray">#7F7F7F</color>
+   <color name="color_lighter_gray">#E8E8E8</color>  
+   <color name="color_unenable_gray">#d8d7d7</color>
+   
+   <!-- 字体颜色表  -->
+   <color name="tv_light_color">#3b3b3b</color>
+   <color name="tv_gray_color">#808080</color>
+   <color name="tv_smallgrap_color">#b8b8b8</color>
+   <!-- calendar 相关 -->
+   <color name="week">#fbe7c1</color>
+   <color name="color_week_bg">#fbe7c1</color>
+   <color name="color_calendar_title">#44423e</color>
+   <color name="color_calendar_exits">#68c1b7</color>
+   <!-- 标题栏  -->
+   <color name="back_btn_presscolor">#5a5a5a</color>
+   <color name="header_bg_color">#f5f5f5</color>
+   <!-- 主页面 -->
+   <color name="main_tab_textcolor">#ff656566</color>
+   <color name="main_tab_textcolor_press">#ffff6501</color>
+   <color name="main_tab_backgroundcolor">#f0f0f0</color>
+   <color name="main_bg_color">#f0f0f0</color>
+   
+   <!-- 服务协议界面  -->
+   <color name="service_info_btn_norcolor">#cbc9c9</color>
+   <color name="service_info_btn_presscolor">#454545</color>
+   
+   <!-- 发布需求界面  -->
+   <color name="color_item_post_nor">#807f7e</color>
+</resources>

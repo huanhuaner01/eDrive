@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+   <TextView
+       android:id="@+id/item_post_tv"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="包接包送"
+       android:background="@drawable/item_gridview_selector"
+       android:paddingLeft="@dimen/padding_middle"
+       android:paddingTop="@dimen/padding_default"
+       android:paddingRight="@dimen/padding_middle"
+       android:paddingBottom="@dimen/padding_default"
+       android:gravity="center"
+       android:singleLine="true"
+       android:textColor="@drawable/selector_tv_black_to_white"
+       />
+
+</LinearLayout>

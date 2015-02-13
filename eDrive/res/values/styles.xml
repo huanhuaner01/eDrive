@@ -4,7 +4,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+    <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -16,5 +16,39 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-
+       <!-- main_lay 中的 主窗口切换 -->
+    <style name="main_tab">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">@dimen/txtsize_middle</item>
+        <item name="android:textColor">@drawable/main_tab_text_color</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    
+      <!-- 评星条样式 -->
+        <style name="RatingBar_Mini" parent="@android:style/Widget.RatingBar">
+        <item name="android:maxHeight">20dp</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:progressDrawable">@drawable/ratingbar</item>
+    </style>
+    
+    <style name="style_splash_viewpager_dot">
+        <item name="android:layout_width">@dimen/common_reddot_width</item>
+        <item name="android:layout_height">@dimen/common_reddot_height</item>
+        <item name="android:background">@drawable/bkg_splash_dots</item>
+        <item name="android:layout_marginLeft">@dimen/padding_micro</item>
+        <item name="android:layout_marginRight">@dimen/padding_micro</item>
+    </style>
+    
+       <!-- 通用的数据选择 dialog -->
+    <style name="dataselectstyle" parent="@android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/all_null_color</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>

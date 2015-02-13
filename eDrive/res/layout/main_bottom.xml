@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_tab_height"
+    android:background="@color/main_tab_backgroundcolor"
+    android:orientation="vertical" >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divide_line"
+        android:background="@color/Grey_line"
+        />
+        <RadioGroup
+        android:id="@+id/main_tab_button_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/main_tab_demand"
+            style="@style/main_tab"
+            android:drawableTop="@drawable/selector_main_tab_demand"
+            android:text="@string/main_tab_demand" />
+
+        <RadioButton
+            android:id="@+id/main_tab_appointment"
+            style="@style/main_tab"
+            android:drawableTop="@drawable/selector_main_tab_appointment"
+            android:text="@string/main_tab_appointment" />
+
+        <RadioButton
+            android:id="@+id/main_tab_center"
+            style="@style/main_tab"
+            android:drawableTop="@drawable/selector_main_tab_center"
+            android:text="@string/main_tab_center" />
+    </RadioGroup>
+
+</LinearLayout>

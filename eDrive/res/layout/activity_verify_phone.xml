@@ -1,0 +1,117 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical" 
+    >
+
+    <include layout="@layout/header_defualt"/>
+  <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+        >
+    <TextView
+        android:id="@+id/verify_tv_purpose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/str_verify_phone_purpose"
+        android:textColor="@color/tv_gray_color"
+        android:textSize="@dimen/txtsize_default" />
+
+    <Button
+        android:id="@+id/verify_btn_verify"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/verify_tv_purpose"
+        android:layout_marginEnd="@dimen/margin_xxlarge"
+        android:layout_marginRight="@dimen/margin_xxlarge"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:background="@drawable/bkg_verify_btn_verify"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/padding_middle"
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
+        android:paddingTop="@dimen/padding_middle"
+        android:text="@string/str_verify_phone_btn_verify"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/txtsize_large" />
+
+    <EditText
+        android:id="@+id/verify_edit_number"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/verify_btn_verify"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@id/verify_btn_verify"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_xxlarge"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_xxlarge"
+        android:layout_toLeftOf="@id/verify_btn_verify"
+        android:layout_toStartOf="@id/verify_btn_verify"
+        android:background="@drawable/bkg_login_form"
+        android:hint="@string/str_verify_phone_hint_phonenum"
+        android:inputType="phone"
+        android:paddingLeft="@dimen/padding_middle"
+        android:paddingRight="@dimen/padding_middle" />
+
+    <EditText
+        android:id="@+id/verify_edit_vcode"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_below="@id/verify_edit_number"
+        android:layout_marginEnd="@dimen/margin_xxlarge"
+        android:layout_marginLeft="@dimen/margin_xxlarge"
+        android:layout_marginRight="@dimen/margin_xxlarge"
+        android:layout_marginStart="@dimen/margin_xxlarge"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:background="@drawable/bkg_login_form"
+        android:hint="@string/str_verify_phone_hint_verifycode"
+        android:inputType="number"
+        android:padding="@dimen/padding_middle" />
+
+    <Button
+        android:id="@+id/verify_btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_below="@id/verify_edit_vcode"
+        android:layout_marginEnd="@dimen/margin_xxlarge"
+        android:layout_marginLeft="@dimen/margin_xxlarge"
+        android:layout_marginRight="@dimen/margin_xxlarge"
+        android:layout_marginStart="@dimen/margin_xxlarge"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:background="@drawable/bkg_verify_btn_start"
+        android:enabled="false"
+        android:paddingBottom="@dimen/padding_middle"
+        android:paddingTop="@dimen/padding_middle"
+        android:text="@string/str_verify_phone_btn_start"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txtsize_large" />
+
+    <TextView
+        android:id="@+id/verify_tv_protocal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/verify_btn_start"
+        android:layout_marginEnd="@dimen/margin_xxlarge"
+        android:layout_marginLeft="@dimen/margin_xxlarge"
+        android:layout_marginRight="@dimen/margin_xxlarge"
+        android:layout_marginStart="@dimen/margin_xxlarge"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:text="@string/str_verify_phone_protocal_prefix"
+        android:textSize="@dimen/txtsize_default"
+        android:textColor="@color/tv_gray_color"
+         />
+
+</RelativeLayout>
+</LinearLayout>

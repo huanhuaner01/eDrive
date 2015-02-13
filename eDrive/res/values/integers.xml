@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Splash界面引导图片的数量。 注意，在activity_splash中的小点数目必须和这个一样。-->
+    <integer name="spalsh_image_count">4</integer>
+    <!-- 手机验证码的有效时长 -->
+    <integer name="verifycode_valid_time_seconds">60</integer>
+    <!-- 手机验证码的约定位数 -->
+    
+    <integer name="verifycode_valid_length">4</integer>
+    
+        <array name="splash_image_ids">
+        <item >@drawable/pic_splash_1</item>
+        <item >@drawable/pic_splash_2</item>
+        <item >@drawable/pic_splash_3</item>
+        <item >@drawable/pic_splash_4</item>
+    </array>
+</resources>
