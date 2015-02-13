@@ -32,11 +32,12 @@ public final class UmengServiceProxy {
 		Log.d(LOG_TAG, "trying to enable umeng.");
 		final PushAgent mPushAgent = PushAgent.getInstance(context);
 		//如果已经注册，则直接打开开关
-		if (UmengRegistrar.isRegistered(context)){
-			Log.d(LOG_TAG, "Device has registered before: " 
-					+ UmengRegistrar.getRegistrationId(context));
+		if (UmengRegistrar.isRegistered(context)) {
+			String deviceToken = UmengRegistrar.getRegistrationId(context);
+			Log.d(LOG_TAG, "Device has registered before: " + deviceToken);
+			sendTokenDeviceBroadcast(context, deviceToken);
 			mPushAgent.enable();
-			return ;
+			return;
 		}
 		//否则，进行注册操作，并在注册成功之后上传其TAG和Alias。
 		//注意这里的上传操作必须在注册成功之后，因为在拿到DeviceToken之前是无法上传的。
@@ -45,9 +46,7 @@ public final class UmengServiceProxy {
 			@Override
 			public void onRegistered(String deviceToken) {
 				Log.d(LOG_TAG, "Device successfully registered: "+deviceToken);
-				Intent tokenIntent = new Intent(UmengPushConst.ACTION_DEVICETOKEN_AVALIABLE);
-				tokenIntent.putExtra(UmengPushConst.EXTRA_DEVICE_TOKEN, deviceToken);
-				context.sendBroadcast(tokenIntent);
+				sendTokenDeviceBroadcast(context, deviceToken);
 				try {
 					//添加公司、部门为Tag，ID为Alias
 //					mPushAgent.getTagManager().add(getPushTag());
@@ -60,6 +59,12 @@ public final class UmengServiceProxy {
 				}
 			}
 		});
+	}
+	
+	private static final void sendTokenDeviceBroadcast(Context context, String deviceToken){
+		Intent tokenIntent = new Intent(UmengPushConst.ACTION_DEVICETOKEN_AVALIABLE);
+		tokenIntent.putExtra(UmengPushConst.EXTRA_DEVICE_TOKEN, deviceToken);
+		context.sendBroadcast(tokenIntent);
 	}
 	
 	/**
