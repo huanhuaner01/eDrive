@@ -22,18 +22,15 @@
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-       
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-
-            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-           
+            </intent-filter>
         </activity>
         <activity android:name=".demand.DemandActivity" >
         </activity>
@@ -46,19 +43,88 @@
             android:process=":remote" >
         </service>
 
-        <activity
-            android:name=".demand.PostTxtActivity" >
-            
+        <activity android:name=".demand.PostTxtActivity" >
         </activity>
-        <activity
-            android:name=".demand.PostSoundActivity" >
+        <activity android:name=".demand.PostSoundActivity" >
         </activity>
-        <activity
-            android:name=".center.CoachDetailActivity" >
+        <activity android:name=".center.CoachDetailActivity" >
         </activity>
-        <activity
-            android:name="com.huishen.edrive.login.ServiceInfoActivity" >
+        <activity android:name="com.huishen.edrive.login.ServiceInfoActivity" >
         </activity>
+ <!-- 友盟推送元数据 BEGIN -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="54d0594ffd98c5baa300081a" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="f7704584f0d5c7f5c9f31ed0f8f6dd03" >
+        </meta-data>
+
+        <!-- 友盟推送元数据 END -->
+
+
+        <!-- 友盟推送相关组件 BEGIN -->
+        <receiver
+            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
+            android:exported="false" >
+        </receiver>
+        <receiver android:name="com.umeng.message.RegistrationReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+
+            <!-- 【可选】根据需要添加 -->
+            <!--
+         <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+    </intent-filter>
+            -->
+
+        </receiver>
+        <receiver android:name="com.umeng.message.UmengBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.huishen.edrive.intent.action.COMMAND" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RE_ELECTION_V2" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.umeng.message.UmengService"
+            android:exported="true"
+            android:process=":umengService_v1" >
+            <intent-filter>
+                <action android:name="com.huishen.edrive.intent.action.START" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.huishen.edrive.intent.action.COCKROACH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.PING" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="org.android.agoo.service.ElectionService"
+            android:exported="true"
+            android:process=":umengService_v1" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.ELECTION_V2" />
+            </intent-filter>
+        </service>
+        <service android:name="com.umeng.message.UmengIntentService" />
+        <!-- V1.3.0添加的service，负责下载通知的资源 -->
+        <service android:name="com.umeng.message.UmengDownloadResourceService" />
+        <!-- 友盟推送相关组件 END -->
     </application>
 
     <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" >
@@ -102,10 +168,21 @@
     <!-- 来电消音 -->
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" >
     </uses-permission>
-      <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
+    <!-- 友盟推送相关权限  BEGIN -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 【可选】根据需要添加 -->
+    <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
+    <!-- 友盟推送相关权限  END -->
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
