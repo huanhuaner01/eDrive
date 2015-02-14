@@ -1,7 +1,19 @@
 package com.huishen.edrive.login;
 
 
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,7 +42,7 @@ import android.widget.Toast;
  */
 public class VerifyPhoneActivity extends Activity implements
 		OnClickListener {
-
+    private String TAG = "VerifyPhoneActivity" ;
 	private EditText editPhoneNumber, editVerifyCode;
 	private Button btnVerify, btnStart ;
 	private TextView tvProtocal;
@@ -106,7 +118,31 @@ public class VerifyPhoneActivity extends Activity implements
 	 * 发送验证码再次提交给服务器。
 	 */
 	private final void sendVerifyCode() {
-		// TODO add net request here
+		    String num = editPhoneNumber.getText().toString();
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("phone", num);
+			NetUtil.requestStringData(SRL.METHOD_GET_VERIFY_CODE, map,
+					new Response.Listener<String>() {
+
+						@Override
+						public void onResponse(String result) {
+							Log.i(TAG, result);
+							//判断返回状态
+							// ResponseParser.isReturnSuccessCode(arg0);
+						}
+					}, new Response.ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError arg0) {
+							if (arg0.networkResponse == null) {
+								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
+										Toast.LENGTH_SHORT).show();
+								Log.i("Splash", arg0.toString());
+							}
+							;
+						}
+					});
+		
 	}
 
 	/**
@@ -115,7 +151,7 @@ public class VerifyPhoneActivity extends Activity implements
 	private final void sendVerifyRequest() {
 		// check phone
 		String num = editPhoneNumber.getText().toString();
-		if (!num.matches("(86|\\+86)1\\d{10}")) {
+		if (!num.matches("(86|\\+86)?1\\d{10}")) {
 			Toast.makeText(
 					VerifyPhoneActivity.this,
 					getResources().getString(
@@ -123,7 +159,31 @@ public class VerifyPhoneActivity extends Activity implements
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
-		// TODO add net request here
+		
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("phone", num);
+			NetUtil.requestStringData(SRL.METHOD_GET_VERIFY_CODE, map,
+					new Response.Listener<String>() {
+
+						@Override
+						public void onResponse(String result) {
+							Log.i(TAG, result);
+							actionVerifyResult(result);
+						}
+					}, new Response.ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError arg0) {
+							if (arg0.networkResponse == null) {
+								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
+										Toast.LENGTH_SHORT).show();
+								Log.i("Splash", arg0.toString());
+							}
+							;
+						}
+					});
+		
+		
 		final int validtime = getResources().getInteger(
 				R.integer.verifycode_valid_time_seconds);
 		// maybe should be a class field to support cancel
@@ -131,7 +191,7 @@ public class VerifyPhoneActivity extends Activity implements
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-				btnVerify.setText((int) (millisUntilFinished / 1000));
+				btnVerify.setText(""+(int) (millisUntilFinished / 1000));
 			}
 
 			@Override
@@ -141,6 +201,34 @@ public class VerifyPhoneActivity extends Activity implements
 		}.start();
 	}
 
+	/**
+	 * 服务器返回值处理
+	 */
+	private void actionVerifyResult(String result){
+		//判断返回状态
+		if( result.equals("")|| (result == null)){
+			Toast.makeText(VerifyPhoneActivity.this, "返回值为空，服务器异常", Toast.LENGTH_SHORT).show() ;
+		}
+		else{
+			try {
+				JSONObject json = new JSONObject(result);
+				int status = json.getInt("code") ;
+				switch(status){
+				case 1: //成功
+					break ;
+				case 0: //失败
+					break ;
+				case -1: //电话号码错误
+					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "电话号码错误，1分钟后可重发");
+					break ;
+				}
+			  } catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	
+	}
+	
 	private final CharSequence buildProtocalText() {
 		SpannableStringBuilder ssb = new SpannableStringBuilder();
 		ssb.append(getResources().getString(
@@ -166,6 +254,10 @@ public class VerifyPhoneActivity extends Activity implements
 		return ssb;
 	}
 
+	
+	/**
+	 * 展示用户协议
+	 */
 	private final void displayProtocal() {
 		Intent i = new Intent(this ,ServiceInfoActivity.class);
 		this.startActivity(i) ;

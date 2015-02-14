@@ -26,6 +26,7 @@ import com.huishen.edrive.R.id;
 import com.huishen.edrive.R.layout;
 import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.login.VerifyPhoneActivity;
+import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Prefs;
 
@@ -51,7 +52,6 @@ public class DemandActivity extends Activity implements OnClickListener{
 	//常量
 	private int STATUS_INPUT = 0 ; //文字输入
 	private int STATUS_SOUND = 1 ; //语音输入
-	public static String FIRST_MAIN = "isFirstMain" ;
 	
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
@@ -68,15 +68,14 @@ public class DemandActivity extends Activity implements OnClickListener{
 	private TextView switchtv ;
 	private int currentStatus = 0 ; //目前的输入状态
 	boolean isFirstLoc = true;//
-	boolean isFirstMain = false ; //是否是第一次启动的主页
     private int coachId = -1 ; //目前点击的教练的id 默认-1没有
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		 //将Activity添加进入栈
+        AppController.getInstance().addActivity(this) ;
 		/***************获取传递的数据*******************/
-		//这里获取A传过来的数据     
-
-		isFirstMain  = this.getIntent().getBooleanExtra(this.FIRST_MAIN, false);    
+		//这里获取A传过来的数据       
 		 //这里通过key的方式获取值     
 		/*******************************************/
 		
@@ -284,12 +283,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		}
 		switch(v.getId()){
 		case R.id.header_menu:
-			Log.i("Demand",isFirstMain+"" );
-			    if(isFirstMain){
-				Intent i = new Intent(DemandActivity.this,MainActivity.class);
-				}else{
 					this.finish() ;
-				}
 			break ;
 		case R.id.demand_btn_switch:
 			switchStatus() ;

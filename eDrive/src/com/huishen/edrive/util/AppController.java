@@ -17,8 +17,8 @@ import android.text.TextUtils;
 public class AppController extends Application {
 
 	public static final String TAG = AppController.class.getSimpleName();
-	
-	private RequestQueue mRequestQueue;
+
+	private RequestQueue requestQueue;
 	private ImageLoader mImageLoader;
 
 	private static AppController mInstance;
@@ -27,6 +27,7 @@ public class AppController extends Application {
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
+		requestQueue = Volley.newRequestQueue(this);
 		SDKInitializer.initialize(this);
 	}
 
@@ -34,7 +35,14 @@ public class AppController extends Application {
 		return mInstance;
 	}
 
-	
+	/**
+	 * 提交新的网络请求。
+	 */
+	public final <T> void addNetworkRequest(Request<T> request){
+		if (requestQueue != null){
+			requestQueue.add(request);
+		}
+	}
    
 
    ///////////////////////////退出应用相关////////////////////////////////////
@@ -59,18 +67,10 @@ public class AppController extends Application {
     }
     
     //////////////////////////////////////////////////////////////
-	public RequestQueue getRequestQueue() {
-		if (mRequestQueue == null) {
-			mRequestQueue = Volley.newRequestQueue(getApplicationContext());
-		}
-
-		return mRequestQueue;
-	}
 
 	public ImageLoader getImageLoader() {
-		getRequestQueue();
 		if (mImageLoader == null) {
-			mImageLoader = new ImageLoader(this.mRequestQueue,
+			mImageLoader = new ImageLoader(this.requestQueue,
 					new LruBitmapCache());
 		}
 		return this.mImageLoader;
@@ -79,17 +79,17 @@ public class AppController extends Application {
 	public <T> void addToRequestQueue(Request<T> req, String tag) {
 		// set the default tag if tag is empty
 		req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-		getRequestQueue().add(req);
+		requestQueue.add(req);
 	}
 
 	public <T> void addToRequestQueue(Request<T> req) {
 		req.setTag(TAG);
-		getRequestQueue().add(req);
+		requestQueue.add(req);
 	}
 
 	public void cancelPendingRequests(Object tag) {
-		if (mRequestQueue != null) {
-			mRequestQueue.cancelAll(tag);
+		if (requestQueue != null) {
+			requestQueue.cancelAll(tag);
 		}
 	}
 }

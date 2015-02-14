@@ -50,10 +50,10 @@ public final class Prefs {
 	 * @return
 	 */
 	public static boolean checkUser(Context context){
-//		if(context.getSharedPreferences(Const.PREFS_APP,
-//				Context.MODE_PRIVATE).getString(Const.USER_DATE,"").equals("")){
-//			return false ;
-//		}
+		if(context.getSharedPreferences(Const.PREFS_APP,
+				Context.MODE_PRIVATE).getString(Const.USER_DATE,"").equals("")){
+			return false ;
+		}
 	 //TODO 开启测试模式，记得要来改哟
 		return true ;
 	}

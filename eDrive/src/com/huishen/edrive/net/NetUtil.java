@@ -8,7 +8,7 @@ import android.util.Log;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.huishen.ecoach.MainApp;
+import com.huishen.edrive.util.AppController;
 
 /**
  * 放置与网络相关的快捷方法，并对外隐藏服务器的根地址。
@@ -48,7 +48,7 @@ public final class NetUtil {
 		if (relativePath == null || listener == null) {
 			throw new NullPointerException("params cannot be null!");
 		}
-		MainApp.getInstance().addNetworkRequest(
+		AppController.getInstance().addNetworkRequest(
 				new AbsStringRequest(getAbsolutePath(relativePath), listener));
 	}
 
@@ -68,7 +68,7 @@ public final class NetUtil {
 			throw new NullPointerException("params cannot be null!");
 		}
 		Log.d(LOG_TAG, "request params:"+params);
-		MainApp.getInstance().addNetworkRequest(
+		AppController.getInstance().addNetworkRequest(
 				new AbsStringRequest(getAbsolutePath(relativePath), listener) {
 					@Override
 					protected Map<String, String> getParams()
@@ -97,7 +97,7 @@ public final class NetUtil {
 			throw new NullPointerException("params cannot be null!");
 		}
 		Log.d(LOG_TAG, "request params:"+params);
-		MainApp.getInstance().addNetworkRequest(
+		AppController.getInstance().addNetworkRequest(
 				new AbsStringRequest(getAbsolutePath(relativePath), listener, errlisListener) {
 					@Override
 					protected Map<String, String> getParams()

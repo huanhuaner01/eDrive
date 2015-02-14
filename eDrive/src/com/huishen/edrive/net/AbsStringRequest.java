@@ -2,8 +2,6 @@ package com.huishen.edrive.net;
 
 import org.apache.http.protocol.HTTP;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
@@ -23,9 +21,6 @@ import com.android.volley.toolbox.StringRequest;
  */
 // package access
 class AbsStringRequest extends StringRequest {
-
-	private static final String LOG_TAG = AbsStringRequest.class
-			.getSimpleName();
 
 	/**
 	 * 创建一个新的String网络访问请求，使用POST方式提交参数。
@@ -95,7 +90,6 @@ class AbsStringRequest extends StringRequest {
 
 		@Override
 		public void onErrorResponse(VolleyError error) {
-			Log.e(LOG_TAG, error.getMessage());
 			error.printStackTrace();
 		}
 	};

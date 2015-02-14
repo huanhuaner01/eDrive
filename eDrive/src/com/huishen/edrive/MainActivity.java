@@ -1,20 +1,38 @@
 package com.huishen.edrive;
 
+import java.io.File;
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.ResponseParser;
+import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.net.UploadResponseListener;
+import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.util.Prefs;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SlidingPaneLayout;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
+ * 
  * 应用管理类
  * @author zhanghuan
  *
@@ -31,8 +49,47 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //将Activity添加进入栈
+        AppController.getInstance().addActivity(this) ;
+        
         registView();
         init() ;
+//        HashMap<String, String> map = new HashMap<String, String>();
+//        map.put(SRL.PARAM_USERNAME, "sl");
+//        map.put(SRL.PARAM_PASSWORD, "ass");
+//        NetUtil.requestStringData(SRL.METHOD_LOGIN, map, new Response.Listener<String>() {
+//
+//			@Override
+//			public void onResponse(String arg0) {
+//				ResponseParser.isReturnSuccessCode(arg0);
+//			}
+//		}, new Response.ErrorListener() {
+//
+//			@Override
+//			public void onErrorResponse(VolleyError arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
+//        NetUtil.requestUploadFile(new File("as"), SRL.METHOD_UPLOAD_CERTIFICATES,new UploadResponseListener(){
+//
+//			@Override
+//			public void onSuccess(String str) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onError(int httpCode) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onProgressChanged(int hasFinished) {
+//				// TODO Auto-generated method stub
+//				
+//			}});
     }
     
     private void registView(){
@@ -43,6 +100,9 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     }
     
     private void init(){
+    	
+    
+    	checkCoach();
     	header_menu.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -64,6 +124,33 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     	this.tabGroup.check(R.id.main_tab_appointment);
     }
 
+    
+    /**
+     * 检查教练是否绑定
+     */
+    private void checkCoach(){
+    	String coachId = null;
+    	//如果用户已经绑定手机，则进行隐形登录
+		if (Prefs.checkUser(this)) { 
+			//获得本地用户数据
+			String userinfo = Prefs.getUser(this);
+			try {
+				
+				JSONObject user = new JSONObject(userinfo);
+				coachId =  user.get("coachId").toString() ;
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+				
+			}
+		}
+		
+		//如果用户教练不存在则跳转到发布需求界面
+		if(coachId == null || coachId.equals("")){
+			Intent i = new Intent(this , DemandActivity.class);
+			this.startActivity(i);
+		}
+    }
     //radiogroup监听
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -87,4 +174,23 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 		}
 		 tx.commit();
 	}
+	
+	///////////////////////退出系统应用//////////////////////////////////////////
+	 private int backindex = 0 ;
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		 
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                 && event.getRepeatCount() == 0) {
+             if(backindex == 0){
+            	 Toast.makeText(MainActivity.this,"再按一次退出e驾学车!", Toast.LENGTH_SHORT).show();
+            	 backindex++;
+            	 return false ;
+             }
+             AppController.getInstance().exit(MainActivity.this);
+             return true;
+         }
+         return super.onKeyDown(keyCode, event);
+     }
+	
 }
