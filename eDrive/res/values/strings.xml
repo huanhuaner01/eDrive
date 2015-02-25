@@ -4,6 +4,7 @@
     <string name="app_name">e驾学车</string>
     <string name="commit">确定</string>
     <string name="back">返回</string>
+    <string name="judge_all">总体评价</string>
     <string name="hello_world">Hello world!</string>
 
     <!-- 需求主页面 -->

@@ -202,7 +202,7 @@
             android:label="@string/title_activity_appointment" >
         </activity>
         <activity
-            android:name=".CoachJudgeListActivity"
+            android:name="com.huishen.edrive.center.CoachListActivity"
             android:label="@string/title_activity_coach_judge_list" >
         </activity>
     </application>

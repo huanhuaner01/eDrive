@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_default" >
+
+    <TextView
+        android:id="@+id/list_ji_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:lineSpacingMultiplier="1.5"
+        android:text="nihao"
+        android:textColor="@color/black"
+        android:textSize="@dimen/txtsize_large" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/padding_default"
+        android:paddingBottom="@dimen/padding_default"
+         >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:lineSpacingMultiplier="1.5"
+            android:text="@string/judge_all"
+            android:textColor="@color/tv_gray_color"
+            android:textSize="@dimen/txtsize_default"
+             />
+
+        <RatingBar
+            android:id="@+id/list_ji_ratingbar"
+            style="@style/RatingBar_Mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="2.5"
+            android:stepSize="0.1"
+            android:layout_marginLeft="@dimen/margin_default"
+            android:layout_marginRight="@dimen/margin_default"
+             />
+               <TextView
+                   android:id="@+id/list_ji_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:lineSpacingMultiplier="1.5"
+            android:text="2.5"
+            android:textColor="@color/tv_gray_color"
+            android:textSize="@dimen/txtsize_default"
+             />
+    </LinearLayout>
+
+</LinearLayout>
