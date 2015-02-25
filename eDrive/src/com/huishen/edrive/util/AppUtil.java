@@ -9,9 +9,13 @@ import android.widget.Toast;
 
 public class AppUtil {
     
+	/**
+	 * 启动登录注册接口
+	 * @param activity
+	 */
 	public static void intentRegistActivity(Activity activity){
 		Intent i = new Intent(activity ,VerifyPhoneActivity.class);
-		activity.startActivity(i) ;
+		activity.startActivityForResult(i, VerifyPhoneActivity.LOGIN_CODE); ;
 	}
     
 	/**

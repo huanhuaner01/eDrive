@@ -189,6 +189,19 @@
         <!-- V1.3.0添加的service，负责下载通知的资源 -->
         <service android:name="com.umeng.message.UmengDownloadResourceService" />
         <!-- 友盟推送相关组件 END -->
+        
+       <activity
+            android:name=".demand.CoachActivity"
+            android:label="@string/title_activity_coach" >
+        </activity>
+        <activity
+            android:name=".center.CoachTrainFieldActivity"
+            android:label="@string/title_activity_coach_train_field" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.apointment.ApointmentActivity"
+            android:label="@string/title_activity_appointment" >
+        </activity>
     </application>
 
 </manifest>

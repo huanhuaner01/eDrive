@@ -4,15 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.huishen.edrive.apointment.ApointmentActivity;
 import com.huishen.edrive.widget.CalendarFragment;
 import com.huishen.edrive.widget.CalendarResult;
 import com.huishen.edrive.widget.CalendarUtil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +76,9 @@ public class ApointmentFragment extends Fragment implements CalendarResult{
 
 	@Override
 	public void setResult(String day) {
-		
+		Log.i("apointmentFragment", "获取了时间") ;
+		Intent i = new Intent(this.getActivity(),ApointmentActivity.class);
+		this.getActivity().startActivity(i) ;
 	}
 
 }

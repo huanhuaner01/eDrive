@@ -8,7 +8,7 @@ public final class Const {
 	/**
 	 * Preference XML file name.
 	 */
-	public static final String PREFS_APP = "eCoach";
+	public static final String PREFS_APP = "eDrive";
 	/**
 	 * 检查是否首次使用应用,value为boolean类型。
 	 */
@@ -22,4 +22,10 @@ public final class Const {
 	 * 用户数据
 	 */
 	public static final String USER_DATE = "user" ;
+	
+	public static final String USER_PHONE = "phone" ;
+	
+	public static final String USER_MOBILEFLAG = "MobileFlag" ;
+	
+	public static final String USER_COACH_ID = "coachid" ;
 }

@@ -9,11 +9,9 @@ import org.json.JSONObject;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.huishen.edrive.R;
-import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
-import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -36,13 +34,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
- * 验证手机号
+ * 验证手机号(这个类只能采用startActivityForResult()启动)
+ * 第二参数是 0 ，常量是VerifyPhoneActivity.LOGIN_CODE ,封装在这个类里面 public static
  * @author zhanghuan
  *
  */
 public class VerifyPhoneActivity extends Activity implements
 		OnClickListener {
     private String TAG = "VerifyPhoneActivity" ;
+    public static int LOGIN_CODE = 1 ;
+    public static int LOGIN_RESULT_CODE = 10;
 	private EditText editPhoneNumber, editVerifyCode;
 	private Button btnVerify, btnStart ;
 	private TextView tvProtocal;
@@ -73,6 +74,7 @@ public class VerifyPhoneActivity extends Activity implements
 		title.setText(this.getResources().getString(R.string.str_verify_phone_title));
 		tvProtocal.setText(buildProtocalText());
 		btnVerify.setOnClickListener(this);
+		this.btnStart.setOnClickListener(this) ;
 		back.setOnClickListener(this) ;
 		// 用于限制验证码的长度
 		editVerifyCode.addTextChangedListener(new TextWatcher() {
@@ -118,10 +120,11 @@ public class VerifyPhoneActivity extends Activity implements
 	 * 发送验证码再次提交给服务器。
 	 */
 	private final void sendVerifyCode() {
+		Log.i(TAG, "开始") ;
 		    String num = editPhoneNumber.getText().toString();
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
-			NetUtil.requestStringData(SRL.METHOD_GET_VERIFY_CODE, map,
+			NetUtil.requestStringData(SRL.METHOD_LOGIN, map,
 					new Response.Listener<String>() {
 
 						@Override
@@ -129,6 +132,7 @@ public class VerifyPhoneActivity extends Activity implements
 							Log.i(TAG, result);
 							//判断返回状态
 							// ResponseParser.isReturnSuccessCode(arg0);
+							actionLogin(result);
 						}
 					}, new Response.ErrorListener() {
 
@@ -139,12 +143,23 @@ public class VerifyPhoneActivity extends Activity implements
 										Toast.LENGTH_SHORT).show();
 								Log.i("Splash", arg0.toString());
 							}
-							;
+							actionLogin("");
 						}
 					});
 		
 	}
 
+	/**
+	 * 登录注册获取数据动作
+	 * @param result
+	 */
+	private void actionLogin(String result){
+//		if(){
+//			
+//		}
+		this.setResult(LOGIN_RESULT_CODE) ;
+		this.finish() ;
+	}
 	/**
 	 * 完成手机号码的发送和计时等工作。
 	 */

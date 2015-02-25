@@ -2,7 +2,241 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
+    android:orientation="vertical" 
+    android:background="@color/main_bg_color" 
+       >
+       <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp" 
+        android:layout_weight="1"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+
+                <!-- 训练场位置 -->
+                <LinearLayout
+                    android:id="@+id/f_center_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/list_large"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:layout_marginTop="@dimen/margin_xlarge"
+                     >
+                    
+                    <com.huishen.edrive.widget.RoundImageView
+        android:layout_width="@dimen/demand_info_coachsize"
+        android:layout_height="@dimen/demand_info_coachsize"
+        android:src="@drawable/photo_coach_defualt"
+        android:layout_marginLeft="@dimen/margin_middle"
+        />
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/coach_detail_trainfield"
+                        />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/next_ic"
+                        />
+                </LinearLayout>
+            <!-- 训练场相关 -->
+
+            <LinearLayout
+                
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:orientation="vertical" >
+
+                <!-- 训练场位置 -->
+                <LinearLayout
+                    android:id="@+id/coach_detail_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_demand_ic" />
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/f_center_demand" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/next_ic"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+
+                <!-- 训练场图片  -->
+                   <LinearLayout
+                       android:id="@+id/coach_detail_fieldimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_message_ic" />
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/f_center_message" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/next_ic"
+                        />
+                </LinearLayout>
+                                   <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+              
+                   <!-- 学车套餐  -->
+                   <LinearLayout
+                    android:id="@+id/coach_detail_setmeal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_coach_ic" />
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/f_center_coach" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/next_ic"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 其他相关 -->
+
+           
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:orientation="vertical" >
+             
+                <!-- 教练详情  -->
+                <LinearLayout
+                    android:id="@+id/coach_detail_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_share_ic" />
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/f_center_share" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/next_ic"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/coach_detail_tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_default"
+                    android:text="王教练，教练10年，**************"
+                    android:textColor="@color/tv_light_color"
+                    android:textSize="@dimen/txtsize_middle"
+                    android:visibility="gone"
+                    android:background="@color/white"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+
+                <!-- 学员评价  -->
+                   <LinearLayout
+                    android:id="@+id/coach_detail_judge"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_setting_ic" />
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/f_center_setting" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/next_ic"
+                        />
+                </LinearLayout>
+             
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

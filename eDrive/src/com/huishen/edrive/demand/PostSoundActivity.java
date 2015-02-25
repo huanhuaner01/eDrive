@@ -1,26 +1,25 @@
 package com.huishen.edrive.demand;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.huishen.edrive.R;
-import com.huishen.edrive.R.layout;
+import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Recorder;
-import com.huishen.edrive.widget.CustomEditText;
+import com.huishen.edrive.util.SimpleRecorder;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -42,7 +41,8 @@ public class PostSoundActivity extends Activity implements OnClickListener{
     private StringBuffer keybuffer ;
     private Animation animation = null; //动画模式
     private View soundbg ;
-    private Recorder recorder ;
+    private SimpleRecorder recorder ;
+    private File audiofile ;
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -68,7 +68,7 @@ public class PostSoundActivity extends Activity implements OnClickListener{
 		this.addrBtn = (Button) findViewById(R.id.post_addr_btn);
 		this.soundbg = (View) findViewById(R.id.post_imagebg);
 		this.sound_play = (Button) findViewById(R.id.post_btn_sound);
-		recorder = Recorder.getInstance();
+		recorder = SimpleRecorder.getInstance();
 	}
 	
 	/**
@@ -91,7 +91,11 @@ public class PostSoundActivity extends Activity implements OnClickListener{
 					sound_image.setEnabled(true);
 					soundbg.startAnimation(animation);
 					sound_play.setText(PostSoundActivity.this.getResources().getString(R.string.post_sound_btn_press));
-					recorder.startRecord("123");
+//					String path = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"edrive" ;
+					recorder.clearFile() ;
+					audiofile = new File(recorder.getPath() ,recorder.now()+recorder.getRandomString(2)+".mp3");
+					
+					recorder.startRecord(audiofile);
 					break ;
 				case MotionEvent.ACTION_UP: //弹起事件
 					soundbg.clearAnimation();
@@ -185,12 +189,10 @@ public class PostSoundActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.post_soundimage:
-			if(recorder.isPlaying()){
-				recorder.stopPlay();
-				Log.i(TAG, "应该在停止");
+			if(recorder == null || recorder.getAudioFileLength()<1){
+				AppUtil.ShowShortToast(this,"请先录音");
 			}else{
-				recorder.startPlay("123");
-				Log.i(TAG, "应该可以播放");
+			recorder.playAudioFile(audiofile);
 			}
 			break;
 		case R.id.post_commit:

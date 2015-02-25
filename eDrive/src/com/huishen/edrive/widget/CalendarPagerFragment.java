@@ -143,6 +143,7 @@ public class CalendarPagerFragment extends Fragment {
 				Date date = CalendarUtil.getDate(mMonthIndex);
 				SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/");
 				String d = df.format(date);
+				fragment.setResult(d) ;
 //				Intent intent = new Intent(); 
 //				intent.putExtra(CalendarActivity.RESULT_DATA, d + map.get("day"));
 //				CalendarPagerFragment.this.getActivity().setResult(CalendarPagerFragment.this.getActivity().RESULT_OK, intent); 

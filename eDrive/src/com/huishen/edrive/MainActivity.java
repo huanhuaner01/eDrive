@@ -1,18 +1,9 @@
 package com.huishen.edrive;
 
-import java.io.File;
-import java.util.HashMap;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
-import com.huishen.edrive.net.NetUtil;
-import com.huishen.edrive.net.ResponseParser;
-import com.huishen.edrive.net.SRL;
-import com.huishen.edrive.net.UploadResponseListener;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Prefs;
 
@@ -35,7 +26,7 @@ import android.widget.Toast;
  * 
  * 应用管理类
  * @author zhanghuan
- *
+ * 
  */
 public class MainActivity extends FragmentActivity implements OnCheckedChangeListener{
 	
@@ -177,7 +168,8 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	
 	///////////////////////退出系统应用//////////////////////////////////////////
 	 private int backindex = 0 ;
-	@Override
+
+	 @Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		 
         if (keyCode == KeyEvent.KEYCODE_BACK

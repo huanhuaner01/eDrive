@@ -1,6 +1,9 @@
 package com.huishen.edrive.util;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 
 /**
@@ -41,20 +44,50 @@ public final class Prefs {
 	public static void setUser(Context context ,String userData){
 		
 		 context.getSharedPreferences(Const.PREFS_APP,
-	     Context.MODE_PRIVATE).edit().putString(Const.USER_DATE ,userData).commit();;
+	     Context.MODE_PRIVATE).edit().putString(Const.USER_DATE ,userData).commit();
+		 try {
+			JSONObject json = new JSONObject(userData);
+			writeString(context ,Const.USER_PHONE ,json.get(Const.USER_PHONE).toString());
+			writeString(context ,Const.USER_MOBILEFLAG ,json.get(Const.USER_MOBILEFLAG).toString());
+			writeString(context ,Const.USER_COACH_ID ,json.get(Const.USER_COACH_ID).toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		 
 	}
 	
+	/**
+	 * 保存用户数据
+	 * @param context 
+	 * @param key 关键字
+	 * @param value 值
+	 */
+	public static void writeString(Context context ,String key ,String value){
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().putString(key,value).commit();
+	}
+	
+	/**
+	 * 获取关键字相关的数据
+	 * @param context
+	 * @param key
+	 * @return 数据
+	 */
+	public static String readString(Context context ,String key){
+		String data = context.getSharedPreferences(Const.PREFS_APP,
+				Context.MODE_PRIVATE).getString(key,"");
+		return data ;
+	}
 	/**
 	 * 检查用户是否存在
 	 * @param context
 	 * @return
 	 */
 	public static boolean checkUser(Context context){
-		if(context.getSharedPreferences(Const.PREFS_APP,
-				Context.MODE_PRIVATE).getString(Const.USER_DATE,"").equals("")){
-			return false ;
-		}
-	 //TODO 开启测试模式，记得要来改哟
+//		if(context.getSharedPreferences(Const.PREFS_APP,
+//				Context.MODE_PRIVATE).getString(Const.USER_DATE,"").equals("")){
+//			return false ;
+//		}
 		return true ;
 	}
 	

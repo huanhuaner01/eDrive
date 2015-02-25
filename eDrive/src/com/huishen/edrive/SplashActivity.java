@@ -4,16 +4,12 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.net.NetUtil;
-import com.huishen.edrive.net.ResponseParser;
 import com.huishen.edrive.net.SRL;
-import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 
@@ -34,6 +30,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+/**
+ * 启动页
+ * @author zhanghuan
+ *
+ */
 public class SplashActivity extends Activity {
 
 	private static final String LOG_TAG = "SplashActivity";
@@ -106,6 +107,7 @@ public class SplashActivity extends Activity {
 		    i = new Intent(this,MainActivity.class);
 		 }else{
 		    i = new Intent(this,DemandActivity.class);
+		    i.putExtra(DemandActivity.IS_MAIN, true);
 		 }
 		 startActivity(i);
 		 finish();
@@ -116,16 +118,15 @@ public class SplashActivity extends Activity {
 	 */
 	private void login() {
 		HashMap<String, String> map = new HashMap<String, String>();
-		
-		NetUtil.requestStringData(SRL.METHOD_LOGIN, map,
+		map.put(Const.USER_PHONE,Prefs.readString(this, Const.USER_PHONE) );//电话号码
+		map.put(Const.USER_MOBILEFLAG, Prefs.readString(this, Const.USER_MOBILEFLAG)) ; //MobileFlag
+		NetUtil.requestStringData(SRL.METHOD_LOGIN_PRI, map,
 				new Response.Listener<String>() {
 
 					@Override
 					public void onResponse(String result) {
-						//判断返回状态
-						// ResponseParser.isReturnSuccessCode(arg0);
-						//保存用户数据
-						Prefs.setUser(SplashActivity.this, result) ;
+						
+						actionlogin(result);
 					}
 				}, new Response.ErrorListener() {
 
@@ -141,6 +142,13 @@ public class SplashActivity extends Activity {
 				});
 	}
 
+	/**
+	 * 响应隐形登录事件方法
+	 * @param result
+	 */
+	private void actionlogin(String result){
+		Prefs.setUser(SplashActivity.this, result) ;
+	}
 	private final void initViewPager() {
 		ArrayList<View> images = new ArrayList<View>();
 		ViewGroup.LayoutParams params = new LayoutParams(

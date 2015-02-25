@@ -2,11 +2,13 @@ package com.huishen.edrive.util;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.util.Random;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.text.format.Time;
 import android.util.Log;
 
 /**
@@ -106,4 +108,70 @@ public final class SimpleRecorder {
 			}
 		}.execute();
 	}
+	
+	/** *******************************************
+	 * 得到系统时间 
+	 */
+	public String now()
+	  {
+	    Time localTime = new Time();
+	    localTime.setToNow();
+	    return localTime.format("%Y%m%d%H%M%S");
+	  }
+	
+	/** ************************************************************
+	 * 
+	 * 获取随机字符串
+	 * @param len 字符串的长度
+	 * @return
+	 */
+	public String getRandomString(int len) {
+		String returnStr = "";
+		char[] ch = new char[len];
+		Random rd = new Random();
+		for (int i = 0; i < len; i++) {
+			ch[i] = (char) (rd.nextInt(9)+97);
+		}
+		returnStr = new String(ch);
+		return returnStr;
+	}
+	
+	/**
+	 * 获取语音存储文件的根目录
+	 * @return
+	 */
+	public String getPath(){
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"edrive" ;
+		return path ;
+	}
+	
+	/**
+	 * 获取语音文件数的长度
+	 * @return
+	 */
+	public int getAudioFileLength(){
+		File dir = new File(getPath());
+		if (!dir.exists()) {
+			// 如果文件夹不存在 则创建文件夹
+			dir.mkdir();
+		}
+		File[] files = dir.listFiles() ;
+		return files.length ;
+	}
+	
+	/**
+	 * 清楚语音文件夹下的所有语音文件
+	 */
+	public void clearFile(){
+		File dir = new File(getPath());
+		if (!dir.exists()) {
+			// 如果文件夹不存在 则创建文件夹
+			dir.mkdir();
+		}
+		File[] files = dir.listFiles() ;
+		for(int i = 0 ; i<files.length ; i++){
+			files[i].delete() ;
+		}
+	}
+
 }

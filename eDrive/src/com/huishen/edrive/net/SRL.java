@@ -33,14 +33,18 @@ public final class SRL {
 	public static final String METHOD_GET_VERIFY_CODE = "/adr/isPhoneNumber";
 	
 	/**
-	 * 注册登录  参数:vcode:4456 返回值:{code:0|1} 0:匹配成功，1:匹配失败
+	 * 注册登录  参数:phone :18388888888  返回值:{code:0|1} 0:注册登录成功，1:注册登录失败
 	 */
 	public static final String METHOD_LOGIN = "/adr/stuMobileLoginSubmit";
 	
 	/**
-	 * 验证手机号是否存在。 参数:mob=18782920468 返回值:{code:0|1} 0:不存在，1:存在
+	 * 隐形登录  参数：phone:18388888888,MobileFlag:123456 返回值：{未开发接口}
 	 */
-	public static final String METHOD_VERIFY_IF_NUMBER_EXIST = "/adr/vcohMob";
+	public static final String METHOD_LOGIN_PRI = "" ;
+//	/**
+//	 * 验证手机号是否存在。 参数:mob=18782920468 返回值:{code:0|1} 0:不存在，1:存在
+//	 */
+//	public static final String METHOD_VERIFY_IF_NUMBER_EXIST = "/adr/vcohMob";
 
 	// ---------------------------------学员登录注册-------------------------------------------
 }

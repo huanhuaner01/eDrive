@@ -51,4 +51,16 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+    
+    <!-- 教练详情页面选项文字样式 -->
+    <style name="coachdetailtextstyle" >
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/padding_large</item>
+        <item name="android:textColor">@color/tv_light_color</item>
+        <item name="android:paddingRight">@dimen/padding_large</item>
+        <item name="android:textSize">@dimen/txtsize_default</item>
+    </style>
+    
 </resources>

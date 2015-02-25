@@ -49,9 +49,11 @@ import android.widget.TextView;
  *
  */
 public class DemandActivity extends Activity implements OnClickListener{
+	private String TAG = "DemandActivity" ;
 	//常量
 	private int STATUS_INPUT = 0 ; //文字输入
 	private int STATUS_SOUND = 1 ; //语音输入
+	public static String IS_MAIN = "isFirstMain" ; //第一次进入的主页面 
 	
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
@@ -67,7 +69,8 @@ public class DemandActivity extends Activity implements OnClickListener{
 	private LinearLayout switchlay ;
 	private TextView switchtv ;
 	private int currentStatus = 0 ; //目前的输入状态
-	boolean isFirstLoc = true;//
+	private boolean isFirstLoc = true;//
+	private boolean isFirstMain = false ; //标志，是否是第一次登录
     private int coachId = -1 ; //目前点击的教练的id 默认-1没有
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,26 +78,17 @@ public class DemandActivity extends Activity implements OnClickListener{
 		 //将Activity添加进入栈
         AppController.getInstance().addActivity(this) ;
 		/***************获取传递的数据*******************/
-		//这里获取A传过来的数据       
+        
+        isFirstMain = this.getIntent().getBooleanExtra(IS_MAIN, false) ;
+        
 		 //这里通过key的方式获取值     
 		/*******************************************/
-		
-		setContentView(R.layout.activity_demand);
+    	setContentView(R.layout.activity_demand);
 		mCurrentMode = LocationMode.NORMAL;
 		
 		mMapView = (MapView) findViewById(R.id.bmapView);
 		mBaiduMap = mMapView.getMap();
-		
-		mBaiduMap.setMyLocationEnabled(true);
-		
-		mLocClient = new LocationClient(this);
-		mLocClient.registerLocationListener(myListener);
-		LocationClientOption option = new LocationClientOption();
-		option.setOpenGps(true);//
-		option.setCoorType("bd09ll"); //
-		option.setScanSpan(1000);
-		mLocClient.setLocOption(option);
-		mLocClient.start();
+	
 		registView();
 		initView() ;
 	}
@@ -113,6 +107,18 @@ public class DemandActivity extends Activity implements OnClickListener{
 	 * 初始化组件
 	 */
 	private void initView(){
+	
+		
+		mBaiduMap.setMyLocationEnabled(true);
+		
+		mLocClient = new LocationClient(this);
+		mLocClient.registerLocationListener(myListener);
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);//
+		option.setCoorType("bd09ll"); //
+		option.setScanSpan(1000);
+		mLocClient.setLocOption(option);
+		mLocClient.start();
 		this.switchbtn.setOnClickListener(this) ;
 		this.switchlay.setOnClickListener(this);
 		this.back.setImageResource(R.drawable.back_ic) ;
@@ -283,7 +289,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		}
 		switch(v.getId()){
 		case R.id.header_menu:
-					this.finish() ;
+			this.finish() ;
 			break ;
 		case R.id.demand_btn_switch:
 			switchStatus() ;
@@ -293,4 +299,28 @@ public class DemandActivity extends Activity implements OnClickListener{
 			break ;
 		}
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i(TAG, "requestCode:"+requestCode+" resultCode:"+resultCode);
+		if(resultCode == VerifyPhoneActivity.LOGIN_RESULT_CODE){
+			//如果登录成功
+			if(isFirstMain){
+			this.back.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					Intent i  = new Intent(DemandActivity.this,MainActivity.class);
+					DemandActivity.this.startActivity(i);
+					DemandActivity.this.finish();
+				}
+				
+			});
+			}
+//			initView();
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	
 }

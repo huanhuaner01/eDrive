@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:background="@color/white"
+    >
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/coach_detail_fieldimg_dialog_height"
+       >
+       <ViewPager
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           >
+           </ViewPager>
+       </FrameLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_default"
+        android:background="@color/white"
+        >
+        <Button
+            android:id="@+id/coach_detail_btn_call"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/bkg_verify_btn_start"
+            android:text="@string/coach_detail_call"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txtsize_default"
+            />
+        
+    </LinearLayout>
+
+</LinearLayout>

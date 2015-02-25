@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main_bg_color"
+    >
+
+    <include
+        layout="@layout/header_defualt" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_xlarge" 
+            
+            >
+    <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/f_apoint_coachinfo_height"
+                android:background="@drawable/info_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+                  <com.huishen.edrive.widget.RoundImageView
+        android:layout_width="@dimen/demand_info_coachsize"
+        android:layout_height="@dimen/demand_info_coachsize"
+        android:src="@drawable/photo_coach_defualt"
+        android:layout_marginLeft="@dimen/margin_middle"
+        />
+             
+                  <LinearLayout
+                      android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_marginLeft="@dimen/margin_small"
+                      >
+                           <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="张教练"
+                android:singleLine="true"
+                android:gravity="center_vertical"
+                android:textColor="@color/tv_light_color"
+                android:textSize="@dimen/txtsize_large"
+                />
+                                    <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="川A******************"
+                android:singleLine="true"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/margin_small"
+                android:textColor="@color/tv_gray_color"
+                android:textSize="@dimen/txtsize_middle"
+                />
+                      </LinearLayout>
+                      <ImageButton
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:src="@drawable/selector_phone"
+                          android:background="@null"
+                          />
+            </LinearLayout>
+           <!-- 日期显示 -->
+            <LinearLayout
+                android:background="@color/color_calendar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_middle"
+                >
+                      <TextView
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_weight="3"
+                          android:text="2015年2月24"
+                          android:textColor="@color/white"
+                          android:textSize="@dimen/txtsize_default"
+                          android:singleLine="true"
+                          />
+                          <TextView
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_weight="1"
+                          android:text="星期四"
+                          android:textColor="@color/white"
+                          android:textSize="@dimen/txtsize_default"
+                          android:singleLine="true"
+                          android:gravity="right"
+                          />
+             </LinearLayout>
+            </LinearLayout>
+</LinearLayout>
