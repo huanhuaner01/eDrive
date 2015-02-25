@@ -237,7 +237,7 @@ public class DemandActivity extends Activity implements OnClickListener{
            Intent i = new Intent(DemandActivity.this,CoachDetailActivity.class);
 //           Bundle bundle = new Bundle();
 //           bundle.putInt("coachId", coachId) ;
-           i.putExtra("coachId", coachId) ;
+           i.putExtra(CoachDetailActivity.COACH_ID, coachId) ;
            DemandActivity.this.startActivity(i);
         	}else{
         		AppUtil.intentRegistActivity(DemandActivity.this);

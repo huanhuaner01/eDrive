@@ -7,6 +7,7 @@
    <color name="main_press_color">#f58f6d</color>
    <color name="white">#ffffff</color>
    <color name="black">#000000</color>
+   <color name="translucent">#64000000</color>
    <color name="Grey_line">#908f8f</color> 
    <color name="color_deeper_gray">#7F7F7F</color>
    <color name="color_lighter_gray">#E8E8E8</color>  

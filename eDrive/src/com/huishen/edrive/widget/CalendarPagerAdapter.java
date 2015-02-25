@@ -1,11 +1,5 @@
 package com.huishen.edrive.widget;
 
-
-import java.util.Date;
-
-import com.huishen.edrive.ApointmentFragment;
-
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;

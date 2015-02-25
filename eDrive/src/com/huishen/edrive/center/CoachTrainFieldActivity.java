@@ -44,10 +44,18 @@ public class CoachTrainFieldActivity extends Activity {
 	private MapView mMapView;
 	private BaiduMap mBaiduMap;
 	private boolean isFirstLoc = true;//
+	
+	//初始化相关
+    private int coachId = -1  ;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_coach_train_field);
+		/****************获取传进来的数据***************/
+		
+		coachId = this.getIntent().getIntExtra(CoachDetailActivity.COACH_ID, -1) ;
+		/****************获取传进来的数据结束***************/	
 	    mCurrentMode = LocationMode.NORMAL;
 		
 		mMapView = (MapView) findViewById(R.id.bmapView);
@@ -56,10 +64,11 @@ public class CoachTrainFieldActivity extends Activity {
 		initView() ;
 	}
 	private void registView() {
-		
+		this.title = (TextView) this.findViewById(R.id.header_title);
+		this.back = (ImageButton) this.findViewById(R.id.header_back) ;
 	}
 	private void initView() {
-
+        this.title.setText("训练场位置"+"(王教练)") ;
 		mBaiduMap.setMyLocationEnabled(true);
 		
 		mLocClient = new LocationClient(this);
@@ -86,7 +95,7 @@ public class CoachTrainFieldActivity extends Activity {
 				isFirstLoc = false;
 				LatLng ll = new LatLng(location.getLatitude(),
 						location.getLongitude());
-				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll,15);
+				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll,12);
 				Log.w("LocationDemo","地理位置"+location.getLatitude()+","+location.getLongitude());
 				mBaiduMap.animateMapStatus(u);
 				double x=30.578888 ;

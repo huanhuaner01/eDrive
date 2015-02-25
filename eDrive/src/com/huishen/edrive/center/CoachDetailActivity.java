@@ -1,12 +1,16 @@
 package com.huishen.edrive.center;
 
+import java.util.ArrayList;
+
 import com.huishen.edrive.R;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -25,10 +29,20 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
     private Button call ; //呼叫教练
     private ImageButton good  , back; //点赞按钮 ,返回按钮
     private LinearLayout field ,fieldimg ,detail , judge ,setmeal ;
+    
+    //初始化相关
+    private int coachId = -1  ;
+    public static String COACH_ID = "coachId" ;  //传进来的参数key
+    //展示训练场图片的弹出框相关
+    private CoachFieldImgDialog imgDialog ;
+    private ArrayList<String> imgUrls ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_coach_detail);
+		/****************获取传进来的数据***************/
+		coachId = this.getIntent().getIntExtra(COACH_ID, -1) ;
+		/****************获取传进来的数据结束***************/		
 		registView(); //注册组件
 		initView();  //初始化组件
 		getNetData(); 
@@ -36,6 +50,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 	
 	/**
 	 * 访问网络，获取网络数据
+	 * 
 	 */
 	private void getNetData() {
 		
@@ -62,6 +77,8 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		judgenum = (TextView)this.findViewById(R.id.coach_detail_judgenum) ;
 		ranking = (TextView)this.findViewById(R.id.coach_detail_ranking) ;
 	}
+	
+	
 	private void initView() {
 		this.title.setText(this.getResources().getString(R.string.coach_detail));
 		this.back.setOnClickListener(this) ;
@@ -85,9 +102,11 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 			break ;
 		case R.id.coach_detail_field:
 			Intent i = new Intent(this ,CoachTrainFieldActivity.class);
+			i.putExtra(CoachDetailActivity.COACH_ID, coachId) ;
 			this.startActivity(i);
 			break ;
 		case R.id.coach_detail_fieldimg:
+			actionFieldImg();
 			break;
 		case R.id.coach_detail_lay:
 			if(this.detailContent.getVisibility() == View.GONE){
@@ -99,6 +118,26 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		}
 	}
 	
+	/**
+	 * 弹出训练场图片展示框
+	 */
+	private void actionFieldImg(){
+		if(imgUrls == null){
+			imgUrls = new ArrayList<String>();
+			imgUrls.add("http://i3.dpfile.com/2007-01-25/99540_b.jpg%28700x700%29/thumb.jpg");
+			imgUrls.add("http://www.jxcpw.com/photo/20128617552589614.jpg") ;
+		}
+		if(imgDialog == null){
+			imgDialog = new CoachFieldImgDialog(this,imgUrls);
+		}
+		imgDialog.show() ;
+		WindowManager windowManager = getWindowManager();
+		Display display = windowManager.getDefaultDisplay();
+		WindowManager.LayoutParams lp = imgDialog.getWindow().getAttributes();
+		lp.width = (int)(display.getWidth()); //设置宽度
+		imgDialog.getWindow().setAttributes(lp);
+	
+	}
 	/**
 	 * 点击赞响应事件
 	 */

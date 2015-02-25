@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main_bg_color"
+     >
+    <include layout="@layout/header_defualt" />
+   <ListView
+       android:id="@+id/coach_judge_list"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       />
+
+</LinearLayout>
