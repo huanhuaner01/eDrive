@@ -35,6 +35,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     private ImageButton header_menu ;
     private TextView menu1 ;
     private RadioGroup tabGroup ;
+    private String coachId = null;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,8 +121,8 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
      * 检查教练是否绑定
      */
     private void checkCoach(){
-    	String coachId = null;
-    	//如果用户已经绑定手机，则进行隐形登录
+    	coachId = null;
+    	//如果用户已经绑定手机，则获取登录数据
 		if (Prefs.checkUser(this)) { 
 			//获得本地用户数据
 			String userinfo = Prefs.getUser(this);
@@ -155,6 +156,13 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			 group.check(R.id.main_tab_appointment);
 			 break ;
 		case R.id.main_tab_appointment:
+			if(coachId == null || coachId.equals("")){
+				AppointmentNoCoachFragment nocoachfragment = new AppointmentNoCoachFragment();
+				tx.replace(R.id.main_center,nocoachfragment); 
+			}else{
+				ApointmentFragment apointment = new ApointmentFragment(this) ;	
+				tx.replace(R.id.main_center,apointment); 
+			}
 			ApointmentFragment apointment = new ApointmentFragment(this) ;	
 			tx.replace(R.id.main_center,apointment);  
 			break ;

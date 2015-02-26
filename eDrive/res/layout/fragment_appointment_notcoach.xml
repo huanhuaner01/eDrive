@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main_bg_color"
+    android:padding="@dimen/padding_xlarge"
+     >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_corner_white"
+        android:text="@string/appointment_nocoach"
+        android:padding="@dimen/padding_default"
+        android:textColor="@color/tv_light_color"
+        android:textSize="@dimen/txtsize_default"
+        />
+     <Button
+         android:id="@+id/f_appoint_btn"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/button_height"
+         android:background="@drawable/bkg_verify_btn_start"
+         android:layout_marginTop="@dimen/margin_large"
+         android:text="@string/appointment_bindcoach"
+         android:textColor="@color/white"
+         android:textSize="@dimen/txtsize_default"
+         />
+</LinearLayout>

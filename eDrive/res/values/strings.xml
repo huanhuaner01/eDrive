@@ -20,7 +20,8 @@
 
     <!-- 预约相关 -->
     <string name="apoint_title">预约学车</string>
-
+    <string name="appointment_nocoach">亲，如果您没有找到合适的教练，您可以点击“发布需求”帮你找到服务好，教学质量高的教练。   如果您已经有报名教练，请点击以下按钮，方便你快捷的使用“预约练车”功能。</string>
+    <string name="appointment_bindcoach">绑定教练</string>
     <!-- 验证相关 -->
     <string name="str_verify_phone_title">验证手机</string>
     <string name="str_verify_phone_purpose">为了方便教练联系您，请验证手机</string>
@@ -70,4 +71,6 @@
     <string name="title_activity_coach_train_field">CoachTrainFieldActivity</string>
     <string name="title_activity_appointment">AppointmentActivity</string>
     <string name="title_activity_coach_judge_list">CoachJudgeListActivity</string>
+    <string name="title_activity_bind_coach">BindCoachActivity</string>
+
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical" >
+
+    <include layout="@layout/header_defualt" />
+        <ExpandableListView 
+           android:id ="@+id/coachmeal_expandablelist"   
+           android:layout_width ="match_parent"   
+           android:layout_height ="match_parent"
+           android:groupIndicator="@null"
+           android:divider="@color/main_bg_color"
+           android:dividerHeight="@dimen/divide_line"
+           android:listSelector="@drawable/transparent_selector"
+            ></ExpandableListView>
+
+</LinearLayout>

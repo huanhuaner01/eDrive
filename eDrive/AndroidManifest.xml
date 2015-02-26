@@ -146,7 +146,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -202,8 +202,12 @@
             android:label="@string/title_activity_appointment" >
         </activity>
         <activity
-            android:name="com.huishen.edrive.center.CoachListActivity"
+            android:name=".center.CoachListActivity"
             android:label="@string/title_activity_coach_judge_list" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.apointment.BindCoachActivity"
+            android:label="@string/title_activity_bind_coach" >
         </activity>
     </application>
 

@@ -6,6 +6,7 @@ import com.huishen.edrive.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
@@ -121,6 +122,11 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		case R.id.coach_detail_setmeal:
 			actionMealLay() ;
 			break;
+		case R.id.coach_detail_btn_call:
+			Uri uri = Uri.parse("tel:18200390901");
+			Intent it = new Intent(Intent.ACTION_CALL, uri);
+			startActivity(it);
+			break ;
 		}
 	}
 	
