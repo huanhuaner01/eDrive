@@ -5,6 +5,7 @@
     <string name="commit">确定</string>
     <string name="back">返回</string>
     <string name="judge_all">总体评价</string>
+    <string name="defualt_null">缺失</string>
     <string name="hello_world">Hello world!</string>
 
     <!-- 需求主页面 -->
@@ -69,5 +70,4 @@
     <string name="title_activity_coach_train_field">CoachTrainFieldActivity</string>
     <string name="title_activity_appointment">AppointmentActivity</string>
     <string name="title_activity_coach_judge_list">CoachJudgeListActivity</string>
-
 </resources>

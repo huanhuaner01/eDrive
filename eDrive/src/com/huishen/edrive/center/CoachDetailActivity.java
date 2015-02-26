@@ -115,9 +115,33 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 				this.detailContent.setVisibility(View.GONE) ;
 			}
 			break ;	
+		case R.id.coach_detail_judge:
+			actionJudgeLay() ;
+			break;
+		case R.id.coach_detail_setmeal:
+			actionMealLay() ;
+			break;
 		}
 	}
 	
+	/**
+	 * 响应学员评价按钮，跳转到学员评价列表
+	 */
+	private void actionJudgeLay(){
+		Intent i = new Intent(this ,CoachListActivity.class);
+		i.putExtra(CoachListActivity.STATUS_KEY, CoachListActivity.STATUS_JUDGE) ;
+		i.putExtra(CoachListActivity.ID_KEY, coachId) ;
+		this.startActivity(i);
+	}
+	/**
+	 * 响应学车套餐按钮，跳转到学员评价列表
+	 */
+	private void actionMealLay(){
+		Intent i = new Intent(this ,CoachListActivity.class);
+		i.putExtra(CoachListActivity.STATUS_KEY, CoachListActivity.STATUS_SETMEAL) ;
+		i.putExtra(CoachListActivity.ID_KEY, coachId) ;
+		this.startActivity(i);
+	}
 	/**
 	 * 弹出训练场图片展示框
 	 */

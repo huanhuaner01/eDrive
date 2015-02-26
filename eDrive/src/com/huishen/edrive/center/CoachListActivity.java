@@ -1,6 +1,7 @@
 package com.huishen.edrive.center;
 
 import com.huishen.edrive.R;
+import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 
 import android.app.Activity;
@@ -44,12 +45,12 @@ public class CoachListActivity extends FragmentActivity {
 	        FragmentTransaction tx = fm.beginTransaction(); 
 		switch(status){
 		case STATUS_JUDGE:
-			JudgeListFragment fragment = new JudgeListFragment(this ,0) ;
-		    
-	        tx.add(R.id.container, f_jldetail,"f_jldetail");  
-	        
+			CoachJudgeListFragment fragment = new CoachJudgeListFragment(this ,"学员评价",SRL.METHOD_GET_COACH_JUDGE ,value) ;
+	        tx.add(R.id.container, fragment,"f_jljudge");         
 			break ;
 		case STATUS_SETMEAL:
+			CoachMealListFragment sfragment = new CoachMealListFragment(this ,"学车套餐",SRL.METHOD_GET_COACH_MEAL ,value) ;
+	        tx.add(R.id.container, sfragment,"f_jlsetmeal");  
 			break ;
 			
 		}

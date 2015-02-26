@@ -100,6 +100,7 @@ public class SplashActivity extends Activity {
 	 */
 	private final void startNextActivity() {
 		boolean isuser = Prefs.checkUser(this);
+		Log.i(LOG_TAG, "isuser is "+isuser);
 		Intent i = null;
           //如果用户存在则进入主页面
 		 if(isuser ){

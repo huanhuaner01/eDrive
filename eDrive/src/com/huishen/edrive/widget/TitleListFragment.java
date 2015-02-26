@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,31 +31,29 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 	/** 返回上一个activity **/
 	public int BACK_ACTIVITY =1 ; 
 	private View RootView ;  //根组件
-	private TextView title ,note; //标题,位于右边的文字
-	private ListView list ; //列表
+	private TextView title ; //标题,位于右边的文字
+	public ListView list ; //列表
+	public ExpandableListView expandablelist ; //扩展列表，默认隐藏
 	private ImageButton back ; //返回键
     private String titlestr ;
     private String url ;
-    private int coachId ;
     private String data ; //数据列表
     
     //初始化相关
     public Context context ;
     public Object tag ;
     
-	public TitleListFragment(Context context,String titlestr , String url ,int coachId) {
+	public TitleListFragment(Context context,String titlestr , String url) {
 		this.context = context ;
 		this.titlestr = titlestr ;
 		this.url = url ;
-		this.coachId = coachId ;
 	}
 
-	public TitleListFragment(Context context, Object tag,String titlestr , String url ,int coachId ) {
+	public TitleListFragment(Context context, Object tag,String titlestr , String url  ) {
 		this.context = context ;
 		this.titlestr = titlestr ;
 		this.url = url ;
 		this.tag = tag ;
-		this.coachId = coachId ;
 	}
 	
 	@Override
@@ -73,6 +72,7 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 	private void registView() {
 		this.title = (TextView)RootView.findViewById(R.id.header_title) ;
 		this.list = (ListView)RootView.findViewById(R.id.titlelist_list) ;
+		this.expandablelist = (ExpandableListView)RootView.findViewById(R.id.titlelist_expandablelist);
 		this.back = (ImageButton)RootView.findViewById(R.id.header_back) ;
 		this.mSwipeLayout = (SwipeRefreshLayout)RootView.findViewById(R.id.swipe_ly);
 	}
@@ -87,6 +87,7 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 		}
 		//获取网络数据
 		getWebData();
+		
 		setBack(back);
 	
 	}
@@ -94,23 +95,21 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 	/**
 	 * 访问网络，获取网络数据
 	 */
-	private void getWebData(){
-		//如果url为空或者list接口为空则不访问网络，直接返回
-//		if(url == null || url.equals("")||listinterface == null){
-//			return ;
-//		}
-		setList(data, list);
-	}
+	public abstract void getWebData();
 	
-	
-	public abstract void setList(String data,ListView list);
 	/**
-	 * 设置标题栏备注备注
-	 * @param isShow
-	 * @param listener
+	 * 设置普通列表
+	 * @param data
+	 * @param list
 	 */
-	public abstract void setNote(TextView note);
+	public abstract void setList(String data,ListView list);
 	
+	/**
+	 * 设置可扩展列表
+	 * @param data
+	 * @param list
+	 */
+	public abstract void setList(String data,ExpandableListView list);
 	/**
 	 * 返回键监听
 	 * @param back2
@@ -128,7 +127,19 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 			
 		}) ;
 	}
-	
+	/**
+	 * 展示可扩展列表
+	 * @param isshow 是否展示。true展示，false 不展示
+	 */
+	public void showExpandableList(boolean isshow){
+		if(isshow){
+			this.expandablelist.setVisibility(View.VISIBLE);
+			this.list.setVisibility(View.GONE);
+		}else{
+			this.expandablelist.setVisibility(View.GONE);
+			this.list.setVisibility(View.VISIBLE);
+		}
+	}
 	
 	@Override
 	public void onRefresh() {

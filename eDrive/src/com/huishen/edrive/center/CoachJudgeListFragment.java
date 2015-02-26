@@ -5,21 +5,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.huishen.edrive.widget.TitleListFragment;
 
-public class JudgeListFragment extends TitleListFragment {
-
-	public JudgeListFragment(Context context, String titlestr, String url) {
+/**
+ * 教练评价列表
+ * @author zhanghuan
+ *
+ */
+public class CoachJudgeListFragment extends TitleListFragment {
+    private int coachId ;
+	public CoachJudgeListFragment(Context context, String titlestr, String url ,int coachId) {
 		super(context, titlestr, url);
+		this.coachId = coachId ;
 	}
 
-	public JudgeListFragment(Context context, Object tag, String titlestr,
-			String url) {
+	public CoachJudgeListFragment(Context context, Object tag, String titlestr,
+			String url,int coachId) {
 		super(context, tag, titlestr, url);
-		
+		this.coachId = coachId ;
 	}
 
 	@Override
@@ -43,8 +52,27 @@ public class JudgeListFragment extends TitleListFragment {
 	}
 
 	@Override
-	public void setNote(TextView note) {
+	public void getWebData() {
+		setList(null,this.list);
+	}
+
+	@Override
+	public void setBack(ImageButton back2) {
+		back2.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				CoachJudgeListFragment.this.getActivity().finish();
+			}
+			
+		});
+	}
+
+	@Override
+	public void setList(String data, ExpandableListView list) {
 		
 	}
+	
+	
 
 }

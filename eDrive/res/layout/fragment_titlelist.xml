@@ -11,14 +11,28 @@
         android:id="@+id/swipe_ly"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          >
         <ListView
             android:id="@+id/titlelist_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/Grey_line"
+            android:divider="@color/main_bg_color"
             android:dividerHeight="@dimen/divide_line"
             android:listSelector="@drawable/transparent_selector" />
+        <ExpandableListView 
+           android:id ="@+id/titlelist_expandablelist"   
+           android:layout_width ="match_parent"   
+           android:layout_height ="match_parent"
+           android:groupIndicator="@null" 
+           android:visibility="gone"
+           android:divider="@color/main_bg_color"
+           android:dividerHeight="@dimen/divide_line"
+           android:listSelector="@drawable/transparent_selector"
+            ></ExpandableListView>
+        </FrameLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

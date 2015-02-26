@@ -21,7 +21,7 @@ final class ServerAddressProvider {
 
 		@Override
 		public String getServerAddress() {
-			return "http://www.huishen.net";
+			return "http://www.huishen.net/";
 		}
 		
 	}
@@ -31,7 +31,7 @@ final class ServerAddressProvider {
 
 		@Override
 		public String getServerAddress() {
-			return "http://192.168.0.210:8080/enrollSystem";
+			return "http://192.168.0.210:8080/enrollsystem/";
 		}
 		
 	}

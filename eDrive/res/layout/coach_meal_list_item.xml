@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+
+                    <TextView
+                        android:id="@+id/meal_name"
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/defualt_null" />
+
+                      <TextView
+                          android:id="@+id/meal_prize"
+                        style="@style/coachdetailtextstyle"
+                        android:textColor="@color/main_color"
+                        android:gravity="right"
+                        android:text="@string/defualt_null"
+                        />
+
+                    <ImageView
+                        android:id="@+id/meal_ic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_shrink" />
+
+                </LinearLayout>
+
+</LinearLayout>

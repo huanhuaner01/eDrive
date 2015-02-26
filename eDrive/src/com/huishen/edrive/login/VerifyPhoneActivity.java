@@ -122,8 +122,10 @@ public class VerifyPhoneActivity extends Activity implements
 	private final void sendVerifyCode() {
 		Log.i(TAG, "开始") ;
 		    String num = editPhoneNumber.getText().toString();
+		    String code = editVerifyCode.getText().toString() ;
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
+            map.put("vcodes", code) ;
 			NetUtil.requestStringData(SRL.METHOD_LOGIN, map,
 					new Response.Listener<String>() {
 
@@ -154,11 +156,40 @@ public class VerifyPhoneActivity extends Activity implements
 	 * @param result
 	 */
 	private void actionLogin(String result){
-//		if(){
-//			
-//		}
-		this.setResult(LOGIN_RESULT_CODE) ;
-		this.finish() ;
+		if( result.equals("")|| (result == null)){
+			Toast.makeText(VerifyPhoneActivity.this, "返回值为空，服务器异常", Toast.LENGTH_SHORT).show() ;
+		}
+		/**
+		 * 注册登录  参数:phone :18388888888,vcodes=1234  返回值:{status:1|0|2|-1|-2} 0: 账号停用，1:注册登陆成功 2 密码不为空 必须输入密码才能登陆 -2 验证码错误 -1 验证码过期
+		 */
+		else{
+			try {
+				JSONObject json = new JSONObject(result);
+				int status = json.getInt("status") ;
+				switch(status){
+				case 1: //注册登陆成功
+					this.setResult(LOGIN_RESULT_CODE) ;
+					this.finish() ;
+					break ;
+				case 2: //密码不为空 必须输入密码才能登陆
+					//TODO 密码登录操作
+					break ;
+				case 0: //账号停用
+					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "账号停用");
+					break ;
+				case -2: //验证码错误
+					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "验证码错误");
+					break ;
+					
+				case -1: //验证码过期
+					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "验证码过期");	
+					break ; 
+				}
+			  } catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	/**
 	 * 完成手机号码的发送和计时等工作。
@@ -207,11 +238,13 @@ public class VerifyPhoneActivity extends Activity implements
 			@Override
 			public void onTick(long millisUntilFinished) {
 				btnVerify.setText(""+(int) (millisUntilFinished / 1000));
+				btnVerify.setEnabled(false) ;
 			}
 
 			@Override
 			public void onFinish() {
 				btnVerify.setText(R.string.str_verify_phone_err_request_retry);
+				btnVerify.setEnabled(true);
 			}
 		}.start();
 	}
@@ -227,13 +260,13 @@ public class VerifyPhoneActivity extends Activity implements
 		else{
 			try {
 				JSONObject json = new JSONObject(result);
-				int status = json.getInt("code") ;
+				int status = json.getInt("status") ;
 				switch(status){
 				case 1: //成功
 					break ;
-				case 0: //失败
+				case 2: //失败
 					break ;
-				case -1: //电话号码错误
+				case 0: //电话号码错误
 					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "电话号码错误，1分钟后可重发");
 					break ;
 				}
