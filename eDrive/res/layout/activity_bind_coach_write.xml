@@ -1,59 +1,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:orientation="vertical"
+    android:layout_height="match_parent"
     android:background="@color/main_bg_color"
-    >
-   <include layout="@layout/header_defualt"/>
-   <FrameLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="@dimen/margin_default"
-       >
-       <!-- 绑定教练电话号码布局 -->
-           <LinearLayout
-               android:id="@+id/bind_coach_w_lay_tel"
-               android:visibility="gone"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical"
-             >
-             <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:padding="@dimen/padding_default"
-                 android:background="@color/white"
-                 android:text="@string/bind_coach_tel"
-                 android:textColor="@color/tv_light_color"
-                 android:textSize="@dimen/txtsize_middle"
-                 android:gravity="center"
-                 />
-                     <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divide_line"
-                    android:background="@color/main_bg_color" />
-                     
-                     <LinearLayout
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:orientation="horizontal"
-                         >
+    android:orientation="vertical" >
+
+    <include layout="@layout/header_defualt" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default" >
+
+        <!-- 绑定教练电话号码布局 -->
+
+        <LinearLayout
+            android:id="@+id/bind_coach_w_lay_tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:padding="@dimen/padding_default"
-                 android:background="@color/white"
-                 android:text="@string/bind_coach_telpre"
-                 android:textColor="@color/tv_light_color"
-                 android:textSize="@dimen/txtsize_middle"
-                 android:gravity="center"
-                />
-               <View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/padding_default"
+                android:text="@string/bind_coach_tel"
+                android:textColor="@color/tv_light_color"
+                android:textSize="@dimen/txtsize_middle" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divide_line"
+                android:background="@color/main_bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_default"
+                    android:text="@string/bind_coach_telpre"
+                    android:textColor="@color/tv_light_color"
+                    android:textSize="@dimen/txtsize_middle" />
+
+                <View
                     android:layout_width="@dimen/divide_line"
                     android:layout_height="match_parent"
                     android:background="@color/main_bg_color" />
-              <!--   <EditText
+                
+                     <EditText
+                         android:id="@+id/bind_coach_w_tel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -64,27 +68,21 @@
                     android:textColorHint="@color/tv_gray_color"
                     android:textSize="@dimen/txtsize_middle"
                     android:inputType="number"
-                    />
-                -->    
+                    /> 
+                    
+                
 
             </LinearLayout>
-              <!-- 绑定教练电话号码布局 结束 ！-->
-              
-          
-               
-               
-               <!-- 填写密码布局-->
-               <!-- 填写密码布局结束 ！-->
-                
-           </LinearLayout>
-           
-                <!-- 填写学员真实姓名布局-->
-                     <LinearLayout
-               android:id="@+id/bind_coach_w_lay_stuname"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="horizontal"
-             >
+        </LinearLayout>
+        <!-- 绑定教练电话号码布局 结束 ！ -->
+        <!-- 填写学员真实姓名布局 -->
+
+      <LinearLayout
+            android:id="@+id/bind_coach_w_lay_stuname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -96,12 +94,12 @@
                 android:textColor="@color/tv_light_color"
                 android:textSize="@dimen/txtsize_middle" />
 
-               <View
-                    android:layout_width="@dimen/divide_line"
-                    android:layout_height="match_parent"
-                    android:background="@color/main_bg_color" />
-              
-                 <EditText
+            <View
+                android:layout_width="@dimen/divide_line"
+                android:layout_height="match_parent"
+                android:background="@color/main_bg_color" />             
+            <EditText
+                 android:id="@+id/bind_coach_w_stuname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -112,29 +110,116 @@
                     android:textColorHint="@color/tv_gray_color"
                     android:textSize="@dimen/txtsize_middle"
                     />
-                  
+                   
+                    
+        </LinearLayout>
+        <!-- 填写学员真实姓名布局结束 ！ -->
+
+
+        <!-- 填写密码布局 -->
+          <LinearLayout
+            android:id="@+id/bind_coach_w_lay_stupass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+              <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_default"
+                    android:text="@string/bind_coach_stupass"
+                    android:textColor="@color/tv_light_color"
+                    android:textSize="@dimen/txtsize_middle" />
+
+                <View
+                    android:layout_width="@dimen/divide_line"
+                    android:layout_height="match_parent"
+                    android:background="@color/main_bg_color" />
+                
+                     <EditText
+                          android:id="@+id/bind_coach_w_stupass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/padding_default"
+                    android:textColor="@color/tv_light_color"
+                    android:textColorHint="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_middle"
+                    />
+                    
+                
 
             </LinearLayout>
-            <!-- 填写学员真实姓名布局结束 ！-->
-       </FrameLayout>
-       
-       <Button 
-           android:id="@+id/bind_coach_write_commit"
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/button_height"
-           android:background="@drawable/bkg_verify_btn_start"
-           android:layout_margin="@dimen/margin_default"
-           android:text="@string/commit"
-           android:textColor="@color/white"
-           android:textSize="@dimen/txtsize_default"
-           />
-       <TextView
-           android:id="@+id/bind_coach_write_note"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:padding="@dimen/padding_default"
-           android:text="@string/bind_coach_note_tel"
-           android:textColor="@color/tv_gray_color"
-           android:textSize="@dimen/txtsize_middle"
-           />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divide_line"
+                android:background="@color/main_bg_color" />
+           <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_default"
+                    android:text="@string/bind_coach_confirmpass"
+                    android:textColor="@color/tv_light_color"
+                    android:textSize="@dimen/txtsize_middle" />
+
+                <View
+                    android:layout_width="@dimen/divide_line"
+                    android:layout_height="match_parent"
+                    android:background="@color/main_bg_color" />
+                
+                   <EditText
+                        android:id="@+id/bind_coach_w_conpass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/padding_default"
+                    android:textColor="@color/tv_light_color"
+                    android:textColorHint="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_middle"
+                    />
+                    
+                
+
+            </LinearLayout>
+                    
+        </LinearLayout>
+        <!-- 填写密码布局结束 ！ -->
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/bind_coach_write_commit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_margin="@dimen/margin_default"
+        android:background="@drawable/bkg_verify_btn_start"
+        android:text="@string/commit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txtsize_default" />
+
+    <TextView
+        android:id="@+id/bind_coach_write_note"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_default"
+        android:text="@string/bind_coach_note_tel"
+        android:textColor="@color/tv_gray_color"
+        android:textSize="@dimen/txtsize_middle" />
+
 </LinearLayout>
