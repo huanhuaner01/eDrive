@@ -117,11 +117,11 @@
         <!-- 友盟推送元数据 BEGIN -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="54d0594ffd98c5baa300081a" >
+            android:value="54efd603fd98c5b41e000d60" >
         </meta-data>
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="f7704584f0d5c7f5c9f31ed0f8f6dd03" >
+            android:value="26e54048cc1ff27d5ff2396e29ca241a" >
         </meta-data>
 
         <!-- 友盟推送元数据 END -->
@@ -146,7 +146,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -206,8 +206,12 @@
             android:label="@string/title_activity_coach_judge_list" >
         </activity>
         <activity
-            android:name="com.huishen.edrive.apointment.BindCoachActivity"
+            android:name=".apointment.BindCoachActivity"
             android:label="@string/title_activity_bind_coach" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.apointment.BindCoachWriteActivity"
+            android:label="@string/title_activity_bind_coach_write" >
         </activity>
     </application>
 

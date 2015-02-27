@@ -28,7 +28,7 @@ public class CoachListActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_coach_list);
+		setContentView(R.layout.activity_container);
 		AppController.getInstance().addActivity(this) ;
 		//获取传递进来的数据
 		status = this.getIntent().getIntExtra(STATUS_KEY, 0);

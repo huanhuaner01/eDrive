@@ -311,6 +311,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 				@Override
 				public void onClick(View v) {
 					Intent i  = new Intent(DemandActivity.this,MainActivity.class);
+					i.putExtra("main", false);
 					DemandActivity.this.startActivity(i);
 					DemandActivity.this.finish();
 				}

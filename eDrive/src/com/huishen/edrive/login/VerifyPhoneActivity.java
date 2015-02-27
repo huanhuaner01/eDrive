@@ -12,6 +12,8 @@ import com.huishen.edrive.R;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.util.Const;
+import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -144,8 +146,13 @@ public class VerifyPhoneActivity extends Activity implements
 								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
 										Toast.LENGTH_SHORT).show();
 								Log.i("Splash", arg0.toString());
+								return ;
 							}
-							actionLogin("");
+							if(arg0.networkResponse.statusCode == 320){
+								AppUtil.ShowShortToast(VerifyPhoneActivity.this, "用户已经下线，请重新验证手机");
+							}else{
+								AppUtil.ShowShortToast(VerifyPhoneActivity.this, "访问连接异常");
+							}
 						}
 					});
 		
@@ -156,6 +163,7 @@ public class VerifyPhoneActivity extends Activity implements
 	 * @param result
 	 */
 	private void actionLogin(String result){
+		Log.i(TAG, result);
 		if( result.equals("")|| (result == null)){
 			Toast.makeText(VerifyPhoneActivity.this, "返回值为空，服务器异常", Toast.LENGTH_SHORT).show() ;
 		}
@@ -163,12 +171,14 @@ public class VerifyPhoneActivity extends Activity implements
 		 * 注册登录  参数:phone :18388888888,vcodes=1234  返回值:{status:1|0|2|-1|-2} 0: 账号停用，1:注册登陆成功 2 密码不为空 必须输入密码才能登陆 -2 验证码错误 -1 验证码过期
 		 */
 		else{
-			try {
+			try { 
 				JSONObject json = new JSONObject(result);
 				int status = json.getInt("status") ;
 				switch(status){
 				case 1: //注册登陆成功
 					this.setResult(LOGIN_RESULT_CODE) ;
+					AppUtil.saveUserInfo(this, result) ;
+					AppUtil.ShowShortToast(this, "验证登录成功") ;
 					this.finish() ;
 					break ;
 				case 2: //密码不为空 必须输入密码才能登陆
@@ -224,8 +234,13 @@ public class VerifyPhoneActivity extends Activity implements
 								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
 										Toast.LENGTH_SHORT).show();
 								Log.i("Splash", arg0.toString());
+								return ;
 							}
-							;
+							if(arg0.networkResponse.statusCode == 320){
+								AppUtil.ShowShortToast(VerifyPhoneActivity.this, "用户已经下线，请重新验证手机");
+							}else{
+								AppUtil.ShowShortToast(VerifyPhoneActivity.this, "访问连接异常");
+							}
 						}
 					});
 		
@@ -263,8 +278,10 @@ public class VerifyPhoneActivity extends Activity implements
 				int status = json.getInt("status") ;
 				switch(status){
 				case 1: //成功
+					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "验证码发送成功，请耐心等待");
 					break ;
 				case 2: //失败
+					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "验证码发送成功，请耐心等待");
 					break ;
 				case 0: //电话号码错误
 					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "电话号码错误，1分钟后可重发");

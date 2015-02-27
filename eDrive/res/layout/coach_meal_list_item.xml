@@ -19,7 +19,7 @@
                         android:text="@string/defualt_null" />
 
                       <TextView
-                          android:id="@+id/meal_prize"
+                        android:id="@+id/meal_prize"
                         style="@style/coachdetailtextstyle"
                         android:textColor="@color/main_color"
                         android:gravity="right"

@@ -20,8 +20,18 @@ public class AppController extends Application {
 
 	private RequestQueue requestQueue;
 	private ImageLoader mImageLoader;
-
+	private String sessionId;			//存放cookie
 	private static AppController mInstance;
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+
 
 	@Override
 	public void onCreate() {

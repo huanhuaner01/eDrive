@@ -1,10 +1,8 @@
 package com.huishen.edrive;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 
 import android.content.Intent;
@@ -29,7 +27,7 @@ import android.widget.Toast;
  * 
  */
 public class MainActivity extends FragmentActivity implements OnCheckedChangeListener{
-	
+	private String TAG = "MainActivity" ;
 	//UI相关
     private SlidingPaneLayout panelayout ;
     private ImageButton header_menu ;
@@ -37,12 +35,28 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     private RadioGroup tabGroup ;
     private String coachId = null;
     
+    //初始化数据
+    private boolean isFirstMain = true ;
+    
     @Override
+	protected void onResume() {
+		coachId = Prefs.readString(this, Const.USER_COACH_ID);
+		if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_appointment){
+			this.tabGroup.check(R.id.main_tab_appointment);
+		}
+		super.onResume();
+	}
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //将Activity添加进入栈
         AppController.getInstance().addActivity(this) ;
+        
+        //-------------获取传递过来的数据------------------
+          isFirstMain = this.getIntent().getBooleanExtra("main", true);
+        //-------------获取传递过来的数据结束！--------------
         
         registView();
         init() ;
@@ -121,27 +135,20 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
      * 检查教练是否绑定
      */
     private void checkCoach(){
-    	coachId = null;
     	//如果用户已经绑定手机，则获取登录数据
 		if (Prefs.checkUser(this)) { 
 			//获得本地用户数据
-			String userinfo = Prefs.getUser(this);
-			try {
 				
-				JSONObject user = new JSONObject(userinfo);
-				coachId =  user.get("coachId").toString() ;
-				
-			} catch (JSONException e) {
-				e.printStackTrace();
-				
-			}
-		}
+				coachId =  Prefs.readString(this,Const.USER_COACH_ID) ;
 		
+		}
+		 if(isFirstMain){
 		//如果用户教练不存在则跳转到发布需求界面
 		if(coachId == null || coachId.equals("")){
 			Intent i = new Intent(this , DemandActivity.class);
 			this.startActivity(i);
 		}
+		 }
     }
     //radiogroup监听
 	@Override
@@ -163,8 +170,6 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 				ApointmentFragment apointment = new ApointmentFragment(this) ;	
 				tx.replace(R.id.main_center,apointment); 
 			}
-			ApointmentFragment apointment = new ApointmentFragment(this) ;	
-			tx.replace(R.id.main_center,apointment);  
 			break ;
 		case R.id.main_tab_center:
 			CenterFragment center = new CenterFragment() ;		
@@ -192,5 +197,4 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
          }
          return super.onKeyDown(keyCode, event);
      }
-	
 }

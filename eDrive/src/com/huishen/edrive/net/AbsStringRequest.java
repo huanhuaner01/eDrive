@@ -1,12 +1,18 @@
 package com.huishen.edrive.net;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
+
 import org.apache.http.protocol.HTTP;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
 import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 
 /**
@@ -93,6 +99,40 @@ class AbsStringRequest extends StringRequest {
 			error.printStackTrace();
 		}
 	};
+	
+	/**
+	 * 重写以获取Cookie。
+	 */
+	@Override
+	protected Response<String> parseNetworkResponse(
+			NetworkResponse response) {
+		try {
+			Map<String, String> responseHeaders = response.headers;
+			String rawCookies = responseHeaders.get("Set-Cookie");
+			//仅当Cookie不为空的时候才调用回调
+			if ((rawCookies != null) && (!rawCookies.equals(""))) {
+				onReadCookie(rawCookies);	
+			}
+			String dataString = new String(response.data, "UTF-8");
+			return Response.success(dataString,HttpHeaderParser.parseCacheHeaders(response));
+		} catch (UnsupportedEncodingException e) {
+			return Response.error(new ParseError(e));
+		} 
+	}
+
+	/**
+	 * 希望获取Cookie的子类可以重写该方法。注意:
+	 * <ul>
+	 * <li>当服务器返回值是null时，该方法将不会被调用。</li>
+	 * <li>Volley框架只支持读取第一个Cookie值，对于服务器返回多个Cookie的情况需要修改框架源码。</li>
+	 * <ul>
+	 * 
+	 * @param cookie
+	 *            响应头中包含的Cookie，即“Set-Cookie”的值。
+	 */
+	protected void onReadCookie(String cookie) {
+		//empty
+	}
 
 	/**
 	 * 指定参数的编码，子类通常不要重写该方法。

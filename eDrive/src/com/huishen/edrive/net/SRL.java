@@ -11,6 +11,25 @@ package com.huishen.edrive.net;
  * @create 2015-2-7
  */
 public final class SRL {
+	//请求方法
+	public static final class Method{
+		
+	}
+	//请求参数
+	public static final class Param{
+
+		public static final String PARAM_MOBILE_FLAG = "mobileFlag";
+		
+	}
+	//返回码
+	public static final class ReturnCode{
+		
+	}
+	//返回字段
+	public static final class ReturnField{
+		
+	}
+	
 
 	/**
 	 * 通用返回值，代表成功信息。
@@ -55,7 +74,7 @@ public final class SRL {
 	/**
 	 * 隐形登录  参数：phone:18388888888,MobileFlag:123456 返回值：{未开发接口}
 	 */
-	public static final String METHOD_LOGIN_PRI = "" ;
+	public static final String METHOD_LOGIN_PRI = "stuMobile/getCurrLoginStudentInfo" ;
 //	/**
 //	 * 验证手机号是否存在。 参数:mob=18782920468 返回值:{code:0|1} 0:不存在，1:存在
 //	 */

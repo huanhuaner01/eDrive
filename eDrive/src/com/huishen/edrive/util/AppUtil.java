@@ -1,10 +1,13 @@
 package com.huishen.edrive.util;
 
+import org.json.JSONObject;
+
 import com.huishen.edrive.login.VerifyPhoneActivity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 public class AppUtil {
@@ -34,5 +37,45 @@ public class AppUtil {
 	 */
 	public static void ShowLongToast(Context context , String text){
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+	}
+	
+	/**
+	 * 保存用户信息
+	 * @param context
+	 * @param result
+	 */
+	public static void saveUserInfo(Context context ,String result){
+		try { 
+			JSONObject json = new JSONObject(result);
+			String mobleFlag = json.getString(Const.USER_MOBILEFLAG) ;
+			Log.i("AppUtil", "mobleFlag:"+mobleFlag) ;
+			Prefs.writeString(context,Const.USER_MOBILEFLAG, mobleFlag);
+			JSONObject stuInfojson = json.optJSONObject("stuInfo");
+			if(stuInfojson == null){
+				return ;
+			}
+			JSONObject baseUserjson = stuInfojson.optJSONObject("baseUser");
+			JSONObject userInfojson = stuInfojson.optJSONObject("userInfo");
+			JSONObject coachInfojson = stuInfojson.optJSONObject("coachInfo") ;
+			if(baseUserjson != null){
+				String tel = baseUserjson.optString("phone" ,"");
+				Prefs.writeString(context,Const.USER_PHONE, tel);
+				Prefs.writeString(context,Const.USER_BASEUSER, baseUserjson.toString());
+			}
+			if(userInfojson != null){
+				
+				String addr = userInfojson.optString("address" ,"");
+				String stuname = userInfojson.optString("stuName" ,"");
+				Prefs.writeString(context,Const.USER_ADDR, addr);
+				Prefs.writeString(context,Const.USER_NAME, stuname);
+				Prefs.writeString(context,Const.USER_USERINFO, userInfojson.toString());
+			}
+			if(coachInfojson != null){
+				String coachId = coachInfojson.optString("coachId" ,"") ;
+				Prefs.writeString(context,Const.USER_COACH_ID, coachId);
+			}
+		}catch(Exception e){
+			e.printStackTrace() ;
+		}
 	}
 }

@@ -37,24 +37,6 @@ public final class Prefs {
 				Context.MODE_PRIVATE).getBoolean(key, defautValue);
 	}
 	
-	/**
-	 * 保存用户数据
-	 * @param context
-	 */
-	public static void setUser(Context context ,String userData){
-		
-		 context.getSharedPreferences(Const.PREFS_APP,
-	     Context.MODE_PRIVATE).edit().putString(Const.USER_DATE ,userData).commit();
-		 try {
-			JSONObject json = new JSONObject(userData);
-			writeString(context ,Const.USER_PHONE ,json.get(Const.USER_PHONE).toString());
-			writeString(context ,Const.USER_MOBILEFLAG ,json.get(Const.USER_MOBILEFLAG).toString());
-			writeString(context ,Const.USER_COACH_ID ,json.get(Const.USER_COACH_ID).toString());
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		 
-	}
 	
 	/**
 	 * 保存用户数据
@@ -84,22 +66,11 @@ public final class Prefs {
 	 * @return
 	 */
 	public static boolean checkUser(Context context){
-//		if(context.getSharedPreferences(Const.PREFS_APP,
-//				Context.MODE_PRIVATE).getString(Const.USER_DATE,"").equals("")){
-//			return false ;
-//		}
+		if(readString(context ,Const.USER_PHONE).equals("")){
+			return false ;
+		}
 		return true ;
 	}
 	
-	/**
-	 * 获得用户数据
-	 * @param context
-	 * @return
-	 */
-	public static String getUser(Context context){
-		String userData = context.getSharedPreferences(Const.PREFS_APP,
-				Context.MODE_PRIVATE).getString(Const.USER_DATE,"") ;	
-		return userData ;
-	}
 
 }

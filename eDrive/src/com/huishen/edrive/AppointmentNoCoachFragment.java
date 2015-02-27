@@ -1,5 +1,8 @@
 package com.huishen.edrive;
 
+import com.huishen.edrive.apointment.BindCoachActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,7 +34,8 @@ public class AppointmentNoCoachFragment extends Fragment {
 
 			@Override
 			public void onClick(View arg0) {
-				
+				Intent i = new Intent(getActivity(),BindCoachActivity.class);
+				getActivity().startActivity(i);
 			}
 			
 		});

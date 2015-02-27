@@ -8,8 +8,10 @@ import java.util.HashMap;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
+import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 
@@ -104,6 +106,7 @@ public class SplashActivity extends Activity {
 		Intent i = null;
           //如果用户存在则进入主页面
 		 if(isuser ){
+			 Log.i(LOG_TAG, "login");
 			 login();
 		    i = new Intent(this,MainActivity.class);
 		 }else{
@@ -121,6 +124,7 @@ public class SplashActivity extends Activity {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(Const.USER_PHONE,Prefs.readString(this, Const.USER_PHONE) );//电话号码
 		map.put(Const.USER_MOBILEFLAG, Prefs.readString(this, Const.USER_MOBILEFLAG)) ; //MobileFlag
+		Log.i(LOG_TAG, "rcegwthtyjjhs"+Prefs.readString(this, Const.USER_MOBILEFLAG));
 		NetUtil.requestStringData(SRL.METHOD_LOGIN_PRI, map,
 				new Response.Listener<String>() {
 
@@ -137,8 +141,13 @@ public class SplashActivity extends Activity {
 							Toast.makeText(SplashActivity.this, "网络连接断开",
 									Toast.LENGTH_SHORT).show();
 							Log.i("Splash", arg0.toString());
+							return ;
 						}
-						;
+						if(arg0.networkResponse.statusCode == 320){
+							AppUtil.ShowShortToast(SplashActivity.this, "用户已经下线，请重新验证手机");
+						}else{
+							AppUtil.ShowShortToast(SplashActivity.this, "访问连接异常");
+						}
 					}
 				});
 	}
@@ -148,7 +157,8 @@ public class SplashActivity extends Activity {
 	 * @param result
 	 */
 	private void actionlogin(String result){
-		Prefs.setUser(SplashActivity.this, result) ;
+		Log.i(LOG_TAG, result) ;
+		AppUtil.saveUserInfo(SplashActivity.this, result) ;
 	}
 	private final void initViewPager() {
 		ArrayList<View> images = new ArrayList<View>();
