@@ -47,9 +47,8 @@ public class AppUtil {
 	public static void saveUserInfo(Context context ,String result){
 		try { 
 			JSONObject json = new JSONObject(result);
-			String mobleFlag = json.getString(Const.USER_MOBILEFLAG) ;
-			Log.i("AppUtil", "mobleFlag:"+mobleFlag) ;
-			Prefs.writeString(context,Const.USER_MOBILEFLAG, mobleFlag);
+			
+			
 			JSONObject stuInfojson = json.optJSONObject("stuInfo");
 			if(stuInfojson == null){
 				return ;
@@ -59,6 +58,9 @@ public class AppUtil {
 			JSONObject coachInfojson = stuInfojson.optJSONObject("coachInfo") ;
 			if(baseUserjson != null){
 				String tel = baseUserjson.optString("phone" ,"");
+				String mobleFlag = baseUserjson.getString(Const.USER_MOBILEFLAG) ;
+				Log.i("AppUtil", "mobleFlag:"+mobleFlag) ;
+				Prefs.writeString(context,Const.USER_MOBILEFLAG, mobleFlag);
 				Prefs.writeString(context,Const.USER_PHONE, tel);
 				Prefs.writeString(context,Const.USER_BASEUSER, baseUserjson.toString());
 			}
@@ -78,4 +80,24 @@ public class AppUtil {
 			e.printStackTrace() ;
 		}
 	}
+	
+	public static void removeAllData(Context context){
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_MOBILEFLAG).commit();
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_PHONE).commit();
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_COACH_ID).commit();
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_USERINFO).commit();
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_NAME).commit();
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_ADDR).commit();
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_BASEUSER).commit();
+		
+		
+	}
+	
 }

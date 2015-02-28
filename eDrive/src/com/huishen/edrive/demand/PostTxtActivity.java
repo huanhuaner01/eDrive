@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.huishen.edrive.R;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.widget.CustomEditText;
 
 import android.app.Activity;
@@ -123,7 +125,33 @@ public class PostTxtActivity extends Activity {
 		}) ;
 		dialog = new PostAddrDialog(this,listener);
 		dialog.show() ;
+		this.commit.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				sendTxtOrder();
+			}
+			
+		}) ;
 		
+	}
+	
+	/**
+	 * 发送订单
+	 */
+	private void sendTxtOrder(){
+		
+//		stuId=1;//学生ID
+//		stuRealName=王成;//直接姓名
+//		content=包接包送，对学生友好;//订单需求内容
+//		lng=104.065656;//当前学生经度
+//		lat=30.577716;//当前学生纬度
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put(SRL.Param.PARAM_LATITUDE, "sl");
+        map.put(SRL.Param.PARAM_LONGITUDE, "ass");
+        map.put(SRL.Param.PARAM_STUID, "ass");
+        map.put(SRL.Param.PARAM_CONTENT,"");
+//		NetUtil.requestStringData(relativePath, params, listener, errlisListener)
 	}
 	
 	private PostDialogInterface listener= new PostDialogInterface(){

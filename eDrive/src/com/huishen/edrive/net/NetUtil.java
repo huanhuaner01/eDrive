@@ -7,9 +7,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.util.Log;
+import android.widget.ImageView;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
@@ -19,6 +23,8 @@ import com.huishen.edrive.util.Prefs;
  * 
  * @author Muyangmin
  * @create 2015-2-7
+ * @version 1.1 on 2015/02/28 by Muyangmin 增加了加载图片的方法。<br/>
+ * 			1.0 基础版本，包含文字请求和文件下载。
  */
 public final class NetUtil {
 
@@ -205,6 +211,34 @@ public final class NetUtil {
 						return localHashMap;
 					}
 				});
+	}
+	
+	/**
+	 * 提交加载图片的请求。在提交请求后会暂时显示默认的图片，请求成功后自动替换为所请求的数据。
+	 * 注意，该方法当请求失败后仍会显示默认的图片。如果需要显示错误信息，请考虑使用
+	 * {@link #requestLoadImage(ImageView, String, int, int)}方法代替。
+	 * 
+	 * @param img 要放置图片的控件。
+	 * @param relativePath 图片在服务器上的相对地址。
+	 * @param defaultResid 默认显示的图片。
+	 */
+	public static final void requestLoadImage(ImageView img,
+			String relativePath, int defaultResid) {
+		requestLoadImage(img, relativePath, defaultResid, defaultResid);
+	}
+	
+	/**
+	 * 提交加载图片的请求。
+	 * @param img 要放置图片的控件。
+	 * @param relativePath 图片在服务器上的相对地址。
+	 * @param defaultResid 默认显示的图片。
+	 * @param errResid 发生错误后显示的图片。
+	 */
+	public static final void requestLoadImage(ImageView img,
+			String relativePath, int defaultResid, int errResid) {
+		ImageLoader loader = AppController.getInstance().getImageLoader();
+		ImageListener listener = ImageLoader.getImageListener(img, defaultResid, errResid);
+		loader.get(getAbsolutePath(relativePath), listener);
 	}
 
 	/**

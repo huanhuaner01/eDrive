@@ -1,8 +1,15 @@
 package com.huishen.edrive.center;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.net.DefaultErrorListener;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.util.Const;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,7 +40,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
     
     //初始化相关
     private int coachId = -1  ;
-    public static String COACH_ID = "coachId" ;  //传进来的参数key
+    public static String COACH_ID = "id" ;  //传进来的参数key
     //展示训练场图片的弹出框相关
     private CoachFieldImgDialog imgDialog ;
     private ArrayList<String> imgUrls ;
@@ -54,7 +61,21 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 	 * 
 	 */
 	private void getNetData() {
-		
+		if(coachId == -1){
+			AppUtil.ShowShortToast(this,"获取数据异常") ;
+			this.finish() ;
+		}
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(COACH_ID, coachId+"");
+//		map.put(SRL.Param.PARAM_LATITUDE, lat+"");
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_DETAIL, map, new Response.Listener<String>() {
+
+			@Override
+			public void onResponse(String result) {
+				AppUtil.ShowShortToast(getApplicationContext(), result);
+			}
+			
+		}, new DefaultErrorListener()) ;
 	}
 	
 	private void registView() {
@@ -139,6 +160,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		i.putExtra(CoachListActivity.ID_KEY, coachId) ;
 		this.startActivity(i);
 	}
+	
 	/**
 	 * 响应学车套餐按钮，跳转到学员评价列表
 	 */
@@ -148,6 +170,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		i.putExtra(CoachListActivity.ID_KEY, coachId) ;
 		this.startActivity(i);
 	}
+	
 	/**
 	 * 弹出训练场图片展示框
 	 */
@@ -168,6 +191,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		imgDialog.getWindow().setAttributes(lp);
 	
 	}
+	
 	/**
 	 * 点击赞响应事件
 	 */

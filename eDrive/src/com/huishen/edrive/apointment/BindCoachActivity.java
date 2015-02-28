@@ -51,6 +51,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 		switch(v.getId()){
 		case R.id.header_back:
 			this.finish();
+			break ;
 		case R.id.bind_coach_tel:
 			intentActivty(1); //1代表填写电话号码
 			break ;

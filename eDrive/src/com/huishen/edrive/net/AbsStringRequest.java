@@ -5,9 +5,13 @@ import java.util.Map;
 
 import org.apache.http.protocol.HTTP;
 
+import android.util.Log;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -24,10 +28,32 @@ import com.android.volley.toolbox.StringRequest;
  * 
  * @author Muyangmin
  * @create 2015-2-7
+ * @version 1.1 on 2015/02/28 by Muyangmin 修改了超时策略并增加了对Cookie和部分HTTP响应头的处理。</br>
+ * 			1.0 基础版本。
  */
 // package access
 class AbsStringRequest extends StringRequest {
+	
+	//默认的超时时间
+	private static final int REQUEST_TIMEOUT = 15 * 1000;
+	
+	private static final int HTTP_SUCCESS = 200;
 
+	/**
+	 * 默认的异常监听器。由于客户端代码不传递ErrorListener时才会使用这个监听器，
+	 * 故认为用户并不关心本次请求中发生的异常，因此只打印堆栈信息，不做其他操作。
+	 */
+	private static final ErrorListener defaultErrorListener = new ErrorListener() {
+
+		@Override
+		public void onErrorResponse(VolleyError error) {
+			if (error instanceof HttpHeaderError){
+				Log.e("NetRequest", "HttpHeaderError:"+error);
+			}
+			error.printStackTrace();
+		}
+	};
+	
 	/**
 	 * 创建一个新的String网络访问请求，使用POST方式提交参数。
 	 * 
@@ -54,7 +80,7 @@ class AbsStringRequest extends StringRequest {
 			Response.ErrorListener errListener) {
 		super(Method.POST, url, listener, errListener);
 	}
-
+	
 	/**
 	 * 创建一个新的String网络访问请求。
 	 * 
@@ -88,17 +114,13 @@ class AbsStringRequest extends StringRequest {
 		super(method, url, listener, errListener);
 	}
 
-	/**
-	 * 默认的异常监听器。由于客户端代码不传递ErrorListener时才会使用这个监听器，
-	 * 故认为用户并不关心本次请求中发生的异常，因此只打印堆栈信息，不做其他操作。
-	 */
-	private static final ErrorListener defaultErrorListener = new ErrorListener() {
-
-		@Override
-		public void onErrorResponse(VolleyError error) {
-			error.printStackTrace();
-		}
-	};
+	//重写超时及重试策略
+	@Override
+	public RetryPolicy getRetryPolicy() {
+		return new DefaultRetryPolicy(REQUEST_TIMEOUT,
+				DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+	}
 	
 	/**
 	 * 重写以获取Cookie。
@@ -106,6 +128,9 @@ class AbsStringRequest extends StringRequest {
 	@Override
 	protected Response<String> parseNetworkResponse(
 			NetworkResponse response) {
+		if (response.statusCode != HTTP_SUCCESS){
+			return Response.error(new HttpHeaderError(response.statusCode));
+		}
 		try {
 			Map<String, String> responseHeaders = response.headers;
 			String rawCookies = responseHeaders.get("Set-Cookie");
@@ -144,4 +169,5 @@ class AbsStringRequest extends StringRequest {
 	protected String getParamsEncoding() {
 		return HTTP.UTF_8;
 	}
+	
 }

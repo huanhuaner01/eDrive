@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/button_height"
+    android:orientation="horizontal" 
+    android:background="@drawable/class_bg"
+    android:paddingLeft="@dimen/padding_default"
+    android:paddingRight="@dimen/padding_default"
+    android:gravity="center_vertical"
+    >
+           <TextView
+                        android:id="@+id/class_time"
+                        style="@style/coachdetailtextstyle"
+                        android:textColor="@color/tv_gray_color"
+                        android:text="@string/defualt_null" />
+
+                     <TextView
+                        android:id="@+id/class_status"
+                        style="@style/coachdetailtextstyle"
+                        android:textColor="@color/tv_gray_color"
+                        android:text="@string/defualt_null"
+                        />
+
+                    <Button
+                        android:id="@+id/sub_ic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="预约"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/txtsize_default"
+                        android:background="@color/color_class_enable"
+                        android:layout_margin="@dimen/margin_micro"
+                        android:paddingLeft="@dimen/padding_xlarge"
+                        android:paddingRight="@dimen/padding_xlarge"
+                         />
+
+</LinearLayout>

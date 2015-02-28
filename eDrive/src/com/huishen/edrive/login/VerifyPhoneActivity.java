@@ -128,7 +128,7 @@ public class VerifyPhoneActivity extends Activity implements
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
             map.put("vcodes", code) ;
-			NetUtil.requestStringData(SRL.METHOD_LOGIN, map,
+			NetUtil.requestStringData(SRL.Method.METHOD_LOGIN, map,
 					new Response.Listener<String>() {
 
 						@Override
@@ -218,7 +218,7 @@ public class VerifyPhoneActivity extends Activity implements
 		
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
-			NetUtil.requestStringData(SRL.METHOD_GET_VERIFY_CODE, map,
+			NetUtil.requestStringData(SRL.Method.METHOD_GET_VERIFY_CODE, map,
 					new Response.Listener<String>() {
 
 						@Override

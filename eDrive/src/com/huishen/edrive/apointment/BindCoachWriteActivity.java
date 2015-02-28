@@ -67,11 +67,18 @@ public class BindCoachWriteActivity extends Activity {
 	}
 	private void initPass() {
 		initView();
-		
+		passlay = (LinearLayout) findViewById(R.id.bind_coach_w_lay_stupass);
+		passlay.setVisibility(View.VISIBLE);
+		stupass = (EditText) findViewById(R.id.bind_coach_w_stupass) ;
+		constupass = (EditText) findViewById(R.id.bind_coach_w_conpass);
+		note.setText(this.getResources().getString(R.string.bind_coach_note_pass));
 	}
 
 	private void initName() {
 		initView();
+		namelay = (LinearLayout) findViewById(R.id.bind_coach_w_lay_stuname);
+		namelay.setVisibility(View.VISIBLE);
+		stuname = (EditText) findViewById(R.id.bind_coach_w_stuname) ;
 	}
 
 	private void initTel() {
@@ -79,6 +86,6 @@ public class BindCoachWriteActivity extends Activity {
 		tellay = (LinearLayout) findViewById(R.id.bind_coach_w_lay_tel);
 		tellay.setVisibility(View.VISIBLE);
 		coachtel = (EditText) findViewById(R.id.bind_coach_w_tel) ;
-	
+		note.setText(this.getResources().getString(R.string.bind_coach_note_tel));
 	}
 }

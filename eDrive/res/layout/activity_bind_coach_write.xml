@@ -218,7 +218,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/padding_default"
-        android:text="@string/bind_coach_note_tel"
         android:textColor="@color/tv_gray_color"
         android:textSize="@dimen/txtsize_middle" />
 

@@ -38,6 +38,11 @@
    <!-- 发布需求界面  -->
    <color name="color_item_post_nor">#807f7e</color>
    
+   <!-- 约课界面  -->
+   <color name="color_class_laybg">#fbe8c2</color>
+   <color name="color_class_enable">#68c1b6</color>
+   <color name="color_class_cancel">#ff7243</color>
+   <color name="color_class_full">#b3b3b3</color>
    <!-- 刷新  -->
     <color name="color_refresh_1">#fde058</color>
     <color name="color_refresh_2">#fcb226</color>

@@ -13,6 +13,7 @@ public final class Const {
 	 * 检查是否首次使用应用,value为boolean类型。
 	 */
 	public static final String KEY_FIRSTUSE = "first";
+	
 	/**
 	 * 设置启动界面最低显示时间，单位为ms。
 	 */

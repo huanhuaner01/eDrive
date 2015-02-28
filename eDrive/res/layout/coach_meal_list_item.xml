@@ -14,12 +14,12 @@
                      >
 
                     <TextView
-                        android:id="@+id/meal_name"
+                        android:id="@+id/class_time"
                         style="@style/coachdetailtextstyle"
                         android:text="@string/defualt_null" />
 
                       <TextView
-                        android:id="@+id/meal_prize"
+                        android:id="@+id/class_status"
                         style="@style/coachdetailtextstyle"
                         android:textColor="@color/main_color"
                         android:gravity="right"
@@ -27,7 +27,7 @@
                         />
 
                     <ImageView
-                        android:id="@+id/meal_ic"
+                        android:id="@+id/sub_ic"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_shrink" />

@@ -66,11 +66,12 @@ public final class Prefs {
 	 * @return
 	 */
 	public static boolean checkUser(Context context){
-//		if(readString(context ,Const.USER_PHONE).equals("")){
-//			return false ;
-//		}
+		if(readString(context ,Const.USER_PHONE).equals("")){
+			return false ;
+		}
 		return true ;
 	}
 	
+
 
 }

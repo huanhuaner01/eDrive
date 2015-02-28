@@ -93,5 +93,14 @@
                           android:gravity="right"
                           />
              </LinearLayout>
+              <ExpandableListView 
+             android:id ="@+id/coachmeal_expandablelist"   
+             android:layout_width ="match_parent"   
+             android:layout_height ="match_parent"
+             android:groupIndicator="@null"
+             android:divider="@color/all_null_color"
+             android:dividerHeight="@dimen/divide_line"
+             android:listSelector="@drawable/transparent_selector"
+            ></ExpandableListView>
             </LinearLayout>
 </LinearLayout>

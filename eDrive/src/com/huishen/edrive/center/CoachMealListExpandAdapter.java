@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -89,9 +88,9 @@ public class CoachMealListExpandAdapter implements ExpandableListAdapter {
 					.inflate(R.layout.coach_meal_list_item, null);
 		}
 		GroupViewHolder holder = new GroupViewHolder();
-		holder.mealName = (TextView) convertView.findViewById(R.id.meal_name);
-		holder.mealPrize = (TextView) convertView.findViewById(R.id.meal_prize);
-		holder.mealIcon = (ImageView) convertView.findViewById(R.id.meal_ic);
+		holder.mealName = (TextView) convertView.findViewById(R.id.class_time);
+		holder.mealPrize = (TextView) convertView.findViewById(R.id.class_status);
+		holder.mealIcon = (ImageView) convertView.findViewById(R.id.sub_ic);
 		if (isExpanded) {
 			holder.mealIcon.setImageResource(R.drawable.ic_expand);
 		} else {

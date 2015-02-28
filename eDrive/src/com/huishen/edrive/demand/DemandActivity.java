@@ -1,5 +1,16 @@
 package com.huishen.edrive.demand;
 
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageLoader.ImageContainer;
+import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -21,11 +32,11 @@ import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.model.LatLng;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
-import com.huishen.edrive.R.drawable;
-import com.huishen.edrive.R.id;
-import com.huishen.edrive.R.layout;
 import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.login.VerifyPhoneActivity;
+import com.huishen.edrive.net.DefaultErrorListener;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Prefs;
@@ -35,13 +46,15 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 需求主页面
@@ -127,6 +140,66 @@ public class DemandActivity extends Activity implements OnClickListener{
 		
 	}
 	
+	private void showRoundCoach(double lng ,double lat){
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(SRL.Param.PARAM_LONGITUDE, lng+"");
+		map.put(SRL.Param.PARAM_LATITUDE, lat+"");
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_ROUND_COACH, map,
+				new Response.Listener<String>() {
+
+					@Override
+					public void onResponse(String result) {
+						Log.i(TAG, result);
+						try {
+							//返回值：[{"coachId":1,"coachName":"张三","coachScore":2.1,"issue":20,
+//							"lat":30.575699,"lng":104.068216,
+//							"path":"/static/img/coachHeader.png","phone":"3558657902"}]
+							JSONArray array = new JSONArray(result);
+							for(int i = 0 ; i<array.length() ;i++){
+								JSONObject json = array.getJSONObject(i);
+								Log.i(TAG, json.getDouble(SRL.Param.PARAM_LATITUDE)+"") ;
+								LatLng point = new LatLng(json.getDouble(SRL.Param.PARAM_LATITUDE),json.getDouble(SRL.Param.PARAM_LONGITUDE));
+								BitmapDescriptor bdA = BitmapDescriptorFactory
+										.fromResource(R.drawable.icon_gcoding);
+								OverlayOptions ooA = new MarkerOptions().position(point).icon(bdA)
+										.zIndex(9).draggable(true);
+								
+								Marker marker = (Marker) (mBaiduMap.addOverlay(ooA));
+								Bundle bundle = new Bundle();  
+						        bundle.putInt(SRL.ReturnField.FIELD_COACH_ID, json.getInt(SRL.ReturnField.FIELD_COACH_ID));
+						        bundle.putString(SRL.ReturnField.FIELD_COACH_NAME, json.optString(SRL.ReturnField.FIELD_COACH_NAME,"")) ;
+						        bundle.putFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE, (float)json.optDouble(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE,0)) ;
+						        bundle.putString(SRL.ReturnField.FIELD_COACH_PHOTO_PATH, json.optString(SRL.ReturnField.FIELD_COACH_PHOTO_PATH,"")) ;
+								marker.setExtraInfo(bundle) ;
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						mBaiduMap.setOnMarkerClickListener(new OnMarkerClickListener(){
+
+							@Override
+							public boolean onMarkerClick(Marker marker) {
+								coachId = marker.getExtraInfo().getInt(SRL.ReturnField.FIELD_COACH_ID);
+								View view = LayoutInflater.from(DemandActivity.this).inflate(R.layout.demand_info_window, null);
+								TextView name = (TextView)view.findViewById(R.id.demand_info_coach) ;
+								ImageView img = (ImageView)view.findViewById(R.id.demand_window_photo) ;
+								RatingBar ratingBar = (RatingBar)view.findViewById(R.id.demand_info_ratingbar);
+								TextView juedge = (TextView)view.findViewById(R.id.demand_info_judge);
+								ratingBar.setRating(marker.getExtraInfo().getFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE)) ; //评分条
+								juedge.setText(marker.getExtraInfo().getFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE)+"分"); //分数显示
+								name.setText(marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_NAME)) ; //教练名称显示
+								NetUtil.requestLoadImage(img,marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_PHOTO_PATH), R.drawable.photo_coach_defualt); //教练头像
+								InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(view),marker.getPosition() ,-50 ,listener);
+								mBaiduMap.showInfoWindow(mInfoWindow);
+								return false;
+							}
+							
+						});
+					}
+				}, new DefaultErrorListener());
+	
+	
+	}
 	/**
 	 * 输入状态转换
 	 */
@@ -186,44 +259,15 @@ public class DemandActivity extends Activity implements OnClickListener{
 				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll,15);
 				Log.w("LocationDemo","地理位置"+location.getLatitude()+","+location.getLongitude());
 				mBaiduMap.animateMapStatus(u);
-				double x=30.578888 ;
-				double y = 104.053333 ;
-				for(int i = 0 ; i<10 ;i++){
-					LatLng point = new LatLng(x,y);
-					
-					BitmapDescriptor bdA = BitmapDescriptorFactory
-							.fromResource(R.drawable.icon_gcoding);
-					OverlayOptions ooA = new MarkerOptions().position(point).icon(bdA)
-							.zIndex(9).draggable(true);
-					
-					Marker marker = (Marker) (mBaiduMap.addOverlay(ooA));
-					Bundle bundle = new Bundle();  
-			        bundle.putString("id", i+"");
-					marker.setExtraInfo(bundle) ;
-					x = x + 0.001 ;
-					y = y + 0.001 ;  
-				}
-				mBaiduMap.setOnMarkerClickListener(new OnMarkerClickListener(){
-
-					@Override
-					public boolean onMarkerClick(Marker marker) {
-						String id = marker.getExtraInfo().getString("id") ;
-						coachId = Integer.parseInt(id);
-						View view = LayoutInflater.from(DemandActivity.this).inflate(R.layout.demand_info_window, null);
-						TextView tv = (TextView)view.findViewById(R.id.demand_info_coach) ;
-						tv.setText(id+"教练") ;
-						InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(view),marker.getPosition() ,-50 ,listener);
-						mBaiduMap.showInfoWindow(mInfoWindow);
-						return false;
-					}
-					
-				});
+				showRoundCoach(location.getLongitude() ,location.getLatitude());
+			}
 				
 				mLocClient.stop();
 			}
-		}
 
-		public void onReceivePoi(BDLocation poiLocation) {
+		@Override
+		public void onReceivePoi(BDLocation arg0) {
+			
 		}
 	}
     
@@ -235,8 +279,6 @@ public class DemandActivity extends Activity implements OnClickListener{
         {  
         	if(Prefs.checkUser(DemandActivity.this)){
            Intent i = new Intent(DemandActivity.this,CoachDetailActivity.class);
-//           Bundle bundle = new Bundle();
-//           bundle.putInt("coachId", coachId) ;
            i.putExtra(CoachDetailActivity.COACH_ID, coachId) ;
            DemandActivity.this.startActivity(i);
         	}else{

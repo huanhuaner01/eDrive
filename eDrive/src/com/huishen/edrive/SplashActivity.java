@@ -8,7 +8,6 @@ import java.util.HashMap;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
-import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
@@ -103,20 +102,36 @@ public class SplashActivity extends Activity {
 	private final void startNextActivity() {
 		boolean isuser = Prefs.checkUser(this);
 		Log.i(LOG_TAG, "isuser is "+isuser);
-		Intent i = null;
+		
           //如果用户存在则进入主页面
 		 if(isuser ){
 			 Log.i(LOG_TAG, "login");
 			 login();
-		    i = new Intent(this,MainActivity.class);
 		 }else{
-		    i = new Intent(this,DemandActivity.class);
-		    i.putExtra(DemandActivity.IS_MAIN, true);
+			 intentDemand() ;
 		 }
-		 startActivity(i);
-		 finish();
+		
 	}
-
+	
+	/**
+	 * 跳转到主页面
+	 */
+    private void intentMain(){
+    	AppUtil.ShowShortToast(getApplicationContext(), "登录成功");
+    	Intent i = new Intent(this,MainActivity.class);
+    	startActivity(i);
+		finish();
+    }
+    
+    /**
+     * 跳转到需求界面
+     */
+    private void intentDemand(){
+    	  Intent i = new Intent(this,DemandActivity.class);
+		  i.putExtra(DemandActivity.IS_MAIN, true);
+	      startActivity(i);
+		  finish(); 
+    }
 	/**
 	 * 学员隐形登录
 	 */
@@ -125,7 +140,7 @@ public class SplashActivity extends Activity {
 		map.put(Const.USER_PHONE,Prefs.readString(this, Const.USER_PHONE) );//电话号码
 		map.put(Const.USER_MOBILEFLAG, Prefs.readString(this, Const.USER_MOBILEFLAG)) ; //MobileFlag
 		Log.i(LOG_TAG, "rcegwthtyjjhs"+Prefs.readString(this, Const.USER_MOBILEFLAG));
-		NetUtil.requestStringData(SRL.METHOD_LOGIN_PRI, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_LOGIN_PRI, map,
 				new Response.Listener<String>() {
 
 					@Override
@@ -145,9 +160,11 @@ public class SplashActivity extends Activity {
 						}
 						if(arg0.networkResponse.statusCode == 320){
 							AppUtil.ShowShortToast(SplashActivity.this, "用户已经下线，请重新验证手机");
+							AppUtil.removeAllData(SplashActivity.this);
 						}else{
 							AppUtil.ShowShortToast(SplashActivity.this, "访问连接异常");
 						}
+						intentDemand();
 					}
 				});
 	}
@@ -159,6 +176,7 @@ public class SplashActivity extends Activity {
 	private void actionlogin(String result){
 		Log.i(LOG_TAG, result) ;
 		AppUtil.saveUserInfo(SplashActivity.this, result) ;
+		intentMain();
 	}
 	private final void initViewPager() {
 		ArrayList<View> images = new ArrayList<View>();

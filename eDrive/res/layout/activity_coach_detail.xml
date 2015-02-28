@@ -230,7 +230,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/next_ic"
+                        android:src="@drawable/ic_next"
                         />
                 </LinearLayout>
 
@@ -264,7 +264,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/next_ic"
+                        android:src="@drawable/ic_next"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -303,7 +303,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/next_ic"
+                        android:src="@drawable/ic_next"
                         />
                 </LinearLayout>
                 <TextView
@@ -347,7 +347,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/next_ic"
+                        android:src="@drawable/ic_next"
                         />
                 </LinearLayout>
                                 <View
@@ -380,7 +380,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/next_ic"
+                        android:src="@drawable/ic_next"
                         />
                 </LinearLayout>
             </LinearLayout>
