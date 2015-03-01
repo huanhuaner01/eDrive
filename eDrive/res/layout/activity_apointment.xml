@@ -94,7 +94,7 @@
                           />
              </LinearLayout>
               <ExpandableListView 
-             android:id ="@+id/coachmeal_expandablelist"   
+             android:id ="@+id/appoint_expandablelist"   
              android:layout_width ="match_parent"   
              android:layout_height ="match_parent"
              android:groupIndicator="@null"
