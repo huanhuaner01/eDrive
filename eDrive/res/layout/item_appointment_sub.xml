@@ -9,12 +9,12 @@
     android:gravity="center_vertical"
     >
            <TextView
-                        android:id="@+id/class_time"
+                        android:id="@+id/sub_name"
                         style="@style/coachdetailtextstyle"
                         android:text="@string/defualt_null" />
 
                      <TextView
-                        android:id="@+id/class_status"
+                        android:id="@+id/sub_status"
                         style="@style/coachdetailtextstyle"
                         android:text="@string/defualt_null"
                         />

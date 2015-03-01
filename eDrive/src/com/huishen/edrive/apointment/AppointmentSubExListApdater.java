@@ -59,27 +59,31 @@ public class AppointmentSubExListApdater implements ExpandableListAdapter{
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
-//		if (convertView == null) {
-//			convertView = mInflater
-//					.inflate(R.layout.coach_meal_list_item, null);
-//		}
-//		GroupViewHolder holder = new GroupViewHolder();
-//		holder.mealName = (TextView) convertView.findViewById(R.id.class_time);
-//		holder.mealPrize = (TextView) convertView.findViewById(R.id.class_status);
-//		holder.mealIcon = (ImageView) convertView.findViewById(R.id.sub_ic);
-//		if (isExpanded) {
-//			holder.mealIcon.setImageResource(R.drawable.ic_expand);
-//		} else {
-//			holder.mealIcon.setImageResource(R.drawable.ic_shrink);
-//		}
+		GroupViewHolder group = null ;
+		if (convertView == null) {
+			convertView = mInflater
+					.inflate(R.layout.item_appointment_sub, null);
+			group = new GroupViewHolder();
+			group.subName = (TextView)convertView.findViewById(R.id.sub_name) ;
+			group.subStatus = (TextView)convertView.findViewById(R.id.sub_status) ;
+			group.subIcon = (ImageView)convertView.findViewById(R.id.sub_ic) ;
+			convertView.setTag(group) ;
+		}else{
+			group = (GroupViewHolder)convertView.getTag() ;
+		}
+		if (isExpanded) {
+			group.subIcon.setImageResource(R.drawable.ic_buttom);
+		} else {
+			group.subIcon.setImageResource(R.drawable.ic_next);
+		}
 //		// ----------------添加列表数据------------------
-//		HashMap<String, String> data = mGroupData.get(groupPosition);
-//		if (data.get("mealname") != null) {
-//			holder.mealName.setText(data.get("mealname").toString());
-//		}
-//		if (data.get("mealprize") != null) {
-//			holder.mealPrize.setText(data.get("mealprize").toString());
-//		}
+		HashMap<String, String> data = mGroupData.get(groupPosition);
+		if (data.get("subName") != null) {
+			group.subName.setText(data.get("mealname").toString());
+		}
+		if (data.get("subStatus") != null) {
+			group.subStatus.setText(data.get("mealprize").toString());
+		}
 //		// ----------------添加列表数据结束！----------------
 		return convertView;
 	}
@@ -87,22 +91,30 @@ public class AppointmentSubExListApdater implements ExpandableListAdapter{
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-//		Log.i("CoachMealListExpandAdapter",
-//				mData.get(groupPosition).get(childPosition).toString());
-//		if (convertView == null) {
-//			convertView = mInflater.inflate(R.layout.coach_meal_listchild_item,
-//					null);
-//		}
-//		ChildViewHolder holder = new ChildViewHolder();
-//		holder.mContent = (TextView) convertView
-//				.findViewById(R.id.coach_meal_listchild_tv);
-//
-//		if (mData.get(groupPosition).get(childPosition) != null) {
-//			holder.mContent.setText(mData.get(groupPosition).get(childPosition)
-//					.toString());
-//		}
+		ChildViewHolder holder = null ;
+		if (convertView == null) {
+			convertView = mInflater.inflate(R.layout.item_appointment_class,
+					null);
+			holder = new ChildViewHolder();
+			holder.classTime = (TextView) convertView.findViewById(R.id.class_time) ;
+			holder.classStatus = (TextView) convertView.findViewById(R.id.class_status) ;
+			holder.classBtn = (Button) convertView.findViewById(R.id.class_btn) ;
+			convertView.setTag(holder);
+		}else{
+			holder = (ChildViewHolder)convertView.getTag() ;
+		}
+//		// ----------------添加列表数据------------------
+		HashMap<String, String> data = mData.get(groupPosition).get(childPosition);
+		if (data.get("subName") != null) {
+			holder.classTime.setText(data.get("time").toString());
+		}
+		if (data.get("subStatus") != null) {
+			holder.classStatus.setText(data.get("status").toString());
+		}
+//		// ----------------添加列表数据结束！----------------
 		return convertView;
 	}
+	
 	private class GroupViewHolder {
 		TextView subName;
 		TextView subStatus;

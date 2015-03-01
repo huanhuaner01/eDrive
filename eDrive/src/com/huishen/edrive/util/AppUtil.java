@@ -53,29 +53,41 @@ public class AppUtil {
 			if(stuInfojson == null){
 				return ;
 			}
-			JSONObject baseUserjson = stuInfojson.optJSONObject("baseUser");
-			JSONObject userInfojson = stuInfojson.optJSONObject("userInfo");
-			JSONObject coachInfojson = stuInfojson.optJSONObject("coachInfo") ;
-			if(baseUserjson != null){
-				String tel = baseUserjson.optString("phone" ,"");
-				String mobleFlag = baseUserjson.getString(Const.USER_MOBILEFLAG) ;
-				Log.i("AppUtil", "mobleFlag:"+mobleFlag) ;
-				Prefs.writeString(context,Const.USER_MOBILEFLAG, mobleFlag);
-				Prefs.writeString(context,Const.USER_PHONE, tel);
-				Prefs.writeString(context,Const.USER_BASEUSER, baseUserjson.toString());
-			}
-			if(userInfojson != null){
-				
-				String addr = userInfojson.optString("address" ,"");
-				String stuname = userInfojson.optString("stuName" ,"");
-				Prefs.writeString(context,Const.USER_ADDR, addr);
-				Prefs.writeString(context,Const.USER_NAME, stuname);
-				Prefs.writeString(context,Const.USER_USERINFO, userInfojson.toString());
-			}
-			if(coachInfojson != null){
-				String coachId = coachInfojson.optString("coachId" ,"") ;
-				Prefs.writeString(context,Const.USER_COACH_ID, coachId);
-			}
+			preLoginSave(context ,stuInfojson);
+		    
+		}catch(Exception e){
+			e.printStackTrace() ;
+		}
+	}
+	
+	public static void preLoginSave(Context context ,JSONObject stuInfojson){
+		Log.i("AppUtil",stuInfojson.toString() );
+		try{
+		JSONObject baseUserjson = stuInfojson.optJSONObject("baseUser");
+		JSONObject userInfojson = stuInfojson.optJSONObject("userInfo");
+		JSONObject coachInfojson = stuInfojson.optJSONObject("coachInfo") ;
+		if(baseUserjson != null){
+			String tel = baseUserjson.optString("phone" ,"");
+			String mobleFlag = baseUserjson.getString(Const.USER_MOBILEFLAG) ;
+			Log.i("AppUtil", "mobleFlag:"+mobleFlag) ;
+			Prefs.writeString(context,Const.USER_MOBILEFLAG, mobleFlag);
+			Prefs.writeString(context,Const.USER_PHONE, tel);
+			Prefs.writeString(context,Const.USER_BASEUSER, baseUserjson.toString());
+		}
+		if(userInfojson != null){
+			
+			String addr = userInfojson.optString("address" ,"");
+			String stuname = userInfojson.optString("stuName" ,"");
+			int id = userInfojson.getInt(Const.USER_ID) ;
+			Prefs.writeString(context,Const.USER_ID, id+"");
+			Prefs.writeString(context,Const.USER_ADDR, addr);
+			Prefs.writeString(context,Const.USER_NAME, stuname);
+			Prefs.writeString(context,Const.USER_USERINFO, userInfojson.toString());
+		}
+		if(coachInfojson != null){
+			String coachId = coachInfojson.optString("coachId" ,"") ;
+			Prefs.writeString(context,Const.USER_COACH_ID, coachId);
+		}
 		}catch(Exception e){
 			e.printStackTrace() ;
 		}
@@ -96,7 +108,8 @@ public class AppUtil {
 			     Context.MODE_PRIVATE).edit().remove(Const.USER_ADDR).commit();
 		context.getSharedPreferences(Const.PREFS_APP,
 			     Context.MODE_PRIVATE).edit().remove(Const.USER_BASEUSER).commit();
-		
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_ID).commit();
 		
 	}
 	

@@ -47,7 +47,8 @@
     <string name="post_dialog_edit_hint">设置常用地址</string>
     <string name="post_sound_btn">亲~按着就说吧</string>
     <string name="post_sound_btn_press">松开停止录音</string>
-
+    <string name="post_tip_fail">您的学车需求无教练抢单，先已超时，请重新做出选择</string>
+    <string name="post_repost">重新发送</string>
     <!-- 绑定教练 -->
     <string name="bind_coach">绑定教练</string>
     <string name="bind_coach_tel">教练电话</string>
@@ -59,7 +60,7 @@
     <string name="bind_coach_confirmpass">确认密码</string>
     <string name="bind_coach_note_tel">亲，请你填写正确的电话号码，加以绑定，方便你在线预约练车</string>
     <string name="bind_coach_note_pass">设置密码，确保能够成功的进行在线约课和不易丢失个人信息</string>
-    
+
     <!-- 查看教练详情 -->
     <string name="coach_detail_demandnum">抢单数量</string>
     <string name="coach_detail_judgenum">好评率</string>
@@ -85,5 +86,7 @@
     <string name="title_activity_coach_judge_list">CoachJudgeListActivity</string>
     <string name="title_activity_bind_coach">BindCoachActivity</string>
     <string name="title_activity_bind_coach_write">BindCoachWriteActivity</string>
+    <string name="title_activity_fail_dialog">FailDialogActivity</string>
+    <string name="title_activity_success_dialog">SuccessDialogActivity</string>
 
 </resources>

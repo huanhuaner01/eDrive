@@ -4,13 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
+import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.util.Const;
+import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.CustomEditText;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,7 +47,9 @@ public class PostTxtActivity extends Activity {
     private CustomEditText edit ;
 //    private boolean isFrist = true ;
     private PostAddrDialog dialog ;
-    
+    private double lng ;
+    private double lat ;
+    private String addr ;
     
 	@Override
 	protected void onResume() {
@@ -146,20 +156,66 @@ public class PostTxtActivity extends Activity {
 //		content=包接包送，对学生友好;//订单需求内容
 //		lng=104.065656;//当前学生经度
 //		lat=30.577716;//当前学生纬度
+		Editable edt =edit.getText(); 
+		String content = edt.toString();
+		if (content.endsWith(",")){
+			content = edt.delete(edt.length()-1, edt.length()).toString();
+		}
+		if(content.equals("")){
+			AppUtil.ShowShortToast(this, "订单内容不能为空") ;
+			return ;
+		}
+		if(addr == null || addr.equals("")){
+			AppUtil.ShowShortToast(this, "地址信息不能为空") ;
+			return ;
+		}
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put(SRL.Param.PARAM_LATITUDE, "sl");
-        map.put(SRL.Param.PARAM_LONGITUDE, "ass");
-        map.put(SRL.Param.PARAM_STUID, "ass");
-        map.put(SRL.Param.PARAM_CONTENT,"");
-//		NetUtil.requestStringData(relativePath, params, listener, errlisListener)
+        map.put(SRL.Param.PARAM_LATITUDE, lat+"");
+        map.put(SRL.Param.PARAM_LONGITUDE,lng+"");
+        map.put(SRL.Param.PARAM_STUID, Prefs.readString(this, Const.USER_ID));
+        map.put(SRL.Param.PARAM_CONTENT, content);
+        map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
+        map.put(SRL.Param.PARAM_STUADDR, addrBtn.getText().toString());
+		NetUtil.requestStringData(SRL.Method.METHOD_SEND_TXT_ORDER, map,  new Response.Listener<String>() {
+		
+			@Override
+			public void onResponse(String result) {
+				    JSONObject json = null ;
+				    try{
+				    	json = new JSONObject(result);
+				    	
+				    	if(json.getInt("code")== 0){
+				    		AppUtil.ShowShortToast(getApplicationContext(), "发布成功") ;
+				    	}else{
+				    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
+				    	}
+				    }catch(Exception e){
+				    	   e.printStackTrace() ;
+				    }
+			}
+			
+		}, new DefaultErrorListener());
 	}
 	
 	private PostDialogInterface listener= new PostDialogInterface(){
 
 		@Override
-		public void result(String result, double longitude, double latitude) {
+		public void result(int tag ,String result, double longitude, double latitude) {
 			addrBtn.setText(result);
 			Log.i(TAG, "("+longitude+","+latitude+")");
+			lng = longitude ;
+			lat = latitude ;
+			addr = result ;
+			if(tag == 1){ //需要设置地址
+				setWebAddr() ;
+			}
 		}
-	} ;
+	} ;	
+	
+	/**
+	 * 访问网络设置常用地址
+	 */
+	private void setWebAddr(){
+		
+	}
 }

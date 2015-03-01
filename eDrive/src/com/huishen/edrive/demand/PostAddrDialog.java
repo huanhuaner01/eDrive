@@ -136,7 +136,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 					address = location.getAddrStr();
 					longitude = location.getLongitude();
 					latitude = location.getLatitude() ;
-					listener.result(address, longitude, latitude);
+					listener.result(0,address, longitude, latitude);
 					addredit.setText(address);
 					Toast.makeText(context, location.getAddrStr(), Toast.LENGTH_SHORT).show();
 			//		mLocationClient.stop() ;
@@ -188,7 +188,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 			return;
 		}
 		else{
-			listener.result(result.getAddress(), result.getLocation().longitude, result.getLocation().latitude);
+			listener.result(1,result.getAddress(), result.getLocation().longitude, result.getLocation().latitude);
 			
 		    this.dismiss() ;
 		}

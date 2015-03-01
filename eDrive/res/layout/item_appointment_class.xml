@@ -22,7 +22,7 @@
                         />
 
                     <Button
-                        android:id="@+id/sub_ic"
+                        android:id="@+id/class_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="预约"

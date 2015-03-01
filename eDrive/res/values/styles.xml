@@ -63,4 +63,14 @@
         <item name="android:textSize">@dimen/txtsize_default</item>
     </style>
     
+       <!-- 无标题栏的DialogActivity的样式。 -->
+    <style name="DialogActivityNoTitlebar" parent="@android:Theme.Dialog">
+        <!-- 去掉Title -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 去掉黑色边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 去掉背景色 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    
 </resources>

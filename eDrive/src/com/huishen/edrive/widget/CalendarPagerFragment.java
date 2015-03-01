@@ -173,7 +173,7 @@ public class CalendarPagerFragment extends Fragment {
 			map.put("day", i);
 			if (this.isSection) { // 区间选择
 				    map.put("status", -1);
-/*****************************第一种判断方法************************************************/
+         /*****************************第一种判断方法************************************************/
 				    Date newDay = CalendarUtil.getDate(this.mMonthIndex, i);
 				    if(dayisSection(newDay)){
 				    	map.put("status", 0);

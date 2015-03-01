@@ -146,7 +146,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -210,8 +210,16 @@
             android:label="@string/title_activity_bind_coach" >
         </activity>
         <activity
-            android:name="com.huishen.edrive.apointment.BindCoachWriteActivity"
+            android:name=".apointment.BindCoachWriteActivity"
             android:label="@string/title_activity_bind_coach_write" >
+        </activity>
+        <activity
+            android:name=".demand.FailDialogActivity"
+            android:label="@string/title_activity_fail_dialog" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.demand.SuccessDialogActivity"
+            android:label="@string/title_activity_success_dialog" >
         </activity>
     </application>
 

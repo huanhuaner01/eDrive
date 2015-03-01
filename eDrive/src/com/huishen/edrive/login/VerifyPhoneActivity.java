@@ -12,8 +12,6 @@ import com.huishen.edrive.R;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
-import com.huishen.edrive.util.Const;
-import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -182,7 +180,7 @@ public class VerifyPhoneActivity extends Activity implements
 					this.finish() ;
 					break ;
 				case 2: //密码不为空 必须输入密码才能登陆
-					//TODO 密码登录操作
+					
 					break ;
 				case 0: //账号停用
 					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "账号停用");

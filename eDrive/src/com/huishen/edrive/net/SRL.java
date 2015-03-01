@@ -99,7 +99,7 @@ public final class SRL {
 		public static final String PARAM_STUID = "stuId" ;
 		public static final String PARAM_STUREALNAME = "stuRealName" ;
 		public static final String PARAM_CONTENT = "content" ;
-		
+		public static final String PARAM_STUADDR = "stuAddr" ;
 		
 		
 	}

@@ -192,7 +192,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
             	 backindex++;
             	 return false ;
              }
-             AppController.getInstance().exit(MainActivity.this);
+             AppController.getInstance().exit(this.getApplicationContext());
              return true;
          }
          return super.onKeyDown(keyCode, event);

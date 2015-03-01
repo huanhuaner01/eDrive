@@ -4,6 +4,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -156,6 +158,7 @@ public class SplashActivity extends Activity {
 							Toast.makeText(SplashActivity.this, "网络连接断开",
 									Toast.LENGTH_SHORT).show();
 							Log.i("Splash", arg0.toString());
+							intentDemand();
 							return ;
 						}
 						if(arg0.networkResponse.statusCode == 320){
@@ -175,8 +178,27 @@ public class SplashActivity extends Activity {
 	 */
 	private void actionlogin(String result){
 		Log.i(LOG_TAG, result) ;
-		AppUtil.saveUserInfo(SplashActivity.this, result) ;
-		intentMain();
+		if(result == null || result.equals("")){
+			AppUtil.ShowShortToast(getApplicationContext(), "登录异常");
+			intentMain();
+			return ;
+		}
+		JSONObject json = null ;
+		try{
+			json = new JSONObject(result);
+			int status = json.getInt("status") ;
+			if(status == 1){
+				AppUtil.preLoginSave(getApplicationContext(), json);
+				AppUtil.ShowShortToast(getApplicationContext(), "登录成功") ;			
+				intentMain();
+			}else{
+				AppUtil.ShowShortToast(getApplicationContext(), "登录失败") ;
+				AppUtil.removeAllData(SplashActivity.this);
+				intentDemand();
+			}
+		}catch(Exception e){
+			
+		}
 	}
 	private final void initViewPager() {
 		ArrayList<View> images = new ArrayList<View>();

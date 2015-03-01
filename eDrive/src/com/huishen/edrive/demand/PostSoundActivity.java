@@ -180,7 +180,7 @@ public class PostSoundActivity extends Activity implements OnClickListener{
 	private PostDialogInterface listener= new PostDialogInterface(){
 
 		@Override
-		public void result(String result, double longitude, double latitude) {
+		public void result(int tag ,String result, double longitude, double latitude) {
 			addrBtn.setText(result);
 			Log.i(TAG, "("+longitude+","+latitude+")");
 		}

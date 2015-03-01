@@ -26,6 +26,7 @@ public final class Const {
 	public static final String USER_PHONE = "phone" ;
 	public static final String USER_ADDR = "address"; 
 	public static final String USER_NAME="stuName" ;
+	public static final String USER_ID = "id" ;
 	public static final String USER_BASEUSER = "baseUser" ;
 	public static final String USER_USERINFO = "userInfo" ;
 	
