@@ -126,7 +126,12 @@
 
         <!-- 友盟推送元数据 END -->
 
-
+        <receiver android:name=".umeng.DefaultPushDataReceiver" android:exported="false" >
+            <intent-filter>
+                <action android:name="com.huishen.ecoach.UNKNOWN_PUSHDATA" />
+                <action android:name="com.huishen.ecoach.NEW_ORDER" />
+            </intent-filter>
+        </receiver>
         <!-- 友盟推送相关组件 BEGIN -->
         <receiver
             android:name="com.umeng.message.NotificationProxyBroadcastReceiver"

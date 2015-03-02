@@ -8,6 +8,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.baidu.mapapi.SDKInitializer;
+import com.huishen.edrive.umeng.CustomUMessageHandler;
+import com.umeng.message.PushAgent;
 
 import android.app.Activity;
 import android.app.Application;
@@ -39,6 +41,7 @@ public class AppController extends Application {
 		mInstance = this;
 		requestQueue = Volley.newRequestQueue(this);
 		SDKInitializer.initialize(this);
+		PushAgent.getInstance(mInstance).setMessageHandler(new CustomUMessageHandler());//设置友盟自定义处理。
 	}
 
 	public static synchronized AppController getInstance() {

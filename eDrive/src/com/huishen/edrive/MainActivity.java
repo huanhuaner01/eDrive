@@ -1,6 +1,7 @@
 package com.huishen.edrive;
 
 import com.huishen.edrive.demand.DemandActivity;
+import com.huishen.edrive.umeng.UmengServiceProxy;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
@@ -60,6 +61,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
         
         registView();
         init() ;
+        UmengServiceProxy.startPushService(this);
 //        HashMap<String, String> map = new HashMap<String, String>();
 //        map.put(SRL.PARAM_USERNAME, "sl");
 //        map.put(SRL.PARAM_PASSWORD, "ass");
