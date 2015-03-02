@@ -38,7 +38,7 @@ public final class NetUtil {
 	 * @param relativePath 相对路径
 	 * @return 绝对路径
 	 */
-	private static final String getAbsolutePath(String relativePath){
+	public static final String getAbsolutePath(String relativePath){
 		String absPath = ServerAddressProvider.getServerAddress()
 				+ relativePath;
 		Log.d(LOG_TAG, "requesting " + absPath);

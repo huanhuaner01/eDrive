@@ -6,6 +6,7 @@ import java.util.List;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.huishen.edrive.R;
+import com.huishen.edrive.net.NetUtil;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -43,6 +44,7 @@ public class CoachFieldImgDialog extends Dialog implements View.OnClickListener{
 		imageLoader = com.huishen.edrive.util.AppController.getInstance().getImageLoader();
 	}
 
+	
 	public CoachFieldImgDialog(Context context, int theme ,ArrayList<String> imgUrls) {
 		super(context, theme);
 		this.context = context ;
@@ -58,6 +60,11 @@ public class CoachFieldImgDialog extends Dialog implements View.OnClickListener{
 		imageLoader = com.huishen.edrive.util.AppController.getInstance().getImageLoader();
 	}
 
+	public void reStart(ArrayList<String> imgUrls){
+		this.imgUrls = imgUrls ;
+		adapter.notifyDataSetChanged();
+	}
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	
@@ -87,7 +94,7 @@ public class CoachFieldImgDialog extends Dialog implements View.OnClickListener{
 	            NetworkImageView iv = (NetworkImageView) view.findViewById(R.id.list_imageitem_image);  
 	            iv.setDefaultImageResId(R.drawable.ic_defualt_image);
 	            iv.setErrorImageResId(R.drawable.ic_error_image);
-	            iv.setImageUrl(imgUrls.get(i), imageLoader);
+	            iv.setImageUrl(NetUtil.getAbsolutePath(imgUrls.get(i)), imageLoader);
 	            list.add(view);  
 	        }  
 		    }

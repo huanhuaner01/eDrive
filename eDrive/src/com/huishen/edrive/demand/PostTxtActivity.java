@@ -82,6 +82,7 @@ public class PostTxtActivity extends Activity {
 	private void initView() {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
+		addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
 		this.addrBtn.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -134,6 +135,11 @@ public class PostTxtActivity extends Activity {
 			
 		}) ;
 		dialog = new PostAddrDialog(this,listener);
+		if(addr.equals("")){
+			dialog.show() ;
+		}else{
+			addrBtn.setText(addr);
+		}
 		dialog.show() ;
 		this.commit.setOnClickListener(new OnClickListener(){
 
@@ -216,6 +222,27 @@ public class PostTxtActivity extends Activity {
 	 * 访问网络设置常用地址
 	 */
 	private void setWebAddr(){
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put(Const.USER_ID,Prefs.readString(this, Const.USER_ID));
+        map.put(Const.USER_ADDR ,addr);
+		NetUtil.requestStringData(SRL.Method.METHOD_SET_ADDR, map,  new Response.Listener<String>() {
 		
+			@Override
+			public void onResponse(String result) {
+				    JSONObject json = null ;
+				    try{
+				    	json = new JSONObject(result);
+				    	
+				    	if(json.getInt("status")== 1){
+				    		AppUtil.ShowShortToast(getApplicationContext(), "常用地址设置成功") ;
+				    	}else{
+				    		AppUtil.ShowShortToast(getApplicationContext(), "地址设置失败") ;
+				    	}
+				    }catch(Exception e){
+				    	   e.printStackTrace() ;
+				    }
+			}
+			
+		}, new DefaultErrorListener());
 	}
 }

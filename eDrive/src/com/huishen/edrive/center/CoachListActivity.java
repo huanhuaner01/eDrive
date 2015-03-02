@@ -45,7 +45,9 @@ public class CoachListActivity extends FragmentActivity {
 	        FragmentTransaction tx = fm.beginTransaction(); 
 		switch(status){
 		case STATUS_JUDGE:
-			CoachJudgeListFragment fragment = new CoachJudgeListFragment(this ,"学员评价",SRL.Method.METHOD_GET_COACH_JUDGE ,value) ;
+			String name = this.getIntent().getStringExtra("coachName");
+			float score = this.getIntent().getFloatExtra("score", 0);
+			CoachJudgeListFragment fragment = new CoachJudgeListFragment(this ,"学员评价",SRL.Method.METHOD_GET_COACH_JUDGE ,value ,name ,score) ;
 	        tx.add(R.id.container, fragment,"f_jljudge");         
 			break ;
 		case STATUS_SETMEAL:

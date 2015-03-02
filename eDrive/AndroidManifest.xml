@@ -79,7 +79,7 @@
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <intent-filter>
+              <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -200,6 +200,7 @@
         <activity
             android:name=".apointment.ApointmentActivity"
             android:label="@string/title_activity_appointment" >
+     
         </activity>
         <activity
             android:name=".center.CoachListActivity"

@@ -35,7 +35,7 @@ public class ApointmentActivity extends Activity {
 	}
 	
 	private void init(){
-		this.title.setText("约课管理") ;
+		this.title.setText("预约管理") ;
 		this.back.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -63,6 +63,9 @@ public class ApointmentActivity extends Activity {
 		}
 		adapter = new AppointmentSubExListApdater(this,mGroupData ,mData);
 		list.setAdapter(adapter);
+		if(adapter.getGroupCount()>=0){
+		list.expandGroup(0);
+		}
 		
 	}
 }

@@ -4,13 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.android.volley.Response;
+import com.huishen.edrive.net.DefaultErrorListener;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.widget.TitleListFragment;
 
 /**
@@ -19,10 +28,18 @@ import com.huishen.edrive.widget.TitleListFragment;
  *
  */
 public class CoachJudgeListFragment extends TitleListFragment {
+	private String TAG = "CoachJudgeListFragment" ;
     private int coachId ;
-	public CoachJudgeListFragment(Context context, String titlestr, String url ,int coachId) {
+    private String coachName ;
+    private float score ;
+	public CoachJudgeListFragment(Context context, String titlestr, String url ,int coachId ,String coachName ,float score) {
 		super(context, titlestr, url);
 		this.coachId = coachId ;
+		if(coachName!=null){
+		this.coachName = coachName ;
+		}
+		this.score = score ;
+		
 	}
 
 	public CoachJudgeListFragment(Context context, Object tag, String titlestr,
@@ -33,27 +50,62 @@ public class CoachJudgeListFragment extends TitleListFragment {
 
 	@Override
 	public void setList(String data, ListView list) {
+//		[{"content":"很好","contentTime":"2015-02-04","phone":"13558657902","score":5.0},
+//		  {"content":"21","contentTime":"2015-02-05","phone":"313","score":3.0}]
+		Log.i(TAG, data) ;
 		//设置列表项
 		ArrayList<Map<String ,Object>> judgeListData = new ArrayList<Map<String ,Object>>();
 		HashMap<String , Object> map = new HashMap<String , Object>();
-		map.put("name","王教练");
-		map.put("rating",4.6);
-		map.put("score",4.6);
+		map.put("name",coachName);
+		map.put("rating",this.score);
+		map.put("score",this.score);
 		judgeListData.add(map);
-		for(int i = 1 ; i<5 ; i++){
-			map = new HashMap<String , Object>();
-			map.put("rating",2.7);
-			map.put("stuname","13*****12 12-30 12:30");
-			map.put("content","教练真不错");
-			judgeListData.add(map);
+		try{
+			JSONArray array = new JSONArray(data);
+			for(int i = 0 ;i<array.length() ;i++){
+				HashMap<String , Object> mapa = new HashMap<String , Object>();
+				JSONObject json = array.getJSONObject(i);
+				mapa.put("rating",(float)json.optDouble("score",0));
+				StringBuilder tel = new StringBuilder(json.optString("phone","匿名")) ;
+				Log.i(TAG, "before:"+tel.toString()) ;
+				if(!tel.equals("匿名") && !tel.equals("") && tel.length()>10){
+					tel.replace(4, 7, "****");
+				}
+				Log.i(TAG, tel.toString()) ;
+				mapa.put("stuname",tel.toString()+" "+json.optString("contentTime" ,""));
+				mapa.put("content",json.optString("content" ,""));
+				judgeListData.add(mapa);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		CoachJudgeListAdapter judgeAdapter = new CoachJudgeListAdapter(this.context,judgeListData);
 		list.setAdapter(judgeAdapter);
+		if(this.mSwipeLayout.isRefreshing()){
+			mSwipeLayout.setRefreshing(false);
+		}
 	}
 
 	@Override
 	public void getWebData() {
-		setList(null,this.list);
+		if(coachId == -1){
+			AppUtil.ShowShortToast(this.context,"获取数据异常") ;
+		}
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", coachId+"");
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_JUDGE_LIST, map, new Response.Listener<String>() {
+
+			@Override
+			public void onResponse(String result) {
+				if(result == null || result.equals("")){
+					AppUtil.ShowShortToast(context.getApplicationContext(), "获取数据异常");
+				}else{
+					setList(result,CoachJudgeListFragment.this.list);
+				}
+			}
+			
+		}, new DefaultErrorListener()) ;
+		
 	}
 
 	@Override

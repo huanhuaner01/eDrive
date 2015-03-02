@@ -79,10 +79,10 @@ public class AppointmentSubExListApdater implements ExpandableListAdapter{
 //		// ----------------添加列表数据------------------
 		HashMap<String, String> data = mGroupData.get(groupPosition);
 		if (data.get("subName") != null) {
-			group.subName.setText(data.get("mealname").toString());
+			group.subName.setText(data.get("subName").toString());
 		}
 		if (data.get("subStatus") != null) {
-			group.subStatus.setText(data.get("mealprize").toString());
+			group.subStatus.setText(data.get("subStatus").toString());
 		}
 //		// ----------------添加列表数据结束！----------------
 		return convertView;
@@ -106,10 +106,10 @@ public class AppointmentSubExListApdater implements ExpandableListAdapter{
 //		// ----------------添加列表数据------------------
 		HashMap<String, String> data = mData.get(groupPosition).get(childPosition);
 		if (data.get("subName") != null) {
-			holder.classTime.setText(data.get("time").toString());
+			holder.classTime.setText(data.get("subName").toString());
 		}
 		if (data.get("subStatus") != null) {
-			holder.classStatus.setText(data.get("status").toString());
+			holder.classStatus.setText(data.get("subStatus").toString());
 		}
 //		// ----------------添加列表数据结束！----------------
 		return convertView;

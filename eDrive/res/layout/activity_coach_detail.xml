@@ -85,6 +85,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:gravity="center_vertical"
+                    android:visibility="gone"
                     android:orientation="horizontal" >
 
                     <ImageButton
@@ -311,7 +312,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding_default"
-                    android:text="王教练，教练10年，**************"
+                    android:text="正在加载。。。"
                     android:textColor="@color/tv_light_color"
                     android:textSize="@dimen/txtsize_middle"
                     android:visibility="gone"

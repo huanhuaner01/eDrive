@@ -23,6 +23,7 @@
         <shape>
             <stroke android:width="@dimen/stroke_width" android:color="@color/color_item_post_nor" />
             <corners android:radius="@dimen/radius_default" />
+            <solid android:color="@color/all_null_color"/>
         </shape></item>
 
 </selector>

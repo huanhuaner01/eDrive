@@ -57,11 +57,7 @@ public final class SRL {
 		 * 通过学员对教练的评价。 参数 : {@link #PARAM_MOBILE_NUMBER} 返回值:{code:0|1}0:发送成功，1:发送异常
 		 */
 		public static final String METHOD_GET_COACH_JUDGE = "";
-		/**
-		 * 通过学员对教练的评价。 参数 : {@link #PARAM_MOBILE_NUMBER} 返回值:{code:0|1}0:发送成功，1:发送异常
-		 */
-		public static final String METHOD_GET_COACH_MEAL = "";
-		
+	
 		/**
 		 * 根据自己的地理位置，获取周边教练的地理信息
 		 */
@@ -72,9 +68,19 @@ public final class SRL {
 		 */
 		public static final String METHOD_GET_COACH_DETAIL="stuMobile/queryCoachById" ;
 		
+		/**
+		 * 获取教练个人基本信息（教龄 ，驾校，地区，感言）
+		 */
+		public static final String METHOD_GET_COACH_INFO = "stuMobile/queryCoachInfoById" ;
+		public static final String METHOD_GET_COACH_JUDGE_LIST = "stuMobile/queryCommentInfo"  ;
+		public static final String METHOD_GET_COACH_FIELDPIC="stuMobile/queryCoachPicture";
+		public static final String METHOD_GET_COACH_FIELD = "stuMobile/queryCoachCampus" ;
+		public static final String METHOD_GET_COACH_MEAL = "stuMobile/queryServicebillInfoByCoachID" ;
 		//------------------------------发布需求----------------------------
 		public static final String METHOD_SEND_TXT_ORDER = "stuMobile/publishOrder" ;
+		public static final String METHOD_SET_ADDR = "stuMobile/updateStudentAddressInfo" ;
 		//------------------------------发布需求结束！----------------------------
+		
 	}
 	//请求参数
 	public static final class Param{
@@ -101,7 +107,7 @@ public final class SRL {
 		public static final String PARAM_CONTENT = "content" ;
 		public static final String PARAM_STUADDR = "stuAddr" ;
 		
-		
+
 	}
 	//返回码
 	public static final class ReturnCode{
@@ -116,6 +122,21 @@ public final class SRL {
 		public static final String FIELD_COACH_NAME = "coachName" ;
 		public static final String FIELD_COACH_JUDGE_SCORE = "coachScore" ;
 		public static final String FIELD_COACH_PHOTO_PATH ="path" ;
+		
+		/**
+		 * 获取教练训练场地址返回值
+		 */
+		public static final String FIELD_GPSADDR = "GPSAddress" ;
+		public static final String FIELD_ADDR ="address" ;
+		public static final String FIELD_SCHOOL = "title" ;
+		
+		/**
+		 * 获取教练套餐信息
+		 */
+		public static final String COACH_MEAL_TITLE = "title" ;
+		public static final String COACH_MEAL_PRIZE = "cash" ;
+		public static final String COACH_MEAL_CONTENT = "content" ;
+		public static final String COACH_MEAL_CARTYPE ="carTypeContent" ;
 	}
 	
 

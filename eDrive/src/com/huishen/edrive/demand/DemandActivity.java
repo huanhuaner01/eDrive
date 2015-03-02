@@ -160,7 +160,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 								Log.i(TAG, json.getDouble(SRL.Param.PARAM_LATITUDE)+"") ;
 								LatLng point = new LatLng(json.getDouble(SRL.Param.PARAM_LATITUDE),json.getDouble(SRL.Param.PARAM_LONGITUDE));
 								BitmapDescriptor bdA = BitmapDescriptorFactory
-										.fromResource(R.drawable.icon_gcoding);
+										.fromResource(R.drawable.ic_gcoding);
 								OverlayOptions ooA = new MarkerOptions().position(point).icon(bdA)
 										.zIndex(9).draggable(true);
 								
