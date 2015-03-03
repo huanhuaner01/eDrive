@@ -1,12 +1,156 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:layout_height="wrap_content" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dialog_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_xlarge" >
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/padding_micro"
+                android:text="@string/success_coach_info"
+                android:textColor="@color/tv_light_color"
+                android:textSize="@dimen/txtsize_default" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/margin_default" >
+
+            <com.huishen.edrive.widget.RoundImageView
+                android:id="@+id/order_coach_photo"
+                android:layout_width="@dimen/demand_info_coachsize"
+                android:layout_height="@dimen/demand_info_coachsize"
+                android:src="@drawable/photo_coach_defualt"
+                android:paddingTop="@dimen/padding_default"
+                android:paddingBottom="@dimen/padding_default"
+                 />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:layout_marginLeft="@dimen/margin_default"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.3"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/order_coach_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/defualt_null"
+                        android:textColor="@color/tv_light_color"
+                        android:textSize="@dimen/txtsize_default" />
+
+                    <TextView
+                        android:id="@+id/order_coach_field"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="训练场："
+                     
+                        android:textColor="@color/tv_gray_color"
+                        android:textSize="@dimen/txtsize_middle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <RatingBar
+                        android:id="@+id/order_coach_ratingbar"
+                        style="@style/RatingBar_Mini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:rating="5"
+                        android:stepSize="0.1" />
+
+                    <TextView
+                        android:id="@+id/order_coach_judge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:text="5分"
+                        android:textColor="@color/tv_gray_color"
+                        android:textSize="@dimen/txtsize_middle" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/order_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_loc"
+                android:text="距离8k"
+                android:textColor="@color/tv_gray_color"
+                android:textSize="@dimen/txtsize_middle" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divide_line"
+            android:background="@color/tv_smallgrap_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
+            android:padding="@dimen/padding_micro"
+            android:text="@string/post_tip_success"
+            android:textColor="@color/tv_gray_color"
+            android:textSize="@dimen/txtsize_middle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/order_success"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginLeft="@dimen/margin_default"
+                android:background="@drawable/bkg_verify_btn_start"
+                android:paddingLeft="@dimen/padding_xlarge"
+                android:paddingRight="@dimen/padding_xlarge"
+                android:text="@string/commit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txtsize_default" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -59,7 +59,7 @@
                 android:textSize="@dimen/txtsize_default" />
 
             <Button
-                android:id="@+id/post_dialog_commit"
+                android:id="@+id/order_success"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginLeft="@dimen/margin_default"

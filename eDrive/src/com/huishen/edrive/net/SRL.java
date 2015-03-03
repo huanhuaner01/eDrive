@@ -79,6 +79,9 @@ public final class SRL {
 		//------------------------------发布需求----------------------------
 		public static final String METHOD_SEND_TXT_ORDER = "stuMobile/publishOrder" ;
 		public static final String METHOD_SET_ADDR = "stuMobile/updateStudentAddressInfo" ;
+		public static final String METHOD_GET_SUCCESS_ORDER = "stuMobile/queryCoachInfo" ;
+		public static final String METHOD_GET_SERVICE_INFO ="stuMobile/queryTermOfService" ;
+		public static final String METHOD_SEND_SOUND_ORDER = "stuMobile/uploadAudio" ;
 		//------------------------------发布需求结束！----------------------------
 		
 	}
@@ -102,11 +105,12 @@ public final class SRL {
 //		content=包接包送，对学生友好;//订单需求内容
 //		lng=104.065656;//当前学生经度
 //		lat=30.577716;//当前学生纬度
+//		region=成都武候区;//所在区
 		public static final String PARAM_STUID = "stuId" ;
 		public static final String PARAM_STUREALNAME = "stuRealName" ;
 		public static final String PARAM_CONTENT = "content" ;
 		public static final String PARAM_STUADDR = "stuAddr" ;
-		
+		public static final String PARAM_REGION = "region" ;
 
 	}
 	//返回码

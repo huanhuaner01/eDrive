@@ -145,10 +145,10 @@ public class CoachTrainFieldActivity extends Activity {
 							@Override
 							public boolean onMarkerClick(Marker marker) {
 								View view = LayoutInflater.from(CoachTrainFieldActivity.this).inflate(R.layout.demand_info_window, null);
-								TextView name = (TextView)view.findViewById(R.id.demand_info_coach) ;
-								ImageView img = (ImageView)view.findViewById(R.id.demand_window_photo) ;
-								RatingBar ratingBar = (RatingBar)view.findViewById(R.id.demand_info_ratingbar);
-								TextView juedge = (TextView)view.findViewById(R.id.demand_info_judge);
+								TextView name = (TextView)view.findViewById(R.id.order_coach_name) ;
+								ImageView img = (ImageView)view.findViewById(R.id.order_coach_photo) ;
+								RatingBar ratingBar = (RatingBar)view.findViewById(R.id.order_coach_ratingbar);
+								TextView juedge = (TextView)view.findViewById(R.id.order_coach_judge);
 								ratingBar.setVisibility(View.GONE); //评分条
 								img.setVisibility(View.GONE) ;
 								juedge.setText(marker.getExtraInfo().getString(SRL.ReturnField.FIELD_ADDR)); //分数显示

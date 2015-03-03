@@ -7,6 +7,12 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import com.android.volley.Response;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.huishen.edrive.R;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
@@ -28,6 +34,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -36,7 +43,7 @@ import android.widget.TextView;
  * @author zhanghuan
  *
  */
-public class PostTxtActivity extends Activity {
+public class PostTxtActivity extends Activity implements OnGetGeoCoderResultListener{
 	private String TAG= "PostTxtActivity" ;
     private TextView title ;
     private ImageButton back ;
@@ -46,10 +53,11 @@ public class PostTxtActivity extends Activity {
     private ArrayList<Map<String ,Object>> data ; 
     private CustomEditText edit ;
 //    private boolean isFrist = true ;
+    private GeoCoder mSearch ; // 搜索模块，也可去掉地图模块独立使用
     private PostAddrDialog dialog ;
     private double lng ;
     private double lat ;
-    private String addr ;
+    private String addr;
     
 	@Override
 	protected void onResume() {
@@ -83,33 +91,8 @@ public class PostTxtActivity extends Activity {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
 		addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
-		this.addrBtn.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View arg0) {
-				if(!dialog.isShowing()){
-				dialog = new PostAddrDialog(PostTxtActivity.this,listener);
-				dialog.show() ;
-				}
-			}
-			
-		});
-		//返回按钮监听事件
-		this.back.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
-		
-		//给选择的服务选项添加数据
+		//------------------------给gridView添加数据-------------------------------
 		data = new ArrayList<Map<String ,Object>>();
-		for(int i = 0 ; i<6 ; i++){
-			HashMap<String  , Object> map = new HashMap<String ,Object>();
-			map.put("service", "包接包送"+i) ;
-			map.put("status", 0) ;
-			data.add(map);
-		}
 		String[] from = new String[]{"service"};
 		int[] to = new int[]{R.id.item_post_tv};
 		this.adapter = new PostGridItemAdapter(this, data, R.layout.item_post_grid, from, to) ;
@@ -134,13 +117,42 @@ public class PostTxtActivity extends Activity {
 			}
 			
 		}) ;
+		getService();
+		//------------------------给gridView添加数据结束-------------------------------
+		
+		this.addrBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				if(!dialog.isShowing()){
+				dialog = new PostAddrDialog(PostTxtActivity.this,listener);
+				dialog.show() ;
+				}
+			}
+			
+		});
+		//返回按钮监听事件
+		this.back.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
+		//给选择的服务选项添加数据
+
 		dialog = new PostAddrDialog(this,listener);
 		if(addr.equals("")){
 			dialog.show() ;
 		}else{
+			
 			addrBtn.setText(addr);
+			// 初始化搜索模块，注册事件监听
+		    // 搜索相关
+		    mSearch = GeoCoder.newInstance();
+			mSearch.setOnGetGeoCodeResultListener(this);
+			GeoSearch(addr);
 		}
-		dialog.show() ;
 		this.commit.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -152,6 +164,67 @@ public class PostTxtActivity extends Activity {
 		
 	}
 	
+	/**
+	 * 获取服务项
+	 */
+	private void getService(){
+		HashMap<String, String> map = new HashMap<String, String>();
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_SERVICE_INFO, map,  new Response.Listener<String>() {
+			
+			@Override
+			public void onResponse(String result) {
+				Log.i(TAG, result);
+				if(result==null ||result.equals("")){
+					AppUtil.ShowShortToast(getApplicationContext(), "亲，没有预设服务哟");
+				}else{
+				
+				try{
+					JSONObject json = new JSONObject(result);
+					String service = json.optString("service","");
+					String[] strs = service.split(",");
+					for(int i = 0 ;i < strs.length ;i++){
+						HashMap<String  , Object> map = new HashMap<String ,Object>();
+						map.put("service", strs[i]) ;
+						map.put("status", 0) ;
+						data.add(map);
+					}
+					adapter.notifyDataSetChanged();
+					
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				}
+			}
+			
+		}, new DefaultErrorListener());
+	}
+	/**
+	 * 
+	 */
+	private void GeoSearch(String addr){
+		   
+	     // Geo搜索
+		            Log.i(TAG, "GeoSearch");
+	     			mSearch.geocode(new GeoCodeOption().city("")
+	     					.address(addr));
+	}
+	
+	/**
+	 * 寻找地理位置相关
+	 **/
+	@Override
+	public void onGetGeoCodeResult(GeoCodeResult result) {
+		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+			Toast.makeText(this, "抱歉，未能找到结果", Toast.LENGTH_LONG)
+					.show();
+			return;
+		}
+		else{
+			lat = result.getLocation().latitude ;
+			lng = result.getLocation().longitude ;
+		}
+		
+	}
 	/**
 	 * 发送订单
 	 */
@@ -192,6 +265,7 @@ public class PostTxtActivity extends Activity {
 				    	
 				    	if(json.getInt("code")== 0){
 				    		AppUtil.ShowShortToast(getApplicationContext(), "发布成功") ;
+				    		finish();
 				    	}else{
 				    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
 				    	}
@@ -235,6 +309,7 @@ public class PostTxtActivity extends Activity {
 				    	
 				    	if(json.getInt("status")== 1){
 				    		AppUtil.ShowShortToast(getApplicationContext(), "常用地址设置成功") ;
+				    		Prefs.writeString(getApplicationContext(), Const.USER_ADDR, addr);
 				    	}else{
 				    		AppUtil.ShowShortToast(getApplicationContext(), "地址设置失败") ;
 				    	}
@@ -244,5 +319,11 @@ public class PostTxtActivity extends Activity {
 			}
 			
 		}, new DefaultErrorListener());
+	}
+
+	@Override
+	public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -39,19 +39,19 @@ public final class NewOrderPushData extends PushData {
 		city = extra.get(NewOrder.PARAM_CITY);
 		detailPosition = extra.get(NewOrder.PARAM_DETAIL_POSITION);
 	}
-	
-	private final long getLong(Map<String, String> extra, String key){
-		String value = extra.get(key);
-		long res = -1L;
-		if (value!=null){
-			try {
-				res = Long.parseLong(value);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-		}
-		return res;
-	}
+//	
+//	private final long getLong(Map<String, String> extra, String key){
+//		String value = extra.get(key);
+//		long res = -1L;
+//		if (value!=null){
+//			try {
+//				res = Long.parseLong(value);
+//			} catch (NumberFormatException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return res;
+//	}
 	private final float getFloat(Map<String, String> extra, String key){
 		String value = extra.get(key);
 		float res = -1L;

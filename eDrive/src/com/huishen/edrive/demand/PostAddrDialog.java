@@ -72,7 +72,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
     	this.addrBtn = (Button) findViewById(R.id.post_dialog_addr);
     	this.addredit = (EditText) findViewById(R.id.post_dialog_edit);
 //    	this.cityedit = (EditText) findViewById(R.id.post_dialog_cityedit);
-    	this.commit = (Button) findViewById(R.id.post_dialog_commit);
+    	this.commit = (Button) findViewById(R.id.order_success);
     }
     
     /**
@@ -98,7 +98,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 		case R.id.post_dialog_addr:
 			gpsClickAction();
 			break ;
-		case R.id.post_dialog_commit:
+		case R.id.order_success:
 			if(addredit.getText().toString().equals("")){
 				Toast.makeText(context, "地址栏不能为空", Toast.LENGTH_SHORT).show() ;
 			}else{

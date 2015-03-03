@@ -37,6 +37,7 @@ import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.umeng.UmengServiceProxy;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Prefs;
@@ -181,10 +182,10 @@ public class DemandActivity extends Activity implements OnClickListener{
 							public boolean onMarkerClick(Marker marker) {
 								coachId = marker.getExtraInfo().getInt(SRL.ReturnField.FIELD_COACH_ID);
 								View view = LayoutInflater.from(DemandActivity.this).inflate(R.layout.demand_info_window, null);
-								TextView name = (TextView)view.findViewById(R.id.demand_info_coach) ;
-								ImageView img = (ImageView)view.findViewById(R.id.demand_window_photo) ;
-								RatingBar ratingBar = (RatingBar)view.findViewById(R.id.demand_info_ratingbar);
-								TextView juedge = (TextView)view.findViewById(R.id.demand_info_judge);
+								TextView name = (TextView)view.findViewById(R.id.order_coach_name) ;
+								ImageView img = (ImageView)view.findViewById(R.id.order_coach_photo) ;
+								RatingBar ratingBar = (RatingBar)view.findViewById(R.id.order_coach_ratingbar);
+								TextView juedge = (TextView)view.findViewById(R.id.order_coach_judge);
 								ratingBar.setRating(marker.getExtraInfo().getFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE)) ; //评分条
 								juedge.setText(marker.getExtraInfo().getFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE)+"分"); //分数显示
 								name.setText(marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_NAME)) ; //教练名称显示
@@ -348,6 +349,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		if(resultCode == VerifyPhoneActivity.LOGIN_RESULT_CODE){
 			//如果登录成功
 			if(isFirstMain){
+				UmengServiceProxy.startPushService(this);
 			this.back.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -359,6 +361,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 				}
 				
 			});
+			
 			}
 //			initView();
 		}

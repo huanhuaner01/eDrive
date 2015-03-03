@@ -7,6 +7,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.util.Const;
+import com.huishen.edrive.util.Prefs;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.IUmengUnregisterCallback;
 import com.umeng.message.PushAgent;
@@ -132,6 +135,7 @@ public final class UmengServiceProxy {
 //		Coach coach = MainApp.getInstance().getLoginCoach();
 //		return coach.getPhoneNumber();
 		//TODO 完成手机号的获取
-		return null;
+		return Prefs.readString(AppController.getInstance().getApplicationContext(),Const.USER_PHONE);
+		
 	}
 }

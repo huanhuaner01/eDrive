@@ -8,7 +8,7 @@
     >
 
     <com.huishen.edrive.widget.RoundImageView
-        android:id="@+id/demand_window_photo"
+        android:id="@+id/order_coach_photo"
         android:layout_width="@dimen/demand_info_coachsize"
         android:layout_height="@dimen/demand_info_coachsize"
         android:layout_marginLeft="@dimen/margin_middle"
@@ -28,7 +28,7 @@
             android:orientation="horizontal"
             >
             <TextView
-                android:id="@+id/demand_info_coach"
+                android:id="@+id/order_coach_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张教练"
@@ -44,7 +44,7 @@
             android:gravity="center_vertical"
             >
                 <RatingBar
-           android:id="@+id/demand_info_ratingbar"
+           android:id="@+id/order_coach_ratingbar"
            style="@style/RatingBar_Mini"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
            android:isIndicator="true"
            />
                 <TextView
-                    android:id="@+id/demand_info_judge"
+                    android:id="@+id/order_coach_judge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.8分"

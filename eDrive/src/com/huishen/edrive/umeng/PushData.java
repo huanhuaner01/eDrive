@@ -25,6 +25,10 @@ public abstract class PushData implements Serializable {
 	 * 新订单推送。
 	 */
 	public static final int TYPE_NEWORDER = 1001;
+	/**
+	 * 订单成功提醒。
+	 */
+	public static final int TYPE_ORDER_SUCCEESS = 2001;
 	
 	public final int msgType; // 消息类型
 
@@ -50,5 +54,18 @@ public abstract class PushData implements Serializable {
 			e.printStackTrace();
 		}
 		return type;
+	}
+	
+	protected final long getLong(Map<String, String> extra, String key){
+		String value = extra.get(key);
+		long res = -1L;
+		if (value!=null){
+			try {
+				res = Long.parseLong(value);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
+		return res;
 	}
 }

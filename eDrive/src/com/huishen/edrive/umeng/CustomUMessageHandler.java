@@ -73,6 +73,11 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 			intent = new Intent(UmengPushConst.Action.ACTION_NEWORDER_PUSHDATA);
 			data = (T) new NewOrderPushData(extra);
 			break;
+		case PushData.TYPE_ORDER_SUCCEESS:
+			//直接弹出
+			intent = new Intent(UmengPushConst.Action.ACTION_ORDER_SUCCCESS_PUSHDATA);
+			data = (T) new OrderSuccessPushData(extra);
+			break;
 			default:
 				data = null;
 				intent = new Intent(UmengPushConst.Action.ACTION_UNKNOWN_PUSHDATA);

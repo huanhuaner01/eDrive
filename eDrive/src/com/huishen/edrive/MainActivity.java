@@ -61,7 +61,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
         
         registView();
         init() ;
-        UmengServiceProxy.startPushService(this);
+        
 //        HashMap<String, String> map = new HashMap<String, String>();
 //        map.put(SRL.PARAM_USERNAME, "sl");
 //        map.put(SRL.PARAM_PASSWORD, "ass");
@@ -109,7 +109,9 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     
     private void init(){
     	
-    
+        if(isFirstMain){
+        	UmengServiceProxy.startPushService(this);
+        }
     	checkCoach();
     	header_menu.setOnClickListener(new OnClickListener(){
 

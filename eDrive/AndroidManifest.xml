@@ -130,6 +130,7 @@
             <intent-filter>
                 <action android:name="com.huishen.ecoach.UNKNOWN_PUSHDATA" />
                 <action android:name="com.huishen.ecoach.NEW_ORDER" />
+                <action android:name="com.huishen.edrive.ORDER_SUCCCESS"/>
             </intent-filter>
         </receiver>
         <!-- 友盟推送相关组件 BEGIN -->
@@ -225,7 +226,9 @@
         </activity>
         <activity
             android:name="com.huishen.edrive.demand.SuccessDialogActivity"
-            android:label="@string/title_activity_success_dialog" >
+            android:label="@string/title_activity_success_dialog" 
+            android:theme="@style/DialogActivityNoTitlebar"
+            >
         </activity>
     </application>
 

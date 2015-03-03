@@ -18,7 +18,7 @@ public final class UmengPushConst {
 	/**
 	 * 别名的类型。
 	 */
-	protected static final String ALIAS_TYPE = "coh-client";
+	protected static final String ALIAS_TYPE = "stu-client";
 	/**
 	 * 用于在广播中携带推送消息数据。
 	 * @see Action
@@ -42,11 +42,15 @@ public final class UmengPushConst {
 		/**
 		 * 未知推送内容。
 		 */
-		public static final String ACTION_UNKNOWN_PUSHDATA = "com.huishen.ecoach.UNKNOWN_PUSHDATA";
+		public static final String ACTION_UNKNOWN_PUSHDATA = "com.huishen.edrive.UNKNOWN_PUSHDATA";
 		/**
 		 * 新订单提醒。
 		 */
 		public static final String ACTION_NEWORDER_PUSHDATA = "com.huishen.ecoach.NEW_ORDER";
+		/**
+		 * 订单成功提醒。
+		 */
+		public static final String ACTION_ORDER_SUCCCESS_PUSHDATA = "com.huishen.edrive.ORDER_SUCCCESS";
 	}
 	
 	/**
@@ -96,4 +100,6 @@ public final class UmengPushConst {
 		 */
 		public static final String PARAM_DISTANCE = "distance";
 	}
+	
+	
 }

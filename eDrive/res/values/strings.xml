@@ -49,6 +49,8 @@
     <string name="post_sound_btn_press">松开停止录音</string>
     <string name="post_tip_fail">您的学车需求无教练抢单，先已超时，请重新做出选择</string>
     <string name="post_repost">重新发送</string>
+    <string name="post_tip_success">该教练已在积极的联系你，请注意接听您的电话</string>
+    <string name="success_coach_info">已抢单成功教练信息</string>
     <!-- 绑定教练 -->
     <string name="bind_coach">绑定教练</string>
     <string name="bind_coach_tel">教练电话</string>
