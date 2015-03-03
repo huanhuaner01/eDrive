@@ -18,6 +18,7 @@ import com.huishen.edrive.R;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.net.UploadResponseListener;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
@@ -25,6 +26,7 @@ import com.huishen.edrive.util.Recorder;
 import com.huishen.edrive.util.SimpleRecorder;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -64,6 +66,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
     private double lng ;
     private double lat ;
     private String addr;
+    private ProgressDialog MyDialog ;
+//    = ProgressDialog.show( MyActivity.this, " " , " Loading. Please wait ... ", true);
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -205,6 +209,10 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	 * 获取服务项
 	 */
 	private void getService(){
+	    MyDialog = ProgressDialog.show(this, " " , " 加载中... ", true);
+	    if(!MyDialog.isShowing()){
+	    	MyDialog.show();
+	    }
 		HashMap<String, String> map = new HashMap<String, String>();
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_SERVICE_INFO, map,  new Response.Listener<String>() {
 			
@@ -231,9 +239,13 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 					e.printStackTrace();
 				}
 				}
+				//关闭进度条
+				if(MyDialog.isShowing()){
+				    MyDialog.dismiss();
+				}
 			}
 			
-		}, new DefaultErrorListener());
+		}, new DefaultErrorListener(MyDialog));
 	}
 	
 	/**
@@ -256,37 +268,101 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			AppUtil.ShowShortToast(this, "亲，什么都没有，教练不要哟") ;
 			return ;
 		}
-		
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put(SRL.Param.PARAM_LATITUDE, lat+"");
-        map.put(SRL.Param.PARAM_LONGITUDE,lng+"");
-        map.put(SRL.Param.PARAM_STUID, Prefs.readString(this, Const.USER_ID));
-        map.put(SRL.Param.PARAM_CONTENT, keybuffer.toString());
-        map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
-        map.put(SRL.Param.PARAM_STUADDR, addrBtn.getText().toString());
-		NetUtil.requestStringData(SRL.Method.METHOD_SEND_SOUND_ORDER, map,  new Response.Listener<String>() {
-		    
+		//显示进度条
+		 MyDialog = ProgressDialog.show(this, " " , " 发布中... ", true);
+		 if(!MyDialog.isShowing()){
+			 MyDialog.show();
+		 }
+//        HashMap<String, String> map = new HashMap<String, String>();
+//        map.put(SRL.Param.PARAM_LATITUDE, lat+"");
+//        map.put(SRL.Param.PARAM_LONGITUDE,lng+"");
+//        map.put(SRL.Param.PARAM_STUID, Prefs.readString(this, Const.USER_ID));
+//        map.put(SRL.Param.PARAM_CONTENT, keybuffer.toString());
+//        map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
+//        map.put(SRL.Param.PARAM_STUADDR, addrBtn.getText().toString());
+		NetUtil.requestUploadFile(audiofile, SRL.Method.METHOD_SEND_SOUND_ORDER, new UploadResponseListener(){
+
 			@Override
-			public void onResponse(String result) {
-//				Log.i(tag, msg)
-				    JSONObject json = null ;
-				    try{
-				    	json = new JSONObject(result);
-				    	
-				    	if(json.getInt("code")== 0){
-				    		AppUtil.ShowShortToast(getApplicationContext(), "发布成功") ;
-				    		finish();
-				    	}else{
-				    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
-				    	}
-				    }catch(Exception e){
-				    	   e.printStackTrace() ;
-				    }
+			public void onSuccess(String str) {
+				if(str.equals("")){
+					AppUtil.ShowShortToast(getApplicationContext(), "发布异常");
+				}else{
+					sendTextOrder(str);
+				}
+			}
+
+			@Override
+			public void onError(int httpCode) {
+				AppUtil.ShowShortToast(getApplicationContext(), "网络错误："+httpCode);
+				if(MyDialog.isShowing()){
+					MyDialog.dismiss();
+				}
+			}
+
+			@Override
+			public void onProgressChanged(int hasFinished) {
+				
 			}
 			
-		}, new DefaultErrorListener());
+		});
 	}
 	
+	/**
+	 * 上传文字信息
+	 * @param result
+	 */
+	private void sendTextOrder(String result){
+	  String audio ="" ;
+	  try{
+		 JSONObject json = new JSONObject(result); 
+		 if(json.getInt("code") != 0){
+			 AppUtil.ShowShortToast(getApplicationContext(), "语音上传失败！");
+			  if(MyDialog != null&&MyDialog.isShowing()){
+				  MyDialog.dismiss();
+				}
+			  return ;
+		 }
+		 audio = json.getString("audio");
+	  }catch(Exception e){
+		  e.printStackTrace();
+		  if(MyDialog != null&&MyDialog.isShowing()){
+			  MyDialog.dismiss();
+			}
+		  return ;
+	  } 
+      HashMap<String, String> map = new HashMap<String, String>();
+      map.put(SRL.Param.PARAM_LATITUDE, lat+"");
+      map.put(SRL.Param.PARAM_LONGITUDE,lng+"");
+      map.put(SRL.Param.PARAM_STUID, Prefs.readString(this, Const.USER_ID));
+      map.put(SRL.Param.PARAM_CONTENT, keybuffer.toString());
+      map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
+      map.put(SRL.Param.PARAM_STUADDR, addrBtn.getText().toString());
+      map.put("audio",audio );
+		NetUtil.requestStringData(SRL.Method.METHOD_SET_ADDR, map,  new Response.Listener<String>() {
+
+			@Override
+			public void onResponse(String result) {
+			    JSONObject json = null ;
+			    try{
+			    	json = new JSONObject(result);
+			    	
+			    	if(json.getInt("code")== 0){
+			    		AppUtil.ShowShortToast(getApplicationContext(), "发布成功") ;
+			    		finish();
+			    	}else{
+			    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
+			    	}
+			    }catch(Exception e){
+			    	   e.printStackTrace() ;
+			    }
+				if(MyDialog.isShowing()){
+					MyDialog.dismiss();
+				}
+			}
+			
+		},new DefaultErrorListener(MyDialog));
+	
+	}
 	/**
 	 * 
 	 */
@@ -379,7 +455,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 				    }
 			}
 			
-		}, new DefaultErrorListener());
+		}, new DefaultErrorListener(MyDialog));
 	}
 
 	@Override

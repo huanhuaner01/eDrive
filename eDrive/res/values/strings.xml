@@ -90,5 +90,6 @@
     <string name="title_activity_bind_coach_write">BindCoachWriteActivity</string>
     <string name="title_activity_fail_dialog">FailDialogActivity</string>
     <string name="title_activity_success_dialog">SuccessDialogActivity</string>
+    <string name="title_activity_modify_user_info">ModifyUserInfoActivity</string>
 
 </resources>

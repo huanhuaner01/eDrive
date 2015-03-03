@@ -79,7 +79,7 @@
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-              <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -126,11 +126,13 @@
 
         <!-- 友盟推送元数据 END -->
 
-        <receiver android:name=".umeng.DefaultPushDataReceiver" android:exported="false" >
+        <receiver
+            android:name=".umeng.DefaultPushDataReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.huishen.ecoach.UNKNOWN_PUSHDATA" />
                 <action android:name="com.huishen.ecoach.NEW_ORDER" />
-                <action android:name="com.huishen.edrive.ORDER_SUCCCESS"/>
+                <action android:name="com.huishen.edrive.ORDER_SUCCCESS" />
             </intent-filter>
         </receiver>
         <!-- 友盟推送相关组件 BEGIN -->
@@ -152,7 +154,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -206,7 +208,6 @@
         <activity
             android:name=".apointment.ApointmentActivity"
             android:label="@string/title_activity_appointment" >
-     
         </activity>
         <activity
             android:name=".center.CoachListActivity"
@@ -225,10 +226,13 @@
             android:label="@string/title_activity_fail_dialog" >
         </activity>
         <activity
-            android:name="com.huishen.edrive.demand.SuccessDialogActivity"
-            android:label="@string/title_activity_success_dialog" 
-            android:theme="@style/DialogActivityNoTitlebar"
-            >
+            android:name=".demand.SuccessDialogActivity"
+            android:label="@string/title_activity_success_dialog"
+            android:theme="@style/DialogActivityNoTitlebar" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.center.ModifyUserInfoActivity"
+            android:label="@string/title_activity_modify_user_info" >
         </activity>
     </application>
 

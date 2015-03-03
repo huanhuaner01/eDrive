@@ -146,8 +146,10 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 
 			@Override
 			public void onReceivePoi(BDLocation arg0) {
-			
+				// TODO Auto-generated method stub
+				
 			}
+
 		};
 //		    mLocationClient = new LocationClient(this.mContext.getApplicationContext());     //声明LocationClient类
 		    mLocationClient.registerLocationListener( myListener );    //注册监听函数
