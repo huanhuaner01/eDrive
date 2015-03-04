@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.huishen.edrive.R;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 
 import android.app.Activity;
@@ -60,6 +61,7 @@ public class VerifyPhoneActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_verify_phone);
+		AppController.getInstance().addActivity(this);
 		initWidgets();
 	}
 

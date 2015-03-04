@@ -17,12 +17,16 @@ import com.huishen.edrive.R;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.CustomEditText;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -68,6 +72,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_txt);
+		AppController.getInstance().addActivity(this);
 		registView();
 		initView();
 	}
@@ -265,6 +270,9 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    	
 				    	if(json.getInt("code")== 0){
 				    		AppUtil.ShowShortToast(getApplicationContext(), "发布成功") ;
+				    		
+				    		Prefs.writeString(getApplicationContext(), Const.USER_LAST_ORDER_ID,json.getInt(Const.USER_LAST_ORDER_ID)+"") ;
+				    		AppController.getInstance().setAlarm(PostTxtActivity.this,json.getInt(Const.USER_LAST_ORDER_ID));
 				    		finish();
 				    	}else{
 				    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
@@ -326,4 +334,6 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		// TODO Auto-generated method stub
 		
 	}
+	
+
 }

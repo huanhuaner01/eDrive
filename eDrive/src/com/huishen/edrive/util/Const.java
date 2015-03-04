@@ -20,6 +20,10 @@ public final class Const {
 	public static final int SPLASH_MIN_LENGTH = 1000;
 	
 	/**
+	 * 订单失效提醒时间
+	 */
+	public static final int FAIL_ORDER_ALARM_TIME = 1000*60*1 ;
+	/**
 	 * 用户数据
 	 */
 	
@@ -33,4 +37,11 @@ public final class Const {
 	public static final String USER_MOBILEFLAG = "mobileFlag" ;
 	
 	public static final String USER_COACH_ID = "coachId" ;
+	
+	public static final String USER_LAST_ORDER_ID = "tempOrderId" ;
+	
+	/**
+	 * 订单是否失效的状态
+	 */
+	public static final String ORDER_STATUS = "orderStatus" ;
 }

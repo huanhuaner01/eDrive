@@ -82,6 +82,7 @@ public final class SRL {
 		public static final String METHOD_GET_SUCCESS_ORDER = "stuMobile/queryCoachInfo" ;
 		public static final String METHOD_GET_SERVICE_INFO ="stuMobile/queryTermOfService" ;
 		public static final String METHOD_SEND_SOUND_ORDER = "stuMobile/uploadAudio" ;
+		public static final String METHOD_RESEND_ORDER = "stuMobile/rePublish" ;
 		//------------------------------发布需求结束！----------------------------
 		
 	}

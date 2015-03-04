@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
@@ -53,6 +54,7 @@ public class SplashActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
+		AppController.getInstance().addActivity(this);
 		handler = new SplashHandler(new WeakReference<SplashActivity>(this));
 		viewPager = (ViewPager) findViewById(R.id.splash_viewpager);
 		imageView = (ImageView) findViewById(R.id.splash_image);

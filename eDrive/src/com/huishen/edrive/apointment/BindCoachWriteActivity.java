@@ -2,6 +2,7 @@ package com.huishen.edrive.apointment;
 
 import com.huishen.edrive.R;
 import com.huishen.edrive.R.layout;
+import com.huishen.edrive.util.AppController;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class BindCoachWriteActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bind_coach_write);
-		
+		AppController.getInstance().addActivity(this);
 		//----------获取上一个activity传递的数据--------------
 		key = this.getIntent().getIntExtra("key", 1);
 		//----------获取上一个activity传递的数据结束！--------------

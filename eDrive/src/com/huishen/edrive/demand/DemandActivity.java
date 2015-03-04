@@ -47,6 +47,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -367,6 +368,26 @@ public class DemandActivity extends Activity implements OnClickListener{
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
+	///////////////////////退出系统应用//////////////////////////////////////////
+	 private int backindex = 0 ;
+
+	 @Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		 
+       if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+    	   if(!Prefs.checkUser(getApplicationContext())){
+            if(backindex == 0){
+           	 Toast.makeText(DemandActivity.this,"再按一次退出e驾学车!", Toast.LENGTH_SHORT).show();
+           	 backindex++;
+           	 return false ;
+            }
+            AppController.getInstance().exit(this.getApplicationContext());
+            return true;
+    	   }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 	
 	
 }

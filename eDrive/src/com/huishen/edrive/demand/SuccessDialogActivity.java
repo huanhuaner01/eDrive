@@ -9,6 +9,7 @@ import com.huishen.edrive.R;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
@@ -34,7 +35,8 @@ public class SuccessDialogActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_success_dialog);
-		setFinishOnTouchOutside(false);
+		AppController.getInstance().addActivity(this);
+		setFinishOnTouchOutside(true);
 		tempOrderId = this.getIntent().getLongExtra("tempOrderId", 0);
 		
 		registView();

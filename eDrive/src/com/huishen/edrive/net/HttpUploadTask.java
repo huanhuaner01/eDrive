@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 import java.util.UUID;
 
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ final class HttpUploadTask extends AsyncTask<Void, Void, String>{
 	private File file;
 	private String requestURL;
 	private UploadResponseListener listener;
+	private Map<String, String> requestParams;
 	private int errorHttpCode;
 	
 	//package access
@@ -36,6 +38,14 @@ final class HttpUploadTask extends AsyncTask<Void, Void, String>{
 		this.requestURL = requestURL;
 		this.listener = listener;
 	}
+	//package access
+	HttpUploadTask(File file, String requestURL, Map<String, String> params, UploadResponseListener listener) {
+			super();
+			this.file = file;
+			this.requestURL = requestURL;
+			this.requestParams = params;
+			this.listener = listener;
+		}
 	
 	@Override
 	protected void onPostExecute(String result) {
@@ -56,6 +66,15 @@ final class HttpUploadTask extends AsyncTask<Void, Void, String>{
 		String CONTENT_TYPE = "multipart/form-data"; // 内容类型
 
 		try {
+			//HackUrl
+			if (requestParams!=null && requestParams.size()>0){
+				StringBuilder sb = new StringBuilder(requestURL).append("?");
+				for (String key : requestParams.keySet()){
+					sb.append(key).append("=").append(requestParams.get(key));
+				}
+				requestURL = sb.toString();
+				Log.d(LOG_TAG, "Final url:"+requestURL);
+			}
 			URL url = new URL(requestURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setReadTimeout(TIME_OUT);

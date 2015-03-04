@@ -1,6 +1,7 @@
 package com.huishen.edrive.apointment;
 
 import com.huishen.edrive.R;
+import com.huishen.edrive.util.AppController;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,6 +27,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bind_coach);
+		AppController.getInstance().addActivity(this);
 		registView();
 		initView();
 	}

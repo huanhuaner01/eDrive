@@ -11,6 +11,7 @@ import com.huishen.edrive.R;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.widget.RoundImageView;
@@ -56,6 +57,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_coach_detail);
+		AppController.getInstance().addActivity(this);
 		/****************获取传进来的数据***************/
 		coachId = this.getIntent().getIntExtra(COACH_ID, -1) ;
 		/****************获取传进来的数据结束***************/		

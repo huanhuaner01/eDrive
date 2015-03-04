@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.huishen.edrive.R;
+import com.huishen.edrive.util.AppController;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class ApointmentActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apointment);
+		AppController.getInstance().addActivity(this);
 		registView();
 		init();
 	}

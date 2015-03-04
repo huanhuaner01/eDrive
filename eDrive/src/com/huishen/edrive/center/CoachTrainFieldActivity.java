@@ -30,11 +30,13 @@ import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
+import com.huishen.edrive.util.AppController;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -68,6 +70,7 @@ public class CoachTrainFieldActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_coach_train_field);
+		AppController.getInstance().addActivity(this);
 		/****************获取传进来的数据***************/
 		
 		coachId = this.getIntent().getIntExtra(CoachDetailActivity.COACH_ID, -1) ;
@@ -85,6 +88,14 @@ public class CoachTrainFieldActivity extends Activity {
 	}
 	private void initView() {
         this.title.setText("训练场位置") ;
+        this.back.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+        	
+        });
 		mBaiduMap.setMyLocationEnabled(true);
 		
 		mLocClient = new LocationClient(this);

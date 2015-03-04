@@ -1,6 +1,7 @@
 package com.huishen.edrive.login;
 
 import com.huishen.edrive.R;
+import com.huishen.edrive.util.AppController;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class ServiceInfoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_service_info);
+		AppController.getInstance().addActivity(this);
 		registView();
 		init();
 	}

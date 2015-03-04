@@ -8,12 +8,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.baidu.mapapi.SDKInitializer;
+import com.huishen.edrive.demand.OrderFailBroadcastReceiver;
 import com.huishen.edrive.umeng.CustomUMessageHandler;
 import com.umeng.message.PushAgent;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 
 public class AppController extends Application {
@@ -24,6 +28,9 @@ public class AppController extends Application {
 	private ImageLoader mImageLoader;
 	private String sessionId;			//存放cookie
 	private static AppController mInstance;
+	//闹钟处理
+	private AlarmManager am ;
+	private PendingIntent pi ;
 
 	public String getSessionId() {
 		return sessionId;
@@ -32,7 +39,7 @@ public class AppController extends Application {
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
-
+    
 
 
 	@Override
@@ -103,6 +110,39 @@ public class AppController extends Application {
 	public void cancelPendingRequests(Object tag) {
 		if (requestQueue != null) {
 			requestQueue.cancelAll(tag);
+		}
+	}
+	
+	/////////////////////订单失效处理////////////////////////////////
+	/**
+	 * 启动订单失效处理
+	 */
+	public void setAlarm(Activity activity,int orderId){
+        // 获得AlarmManager实例
+		
+        if(am == null){
+        	am = (AlarmManager) activity.getSystemService(this.ALARM_SERVICE);
+        }
+        
+        // 实例化Intent
+        Intent intent = new Intent(activity,OrderFailBroadcastReceiver.class);
+        intent.putExtra(Const.USER_LAST_ORDER_ID, orderId);
+        // 实例化PendingIntent
+        pi = PendingIntent.getBroadcast(activity, 0,
+                intent, 0);
+        //public static final int ELAPSED_REALTIME_WAKEUP
+        // 能唤醒系统，用法同ELAPSED_REALTIME，系统值是2 (0x00000002) 。
+        //
+        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,Const.FAIL_ORDER_ALARM_TIME, pi);
+        
+	}
+	
+	/**
+	 * 停止订单
+	 */
+	public void stopAlarm(){
+		if(am != null && pi != null){
+		 am.cancel(pi);
 		}
 	}
 }

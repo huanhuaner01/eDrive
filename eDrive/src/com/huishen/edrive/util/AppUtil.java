@@ -2,9 +2,12 @@ package com.huishen.edrive.util;
 
 import org.json.JSONObject;
 
+import com.huishen.edrive.demand.OrderFailBroadcastReceiver;
 import com.huishen.edrive.login.VerifyPhoneActivity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -110,7 +113,12 @@ public class AppUtil {
 			     Context.MODE_PRIVATE).edit().remove(Const.USER_BASEUSER).commit();
 		context.getSharedPreferences(Const.PREFS_APP,
 			     Context.MODE_PRIVATE).edit().remove(Const.USER_ID).commit();
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.USER_LAST_ORDER_ID).commit();
+		context.getSharedPreferences(Const.PREFS_APP,
+			     Context.MODE_PRIVATE).edit().remove(Const.ORDER_STATUS).commit();
 		
 	}
 	
+
 }

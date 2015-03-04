@@ -19,6 +19,7 @@ import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.net.UploadResponseListener;
+import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
@@ -50,7 +51,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
     private TextView title ;
     private ImageButton back ;
     private GridView postGrid ; //选择信息
-    private Button addrBtn ,sound_play ; //地理位置按钮，提交按钮
+    private Button addrBtn ,sound_play  , send ; //地理位置按钮，提交按钮
     private PostGridItemAdapter adapter ;
     private ArrayList<Map<String ,Object>> data ;
     private ImageButton sound_image ;
@@ -77,6 +78,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_sound);
+		AppController.getInstance().addActivity(this);
 		registView();
 		initView();
 	}
@@ -92,6 +94,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		this.addrBtn = (Button) findViewById(R.id.post_addr_btn);
 		this.soundbg = (View) findViewById(R.id.post_imagebg);
 		this.sound_play = (Button) findViewById(R.id.post_btn_sound);
+		this.send = (Button) findViewById(R.id.post_btn_send) ;
 		recorder = SimpleRecorder.getInstance();
 	}
 	
@@ -102,6 +105,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
 		addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
+		
 		this.sound_play.setEnabled(false) ;
 		//----------给选择的服务选项添加数据------------------------
 		keybuffer = new StringBuffer();
@@ -203,6 +207,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			GeoSearch(addr);
 		}
 		
+		//设置提交监听
+		this.send.setOnClickListener(this) ;
 	}
 	
 	/**
@@ -268,8 +274,10 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			AppUtil.ShowShortToast(this, "亲，什么都没有，教练不要哟") ;
 			return ;
 		}
+		Log.i(TAG, "进入上传语音的方法！") ;
 		//显示进度条
 		 MyDialog = ProgressDialog.show(this, " " , " 发布中... ", true);
+		 MyDialog.show();
 		 if(!MyDialog.isShowing()){
 			 MyDialog.show();
 		 }
@@ -284,6 +292,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 
 			@Override
 			public void onSuccess(String str) {
+				Log.i(TAG, str) ;
 				if(str.equals("")){
 					AppUtil.ShowShortToast(getApplicationContext(), "发布异常");
 				}else{
@@ -338,7 +347,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
       map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
       map.put(SRL.Param.PARAM_STUADDR, addrBtn.getText().toString());
       map.put("audio",audio );
-		NetUtil.requestStringData(SRL.Method.METHOD_SET_ADDR, map,  new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_SEND_TXT_ORDER, map,  new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {
@@ -404,7 +413,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			recorder.playAudioFile(audiofile);
 			}
 			break;
-		case R.id.post_commit:
+		case R.id.post_btn_send:
 			sendSoundOrder();
 			break ;
 		}

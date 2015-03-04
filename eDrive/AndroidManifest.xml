@@ -71,6 +71,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+        <!-- 注册订单失败的提醒闹钟  -->
+          <receiver android:name="com.huishen.edrive.demand.OrderFailBroadcastReceiver">
+        </receiver>
+        
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="dGT0u6nfc14H0pET1EtPzErB" />
@@ -223,7 +228,9 @@
         </activity>
         <activity
             android:name=".demand.FailDialogActivity"
-            android:label="@string/title_activity_fail_dialog" >
+            android:label="@string/title_activity_fail_dialog" 
+            android:theme="@style/DialogActivityNoTitlebar"
+            >
         </activity>
         <activity
             android:name=".demand.SuccessDialogActivity"

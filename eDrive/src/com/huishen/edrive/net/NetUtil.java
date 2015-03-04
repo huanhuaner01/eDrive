@@ -17,19 +17,20 @@ import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
-
 /**
  * 放置与网络相关的快捷方法，并对外隐藏服务器的根地址。
  * 
  * @author Muyangmin
  * @create 2015-2-7
- * @version 1.1 on 2015/02/28 by Muyangmin 增加了加载图片的方法。<br/>
- * 			1.0 基础版本，包含文字请求和文件下载。
+ * @version 1.2 on 2015/03/02 by Muyangmin 修改了 {@link #getAbsolutePath(String)}
+ *          的访问权限，使得其他要使用网络路径的地方（例如WebView，NetworkImageView等）也可以使用。<br/>
+ *          1.1 on 2015/02/28 by Muyangmin 增加了加载图片的方法。<br/>
+ *          1.0 基础版本，包含文字请求和文件下载。
  */
 public final class NetUtil {
 
 	/**
-	 * 公用的网络请求日志标签。供匿名类等没有自己的TAG字段的对象使用。
+	 * 网络请求日志标签。
 	 */
 	private static final String LOG_TAG = "NetRequest";
 	
@@ -91,7 +92,7 @@ public final class NetUtil {
 		if (relativePath == null || listener == null) {
 			throw new NullPointerException("params cannot be null!");
 		}
-		HashMap<String, String> params = new HashMap<String, String>();
+		final HashMap<String, String> params = new HashMap<String, String>();
 		// 添加标记
 		String flag = getMobileFlag();
 		if (flag != null) {
@@ -114,6 +115,12 @@ public final class NetUtil {
 						HashMap<String, String> localHashMap = new HashMap<String, String>();	
 						localHashMap.put("Cookie", cookie);
 						return localHashMap;
+					}
+					
+					@Override
+					protected Map<String, String> getParams()
+							throws AuthFailureError {
+						return params;
 					}
 				});
 	}
@@ -253,9 +260,39 @@ public final class NetUtil {
 	 */
 	public static final void requestUploadFile(final File file,
 			final String relativePath, final UploadResponseListener listener) {
+//		if (relativePath == null || listener == null) {
+//			throw new NullPointerException("params cannot be null!");
+//		}
+//		new HttpUploadTask(file, getAbsolutePath(relativePath), listener).execute();
+		final HashMap<String, String> params = new HashMap<String, String>();
+		// 添加标记
+		String flag = getMobileFlag();
+		if (flag != null) {
+			params.put(SRL.Param.PARAM_MOBILE_FLAG, flag);
+		}
+		Log.d(LOG_TAG, "request params:"+params);
+		requestUploadFile(file, relativePath, params, listener);
+	}
+
+	/**
+	 * 请求上传文件。
+	 * 
+	 * @param file
+	 *            要上传的文件
+	 * @param relativePath
+	 *            服务器的目标相对路径
+	 * @param params
+	 *            请求参数
+	 * @param listener
+	 *            回调监听器
+	 */
+	public static final void requestUploadFile(final File file,
+			final String relativePath, Map<String, String> params,
+			final UploadResponseListener listener) {
 		if (relativePath == null || listener == null) {
 			throw new NullPointerException("params cannot be null!");
 		}
-		new HttpUploadTask(file, getAbsolutePath(relativePath), listener).execute();
+		new HttpUploadTask(file, getAbsolutePath(relativePath), params, listener)
+				.execute();
 	}
 }
