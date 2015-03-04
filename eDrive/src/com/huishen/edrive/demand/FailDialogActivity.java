@@ -16,6 +16,7 @@ import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,9 +36,17 @@ public class FailDialogActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fail_dialog);
 		AppController.getInstance().addActivity(this);
+		setFinishOnTouchOutside(false);
 		//--------------------获取数据-------------------
 		orderId = this.getIntent().getIntExtra(Const.USER_LAST_ORDER_ID, 0);
 		//---------------------获取数据结束----------------
+		
+		//--------------震动------------------------
+		Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+		if (vibrator.hasVibrator()){
+			vibrator.vibrate(1000);
+		}
+		//-----------震动结束！---------------------
 		setFinishOnTouchOutside(true);
 		regsitView();
 		initView();
@@ -80,6 +89,7 @@ public class FailDialogActivity extends Activity {
 	private void stopLimit(){
 		Prefs.writeString(getApplicationContext(), Const.ORDER_STATUS, "0"); //0没有订单，1有订单
 		Prefs.writeString(getApplicationContext(), Const.USER_LAST_ORDER_ID, ""); 
+		AppController.getInstance().stopAlarm();
 	}
 	
 	/**
@@ -102,7 +112,9 @@ public class FailDialogActivity extends Activity {
 					switch(json.getInt("code")){
 					case 0: //重新发布成功
 						AppUtil.ShowShortToast(getApplicationContext(), "发布成功");
-						
+						Prefs.writeString(getApplicationContext(), Const.USER_LAST_ORDER_ID,orderId+"") ;
+						Prefs.writeString(getApplicationContext(), Const.ORDER_STATUS,"1") ;
+			    		AppController.getInstance().setAlarm(FailDialogActivity.this,orderId);
 						break ;
 					case 1: //订单不存在
 						AppUtil.ShowShortToast(getApplicationContext(), "订单不存在");

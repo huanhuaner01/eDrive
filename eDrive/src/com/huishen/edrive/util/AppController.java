@@ -19,6 +19,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class AppController extends Application {
 
@@ -121,7 +122,7 @@ public class AppController extends Application {
         // 获得AlarmManager实例
 		
         if(am == null){
-        	am = (AlarmManager) activity.getSystemService(this.ALARM_SERVICE);
+        	am = (AlarmManager) activity.getSystemService(activity.ALARM_SERVICE);
         }
         
         // 实例化Intent
@@ -133,7 +134,8 @@ public class AppController extends Application {
         //public static final int ELAPSED_REALTIME_WAKEUP
         // 能唤醒系统，用法同ELAPSED_REALTIME，系统值是2 (0x00000002) 。
         //
-        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,Const.FAIL_ORDER_ALARM_TIME, pi);
+        Log.i("12131",System.currentTimeMillis()+"");
+        am.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+Const.FAIL_ORDER_ALARM_TIME, pi);
         
 	}
 	

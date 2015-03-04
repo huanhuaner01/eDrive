@@ -63,7 +63,8 @@
     <string name="bind_coach_confirmpass">确认密码</string>
     <string name="bind_coach_note_tel">亲，请你填写正确的电话号码，加以绑定，方便你在线预约练车</string>
     <string name="bind_coach_note_pass">设置密码，确保能够成功的进行在线约课和不易丢失个人信息</string>
-
+    <string name="bind_coach_condition">附加条件</string>
+    
     <!-- 查看教练详情 -->
     <string name="coach_detail_demandnum">抢单数量</string>
     <string name="coach_detail_judgenum">好评率</string>

@@ -85,6 +85,9 @@ public final class SRL {
 		public static final String METHOD_RESEND_ORDER = "stuMobile/rePublish" ;
 		//------------------------------发布需求结束！----------------------------
 		
+		//-------------------------------绑定教练---------------------------------
+		public static final String METHOD_BIND_COACH = "stuMobile/addStudentEnrollInfo" ;
+		
 	}
 	//请求参数
 	public static final class Param{
@@ -113,8 +116,11 @@ public final class SRL {
 		public static final String PARAM_STUADDR = "stuAddr" ;
 		public static final String PARAM_REGION = "region" ;
 
+		public static final String PARAM_BIND_COACH_PHONE = "coachPhone" ;
+		public static final String PARAM_BIND_STU_NAME = "stuRealName" ;
+		public static final String PARAM_BIND_CONTENT = "content" ;
 	}
-	//返回码
+		//返回码
 	public static final class ReturnCode{
 		
 	}

@@ -36,7 +36,7 @@
         <Button 
             android:id="@+id/post_addr_btn"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="wrap_content"
             android:background="@drawable/info_bg"
             android:text="地理位置信息"
             android:textColor="@color/tv_light_color"

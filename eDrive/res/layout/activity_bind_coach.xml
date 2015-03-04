@@ -90,6 +90,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:clickable="true"
+                    android:visibility="gone"
                      >
 
                     <TextView
@@ -110,5 +111,41 @@
                         android:src="@drawable/ic_next"
                         />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/margin_large"
+                    >
+                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bind_coach_condition"
+                        android:textColor="@color/tv_gray_color"
+                        android:textSize="@dimen/txtsize_middle"
+                         />
+                       <EditText
+                           android:id="@+id/bind_edit"
+                           android:layout_width="match_parent"
+                           android:layout_height="0dp"
+                           android:layout_weight="1"
+                           android:background="@color/white"
+                           android:hint="字数限制为50字"
+                           android:padding="@dimen/padding_default"
+                           android:textColor="@color/tv_light_color"
+                           android:textSize="@dimen/txtsize_middle"
+                           android:maxLength="50"
+                           android:gravity="top|left"
+                           /> 
+                        <Button
+        android:id="@+id/bind_coach_commit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_margin="@dimen/margin_default"
+        android:background="@drawable/bkg_verify_btn_start"
+        android:text="@string/commit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txtsize_default" />
+                 </LinearLayout>
 
 </LinearLayout>

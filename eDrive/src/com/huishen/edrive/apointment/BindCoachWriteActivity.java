@@ -2,7 +2,11 @@ package com.huishen.edrive.apointment;
 
 import com.huishen.edrive.R;
 import com.huishen.edrive.R.layout;
+import com.huishen.edrive.login.VerifyPhoneActivity;
+import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 绑定教练填写信息界面
@@ -73,6 +78,7 @@ public class BindCoachWriteActivity extends Activity {
 		stupass = (EditText) findViewById(R.id.bind_coach_w_stupass) ;
 		constupass = (EditText) findViewById(R.id.bind_coach_w_conpass);
 		note.setText(this.getResources().getString(R.string.bind_coach_note_pass));
+		
 	}
 
 	private void initName() {
@@ -80,6 +86,22 @@ public class BindCoachWriteActivity extends Activity {
 		namelay = (LinearLayout) findViewById(R.id.bind_coach_w_lay_stuname);
 		namelay.setVisibility(View.VISIBLE);
 		stuname = (EditText) findViewById(R.id.bind_coach_w_stuname) ;
+		commit.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// check phone
+				String name = stuname.getText().toString();
+				if (name.equals("")) {
+					AppUtil.ShowShortToast(getApplicationContext(), "真实姓名不能为空");
+					
+				}else{
+					Prefs.writeString(getApplicationContext(), SRL.Param.PARAM_BIND_STU_NAME, name);
+					finish();
+				}
+			}
+			
+		});
 	}
 
 	private void initTel() {
@@ -88,5 +110,27 @@ public class BindCoachWriteActivity extends Activity {
 		tellay.setVisibility(View.VISIBLE);
 		coachtel = (EditText) findViewById(R.id.bind_coach_w_tel) ;
 		note.setText(this.getResources().getString(R.string.bind_coach_note_tel));
+		commit.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// check phone
+				String num = coachtel.getText().toString();
+				if (!num.matches("(86|\\+86)?1\\d{10}")) {
+					Toast.makeText(
+							BindCoachWriteActivity.this,
+							getResources().getString(
+									R.string.str_verify_phone_err_not_valid_number),
+							Toast.LENGTH_SHORT).show();
+					
+				}else{
+					Prefs.writeString(getApplicationContext(), SRL.Param.PARAM_BIND_COACH_PHONE, num+"");
+					finish();
+				}
+			}
+			
+		});
 	}
+	
+	
 }

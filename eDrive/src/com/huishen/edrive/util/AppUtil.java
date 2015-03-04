@@ -90,7 +90,10 @@ public class AppUtil {
 		if(coachInfojson != null){
 			String coachId = coachInfojson.optString("coachId" ,"") ;
 			Prefs.writeString(context,Const.USER_COACH_ID, coachId);
+		}else{
+			Prefs.writeString(context,Const.USER_COACH_ID, "");
 		}
+		
 		}catch(Exception e){
 			e.printStackTrace() ;
 		}

@@ -147,10 +147,10 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		//给选择的服务选项添加数据
 
 		dialog = new PostAddrDialog(this,listener);
-		if(addr.equals("")){
+		if(addr == null || addr.equals("")||addr.equals("null")){
 			dialog.show() ;
 		}else{
-			
+			Log.i(TAG, addr);
 			addrBtn.setText(addr);
 			// 初始化搜索模块，注册事件监听
 		    // 搜索相关
@@ -162,7 +162,11 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 
 			@Override
 			public void onClick(View arg0) {
-				sendTxtOrder();
+				if(Prefs.readString(getApplicationContext(), Const.ORDER_STATUS).equals("1")){
+				    AppUtil.ShowShortToast(getApplicationContext(), "请，你的订单现在很热门哟！请等会儿再发下一条！");
+				}else{
+					 sendTxtOrder();
+				}
 			}
 			
 		}) ;
@@ -270,7 +274,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    	
 				    	if(json.getInt("code")== 0){
 				    		AppUtil.ShowShortToast(getApplicationContext(), "发布成功") ;
-				    		
+				    		Prefs.writeString(getApplicationContext(), Const.ORDER_STATUS,"1") ;
 				    		Prefs.writeString(getApplicationContext(), Const.USER_LAST_ORDER_ID,json.getInt(Const.USER_LAST_ORDER_ID)+"") ;
 				    		AppController.getInstance().setAlarm(PostTxtActivity.this,json.getInt(Const.USER_LAST_ORDER_ID));
 				    		finish();
@@ -281,8 +285,9 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    	   e.printStackTrace() ;
 				    }
 			}
-			
+			  
 		}, new DefaultErrorListener());
+		
 	}
 	
 	private PostDialogInterface listener= new PostDialogInterface(){

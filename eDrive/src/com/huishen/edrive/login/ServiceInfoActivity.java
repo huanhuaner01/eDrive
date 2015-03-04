@@ -1,6 +1,7 @@
 package com.huishen.edrive.login;
 
 import com.huishen.edrive.R;
+import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.util.AppController;
 
 import android.app.Activity;
@@ -52,10 +53,10 @@ public class ServiceInfoActivity extends Activity {
 			public void onCheckedChanged(RadioGroup g, int checkedId) {
 				switch(checkedId){
 				case R.id.service_info_se:
-					openUrl("http://www.baidu.com") ;
+					openUrl(NetUtil.getAbsolutePath("/static/services/clause.html")) ;
 					break ;    
 				case R.id.service_info_pri:
-					openUrl("http://www.jd.com");
+					openUrl(NetUtil.getAbsolutePath("/static/services/policy.html"));
 					break ;
 				}
 			}

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -13,10 +14,13 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.util.SimpleAudioPlayer;
 import com.huishen.edrive.widget.RoundImageView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,18 +35,33 @@ public class SuccessDialogActivity extends Activity {
     private Button commit ;
     private RatingBar rating ;
     private RoundImageView img ;
+    private long coachId ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_success_dialog);
 		AppController.getInstance().addActivity(this);
-		setFinishOnTouchOutside(true);
+		setFinishOnTouchOutside(false);
+		removeLimit();
 		tempOrderId = this.getIntent().getLongExtra("tempOrderId", 0);
-		
+		//--------------震动------------------------
+		Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+		if (vibrator.hasVibrator()){
+			vibrator.vibrate(1000);
+		}
+		//-----------震动结束！---------------------
+		SimpleAudioPlayer.getInstance().playAssetsAudio(this, "ring_newmsg.wav");
 		registView();
 		initView();
 	}
 	
+	/**
+	 * 注销限制
+	 */
+	private void removeLimit(){
+		AppController.getInstance().stopAlarm();
+		Prefs.writeString(getApplicationContext(), Const.ORDER_STATUS, "0");
+	}
 	private void registView() {
 		coachname = (TextView) findViewById(R.id.order_coach_name);
 		field  = (TextView) findViewById(R.id.order_coach_field) ;
@@ -60,6 +79,20 @@ public class SuccessDialogActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				finish();
+			}
+			
+		});
+		img.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				if(coachId >=0){
+					Intent i = new Intent(SuccessDialogActivity.this ,CoachDetailActivity.class);
+					i.putExtra(CoachDetailActivity.COACH_ID, coachId);
+					startActivity(i);
+				}else{
+					AppUtil.ShowShortToast(getApplicationContext(), "教练数据获取异常");
+				}
 			}
 			
 		});
@@ -85,12 +118,14 @@ public class SuccessDialogActivity extends Activity {
 				    	distance.setText("距我"+(json.optInt("distance" ,0)/1000.0)+"k");
 				    	JSONObject sjson = json.getJSONObject("cohInfo");
 				    	if(sjson != null){
+				    		coachId = sjson.optInt("coachId" ,-1);
 				    		coachname.setText(sjson.optString("coachName" ,"无"));
 				    		coachname.append("("+sjson.optString("schoolName" ,"无")+")");
 				    		field.append(sjson.optString("address" ,"无"));
 				    		score.setText((float)(sjson.optDouble("coachScore" ,5))+"分");
 				    		rating.setRating((float)(sjson.optDouble("coachScore" ,5)));
 				    		NetUtil.requestLoadImage(img, sjson.getString("path"), R.drawable.ic_defualt_image);
+				    		
 				    	}
 				    }catch(Exception e){
 				    	   e.printStackTrace() ;

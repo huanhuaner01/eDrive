@@ -39,7 +39,7 @@
         android:id="@+id/splash_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/pic_splash_normal"
+        android:background="@drawable/pic_splash_4"
         android:contentDescription="@null" />
 
 </RelativeLayout>

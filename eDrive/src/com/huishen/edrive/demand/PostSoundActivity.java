@@ -23,14 +23,11 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
-import com.huishen.edrive.util.Recorder;
 import com.huishen.edrive.util.SimpleRecorder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.Editable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -265,6 +262,10 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 //		lng=104.065656;//当前学生经度
 //		lat=30.577716;//当前学生纬度
 //		String content = edt.toString();
+		if(Prefs.readString(getApplicationContext(), Const.ORDER_STATUS).equals("1")){
+		    AppUtil.ShowShortToast(getApplicationContext(), "请，你的订单现在很热门哟！请等会儿再发下一条！");
+		    return ;
+		}
 		if(addr == null || addr.equals("")){
 			AppUtil.ShowShortToast(this, "地址信息不能为空") ;
 			return ;
@@ -357,6 +358,9 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			    	
 			    	if(json.getInt("code")== 0){
 			    		AppUtil.ShowShortToast(getApplicationContext(), "发布成功") ;
+			     		Prefs.writeString(getApplicationContext(), Const.ORDER_STATUS,"1") ;
+			    		Prefs.writeString(getApplicationContext(), Const.USER_LAST_ORDER_ID,json.getInt(Const.USER_LAST_ORDER_ID)+"") ;
+			    		AppController.getInstance().setAlarm(PostSoundActivity.this,json.getInt(Const.USER_LAST_ORDER_ID));
 			    		finish();
 			    	}else{
 			    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
