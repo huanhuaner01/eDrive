@@ -83,6 +83,13 @@
     <string name="f_center_coach">绑定教练</string>
     <string name="f_center_share">分享</string>
     <string name="f_center_setting">设置</string>
+    <string name="modify_title">个人信息</string>
+    <string name="modify_photo">头像</string>
+    <string name="modify_nickname">我的昵称</string>
+    <string name="modify_myphone">我的手机号</string>
+    <string name="modify_myaddr">我的常用地址</string>
+    
+    
     <string name="title_activity_coach">CoachActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_coach_train_field">CoachTrainFieldActivity</string>
