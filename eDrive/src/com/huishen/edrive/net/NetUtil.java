@@ -1,11 +1,13 @@
 package com.huishen.edrive.net;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -257,5 +259,45 @@ public final class NetUtil {
 			throw new NullPointerException("params cannot be null!");
 		}
 		new HttpUploadTask(file, getAbsolutePath(relativePath), listener).execute();
+	}
+
+	/**
+	 * 提交下载文件的请求。
+	 * 
+	 * @param relativePath
+	 *            资源的相对路径。
+	 * @param target
+	 *            要保存到的目标文件。
+	 */
+	public static final void requestDownloadFile(String relativePath,
+			File target) {
+		requestDownloadFile(relativePath, target, null);
+	}
+
+	/**
+	 * 提交下载文件的请求。
+	 * 
+	 * @param relativePath
+	 *            资源的相对路径。
+	 * @param target
+	 *            要保存到的目标文件。
+	 * @param listener
+	 *            进度监听器。
+	 */
+	public static final void requestDownloadFile(final String relativePath,
+			final File target, final OnProgressChangedListener listener) {
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				SimpleDownloader downloader = new SimpleDownloader();
+				downloader.setOnProgressChangedListener(listener);
+				try {
+					downloader.download(getAbsolutePath(relativePath), target);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		}.execute();
 	}
 }
