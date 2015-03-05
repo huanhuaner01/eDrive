@@ -41,7 +41,7 @@ final class ServerAddressProvider {
 		 * 获得服务器的地址。
 		 * 
 		 * @return 返回服务器的地址（通常是域名，有时还包含端口号）。一个典型值是这样：
-		 *         <code>http://www.huishen.com</code>
+		 * <code>http://www.huishen.com</code>
 		 */
 		String getServerAddress();
 	}

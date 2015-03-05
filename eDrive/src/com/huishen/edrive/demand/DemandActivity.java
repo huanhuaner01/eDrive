@@ -190,7 +190,9 @@ public class DemandActivity extends Activity implements OnClickListener{
 								ratingBar.setRating(marker.getExtraInfo().getFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE)) ; //评分条
 								juedge.setText(marker.getExtraInfo().getFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE)+"分"); //分数显示
 								name.setText(marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_NAME)) ; //教练名称显示
+								if(!marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_PHOTO_PATH).equals("")){
 								NetUtil.requestLoadImage(img,marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_PHOTO_PATH), R.drawable.photo_coach_defualt); //教练头像
+								}
 								InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(view),marker.getPosition() ,-50 ,listener);
 								mBaiduMap.showInfoWindow(mInfoWindow);
 								return false;

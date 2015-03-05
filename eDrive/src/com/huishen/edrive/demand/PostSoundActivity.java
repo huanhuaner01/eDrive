@@ -192,7 +192,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	
 		
 		dialog = new PostAddrDialog(this,listener);
-		if(addr.equals("")){
+		if(addr == null || addr.equals("")|| addr.equals("null")){
 			dialog.show() ;
 		}else{
 			

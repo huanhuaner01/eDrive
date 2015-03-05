@@ -89,6 +89,19 @@
     <string name="modify_myphone">我的手机号</string>
     <string name="modify_myaddr">我的常用地址</string>
     
+     <string name="str_register_photo_select_source">选择照片来源</string>
+    <!-- 照片来源选择 -->
+    <string-array name="str_register_photo_source">
+        <item>拍照</item>
+        <item>从相册选择</item>
+    </string-array>
+
+    <string name="str_register_photo_alreay_added">已有照片</string>
+    <!-- 已有照片的操作 -->
+    <string-array name="str_register_photo_operations">
+        <item>查看大图</item>
+        <item>删除并重传</item>
+    </string-array>
     
     <string name="title_activity_coach">CoachActivity</string>
     <string name="action_settings">Settings</string>

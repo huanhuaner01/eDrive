@@ -124,7 +124,9 @@ public class SuccessDialogActivity extends Activity {
 				    		field.append(sjson.optString("address" ,"无"));
 				    		score.setText((float)(sjson.optDouble("coachScore" ,5))+"分");
 				    		rating.setRating((float)(sjson.optDouble("coachScore" ,5)));
+				    		if(!sjson.optString("path","").equals("")){
 				    		NetUtil.requestLoadImage(img, sjson.getString("path"), R.drawable.ic_defualt_image);
+				    		}
 				    		
 				    	}
 				    }catch(Exception e){

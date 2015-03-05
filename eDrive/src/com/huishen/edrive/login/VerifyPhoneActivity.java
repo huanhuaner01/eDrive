@@ -204,7 +204,7 @@ public class VerifyPhoneActivity extends Activity implements
 	/**
 	 * 完成手机号码的发送和计时等工作。
 	 */
-	private final void sendVerifyRequest() {
+	private void sendVerifyRequest() {
 		// check phone
 		String num = editPhoneNumber.getText().toString();
 		if (!num.matches("(86|\\+86)?1\\d{10}")) {

@@ -147,7 +147,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		//给选择的服务选项添加数据
 
 		dialog = new PostAddrDialog(this,listener);
-		if(addr == null || addr.equals("")||addr.equals("null")){
+		if(addr == null || addr.equals("")|| addr.equals("null")){
 			dialog.show() ;
 		}else{
 			Log.i(TAG, addr);
