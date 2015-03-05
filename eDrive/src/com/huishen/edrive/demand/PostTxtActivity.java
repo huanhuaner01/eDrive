@@ -263,7 +263,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
         map.put(SRL.Param.PARAM_STUID, Prefs.readString(this, Const.USER_ID));
         map.put(SRL.Param.PARAM_CONTENT, content);
         map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
-        map.put(SRL.Param.PARAM_STUADDR, addrBtn.getText().toString());
+        map.put(SRL.Param.PARAM_STUADDR,addr);
 		NetUtil.requestStringData(SRL.Method.METHOD_SEND_TXT_ORDER, map,  new Response.Listener<String>() {
 		
 			@Override

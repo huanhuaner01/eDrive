@@ -85,7 +85,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 		// 初始化搜索模块，注册事件监听
 		mSearch = GeoCoder.newInstance();
 		mSearch.setOnGetGeoCodeResultListener(this);
-		setCancelable(false);//取消back键的监听
+//		setCancelable(false);//取消back键的监听
       //定义Maker坐标点  
 //      LatLng point = new LatLng(30.575505, 104.06584); 
      

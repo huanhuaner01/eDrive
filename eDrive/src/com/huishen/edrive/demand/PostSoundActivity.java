@@ -346,7 +346,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
       map.put(SRL.Param.PARAM_STUID, Prefs.readString(this, Const.USER_ID));
       map.put(SRL.Param.PARAM_CONTENT, keybuffer.toString());
       map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
-      map.put(SRL.Param.PARAM_STUADDR, addrBtn.getText().toString());
+      map.put(SRL.Param.PARAM_STUADDR, addr);
       map.put("audio",audio );
 		NetUtil.requestStringData(SRL.Method.METHOD_SEND_TXT_ORDER, map,  new Response.Listener<String>() {
 
