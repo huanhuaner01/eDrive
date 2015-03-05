@@ -17,6 +17,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
                   <com.huishen.edrive.widget.RoundImageView
+                      android:id="@+id/f_appoint_photo"
         android:layout_width="@dimen/demand_info_coachsize"
         android:layout_height="@dimen/demand_info_coachsize"
         android:src="@drawable/photo_coach_defualt"
@@ -31,20 +32,22 @@
                       android:layout_marginLeft="@dimen/margin_small"
                       >
                            <TextView
+                               android:id="@+id/f_appoint_coachname"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="张教练"
+                android:text="@string/defualt_null"
                 android:singleLine="true"
                 android:gravity="center_vertical"
                 android:textColor="@color/tv_light_color"
                 android:textSize="@dimen/txtsize_large"
                 />
                                     <TextView
+                                        android:id="@+id/f_appoint_carnum"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="川A******************"
+                android:text="@string/defualt_null"
                 android:singleLine="true"
                 android:gravity="center_vertical"
                 android:layout_marginRight="@dimen/margin_small"
@@ -53,6 +56,7 @@
                 />
                       </LinearLayout>
                       <ImageButton
+                          android:id="@+id/f_appoint_btn"
                           android:layout_width="wrap_content"
                           android:layout_height="match_parent"
                           android:src="@drawable/selector_phone"

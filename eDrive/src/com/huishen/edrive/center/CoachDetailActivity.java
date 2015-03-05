@@ -118,7 +118,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 				judgerating.setRating((float)jsonb.optDouble("coachScore",0));
 				coachtel = jsonb.optString("phone" ,"");
 				if(!jsonb.optString("path" ,"").equals("")){
-				   NetUtil.requestLoadImage(img, jsonb.getString("path"), R.drawable.ic_defualt_image);
+				   NetUtil.requestLoadImage(img, jsonb.getString("path"), R.drawable.photo_coach_defualt);
 				}
 			}
 			}catch(Exception e){

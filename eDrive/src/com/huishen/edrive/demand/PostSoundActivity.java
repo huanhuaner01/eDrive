@@ -149,6 +149,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 					soundbg.startAnimation(animation);
 					sound_play.setText(PostSoundActivity.this.getResources().getString(R.string.post_sound_btn_press));
 //					String path = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"edrive" ;
+					recorder.stopRecord();
 					recorder.clearFile() ;
 					audiofile = new File(recorder.getPath() ,recorder.now()+recorder.getRandomString(2)+".mp3");
 					
@@ -469,11 +470,11 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			}
 			
 		}, new DefaultErrorListener(MyDialog));
+	
 	}
 
 	@Override
 	public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
-		// TODO Auto-generated method stub
-		
+		  
 	}
 }

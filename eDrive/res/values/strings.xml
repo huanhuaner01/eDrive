@@ -64,7 +64,7 @@
     <string name="bind_coach_note_tel">亲，请你填写正确的电话号码，加以绑定，方便你在线预约练车</string>
     <string name="bind_coach_note_pass">设置密码，确保能够成功的进行在线约课和不易丢失个人信息</string>
     <string name="bind_coach_condition">附加条件</string>
-    
+
     <!-- 查看教练详情 -->
     <string name="coach_detail_demandnum">抢单数量</string>
     <string name="coach_detail_judgenum">好评率</string>
@@ -88,8 +88,7 @@
     <string name="modify_nickname">我的昵称</string>
     <string name="modify_myphone">我的手机号</string>
     <string name="modify_myaddr">我的常用地址</string>
-    
-     <string name="str_register_photo_select_source">选择照片来源</string>
+    <string name="str_register_photo_select_source">选择照片来源</string>
     <!-- 照片来源选择 -->
     <string-array name="str_register_photo_source">
         <item>拍照</item>
@@ -102,7 +101,7 @@
         <item>查看大图</item>
         <item>删除并重传</item>
     </string-array>
-    
+
     <string name="title_activity_coach">CoachActivity</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_coach_train_field">CoachTrainFieldActivity</string>
@@ -113,5 +112,9 @@
     <string name="title_activity_fail_dialog">FailDialogActivity</string>
     <string name="title_activity_success_dialog">SuccessDialogActivity</string>
     <string name="title_activity_modify_user_info">ModifyUserInfoActivity</string>
+    <string name="title_activity_msg">MsgActivity</string>
+    <string name="title_activity_order">OrderActivity</string>
+    <string name="title_activity_share">ShareActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
 
 </resources>

@@ -87,6 +87,12 @@ public final class SRL {
 		
 		//-------------------------------绑定教练---------------------------------
 		public static final String METHOD_BIND_COACH = "stuMobile/addStudentEnrollInfo" ;
+		//-------------------------------绑定教练结束！---------------------------------
+		
+		//-------------------------预约学车----------------------------------------
+		public static final String METHOD_GET_APPOINT = "stuMobile/queryStuCoachLessonInfo" ;
+		
+		//-------------------------预约学车结束！-------------------------------------
 		
 	}
 	//请求参数

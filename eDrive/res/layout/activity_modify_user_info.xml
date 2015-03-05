@@ -20,7 +20,7 @@
 
                 <!-- 训练场位置 -->
                 <LinearLayout
-                    android:id="@+id/f_center_photo"
+                    android:id="@+id/f_center_img_photo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_large"
                     android:background="@drawable/selector_lab_btn"
