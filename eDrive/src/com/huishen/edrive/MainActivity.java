@@ -1,6 +1,12 @@
 package com.huishen.edrive;
 
+import java.util.HashMap;
+
+import com.android.volley.Response;
 import com.huishen.edrive.demand.DemandActivity;
+import com.huishen.edrive.net.DefaultErrorListener;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.umeng.UmengServiceProxy;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Const;
@@ -12,6 +18,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SlidingPaneLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,7 +41,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     private ImageButton header_menu ;
     private TextView menu1 ;
     private RadioGroup tabGroup ;
-    private String coachId = null;
+    private String coachId = null ,result;
     
     //初始化数据
     private boolean isFirstMain = true ;
@@ -43,7 +50,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	protected void onResume() {
 		coachId = Prefs.readString(this, Const.USER_COACH_ID);
 		if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_appointment){
-			this.tabGroup.check(R.id.main_tab_appointment);
+			getWebData();
 		}
 		super.onResume();
 	}
@@ -100,6 +107,25 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 //			}});
     }
     
+	/**
+	 * 获取数据
+	 */
+	private void getWebData(){
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("coachId",Prefs.readString(this, Const.USER_COACH_ID));
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_APPOINT, map,
+				new Response.Listener<String>() {
+                       
+					@Override
+					public void onResponse(String result) {
+						Log.i(TAG, result);
+						MainActivity.this.result = result ;
+						tabGroup.setOnCheckedChangeListener(MainActivity.this);
+				    	tabGroup.check(R.id.main_tab_appointment);
+					}
+				},new DefaultErrorListener());
+	}
+	
     private void registView(){
     	panelayout = (SlidingPaneLayout)findViewById(R.id.slidepanel);
     	header_menu = (ImageButton)findViewById(R.id.header_menu);
@@ -130,8 +156,8 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     	});
     	
     	//页面切换
-    	this.tabGroup.setOnCheckedChangeListener(this);
-    	this.tabGroup.check(R.id.main_tab_appointment);
+    	getWebData();
+    	tabGroup.setOnCheckedChangeListener(MainActivity.this);
     }
 
     
@@ -171,7 +197,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 				AppointmentNoCoachFragment nocoachfragment = new AppointmentNoCoachFragment();
 				tx.replace(R.id.main_center,nocoachfragment); 
 			}else{
-				ApointmentFragment apointment = new ApointmentFragment(this) ;	
+				ApointmentFragment apointment = new ApointmentFragment(this ,result) ;	
 				tx.replace(R.id.main_center,apointment); 
 			}
 			break ;

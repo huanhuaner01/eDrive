@@ -175,6 +175,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:clickable="true"
+                    android:visibility="gone"
                      >
                     
                     <ImageView

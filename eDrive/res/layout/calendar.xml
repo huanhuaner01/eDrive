@@ -40,7 +40,7 @@
    <include layout="@layout/calendar_week" />
 
        <android.support.v4.view.ViewPager
-           android:id="@+id/pager"
+           android:id="@+id/calendarpager"
            android:layout_width="match_parent"
            android:layout_height="wrap_content" />
 

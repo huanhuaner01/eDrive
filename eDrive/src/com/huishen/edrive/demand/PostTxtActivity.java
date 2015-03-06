@@ -186,7 +186,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				if(result==null ||result.equals("")){
 					AppUtil.ShowShortToast(getApplicationContext(), "亲，没有预设服务哟");
 				}else{
-				
+				    
 				try{
 					JSONObject json = new JSONObject(result);
 					String service = json.optString("service","");
@@ -249,7 +249,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		if (content.endsWith(",")){
 			content = edt.delete(edt.length()-1, edt.length()).toString();
 		}
-		if(content.equals("")){
+		if(content.equals("")||content.equals("我需要")){
 			AppUtil.ShowShortToast(this, "订单内容不能为空") ;
 			return ;
 		}

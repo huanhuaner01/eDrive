@@ -35,7 +35,7 @@ public class SuccessDialogActivity extends Activity {
     private Button commit ;
     private RatingBar rating ;
     private RoundImageView img ;
-    private long coachId ;
+    private int coachId ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

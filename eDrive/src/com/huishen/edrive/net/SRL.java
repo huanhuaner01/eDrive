@@ -91,7 +91,7 @@ public final class SRL {
 		
 		//-------------------------预约学车----------------------------------------
 		public static final String METHOD_GET_APPOINT = "stuMobile/queryStuCoachLessonInfo" ;
-		
+		public static final String METHOD_GET_SUBJECT = "stuMobile/queryCohLessonInfoCount" ;
 		//-------------------------预约学车结束！-------------------------------------
 		
 	}

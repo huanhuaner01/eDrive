@@ -90,6 +90,7 @@ public class CalendarPagerFragment extends Fragment {
 		Log.i(TAG, "endDate is " + this.endDate);
 		this.isSection = true;
 		this.colors = colors ;
+		
 	}
 
 	/**
@@ -141,9 +142,9 @@ public class CalendarPagerFragment extends Fragment {
 				}
 				adapter.selectOption(position);
 				Date date = CalendarUtil.getDate(mMonthIndex);
-				SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/");
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-");
 				String d = df.format(date);
-				fragment.setResult(d) ;
+				fragment.setResult(d+map.get("day")) ;
 //				Intent intent = new Intent(); 
 //				intent.putExtra(CalendarActivity.RESULT_DATA, d + map.get("day"));
 //				CalendarPagerFragment.this.getActivity().setResult(CalendarPagerFragment.this.getActivity().RESULT_OK, intent); 
@@ -178,6 +179,7 @@ public class CalendarPagerFragment extends Fragment {
 				    if(dayisSection(newDay)){
 				    	map.put("status", 0);
 				    	map.put("color", colors[temp]) ;
+				    	
 				    	temp++ ;
 				    	if(this.mMonthIndex == CalendarUtil.getCurrentMouth()&&dayisSection(today)){
 				    			if(i == CalendarUtil.getCurrentDay()){

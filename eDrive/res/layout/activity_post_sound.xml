@@ -66,6 +66,14 @@
       android:textColor="@color/white"
       />
               </RelativeLayout>
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="当语音圈变为红色时，点击可播放语音"
+                  android:gravity="center"
+                  android:textColor="@color/tv_gray_color"
+                  android:textSize="@dimen/txtsize_middle"
+                  />
         <Button 
             android:id="@+id/post_btn_sound"
             android:layout_width="match_parent"

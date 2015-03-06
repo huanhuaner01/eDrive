@@ -1,10 +1,16 @@
 package com.huishen.edrive;
 
+import java.util.HashMap;
+
+import com.android.volley.Response;
 import com.huishen.edrive.center.ModifyUserInfoActivity;
 import com.huishen.edrive.center.MsgActivity;
 import com.huishen.edrive.center.OrderActivity;
 import com.huishen.edrive.center.SettingActivity;
 import com.huishen.edrive.center.ShareActivity;
+import com.huishen.edrive.net.DefaultErrorListener;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.RoundImageView;
@@ -12,6 +18,7 @@ import com.huishen.edrive.widget.RoundImageView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +68,24 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 		 setData();
 	}
 	
+	/**
+	 * 获取网络数据
+	 */
+	private void getWebData(){
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put("coachId",Prefs.readString(this。, Const.USER_COACH_ID));
+//		NetUtil.requestStringData(SRL.Method.METHOD_GET_APPOINT, map,
+//				new Response.Listener<String>() {
+//                       
+//					@Override
+//					public void onResponse(String result) {
+//						Log.i(TAG, result);
+//						MainActivity.this.result = result ;
+//						tabGroup.setOnCheckedChangeListener(MainActivity.this);
+//				    	tabGroup.check(R.id.main_tab_appointment);
+//					}
+//				},new DefaultErrorListener());
+	}
 	private void setData(){
 //		NetUtil.requestLoadImage(photoimg, relativePath, R.drawable.co);
 		tel.setText(Prefs.readString(getActivity(), Const.USER_PHONE));

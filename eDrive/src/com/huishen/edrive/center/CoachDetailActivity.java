@@ -73,7 +73,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 	private void getNetData() {
 		if(coachId == -1){
 			AppUtil.ShowShortToast(this,"获取数据异常") ;
-			this.finish() ;
+			return ;
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(COACH_ID, coachId+"");

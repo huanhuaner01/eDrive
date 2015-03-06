@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
 import android.os.Bundle;
 
 /**
@@ -56,17 +57,19 @@ public class CalendarFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		
 		View rootView = inflater.inflate(R.layout.calendar, null);
 		registView(rootView);
 	    init();
 		return rootView ;
 	}
-
+	
     /**
      * 注册组件
      */
     private void registView(View rootView) {
-    	 mPager = (ViewPager)rootView.findViewById(R.id.pager) ;
+    	 mPager = (ViewPager)rootView.findViewById(R.id.calendarpager) ;
          title = (TextView)rootView.findViewById(R.id.calendar_tv_mouth) ;
          this.premouth = (ImageButton)rootView.findViewById(R.id.calendar_btn_premouth) ;
          this.nextmouth = (ImageButton)rootView.findViewById(R.id.calendar_btn_nextmouth) ;

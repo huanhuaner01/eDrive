@@ -116,5 +116,6 @@
     <string name="title_activity_order">OrderActivity</string>
     <string name="title_activity_share">ShareActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_modify_user_info_secend">ModifyUserInfoSecendActivity</string>
 
 </resources>
