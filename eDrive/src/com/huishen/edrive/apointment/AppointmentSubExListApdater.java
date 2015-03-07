@@ -10,6 +10,7 @@ import android.database.DataSetObserver;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
@@ -27,15 +28,16 @@ public class AppointmentSubExListApdater implements ExpandableListAdapter{
 	private LayoutInflater mInflater = null;
 	private ArrayList<HashMap<String, String>> mGroupData = null;
 	private ArrayList<ArrayList<HashMap<String , String>>> mData = null;
-	
+	private TimeClassApointListener listener ;
 	public AppointmentSubExListApdater(Context ctx,
 			ArrayList<HashMap<String, String>> mGData,
-			ArrayList<ArrayList<HashMap<String , String>>> list) {
+			ArrayList<ArrayList<HashMap<String , String>>> list , TimeClassApointListener listener) {
 		mContext = ctx;
 		mInflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mGroupData = mGData;
 		mData = list;
+		this.listener = listener ;
 		Log.i("CoachMealListExpandAdapter", mData.toString());
 	}
 
@@ -104,13 +106,33 @@ public class AppointmentSubExListApdater implements ExpandableListAdapter{
 			holder = (ChildViewHolder)convertView.getTag() ;
 		}
 //		// ----------------添加列表数据------------------
-		HashMap<String, String> data = mData.get(groupPosition).get(childPosition);
-		if (data.get("subName") != null) {
-			holder.classTime.setText(data.get("subName").toString());
+		final HashMap<String, String> data = mData.get(groupPosition).get(childPosition);
+		if (data.get("className") != null) {
+			holder.classTime.setText(data.get("className").toString());
 		}
-		if (data.get("subStatus") != null) {
-			holder.classStatus.setText(data.get("subStatus").toString());
+		if (data.get("classStatus") != null) {
+			holder.classStatus.setText(data.get("classStatus").toString());
 		}
+		holder.classBtn.setEnabled(true);
+		if(Integer.parseInt(data.get("code").toString())==1){//已约
+			holder.classBtn.setBackgroundResource(R.drawable.day_full);
+			holder.classBtn.setText("取消");
+		}else if(Integer.parseInt(data.get("code").toString())==2){ //已满
+			holder.classBtn.setBackgroundResource(R.drawable.day_exists);
+			holder.classBtn.setText("已满");
+			holder.classBtn.setEnabled(false);
+		}else{//可约
+			holder.classBtn.setBackgroundResource(R.drawable.day_exists);
+			holder.classBtn.setText("预约");
+		}
+		holder.classBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				listener.setOnClick(Integer.parseInt(data.get("subject")), Integer.parseInt(data.get("lessonTime")), Integer.parseInt(data.get("code")));
+			}
+			
+		});
 //		// ----------------添加列表数据结束！----------------
 		return convertView;
 	}

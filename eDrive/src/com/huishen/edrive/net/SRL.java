@@ -76,6 +76,7 @@ public final class SRL {
 		public static final String METHOD_GET_COACH_FIELDPIC="stuMobile/queryCoachPicture";
 		public static final String METHOD_GET_COACH_FIELD = "stuMobile/queryCoachCampus" ;
 		public static final String METHOD_GET_COACH_MEAL = "stuMobile/queryServicebillInfoByCoachID" ;
+		
 		//------------------------------发布需求----------------------------
 		public static final String METHOD_SEND_TXT_ORDER = "stuMobile/publishOrder" ;
 		public static final String METHOD_SET_ADDR = "stuMobile/updateStudentAddressInfo" ;
@@ -92,7 +93,14 @@ public final class SRL {
 		//-------------------------预约学车----------------------------------------
 		public static final String METHOD_GET_APPOINT = "stuMobile/queryStuCoachLessonInfo" ;
 		public static final String METHOD_GET_SUBJECT = "stuMobile/queryCohLessonInfoCount" ;
+		public static final String METHOD_SEND_APPOINT = "stuMobile/addLessonInfo" ;
+		public static final String METHOD_CANCEL_APPOINT = "stuMobile/editLesssonInfoStatus" ;
 		//-------------------------预约学车结束！-------------------------------------
+		
+		//---------------------------个人中心-------------------------------------
+		public static final String METHOD_GET_CENTER_INFO = "stuMobile/queryStuInfoById" ;
+		public static final String METHOD_GET_CENTER_USERINFO = "stuMobile/queryStuinfo" ;
+		//---------------------------个人中心结束！---------------------------------
 		
 	}
 	//请求参数

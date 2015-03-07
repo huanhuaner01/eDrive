@@ -56,8 +56,8 @@ public class FailDialogActivity extends Activity {
 	 * 注册组件
 	 */
 	private void regsitView() {
-		resend = (Button)findViewById(R.id.order_resend);
-		cancel = (Button) findViewById(R.id.order_cancel);
+		resend = (Button)findViewById(R.id.dialog_msg_commit);
+		cancel = (Button) findViewById(R.id.dialog_msg_cancel);
 	}
 	
 	/**

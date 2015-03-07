@@ -242,7 +242,7 @@
 
                 <!-- 训练场图片  -->
                    <LinearLayout
-                       android:id="@+id/coach_detail_fieldimg"
+                       android:id="@+id/m_center_lay_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
                     android:background="@drawable/selector_lab_btn"
@@ -358,7 +358,7 @@
               
                    <!-- 学车套餐  -->
                    <LinearLayout
-                    android:id="@+id/coach_detail_setmeal"
+                    android:id="@+id/m_center_lay_addr"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
                     android:background="@drawable/selector_lab_btn"

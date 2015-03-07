@@ -163,7 +163,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			@Override
 			public void onClick(View arg0) {
 				if(Prefs.readString(getApplicationContext(), Const.ORDER_STATUS).equals("1")){
-				    AppUtil.ShowShortToast(getApplicationContext(), "请，你的订单现在很热门哟！请等会儿再发下一条！");
+				    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔半个小时再来吧！");
 				}else{
 					 sendTxtOrder();
 				}

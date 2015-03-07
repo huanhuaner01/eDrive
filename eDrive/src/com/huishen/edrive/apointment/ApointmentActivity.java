@@ -1,20 +1,28 @@
 package com.huishen.edrive.apointment;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.android.volley.Response;
-import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
+import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.CalendarUtil;
+import com.huishen.edrive.widget.RoundImageView;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,92 +32,381 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ApointmentActivity extends Activity {
-	private String TAG = "ApointmentActivity" ;
-   private ExpandableListView list ;
-   private TextView title ;
-   private ImageButton back ;
-   
-   private AppointmentSubExListApdater adapter ;
+	private String TAG = "ApointmentActivity", telstr;
+	private ExpandableListView list;
+	private TextView title, coachname, carnum, time, week;
+	private ImageButton back, tel;
+	private RoundImageView photo;
+	private String[] sub = new String[] { "科目一", "科目二", "科目三", "科目四" };
+	private String[] classtime = new String[] { "早上", "中午", "晚上" };
+	private String[] limit = new String[] { "km2a", "km2e", "km2m", "km3a",
+			"km3e", "km3m" };
+	private AppointmentSubExListApdater adapter;
 	private ArrayList<HashMap<String, String>> mGroupData = null;
-	private ArrayList<ArrayList<HashMap<String , String>>> mData = null;
-	
-	
-	private String date ;
+	private ArrayList<ArrayList<HashMap<String, String>>> mData = null;
+
+	private MessageDialog dialog;
+
+	private String date;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apointment);
 		AppController.getInstance().addActivity(this);
-		//---------------------获取数据----------------------
-		  date = this.getIntent().getStringExtra("lessonDate");
-		  
-		//---------------------获取数据结束！-------------------------
+		// ---------------------获取数据----------------------
+		date = this.getIntent().getStringExtra("lessonDate");
+
+		// ---------------------获取数据结束！-------------------------
 		registView();
 		init();
 	}
-	
-	
+
 	private void registView() {
-		list = (ExpandableListView)findViewById(R.id.appoint_expandablelist);
-		title = (TextView)findViewById(R.id.header_title) ;
-		back = (ImageButton)findViewById(R.id.header_back) ;
-		
+		list = (ExpandableListView) findViewById(R.id.appoint_expandablelist);
+		title = (TextView) findViewById(R.id.header_title);
+		back = (ImageButton) findViewById(R.id.header_back);
+		tel = (ImageButton) findViewById(R.id.appoint_coach_img_tel);
+		coachname = (TextView) findViewById(R.id.appoint_coach_tv_name);
+		carnum = (TextView) findViewById(R.id.appoint_coach_tv_carnum);
+		time = (TextView) findViewById(R.id.appoint_tv_time);
+		week = (TextView) findViewById(R.id.appoint_tv_week);
+		photo = (RoundImageView) findViewById(R.id.appoint_coach_img_photo);
 	}
-	
-	private void init(){
-		this.title.setText("预约管理") ;
-		this.back.setOnClickListener(new OnClickListener(){
+
+	private void init() {
+		this.title.setText("预约管理");
+		this.back.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				finish();
 			}
-		}) ;
-		
-		//-------添加约课数据-------
+		});
+		this.week.setText(CalendarUtil.getDayWeek(date) + "");
+		this.time.setText(date);
+		this.tel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				callTel();
+			}
+
+		});
+		this.photo.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				intentCoachDetail();
+			}
+
+		});
+		// -------添加约课数据-------
 		mGroupData = new ArrayList<HashMap<String, String>>();
-		mData = new ArrayList<ArrayList<HashMap<String , String>>>();
-		for(int i = 0 ;i<2 ;i++){
-			HashMap<String ,String> map = new HashMap<String ,String>();
-			map.put("subName", "科目"+(i+1)) ;
-			map.put("subStatus", "0/3") ;
+		mData = new ArrayList<ArrayList<HashMap<String, String>>>();
+		for (int i = 1; i < 3; i++) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("subName", sub[i]);
+			map.put("subStatus", "0/3");
 			mGroupData.add(map);
-			ArrayList<HashMap<String , String>> prms = new ArrayList<HashMap<String , String>>();
-			for(int j = 0 ;j<3 ;j++){
-				HashMap<String ,String> pmap = new HashMap<String ,String>();
-				pmap.put("subName", "时间"+(j+1)) ;
-				pmap.put("subStatus", "0/0") ;
+			ArrayList<HashMap<String, String>> prms = new ArrayList<HashMap<String, String>>();
+			for (int j = 0; j < 3; j++) {
+				HashMap<String, String> pmap = new HashMap<String, String>();
+				pmap.put("className", classtime[j]);
+				pmap.put("classStatus", "0/0");
+				pmap.put("code", 0 + "");
 				prms.add(pmap);
 			}
 			mData.add(prms);
 		}
-		adapter = new AppointmentSubExListApdater(this,mGroupData ,mData);
+		adapter = new AppointmentSubExListApdater(this, mGroupData, mData, null);
 		list.setAdapter(adapter);
-		if(adapter.getGroupCount()>=0){
-		list.expandGroup(0);
+		if (adapter.getGroupCount() >= 0) {
+			list.expandGroup(0);
 		}
 		getData();
-		
+
 	}
-	
-	private void getData(){
-		/**
-		 * [[{subName=时间1, subStatus=0/0}, {subName=时间2, subStatus=0/0},
-		 *  {subName=时间3, subStatus=0/0}], [{subName=时间1, subStatus=0/0},
-		 *  {subName=时间2, subStatus=0/0}, {subName=时间3, subStatus=0/0}]]
-		 */
+
+	private void getData() {
+
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("coachId",Prefs.readString(this, Const.USER_COACH_ID));
+		map.put("coachId", Prefs.readString(this, Const.USER_COACH_ID));
 		map.put("lessonDate", date);
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_SUBJECT, map,
 				new Response.Listener<String>() {
-                       
+
 					@Override
 					public void onResponse(String result) {
 						Log.i(TAG, result);
+						if (result == null || result.equals("")) {
+							AppUtil.ShowShortToast(ApointmentActivity.this,
+									"服务器繁忙");
+						} else {
+							setData(result);
+						}
 					}
-				},new DefaultErrorListener());
+				}, new DefaultErrorListener());
 	}
 
-	
+	/**
+	 * 设置数据
+	 * 
+	 * @param result
+	 */
+	private void setData(String result) {
+		/**
+		 * {"cohInfo":{"busNumber":"蜀K88888","coachName":"雷猴","path":
+		 * "/attachment/coh-head/image/IMG_2015021415243200907519.jpg"
+		 * ,"phone":"18200390901"}, "less":{"lessonCount":
+		 * [{"count":0,"lessonTime":1,"subject":1},
+		 * {"count":0,"lessonTime":1,"subject":2},
+		 * {"count":0,"lessonTime":2,"subject":1},
+		 * {"count":0,"lessonTime":2,"subject":2},
+		 * {"count":0,"lessonTime":3,"subject":1},
+		 * {"count":0,"lessonTime":3,"subject":2}],
+		 * "lessonLimit":{"km2a":1,"km2e"
+		 * :0,"km2m":1,"km3a":0,"km3e":0,"km3m":0}} ,"stuLessonInfo":
+		 * [{"lessonDate":"2015-03-08","lessonTime":1,"subject":1}] }
+		 */
+		try {
+			JSONObject json = new JSONObject(result);
+			JSONObject coachinfo = json.getJSONObject("cohInfo");
+			JSONObject less = json.getJSONObject("less");
+			JSONArray lessonCount = less.getJSONArray("lessonCount");
+			JSONObject lessonLimit = less.getJSONObject("lessonLimit");
+			JSONArray stuLessonInfo = json.getJSONArray("stuLessonInfo");
+			if (!coachinfo.optString("path", "").equals("")) {
+				NetUtil.requestLoadImage(photo,
+						coachinfo.optString("path", ""),
+						R.drawable.photo_coach_defualt);
+			}
+			coachname.setText(coachinfo.optString("coachName", "暂无"));
+			carnum.setText(coachinfo.optString("busNumber", "暂无"));
+			telstr = coachinfo.optString("phone", "");
+			mGroupData.clear();
+			mData.clear();
+			for (int i = 1; i < 3; i++) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("subName", sub[i]);
+				int total = 0; // 上限
+				int count = 0; // 已约总数
+				if (i == 1) {
+					total = lessonLimit.optInt("km2a", 0)
+							+ lessonLimit.optInt("km2e", 0)
+							+ lessonLimit.optInt("km2m", 0);
+				} else {
+					total = lessonLimit.optInt("km3a", 0)
+							+ lessonLimit.optInt("km3e", 0)
+							+ lessonLimit.optInt("km3m", 0);
+				}
+				ArrayList<HashMap<String, String>> prms = new ArrayList<HashMap<String, String>>();
+				for (int j = 0; j < lessonCount.length(); j++) {
+					JSONObject subclass = lessonCount.getJSONObject(j);
+
+					if (subclass.getInt("subject") == i) {
+						HashMap<String, String> pmap = new HashMap<String, String>();
+						pmap.put("className",
+								classtime[subclass.getInt("lessonTime") - 1]);
+						int classtotal = lessonLimit.getInt(limit[i
+								* subclass.getInt("lessonTime") - 1]);
+						if (classtotal == subclass.getInt("count")) {
+							pmap.put("code", 2 + "");
+						} else {
+							pmap.put("code", 0 + "");
+						}
+						for (int n = 0; n < stuLessonInfo.length(); n++) {
+							JSONObject stuclass = stuLessonInfo
+									.getJSONObject(n);
+							if (stuclass.getInt("subject") == subclass
+									.getInt("subject")
+									&& stuclass.getInt("lessonTime") == subclass
+											.getInt("lessonTime")) {
+								pmap.put("code", 1 + "");
+							}
+						}
+						pmap.put("classStatus", subclass.getInt("count") + "/"
+								+ classtotal);
+						pmap.put("lessonTime", subclass.getInt("lessonTime")
+								+ "");
+						pmap.put("subject", subclass.getInt("subject") + "");
+						prms.add(pmap);
+						count = count + subclass.getInt("count");
+					}
+				}
+				map.put("subStatus", count + "/" + total);
+				mGroupData.add(map);
+				mData.add(prms);
+			}
+			adapter = new AppointmentSubExListApdater(this, mGroupData, mData,
+					listener);
+			list.setAdapter(adapter);
+			if (adapter.getGroupCount() >= 0) {
+				list.expandGroup(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private TimeClassApointListener listener = new TimeClassApointListener() {
+
+		@Override
+		public void setOnClick(int subject, int lessionDate, int code) {
+			Log.i(TAG, "subject:" + subject + " lessionDate:" + lessionDate
+					+ " code:" + code);
+			if (code == 0) {
+				actionAppoint(subject, lessionDate);
+			} else {
+				actionCancel(subject, lessionDate);
+			}
+		}
+
+	};
+
+	private void actionAppoint(final int subject, final int lessionDate) {
+
+		dialog = new MessageDialog(this, "您确定要预约以下时间吗？", "练习项目：" + sub[subject]
+				+ "\n" + "练车时间：" + date + " " + classtime[lessionDate - 1],
+				false, new MassageListener() {
+
+					@Override
+					public void setCommitClick() {
+						sendAppoint(subject, lessionDate);
+					}
+
+					@Override
+					public void setCancelClick() {
+
+					}
+
+				});
+		dialog.show();
+	}
+
+	/**
+	 * 取消按钮响应
+	 */
+	private void actionCancel(final int subject, final int lessionDate) {
+		dialog = new MessageDialog(this, "您确定取消预约的时间吗？", "", true,
+				new MassageListener() {
+
+					@Override
+					public void setCommitClick() {
+						cancelAppoint(subject, lessionDate);
+					}
+
+					@Override
+					public void setCancelClick() {
+					}
+
+				});
+		dialog.show();
+	}
+
+	/**
+	 * 约课课程
+	 * 
+	 * @param subject
+	 * @param lessionDate
+	 */
+	private void sendAppoint(int subject, int lessionDate) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("coachId", Prefs.readString(this, Const.USER_COACH_ID));
+		map.put("lessonDate", date);
+		map.put("lessonTime", lessionDate + "");
+		map.put("subject", subject + "");
+		NetUtil.requestStringData(SRL.Method.METHOD_SEND_APPOINT, map,
+				new Response.Listener<String>() {
+
+					@Override
+					public void onResponse(String result) {
+						Log.i(TAG, result);
+						if (result == null || result.equals("")) {
+							AppUtil.ShowShortToast(ApointmentActivity.this,
+									"服务器繁忙");
+						} else {
+							try {
+								JSONObject json = new JSONObject(result);
+								if (json.getInt("status") == 1) {
+									AppUtil.ShowShortToast(
+											getApplicationContext(), "预约成功");
+									getData();
+								} else {
+									AppUtil.ShowShortToast(
+											getApplicationContext(), "失败");
+								}
+							} catch (Exception e) {
+								AppUtil.ShowShortToast(ApointmentActivity.this,
+										"服务器繁忙");
+							}
+							
+						}
+					}
+				}, new DefaultErrorListener());
+	}
+
+	/**
+	 * 取消预约
+	 */
+	private void cancelAppoint(int subject, int lessionDate) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("coachId", Prefs.readString(this, Const.USER_COACH_ID));
+		map.put("lessonDate", date);
+		map.put("lessonTime", lessionDate + "");
+		map.put("subject", subject + "");
+		NetUtil.requestStringData(SRL.Method.METHOD_CANCEL_APPOINT, map,
+				new Response.Listener<String>() {
+
+					@Override
+					public void onResponse(String result) {
+						Log.i(TAG, result);
+						if (result == null || result.equals("")) {
+							AppUtil.ShowShortToast(ApointmentActivity.this,
+									"服务器繁忙");
+						} else {
+							try {
+								JSONObject json = new JSONObject(result);
+								if (json.getInt("status") == 1) {
+									AppUtil.ShowShortToast(
+											getApplicationContext(), "取消成功");
+									getData();
+								} else {
+									AppUtil.ShowShortToast(
+											getApplicationContext(), "失败");
+								}
+							} catch (Exception e) {
+
+							}
+						}
+					}
+				}, new DefaultErrorListener());
+	}
+
+	/**
+	 * 拨打电话号码
+	 */
+	private void callTel() {
+		if (telstr == null || telstr.equals("")) {
+			AppUtil.ShowShortToast(this, "对不起，此教练没有电话号码");
+		} else {
+			Uri uri = Uri.parse("tel:" + telstr);
+			Intent it = new Intent(Intent.ACTION_CALL, uri);
+			startActivity(it);
+		}
+	}
+
+	/**
+	 * 启动教练详情页面
+	 */
+	private void intentCoachDetail() {
+		Intent i = new Intent(this, CoachDetailActivity.class);
+		int coachId = Integer.parseInt(Prefs.readString(this,
+				Const.USER_COACH_ID));
+
+		i.putExtra(CoachDetailActivity.COACH_ID, coachId);
+		startActivity(i);
+	}
+
 }

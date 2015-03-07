@@ -20,7 +20,7 @@
 
                 <!-- 训练场位置 -->
                 <LinearLayout
-                    android:id="@+id/f_center_img_photo"
+                    android:id="@+id/m_center_photo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/list_large"
                     android:background="@drawable/selector_lab_btn"
@@ -37,6 +37,7 @@
                         />
 
                     <com.huishen.edrive.widget.RoundImageView
+                        android:id="@+id/m_center_img_photo"
                         android:layout_width="@dimen/demand_info_coachsize"
                         android:layout_height="@dimen/demand_info_coachsize"
                         android:layout_marginLeft="@dimen/margin_middle"
@@ -59,7 +60,7 @@
 
                 <!-- 训练场位置 -->
                 <LinearLayout
-                    android:id="@+id/coach_detail_field"
+                    android:id="@+id/m_center_lay_userphone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
                     android:background="@drawable/selector_lab_btn"
@@ -75,9 +76,11 @@
                         android:text="@string/modify_myphone" />
 
                     <TextView
+                        android:id="@+id/m_center_tv_phone"
                         style="@style/coachdetailtextstyle"
                         android:gravity="right"
                         android:text="@string/defualt_null" />
+
                 </LinearLayout>
 
                 <View
@@ -87,7 +90,7 @@
 
                 <!-- 训练场图片  -->
                    <LinearLayout
-                       android:id="@+id/coach_detail_fieldimg"
+                       android:id="@+id/m_center_lay_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
                     android:background="@drawable/selector_lab_btn"
@@ -101,7 +104,38 @@
                     <TextView
                         style="@style/coachdetailtextstyle"
                         android:text="@string/modify_nickname" />
-                    <TextView
+
+                    <TextView
+                        android:id="@+id/m_center_tv_nickname"
+                        style="@style/coachdetailtextstyle"
+                        android:gravity="right"
+                        android:text="@string/defualt_null" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/selector_edit" />
+
+                </LinearLayout>
+                      <!-- 训练场图片  -->
+                   <LinearLayout
+                       android:id="@+id/m_center_lay_realname"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/modify_realname" />
+
+                    <TextView
+                        android:id="@+id/m_center_tv_realname"
                         style="@style/coachdetailtextstyle"
                         android:gravity="right"
                         android:text="@string/defualt_null" />
@@ -119,7 +153,7 @@
               
                    <!-- 学车套餐  -->
                    <LinearLayout
-                    android:id="@+id/coach_detail_setmeal"
+                    android:id="@+id/m_center_lay_addr"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
                     android:background="@drawable/selector_lab_btn"

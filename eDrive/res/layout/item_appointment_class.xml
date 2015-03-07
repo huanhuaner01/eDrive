@@ -32,7 +32,7 @@
                         android:text="预约"
                         android:textColor="@color/white"
                         android:textSize="@dimen/txtsize_default"
-                        android:background="@color/color_class_enable"
+                        android:background="@drawable/day_exists"
                         android:layout_margin="@dimen/margin_micro"
                         android:paddingLeft="@dimen/padding_xlarge"
                         android:paddingRight="@dimen/padding_xlarge"

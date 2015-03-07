@@ -3,6 +3,7 @@
 
     <string name="app_name">e驾学车</string>
     <string name="commit">确定</string>
+    <string name="cancel">取消</string>
     <string name="back">返回</string>
     <string name="judge_all">总体评价</string>
     <string name="defualt_null">缺失</string>
@@ -86,6 +87,7 @@
     <string name="modify_title">个人信息</string>
     <string name="modify_photo">头像</string>
     <string name="modify_nickname">我的昵称</string>
+    <string name="modify_realname">我的真实姓名</string>
     <string name="modify_myphone">我的手机号</string>
     <string name="modify_myaddr">我的常用地址</string>
     <string name="str_register_photo_select_source">选择照片来源</string>

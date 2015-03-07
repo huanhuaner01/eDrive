@@ -133,10 +133,10 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		call = (Button)this.findViewById(R.id.coach_detail_btn_call) ;
 		good = (ImageButton)this.findViewById(R.id.coach_detail_btn_good) ;
 		field = (LinearLayout)this.findViewById(R.id.coach_detail_field) ;
-		fieldimg = (LinearLayout)this.findViewById(R.id.coach_detail_fieldimg) ;
+		fieldimg = (LinearLayout)this.findViewById(R.id.m_center_lay_nickname) ;
 		detail = (LinearLayout)this.findViewById(R.id.coach_detail_lay) ;
 		judge = (LinearLayout)this.findViewById(R.id.coach_detail_judge) ;
-		setmeal = (LinearLayout)this.findViewById(R.id.coach_detail_setmeal) ;
+		setmeal = (LinearLayout)this.findViewById(R.id.m_center_lay_addr) ;
 		this.detailContent = (TextView)this.findViewById(R.id.coach_detail_tv_content) ;
 		
 		//教练基本信息
@@ -177,7 +177,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 			i.putExtra(CoachDetailActivity.COACH_ID, coachId) ;
 			this.startActivity(i);
 			break ;
-		case R.id.coach_detail_fieldimg:
+		case R.id.m_center_lay_nickname:
 			actionFieldImg();
 			break;
 		case R.id.coach_detail_lay:
@@ -192,7 +192,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		case R.id.coach_detail_judge:
 			actionJudgeLay() ;
 			break;
-		case R.id.coach_detail_setmeal:
+		case R.id.m_center_lay_addr:
 			actionMealLay() ;
 			break;
 		case R.id.coach_detail_btn_call:

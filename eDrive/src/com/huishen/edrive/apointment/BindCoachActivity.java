@@ -134,17 +134,20 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 				}else{
 					try{
 						JSONObject json = new JSONObject(result);
-						int status = json.getInt("status") ;
+						int status = json.getInt("code") ;
 						switch(status){
-						case 1: //绑定成功
+						case 0: //绑定成功
 						 AppUtil.ShowShortToast(BindCoachActivity.this, "绑定教练信息已经发送给教练，请耐心等待教练回复");
 						 finish();
 						 break ;
-						case 2: //等待审核
-							AppUtil.ShowShortToast(BindCoachActivity.this, "您已经绑定教练，正在审核，不要多次绑定");
+						case 2: //已绑定教练
+							AppUtil.ShowShortToast(BindCoachActivity.this, "您已经绑定教练");
 							break ;
-						case -1: //教练不存在
+						case 1: //教练不存在
 							AppUtil.ShowShortToast(BindCoachActivity.this, "教练不存在");
+							break;
+						case 3://请求绑定还未失效
+						AppUtil.ShowShortToast(BindCoachActivity.this, "请求绑定还未失效，请耐心等待，失效后可重新绑定");
 						break;
 						default:
 							AppUtil.ShowShortToast(BindCoachActivity.this, "绑定失败");

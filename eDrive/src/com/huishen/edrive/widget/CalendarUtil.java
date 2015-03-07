@@ -17,6 +17,7 @@ public class CalendarUtil {
     public static int MAX_YEAR = 2100 ;
     public static int MIN_YEAR = 1970 ;
     public static String DATE_FORMAT = "yyyy-MM-dd" ;
+    public static String[] WEEKS = new String[]{"星期天","星期一","星期二","星期三","星期四","星期五","星期六"};
 	public CalendarUtil() {
 	}
 	/**
@@ -88,6 +89,23 @@ public class CalendarUtil {
 		Calendar date = new GregorianCalendar(year, month,1);
 		int dayweek = date.get(Calendar.DAY_OF_WEEK);
 		return dayweek ;
+		
+	}
+	
+	public static String getDayWeek(String dateStr){
+		int dayweek = 0 ;
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		Date date;
+		try {
+			date = df.parse(dateStr);
+			Calendar cal=Calendar.getInstance();
+			cal.setTime(date);
+			dayweek = cal.get(Calendar.DAY_OF_WEEK);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return WEEKS[dayweek-1] ;
 		
 	}
 	

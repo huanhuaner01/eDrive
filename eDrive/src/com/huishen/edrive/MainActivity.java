@@ -111,6 +111,11 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	 * 获取数据
 	 */
 	private void getWebData(){
+		if(Prefs.readString(this, Const.USER_COACH_ID).equals("")){
+
+			tabGroup.setOnCheckedChangeListener(MainActivity.this);
+	    	tabGroup.check(R.id.main_tab_appointment);
+		}else{
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId",Prefs.readString(this, Const.USER_COACH_ID));
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_APPOINT, map,
@@ -124,6 +129,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 				    	tabGroup.check(R.id.main_tab_appointment);
 					}
 				},new DefaultErrorListener());
+		}
 	}
 	
     private void registView(){

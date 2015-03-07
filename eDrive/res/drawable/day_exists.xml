@@ -4,6 +4,7 @@
     <item android:state_pressed="true" android:drawable="@color/Grey_line"/>
     <item android:state_checked="true" android:drawable="@color/Grey_line"/>
     <item android:state_selected="true" android:drawable="@color/Grey_line"/>
+    <item android:state_enabled="false" android:drawable="@color/Grey_line"/>
     <item android:drawable="@color/color_calendar_exits"></item>
 
 </selector>

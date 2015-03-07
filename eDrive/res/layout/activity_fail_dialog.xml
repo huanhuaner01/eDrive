@@ -43,7 +43,7 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/order_resend"
+                android:id="@+id/dialog_msg_commit"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
@@ -54,7 +54,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/txtsize_default" />
                    <Button
-                android:id="@+id/order_cancel"
+                android:id="@+id/dialog_msg_cancel"
                 android:layout_marginLeft="@dimen/margin_default"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/button_height"

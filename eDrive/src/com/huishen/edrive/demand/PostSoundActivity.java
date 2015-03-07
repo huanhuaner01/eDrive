@@ -156,9 +156,11 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 					recorder.startRecord(audiofile);
 					break ;
 				case MotionEvent.ACTION_UP: //弹起事件
+					
 					soundbg.clearAnimation();
 					sound_play.setText(PostSoundActivity.this.getResources().getString(R.string.post_sound_btn));
 					recorder.stopRecord();
+					AppUtil.ShowLongToast(getApplicationContext(), "点击中间语音红色按钮可以听听看");
 				break;
 				}
 				return false;
@@ -264,7 +266,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 //		lat=30.577716;//当前学生纬度
 //		String content = edt.toString();
 		if(Prefs.readString(getApplicationContext(), Const.ORDER_STATUS).equals("1")){
-		    AppUtil.ShowShortToast(getApplicationContext(), "请，你的订单现在很热门哟！请等会儿再发下一条！");
+		    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔半个小时再来吧！");
 		    return ;
 		}
 		if(addr == null || addr.equals("")){
