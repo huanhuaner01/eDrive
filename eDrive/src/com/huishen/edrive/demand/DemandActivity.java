@@ -16,9 +16,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -195,6 +197,22 @@ public class DemandActivity extends Activity implements OnClickListener{
 								}
 								InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(view),marker.getPosition() ,-50 ,listener);
 								mBaiduMap.showInfoWindow(mInfoWindow);
+								return false;
+							}
+							
+						});
+						
+						//单击地图隐藏弹出框
+						mBaiduMap.setOnMapClickListener(new OnMapClickListener(){
+
+							@Override
+							public void onMapClick(LatLng arg0) {
+					                mBaiduMap.hideInfoWindow();
+							}
+
+							@Override
+							public boolean onMapPoiClick(MapPoi arg0) {
+								// TODO Auto-generated method stub
 								return false;
 							}
 							
