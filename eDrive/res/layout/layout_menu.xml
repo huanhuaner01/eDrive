@@ -39,7 +39,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/center_demand_ic" />
+                        android:src="@drawable/ic_menu_pro" />
 
                     <TextView
                         style="@style/coachdetailtextstyle"
@@ -71,7 +71,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/center_demand_ic" />
+                        android:src="@drawable/ic_menu_info" />
 
                     <TextView
                         style="@style/coachdetailtextstyle"
@@ -104,7 +104,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/center_demand_ic" />
+                        android:src="@drawable/ic_menu_hospital" />
 
                     <TextView
                         style="@style/coachdetailtextstyle"
@@ -135,7 +135,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/center_demand_ic" />
+                        android:src="@drawable/ic_menu_standard" />
 
                     <TextView
                         style="@style/coachdetailtextstyle"
