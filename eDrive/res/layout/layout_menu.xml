@@ -1,67 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="240dip"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    >
 
     <TextView
-        android:layout_width="240dip"
-        android:layout_height="28.0dip"
-        android:background="#ff313131"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
         android:gravity="center_vertical"
-        android:paddingLeft="15.0dip"
-        android:text="分类"
-        android:textColor="#ff959595"
-        android:textSize="14.0sp" />
+        android:padding="@dimen/padding_default"
+        android:text="@string/menu_title"
+        android:textColor="@color/tv_gray_color"
+        android:textSize="@dimen/txtsize_large" />
+    
+                    <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
 
-    <TextView
-        android:id="@+id/menu1"
-        android:layout_width="240dip"
-        android:layout_height="50.0dip"
-        android:clickable="true"
-        android:drawablePadding="1.0dip"
-        android:gravity="center_vertical"
-        android:paddingLeft="15.0dip"
-        android:paddingRight="10.0dip"
-        android:text="侧边栏选项－1"
-        android:textColor="#ff959595"
-        android:textSize="16.0sp" />
+    <LinearLayout
+                    android:id="@+id/menu_pro"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_demand_ic" />
 
-    <View
-        android:layout_width="240dip"
-        android:layout_height="2.0dip" />
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/menu_pro" />
 
-    <TextView
-        android:layout_width="240dip"
-        android:layout_height="50.0dip"
-        android:clickable="true"
-        android:drawablePadding="1.0dip"
-        android:gravity="center_vertical"
-        android:paddingLeft="15.0dip"
-        android:paddingRight="10.0dip"
-        android:text="侧边栏选项－2"
-        android:textColor="#ff959595"
-        android:textSize="16.0sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_next"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
 
-    <View
-        android:layout_width="240dip"
-        android:layout_height="2.0dip"
-/>
+    <LinearLayout
+                    android:id="@+id/menu_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_demand_ic" />
 
-    <TextView
-        android:layout_width="240dip"
-        android:layout_height="50.0dip"
-        android:clickable="true"
-        android:drawablePadding="1.0dip"
-        android:gravity="center_vertical"
-        android:paddingLeft="15.0dip"
-        android:paddingRight="10.0dip"
-        android:text="侧边栏选项－3"
-        android:textColor="#ff959595"
-        android:textSize="16.0sp" />
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/menu_info" />
 
-    <View
-        android:layout_width="240dip"
-        android:layout_height="2.0dip" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_next"
+                        />
+                </LinearLayout>
+
+                 <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+
+    <LinearLayout
+                    android:id="@+id/menu_hospital"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_demand_ic" />
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/menu_hospital" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_next"
+                        />
+                </LinearLayout>
+                                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+<LinearLayout
+                    android:id="@+id/menu_charge_standard"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+                    
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/center_demand_ic" />
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/menu_charge_standard" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_next"
+                        />
+                </LinearLayout>
+                                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+                                </LinearLayout>
+                                <ImageView
+                                    android:background="@color/main_bg_color"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/main_title_ic"
+                                    android:padding="@dimen/padding_default"
+                                    />
 
 </LinearLayout>
