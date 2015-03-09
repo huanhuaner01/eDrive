@@ -2,6 +2,10 @@
 <resources>
     <!-- Splash界面引导图片的数量。 注意，在activity_splash中的小点数目必须和这个一样。-->
     <integer name="spalsh_image_count">4</integer>
+    <!-- Splash界面最低显示时间，单位为ms。 -->
+    <integer name="splash_min_displaytime">1000</integer>
+    <!-- Splash界面最长显示时间，单位为ms。 -->
+    <integer name="splash_max_displaytime">5000</integer>
     <!-- 手机验证码的有效时长 -->
     <integer name="verifycode_valid_time_seconds">60</integer>
     <!-- 手机验证码的约定位数 -->

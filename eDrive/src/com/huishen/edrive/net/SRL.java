@@ -103,6 +103,10 @@ public final class SRL {
 		public static final String METHOD_UPLOAD_PHOTO = "stuMobile/updateStuImg" ;
 		public static final String METHOD_EDIT_USERINFO = "stuMobile/updateStuInfo" ;
 		//---------------------------个人中心结束！---------------------------------
+		/**
+		 * 检查软件更新。
+		 */
+		public static final String METHOD_CHECK_UPDATE = "/queryVersion";
 		
 	}
 	//请求参数
@@ -135,6 +139,8 @@ public final class SRL {
 		public static final String PARAM_BIND_COACH_PHONE = "coachPhone" ;
 		public static final String PARAM_BIND_STU_NAME = "stuRealName" ;
 		public static final String PARAM_BIND_CONTENT = "content" ;
+
+		public static final String PARAM_UPDATE_SOFTKEY = "stu-client";
 	}
 		//返回码
 	public static final class ReturnCode{
@@ -164,6 +170,19 @@ public final class SRL {
 		public static final String COACH_MEAL_PRIZE = "cash" ;
 		public static final String COACH_MEAL_CONTENT = "content" ;
 		public static final String COACH_MEAL_CARTYPE ="carTypeContent" ;
+		
+		/**
+		 * 检查版本更新时返回，安装包下载路径。
+		 */
+		public static final String FIELD_UPDATE_APK_PATH = "path";
+		/**
+		 * 检查版本更新时返回，版本号。
+		 */
+		public static final String FIELD_UPDATE_SERVER_VERSIONCODE = "version";
+		/**
+		 * 检查版本更新时返回，是否强制更新。
+		 */
+		public static final String FIELD_UPDATE_FORCE_UPDATE = "req";
 	}
 	
 
