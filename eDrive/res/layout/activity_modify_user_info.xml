@@ -80,10 +80,8 @@
                         style="@style/coachdetailtextstyle"
                         android:gravity="right"
                         android:text="@string/defualt_null" />
-
                 </LinearLayout>
-
-                <View
+                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divide_line"
                     android:background="@color/main_bg_color" />
@@ -110,13 +108,16 @@
                         style="@style/coachdetailtextstyle"
                         android:gravity="right"
                         android:text="@string/defualt_null" />
-
-                    <ImageView
+                       <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/selector_edit" />
+                        android:src="@drawable/ic_next" />
 
                 </LinearLayout>
+                 <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
                       <!-- 训练场图片  -->
                    <LinearLayout
                        android:id="@+id/m_center_lay_realname"
@@ -143,7 +144,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/selector_edit" />
+                        android:src="@drawable/ic_next" />
 
                 </LinearLayout>
                                    <View

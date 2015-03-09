@@ -76,6 +76,9 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_sound);
 		AppController.getInstance().addActivity(this);
+		//-----------------------获取数据-------------------------------
+		addr = this.getIntent().getStringExtra("addr"); 
+		//-----------------------获取数据结束！---------------------------
 		registView();
 		initView();
 	}
@@ -101,7 +104,9 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	private void initView() {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
-		addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
+		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")){
+			   addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
+			}
 		
 		this.sound_play.setEnabled(false) ;
 		//----------给选择的服务选项添加数据------------------------
@@ -215,7 +220,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	 * 获取服务项
 	 */
 	private void getService(){
-	    MyDialog = ProgressDialog.show(this, " " , " 加载中... ", true);
+	    MyDialog = ProgressDialog.show(this, "提示" , " 加载中... ", true);
 	    if(!MyDialog.isShowing()){
 	    	MyDialog.show();
 	    }
@@ -280,7 +285,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		}
 		Log.i(TAG, "进入上传语音的方法！") ;
 		//显示进度条
-		 MyDialog = ProgressDialog.show(this, " " , " 发布中... ", true);
+		 MyDialog = ProgressDialog.show(this, "提示" , " 发布中... ", true);
 		 MyDialog.show();
 		 if(!MyDialog.isShowing()){
 			 MyDialog.show();

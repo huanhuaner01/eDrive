@@ -14,4 +14,8 @@
         <item >@drawable/pic_splash_3</item>
         <item >@drawable/pic_splash_4</item>
     </array>
+        <!-- 头像的宽度 -->
+    <integer name="avatar_width">80</integer>
+   	<!-- 头像的高度 -->
+    <integer name="avatar_height">80</integer>
 </resources>

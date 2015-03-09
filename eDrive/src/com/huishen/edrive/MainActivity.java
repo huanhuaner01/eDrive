@@ -25,7 +25,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -39,7 +38,6 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	//UI相关
     private SlidingPaneLayout panelayout ;
     private ImageButton header_menu ;
-    private TextView menu1 ;
     private RadioGroup tabGroup ;
     private String coachId = null ,result;
     
@@ -135,7 +133,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     private void registView(){
     	panelayout = (SlidingPaneLayout)findViewById(R.id.slidepanel);
     	header_menu = (ImageButton)findViewById(R.id.header_menu);
-    	menu1 = (TextView)findViewById(R.id.menu1);
+//    	menu1 = (TextView)findViewById(R.id.menu1);
     	tabGroup = (RadioGroup)findViewById(R.id.main_tab_button_group);
     }
     
@@ -152,14 +150,14 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 				panelayout.openPane();
 			}    		
     	});
-    	menu1.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View arg0) {
-				panelayout.closePane();
-			}
-			
-    	});
+//    	menu1.setOnClickListener(new OnClickListener(){
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				panelayout.closePane();
+//			}
+//			
+//    	});
     	
     	//页面切换
     	getWebData();

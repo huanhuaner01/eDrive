@@ -51,7 +51,7 @@
     
     <!-- 发布需求界面 -->
     <string name="post_title">学车需求</string>
-    <string name="post_defualt_tv">我需要</string>
+    <string name="post_defualt_tv">师傅，我要学车，我需要</string>
     <string name="post_submmit">确认发送</string>
     <string name="post_addr_tip">亲~你可点击定位你当下的地址，也可填写你的常用地址，便于我们为你找到距离近的教练</string>
     <string name="post_dialog_edit_hint">设置常用地址</string>
@@ -99,6 +99,8 @@
     <string name="modify_realname">我的真实姓名</string>
     <string name="modify_myphone">我的手机号</string>
     <string name="modify_myaddr">我的常用地址</string>
+    <string name="modify_se_nichname_tip">请输入您的昵称</string>
+    <string name="modify_se_addr_tip">如果您在常用地点，点击一下即可定位</string>
     <string name="str_register_photo_select_source">选择照片来源</string>
     <!-- 照片来源选择 -->
     <string-array name="str_register_photo_source">

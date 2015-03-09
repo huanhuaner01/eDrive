@@ -100,6 +100,8 @@ public final class SRL {
 		//---------------------------个人中心-------------------------------------
 		public static final String METHOD_GET_CENTER_INFO = "stuMobile/queryStuInfoById" ;
 		public static final String METHOD_GET_CENTER_USERINFO = "stuMobile/queryStuinfo" ;
+		public static final String METHOD_UPLOAD_PHOTO = "stuMobile/updateStuImg" ;
+		public static final String METHOD_EDIT_USERINFO = "stuMobile/updateStuInfo" ;
 		//---------------------------个人中心结束！---------------------------------
 		
 	}

@@ -73,6 +73,9 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_txt);
 		AppController.getInstance().addActivity(this);
+		//-----------------------获取数据-------------------------------
+		addr = this.getIntent().getStringExtra("addr"); 
+		//-----------------------获取数据结束！---------------------------
 		registView();
 		initView();
 	}
@@ -95,7 +98,9 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	private void initView() {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
-		addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
+		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")){
+		   addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
+		}
 		//------------------------给gridView添加数据-------------------------------
 		data = new ArrayList<Map<String ,Object>>();
 		String[] from = new String[]{"service"};

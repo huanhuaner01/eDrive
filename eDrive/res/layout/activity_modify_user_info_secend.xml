@@ -3,13 +3,187 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg_color"
-    android:orientation="vertical"
-     >
-  <include layout="@layout/header_defualt"/>
-  <Framelayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      >
-      </Framelayout>
+    android:orientation="vertical" >
+
+    <include layout="@layout/header_defualt" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default"
+        android:background="@color/white" >
+<!--  
+        修改电话号码 -->
+
+        <LinearLayout
+            android:id="@+id/modify_user_secend_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" 
+            android:visibility="gone"
+            >
+
+            <EditText
+                android:id="@+id/modify_user_se_edit_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_default"
+                android:hint="请输入电话号码"
+                android:inputType="number"
+                android:background="@null"
+                android:textColorHint="@color/tv_smallgrap_color"
+                android:textColor="@color/tv_light_color"
+                android:textSize="@dimen/txtsize_default" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divide_line"
+                android:background="@color/main_bg_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/modify_user_se_edit_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="@dimen/padding_default"
+                    android:hint="请输入验证码"
+                    android:background="@null"
+                    android:textColorHint="@color/tv_smallgrap_color"
+                    android:textColor="@color/tv_light_color"
+                    android:textSize="@dimen/txtsize_default" />
+
+                <View
+                    android:layout_width="@dimen/divide_line"
+                    android:layout_height="match_parent"
+                    android:background="@color/main_bg_color" />
+
+                <Button
+                    android:id="@+id/modify_user_se_getcode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_lab_btn"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_middle"
+                    android:text="获取验证码"
+                    android:textColor="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_default" />
+            </LinearLayout>
+        </LinearLayout>
+
+   <!--      修改昵称-->
+
+        <LinearLayout
+            android:id="@+id/modify_user_secend_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" 
+            android:visibility="gone"
+            >
+             <TextView
+                android:id="@+id/modify_user_se_nickpre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/padding_default"
+                android:text="@string/modify_nickname"
+                android:textColor="@color/tv_light_color"
+                android:textSize="@dimen/txtsize_middle" />
+
+            <View
+                android:layout_width="@dimen/divide_line"
+                android:layout_height="match_parent"
+                android:background="@color/main_bg_color" />             
+            <EditText
+                 android:id="@+id/modify_user_se_edit_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:hint="@string/modify_se_nichname_tip"
+                    android:padding="@dimen/padding_default"
+                    android:textColor="@color/tv_light_color"
+                    android:textColorHint="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_middle"
+                    />
+        </LinearLayout>
+        
+        <!-- 修改常用地址 -->
+
+        <LinearLayout
+            android:id="@+id/modify_user_secend_addr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_default"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/modify_se_addr_tip"
+                    android:textColor="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_default"
+                    />
+                <Button
+                    android:id="@+id/modify_user_se_addrbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="点击定位"
+                    android:textColor="@color/tv_light_color"
+                    android:drawableLeft="@drawable/ic_loc"
+                    android:background="@drawable/service_info_btn_bg"
+                    android:padding="@dimen/padding_default"
+                    />
+                </LinearLayout>
+                  <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divide_line"
+                android:background="@color/main_bg_color" />  
+               <EditText
+                    android:id="@+id/modify_user_se_edit_addr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:hint="@string/modify_se_nichname_tip"
+                    android:padding="@dimen/padding_default"
+                    android:textColor="@color/tv_light_color"
+                    android:textColorHint="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_middle"
+                    />
+                  </LinearLayout>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/modify_user_secend_commit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_margin="@dimen/margin_default"
+        android:background="@drawable/bkg_verify_btn_start"
+        android:text="@string/commit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txtsize_default" />
+
+    <TextView
+        android:id="@+id/modify_user_secend_note"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_default"
+        android:textColor="@color/tv_gray_color"
+        android:textSize="@dimen/txtsize_middle" />
 
 </LinearLayout>

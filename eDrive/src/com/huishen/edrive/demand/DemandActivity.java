@@ -89,6 +89,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 	private boolean isFirstLoc = true;//
 	private boolean isFirstMain = false ; //标志，是否是第一次登录
     private int coachId = -1 ; //目前点击的教练的id 默认-1没有
+    private String addr  ; //地址信息
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -257,9 +258,11 @@ public class DemandActivity extends Activity implements OnClickListener{
 		Intent i = null ;
 		if(currentStatus == STATUS_INPUT){
 			i = new Intent(this ,PostTxtActivity.class);
+			
 		}else{
 			i = new Intent(this ,PostSoundActivity.class);
 		}
+		i.putExtra("addr", addr);
 		this.startActivity(i);
 	}
 	
@@ -282,6 +285,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 				Log.w("LocationDemo","地理位置"+location.getLatitude()+","+location.getLongitude());
 				mBaiduMap.animateMapStatus(u);
 				showRoundCoach(location.getLongitude() ,location.getLatitude());
+				addr = location.getAddrStr() ;
 			}
 				
 				mLocClient.stop();
