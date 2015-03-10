@@ -130,5 +130,10 @@
     <string name="title_activity_share">ShareActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
     <string name="title_activity_modify_user_info_secend">ModifyUserInfoSecendActivity</string>
-
+    <string name="str_checkupdate_update_avaliable">应用有更新，是否现在更新？</string>
+    <string name="str_checkupdate_update_unavaliable">应用已是最新版本</string>
+    <!-- 参数说明：参数1=版本号，字符串；参数2=更新说明 -->
+    <string name="str_checkupdate_update_description">新版本：%1$s\n更新说明：%2$s</string>
+    <string name="str_checkupdate_update_now">立即更新</string>
+    <string name="str_checkupdate_update_later">暂不更新</string>
 </resources>
