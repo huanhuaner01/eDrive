@@ -12,7 +12,7 @@ import android.util.Log;
 
 /**
  * 提供文件下载功能。
- * 
+ * @deprecated 请使用 {@link SimpleDownloadTask}替代该类。
  * @author Muyangmin
  * @create 2014-4-10
  * @version 1.0

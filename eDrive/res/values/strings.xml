@@ -135,5 +135,6 @@
     <string name="str_checkupdate_update_now">立即更新</string>
     <string name="str_checkupdate_update_later">暂不更新</string>
     <string name="title_activity_msg_list">MsgListActivity</string>
-
+	<string name="str_splash_downloading">正在努力下载安装包……</string>
+	<string name="str_splash_download_fail">安装包下载失败，请检查网络</string>
 </resources>

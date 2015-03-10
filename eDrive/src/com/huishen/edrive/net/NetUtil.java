@@ -1,13 +1,11 @@
 package com.huishen.edrive.net;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -323,18 +321,40 @@ public final class NetUtil {
 	 */
 	public static final void requestDownloadFile(final String relativePath,
 			final File target, final OnProgressChangedListener listener) {
-		new AsyncTask<Void, Void, Void>() {
+		requestDownloadFileUsingAbsPath(getAbsolutePath(relativePath), target, listener);
+	}
+	/**
+	 * 提交下载文件的请求。
+	 * 
+	 * @param absPath
+	 *            资源的绝对路径。
+	 * @param target
+	 *            要保存到的目标文件。
+	 * @param listener
+	 *            进度监听器。
+	 */
+	public static final void requestDownloadFileUsingAbsPath(final String absPath,
+			final File target, final OnProgressChangedListener listener) {
+		new SimpleDownloadTask(target, absPath){
 			@Override
-			protected Void doInBackground(Void... params) {
-				SimpleDownloader downloader = new SimpleDownloader();
-				downloader.setOnProgressChangedListener(listener);
-				try {
-					downloader.download(getAbsolutePath(relativePath), target);
-				} catch (IOException e) {
-					e.printStackTrace();
+			protected void onPostExecute(Boolean result) {
+				super.onPostExecute(result);
+				if (result){
+					Log.i(LOG_TAG, "File download finished:"+absPath);
+					listener.onTaskFinished();
 				}
-				return null;
+				else{
+					Log.i(LOG_TAG, "File download failed:"+absPath);
+					listener.onTaskFailed();
+				}
 			}
+			@Override
+			protected void onProgressUpdate(Integer... values) {
+				if (values.length != 3){
+					throw new IllegalArgumentException("required param lost.");
+				}
+				listener.onProgressChanged(values[0], values[1], values[2]);
+			};
 		}.execute();
 	}
 }
