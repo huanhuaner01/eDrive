@@ -159,7 +159,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -215,7 +215,7 @@
             android:label="@string/title_activity_appointment" >
         </activity>
         <activity
-            android:name=".center.CoachListActivity"
+            android:name=".center.ListActivity"
             android:label="@string/title_activity_coach_judge_list" >
         </activity>
         <activity
@@ -257,8 +257,12 @@
             android:label="@string/title_activity_setting" >
         </activity>
         <activity
-            android:name="com.huishen.edrive.center.ModifyUserInfoSecendActivity"
+            android:name=".center.ModifyUserInfoSecendActivity"
             android:label="@string/title_activity_modify_user_info_secend" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.center.MsgListActivity"
+            android:label="@string/title_activity_msg_list" >
         </activity>
     </application>
 

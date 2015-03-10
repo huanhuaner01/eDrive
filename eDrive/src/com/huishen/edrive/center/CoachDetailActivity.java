@@ -212,10 +212,10 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 	 */
 	private void actionJudgeLay(){
 		
-		Intent i = new Intent(this ,CoachListActivity.class);
-		i.putExtra(CoachListActivity.STATUS_KEY, CoachListActivity.STATUS_JUDGE) ;
+		Intent i = new Intent(this ,ListActivity.class);
+		i.putExtra(ListActivity.STATUS_KEY, ListActivity.STATUS_JUDGE) ;
 		
-		i.putExtra(CoachListActivity.ID_KEY, coachId) ;
+		i.putExtra(ListActivity.ID_KEY, coachId) ;
 		i.putExtra("coachName", coachname.getText().toString());
 		i.putExtra("score",score);
 		this.startActivity(i);
@@ -260,9 +260,9 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 	 * 响应学车套餐按钮，跳转到学员评价列表
 	 */
 	private void actionMealLay(){
-		Intent i = new Intent(this ,CoachListActivity.class);
-		i.putExtra(CoachListActivity.STATUS_KEY, CoachListActivity.STATUS_SETMEAL) ;
-		i.putExtra(CoachListActivity.ID_KEY, coachId) ;
+		Intent i = new Intent(this ,ListActivity.class);
+		i.putExtra(ListActivity.STATUS_KEY, ListActivity.STATUS_SETMEAL) ;
+		i.putExtra(ListActivity.ID_KEY, coachId) ;
 		this.startActivity(i);
 	}
 	

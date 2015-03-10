@@ -102,6 +102,7 @@ public final class SRL {
 		public static final String METHOD_GET_CENTER_USERINFO = "stuMobile/queryStuinfo" ;
 		public static final String METHOD_UPLOAD_PHOTO = "stuMobile/updateStuImg" ;
 		public static final String METHOD_EDIT_USERINFO = "stuMobile/updateStuInfo" ;
+		public static final String METHOD_GET_MSG_LIST = "stuMobile/" ;
 		//---------------------------个人中心结束！---------------------------------
 		/**
 		 * 检查软件更新。

@@ -17,14 +17,13 @@
     <string name="main_tab_demand">我的需求</string>
     <string name="main_tab_appointment">预约管理</string>
     <string name="main_tab_center">个人中心</string>
-    
+
     <!-- 侧边栏 -->
     <string name="menu_title">学车指南</string>
     <string name="menu_info">考项说明</string>
     <string name="menu_pro">报名流程</string>
     <string name="menu_hospital">体检医院</string>
     <string name="menu_charge_standard">收费标准</string>
-    
     <string name="title_activity_demand">DemandActivity</string>
 
     <!-- 预约相关 -->
@@ -48,7 +47,6 @@
     <string name="service_info_se">服务条款</string>
     <string name="service_info_pri">隐私政策</string>
 
-    
     <!-- 发布需求界面 -->
     <string name="post_title">学车需求</string>
     <string name="post_defualt_tv">师傅，我要学车，我需要</string>
@@ -136,4 +134,6 @@
     <string name="str_checkupdate_update_description">新版本：%1$s\n更新说明：%2$s</string>
     <string name="str_checkupdate_update_now">立即更新</string>
     <string name="str_checkupdate_update_later">暂不更新</string>
+    <string name="title_activity_msg_list">MsgListActivity</string>
+
 </resources>

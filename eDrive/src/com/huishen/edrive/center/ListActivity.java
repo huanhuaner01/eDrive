@@ -15,12 +15,14 @@ import android.support.v4.app.FragmentTransaction;
  * @author 张欢
  *
  */
-public class CoachListActivity extends FragmentActivity {
+public class ListActivity extends FragmentActivity {
 	//常量
     public static String STATUS_KEY = "status" ;
     public static String ID_KEY = "id" ;
     public static final int STATUS_JUDGE = 0 ;
     public static final int STATUS_SETMEAL= 1 ;
+    public static final int STATUS_MSGLIST = 2; //消息列表
+    public static final int STATUS_ORDERLIST = 3; //订单列表
     
     private int status = 0 ;
     private int value = 0 ;
@@ -53,6 +55,10 @@ public class CoachListActivity extends FragmentActivity {
 		case STATUS_SETMEAL:
 			CoachMealListFragment sfragment = new CoachMealListFragment(this ,"学车套餐",SRL.Method.METHOD_GET_COACH_MEAL ,value) ;
 	        tx.add(R.id.container, sfragment,"f_jlsetmeal");  
+			break ;
+		case STATUS_MSGLIST:
+			MsgFragment msgfragment = new MsgFragment(this ,"学车套餐",SRL.Method.METHOD_GET_COACH_MEAL) ;
+	        tx.add(R.id.container, msgfragment,"f_jlsetmeal");  
 			break ;
 			
 		}

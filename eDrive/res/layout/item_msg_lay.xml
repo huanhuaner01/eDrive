@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="@dimen/padding_default"
+    android:background="@drawable/selector_lab_btn"
+     >
+   <ImageView 
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/ic_msg_nor"
+       />
+   <TextView
+       android:id="@+id/item_msg_content"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:layout_weight="1"
+       android:text="教练抢到了您的订单"
+       android:singleLine="true"
+       android:textColor="@color/tv_light_color"
+       android:textSize="@dimen/txtsize_middle"
+       />
+     <ImageView 
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/ic_next"
+       />
+
+</LinearLayout>
