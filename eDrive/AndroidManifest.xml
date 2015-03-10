@@ -159,7 +159,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -261,8 +261,12 @@
             android:label="@string/title_activity_modify_user_info_secend" >
         </activity>
         <activity
-            android:name="com.huishen.edrive.center.MsgListActivity"
+            android:name=".center.MsgListActivity"
             android:label="@string/title_activity_msg_list" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.center.OrderDetailActivity"
+            android:label="@string/title_activity_order_detail" >
         </activity>
     </application>
 

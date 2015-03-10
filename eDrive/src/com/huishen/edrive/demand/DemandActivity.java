@@ -187,7 +187,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 								coachId = marker.getExtraInfo().getInt(SRL.ReturnField.FIELD_COACH_ID);
 								View view = LayoutInflater.from(DemandActivity.this).inflate(R.layout.demand_info_window, null);
 								TextView name = (TextView)view.findViewById(R.id.order_coach_name) ;
-								ImageView img = (ImageView)view.findViewById(R.id.order_coach_photo) ;
+								ImageView img = (ImageView)view.findViewById(R.id.order_detail_coach_photo) ;
 								RatingBar ratingBar = (RatingBar)view.findViewById(R.id.order_coach_ratingbar);
 								TextView juedge = (TextView)view.findViewById(R.id.order_coach_judge);
 								ratingBar.setRating(marker.getExtraInfo().getFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE)) ; //评分条

@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import com.android.volley.Response;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.center.ModifyUserInfoActivity;
-import com.huishen.edrive.center.OrderActivity;
 import com.huishen.edrive.center.SettingActivity;
 import com.huishen.edrive.center.ShareActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
@@ -134,7 +133,8 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 			i.putExtra(ListActivity.STATUS_KEY,ListActivity.STATUS_MSGLIST);
 			break;
 		case R.id.f_center_order:
-			i = new Intent(this.getActivity(),OrderActivity.class);
+			i = new Intent(this.getActivity(),ListActivity.class);
+			i.putExtra(ListActivity.STATUS_KEY,ListActivity.STATUS_ORDERLIST);
 			break;
 		case R.id.f_center_bindcoach:
 //			i = new Intent(this.getActivity(),ModifyUserInfoActivity.class);

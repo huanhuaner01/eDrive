@@ -16,7 +16,7 @@
             android:gravity="center" >
 
             <ImageView
-                android:id="@+id/post_dialog_addr"
+                android:id="@+id/order_detail_img"
                 android:layout_width="@dimen/post_dialog_ic_size"
                 android:layout_height="@dimen/post_dialog_ic_size"
                 android:src="@drawable/ic_tip"

@@ -57,10 +57,13 @@ public class ListActivity extends FragmentActivity {
 	        tx.add(R.id.container, sfragment,"f_jlsetmeal");  
 			break ;
 		case STATUS_MSGLIST:
-			MsgFragment msgfragment = new MsgFragment(this ,"学车套餐",SRL.Method.METHOD_GET_COACH_MEAL) ;
+			MsgFragment msgfragment = new MsgFragment(this ,"消息中心",SRL.Method.METHOD_GET_COACH_MEAL) ;
 	        tx.add(R.id.container, msgfragment,"f_jlsetmeal");  
 			break ;
-			
+		case STATUS_ORDERLIST:
+			OrderListFragment orderfragment = new OrderListFragment(this ,"需求订单","") ;
+	        tx.add(R.id.container, orderfragment,"order");  
+			break ;
 		}
 		tx.commit();
 		

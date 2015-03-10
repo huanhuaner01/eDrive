@@ -22,7 +22,7 @@
             android:gravity="center" >
 
             <ImageView
-                android:id="@+id/post_dialog_addr"
+                android:id="@+id/order_detail_img"
                 android:layout_width="@dimen/post_dialog_ic_size"
                 android:layout_height="@dimen/post_dialog_ic_size"
                 android:src="@drawable/ic_tip"
@@ -46,7 +46,7 @@
             android:textSize="@dimen/txtsize_default" />
 
         <TextView
-            android:id="@+id/dialog_msg_content"
+            android:id="@+id/order_detail_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -157,7 +157,7 @@ public class CoachTrainFieldActivity extends Activity {
 							public boolean onMarkerClick(Marker marker) {
 								View view = LayoutInflater.from(CoachTrainFieldActivity.this).inflate(R.layout.demand_info_window, null);
 								TextView name = (TextView)view.findViewById(R.id.order_coach_name) ;
-								ImageView img = (ImageView)view.findViewById(R.id.order_coach_photo) ;
+								ImageView img = (ImageView)view.findViewById(R.id.order_detail_cphoto) ;
 								RatingBar ratingBar = (RatingBar)view.findViewById(R.id.order_coach_ratingbar);
 								TextView juedge = (TextView)view.findViewById(R.id.order_coach_judge);
 								ratingBar.setVisibility(View.GONE); //评分条

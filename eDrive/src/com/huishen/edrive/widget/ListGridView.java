@@ -10,7 +10,7 @@ public class ListGridView extends GridView
  }
 
  /**
-  * ���ò�����
+  * 没有滚动效果的gridView
   */
  @Override
 public void onMeasure(int widthMeasureSpec, int heightMeasureSpec)

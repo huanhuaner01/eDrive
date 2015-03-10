@@ -20,6 +20,8 @@ import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.util.Const;
+import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -362,6 +364,9 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 			int status = json.getInt("status");
 			if(status == 1){
 				AppUtil.ShowShortToast(getApplicationContext(), "修改成功");
+				if(tag==3){
+					Prefs.writeString(getApplicationContext(), Const.USER_ADDR,addr.getText().toString() );
+				}
 				finish();
 			}else{
 				AppUtil.ShowShortToast(getApplicationContext(), "修改失败");

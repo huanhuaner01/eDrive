@@ -8,7 +8,7 @@
     >
 
     <com.huishen.edrive.widget.RoundImageView
-        android:id="@+id/order_coach_photo"
+        android:id="@+id/order_detail_coach_photo"
         android:layout_width="@dimen/demand_info_coachsize"
         android:layout_height="@dimen/demand_info_coachsize"
         android:layout_marginLeft="@dimen/margin_middle"

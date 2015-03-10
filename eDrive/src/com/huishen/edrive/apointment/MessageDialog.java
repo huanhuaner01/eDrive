@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class MessageDialog extends Dialog implements View.OnClickListener{
     private MassageListener msgListener ;
     private String title , content ;
-    private boolean isShowImg ;
+    private boolean isShowImg ,hideCancel=false;
     private TextView titleTv ,contentTv ;
     private Button commit  ,cancel;
     private LinearLayout tiplay ;
@@ -49,15 +49,23 @@ public class MessageDialog extends Dialog implements View.OnClickListener{
 	        registView();
 	        init() ;
 	    }
-
+    
 	private void registView() {
 		titleTv = (TextView)findViewById(R.id.dialog_msg_title);
-		contentTv = (TextView)findViewById(R.id.dialog_msg_content);
+		contentTv = (TextView)findViewById(R.id.order_detail_content);
 		commit = (Button)findViewById(R.id.dialog_msg_commit);
 		cancel = (Button)findViewById(R.id.dialog_msg_cancel);
 		tiplay = (LinearLayout)findViewById(R.id.dialog_msg_img);
 	}
 
+	/**
+	 * 隐藏取消按钮
+	 */
+	public void setCancelHide(){
+		
+		hideCancel = true ;
+	}
+	
 	private void init() {
 		if(!isShowImg){
 			tiplay.setVisibility(View.GONE);
@@ -68,6 +76,13 @@ public class MessageDialog extends Dialog implements View.OnClickListener{
 		 if(msgListener != null){
 			 commit.setOnClickListener(this) ;
 			 cancel.setOnClickListener(this) ;
+		 }
+		 if(hideCancel){
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(cancel.getLayoutParams());  
+				lp.setMargins(0, 0, 0, 0);  
+				cancel.setLayoutParams(lp); 
+//				hideCancel = true ;
+				cancel.setVisibility(View.GONE); 
 		 }
 	}
 

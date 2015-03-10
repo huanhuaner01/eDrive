@@ -69,7 +69,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
      * @param view
      */
     private void registView(){
-    	this.addrBtn = (Button) findViewById(R.id.post_dialog_addr);
+    	this.addrBtn = (Button) findViewById(R.id.order_detail_img);
     	this.addredit = (EditText) findViewById(R.id.post_dialog_edit);
 //    	this.cityedit = (EditText) findViewById(R.id.post_dialog_cityedit);
     	this.commit = (Button) findViewById(R.id.order_success);
@@ -95,7 +95,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 	public void onClick(View v) {
 		Log.i(TAG,v.getId()+"") ;
 		switch(v.getId()){
-		case R.id.post_dialog_addr:
+		case R.id.order_detail_img:
 			gpsClickAction();
 			break ;
 		case R.id.order_success:

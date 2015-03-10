@@ -32,6 +32,17 @@
          android:paddingTop="@dimen/header_title_padding"
          android:paddingBottom="@dimen/header_title_padding"
          />
+       <TextView
+         android:id="@+id/header_note"
+         android:layout_width="wrap_content"
+         android:layout_height="match_parent"
+         android:layout_alignParentRight="true"
+         android:textColor="@color/tv_light_color"
+         android:textSize="@dimen/txtsize_default"
+         android:paddingTop="@dimen/header_title_padding"
+         android:paddingBottom="@dimen/header_title_padding"
+         android:paddingRight="@dimen/header_title_padding"
+         />
 </RelativeLayout>
     <View
         android:layout_width="match_parent"

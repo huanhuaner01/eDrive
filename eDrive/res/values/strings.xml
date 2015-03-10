@@ -100,6 +100,13 @@
     <string name="modify_se_nichname_tip">请输入您的昵称</string>
     <string name="modify_se_addr_tip">如果您在常用地点，点击一下即可定位</string>
     <string name="str_register_photo_select_source">选择照片来源</string>
+    <string name="order_complain">投诉</string>
+    <string name="order_cancel">取消订单</string>
+    <string name="order_content">订单内容</string>
+    <string name="order_coach">抢单教练信息</string>
+    <string name="order_judge">我对教练的评价</string>
+    <string name="order_nextjudge">追加评价</string>
+    <string name="judge">评价</string>
     <!-- 照片来源选择 -->
     <string-array name="str_register_photo_source">
         <item>拍照</item>
@@ -135,5 +142,6 @@
     <string name="str_checkupdate_update_now">立即更新</string>
     <string name="str_checkupdate_update_later">暂不更新</string>
     <string name="title_activity_msg_list">MsgListActivity</string>
+    <string name="title_activity_order_detail">OrderDetailActivity</string>
 
 </resources>
