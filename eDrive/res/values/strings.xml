@@ -107,6 +107,10 @@
     <string name="order_judge">我对教练的评价</string>
     <string name="order_nextjudge">追加评价</string>
     <string name="judge">评价</string>
+    <string name="judge_hint">仅限150字</string>
+    <string name="judge_attitude">态度</string>
+    <string name="judge_field">场地</string>
+    <string name="judge_traffic">交通</string>
     <!-- 照片来源选择 -->
     <string-array name="str_register_photo_source">
         <item>拍照</item>
@@ -146,5 +150,7 @@
     <string name="str_splash_downloading">正在努力下载安装包……</string>
     <string name="str_splash_download_fail">安装包下载失败，请检查网络</string>
     <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_judge">JudgeActivity</string>
+    <string name="title_activity_complain">ComplainActivity</string>
 
 </resources>

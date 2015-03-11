@@ -73,4 +73,12 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
     
+       <!-- 评价界面 -->
+       <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+
+        <!-- 指向star_rating_bar_full.xml文件 -->
+        <item name="android:progressDrawable">@drawable/star_rating_bar_full</item>
+         <item name="android:minHeight">31dp</item>    
+        <item name="android:maxHeight">60dp</item>
+    </style>
 </resources>

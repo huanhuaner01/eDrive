@@ -105,7 +105,17 @@ public final class SRL {
 		public static final String METHOD_GET_MSG_LIST = "stuMobile/queryStuAllPushLogInfo" ;
 		public static final String METHOD_GET_ORDER_LIST = "stuMobile/queryTempBillInfoByStuId" ;
 		public static final String METHOD_GET_ORDER_DETAIL = "stuMobile/queryTempBillInfoById";
+		public static final String METHOD_CANCEL_ORDER = "stuMobile/updateTempBill" ;
+		public static final String METHOD_JUDGE = "stuMobile/addComment" ;
+		public static final String METHOD_PLUS_JUDGE = "stuMobile/addCommentPlusInfo" ;
 		//---------------------------个人中心结束！---------------------------------
+		
+		//---------------------------侧边栏学车指南-----------------------------------
+		public static final String METHOD_GET_MENU_PRO = "/static/services/Fees.html";
+		public static final String METHOD_GET_MENU_INFO = "/static/services/Test.html";
+		public static final String METHOD_GET_MENU_HOSPITAL = "/static/services/medicalHospital.html";
+		public static final String METHOD_GET_MENU_STANDARD = "/static/services/toll.html";
+		//---------------------------侧边栏学车指南结束！-------------------------------
 		/**
 		 * 检查软件更新。
 		 */

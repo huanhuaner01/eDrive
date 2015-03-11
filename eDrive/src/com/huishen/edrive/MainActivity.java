@@ -169,7 +169,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			public void onClick(View arg0) {
 				Intent i = new Intent(MainActivity.this ,InfoActivity.class);
 				i.putExtra("title", "学车流程");
-				i.putExtra("url", "");
+				i.putExtra("url", SRL.Method.METHOD_GET_MENU_PRO);
 				startActivity(i);
 			}
     		
@@ -180,7 +180,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			public void onClick(View arg0) {
 				Intent i = new Intent(MainActivity.this ,InfoActivity.class);
 				i.putExtra("title", "考项说明");
-				i.putExtra("url", "");
+				i.putExtra("url", SRL.Method.METHOD_GET_MENU_INFO);
 				startActivity(i);
 			}
     		
@@ -191,7 +191,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			public void onClick(View arg0) {
 				Intent i = new Intent(MainActivity.this ,InfoActivity.class);
 				i.putExtra("title", "体检医院");
-				i.putExtra("url", "");
+				i.putExtra("url",  SRL.Method.METHOD_GET_MENU_HOSPITAL);
 				startActivity(i);
 			}
     		
@@ -202,7 +202,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			public void onClick(View arg0) {
 				Intent i = new Intent(MainActivity.this ,InfoActivity.class);
 				i.putExtra("title", "收费标准");
-				i.putExtra("url", "");
+				i.putExtra("url",  SRL.Method.METHOD_GET_MENU_STANDARD);
 				startActivity(i);
 			}
     		

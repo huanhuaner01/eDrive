@@ -42,16 +42,17 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
           >
+
    <TextView
        android:id="@+id/item_order_content"
        android:layout_width="0dp"
        android:layout_height="wrap_content"
        android:layout_weight="1"
-       android:text="教练抢到了您的订单"
        android:singleLine="true"
+       android:text="教练抢到了您的订单"
        android:textColor="@color/tv_light_color"
-       android:textSize="@dimen/txtsize_default"
-       />
+       android:textSize="@dimen/txtsize_default" />
+
      <ImageView 
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"

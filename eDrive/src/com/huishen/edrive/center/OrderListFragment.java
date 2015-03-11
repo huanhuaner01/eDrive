@@ -37,6 +37,14 @@ public class OrderListFragment extends TitleListFragment {
 	private String[] from  = new String[]{"time","statusvalue","content" ,"note"};
 	private int[] to = new int[]{R.id.item_order_time,R.id.item_order_status,R.id.item_order_content,R.id.item_order_note};
 	private OrderListAdapter adapter ;
+	
+	
+	@Override
+	public void onResume() {
+		getWebData();
+		super.onResume();
+	}
+
 	public OrderListFragment(Context context, String titlestr, String url) {
 		super(context, titlestr, url);
 		// TODO Auto-generated constructor stub

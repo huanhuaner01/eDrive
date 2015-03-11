@@ -173,7 +173,15 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/divide_line"
             android:background="@color/tv_smallgrap_color" />
-        
+           <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_horizontal"
+                 android:layout_marginBottom="@dimen/margin_default"
+                 android:layout_marginTop="@dimen/margin_default"
+                 android:text="@string/order_judge"
+                 android:textColor="@color/tv_light_color"
+                 android:textSize="@dimen/txtsize_default" />
         <com.huishen.edrive.widget.NoScrollListView
             android:id="@+id/order_detail_list"
             android:layout_width="match_parent"

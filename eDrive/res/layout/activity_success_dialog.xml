@@ -33,7 +33,7 @@
             android:layout_marginBottom="@dimen/margin_default" >
 
             <com.huishen.edrive.widget.RoundImageView
-                android:id="@+id/order_sucess_coach_photo"
+                android:id="@+id/order_coach_photo"
                 android:layout_width="@dimen/demand_info_coachsize"
                 android:layout_height="@dimen/demand_info_coachsize"
                 android:src="@drawable/photo_coach_defualt"

@@ -69,7 +69,7 @@ public class SuccessDialogActivity extends Activity {
 		distance = (TextView) findViewById(R.id.order_distance) ;
 		commit = (Button)findViewById(R.id.order_success) ;
 		rating = (RatingBar)findViewById(R.id.order_coach_ratingbar) ;
-		img = (RoundImageView)findViewById(R.id.order_detail_coach_photo);
+		img = (RoundImageView)findViewById(R.id.order_coach_photo);
 	}
 	
 	private void initView() {

@@ -159,7 +159,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -271,6 +271,14 @@
         <activity
             android:name=".InfoActivity"
             android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name=".center.JudgeActivity"
+            android:label="@string/title_activity_judge" >
+        </activity>
+        <activity
+            android:name="com.huishen.edrive.center.ComplainActivity"
+            android:label="@string/title_activity_complain" >
         </activity>
     </application>
 
