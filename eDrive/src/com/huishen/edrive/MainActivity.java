@@ -23,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
@@ -40,7 +41,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     private ImageButton header_menu ;
     private RadioGroup tabGroup ;
     private String coachId = null ,result;
-    
+    private LinearLayout prolay ,infolay ,hospitallay ,standardlay;
     //初始化数据
     private boolean isFirstMain = true ;
     
@@ -135,6 +136,10 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     	header_menu = (ImageButton)findViewById(R.id.header_menu);
 //    	menu1 = (TextView)findViewById(R.id.menu1);
     	tabGroup = (RadioGroup)findViewById(R.id.main_tab_button_group);
+    	prolay = (LinearLayout)findViewById(R.id.menu_pro);
+    	infolay = (LinearLayout)findViewById(R.id.menu_info);
+    	hospitallay = (LinearLayout)findViewById(R.id.menu_hospital);
+    	standardlay = (LinearLayout)findViewById(R.id.menu_charge_standard);
     }
     
     private void init(){
@@ -158,7 +163,50 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 //			}
 //			
 //    	});
-    	
+    	prolay.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(MainActivity.this ,InfoActivity.class);
+				i.putExtra("title", "学车流程");
+				i.putExtra("url", "");
+				startActivity(i);
+			}
+    		
+    	});
+    	infolay.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(MainActivity.this ,InfoActivity.class);
+				i.putExtra("title", "考项说明");
+				i.putExtra("url", "");
+				startActivity(i);
+			}
+    		
+    	});
+    	hospitallay.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(MainActivity.this ,InfoActivity.class);
+				i.putExtra("title", "体检医院");
+				i.putExtra("url", "");
+				startActivity(i);
+			}
+    		
+    	});
+    	standardlay.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(MainActivity.this ,InfoActivity.class);
+				i.putExtra("title", "收费标准");
+				i.putExtra("url", "");
+				startActivity(i);
+			}
+    		
+    	});
     	//页面切换
     	getWebData();
     	tabGroup.setOnCheckedChangeListener(MainActivity.this);

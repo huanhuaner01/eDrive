@@ -112,6 +112,8 @@ public class SplashActivity extends Activity {
 						handler.sendEmptyMessage(SplashHandler.MSG_NO_UPDATE);
 						return;
 					}
+					//仅在需要更新时清除强制等待队列，避免进入下一步。
+					handler.removeMessages(SplashHandler.MSG_MAX_WAIT);
 					final boolean forceUpdate = json.optInt(SRL.ReturnField.FIELD_UPDATE_FORCE_UPDATE)==1?true:false;
 					new AlertDialog.Builder(SplashActivity.this)
 					.setMessage(getString(R.string.str_checkupdate_update_avaliable))
@@ -124,6 +126,7 @@ public class SplashActivity extends Activity {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							Log.i("splash", json.optString(SRL.ReturnField.FIELD_UPDATE_APK_PATH));
 							performUpdate(json.optString(SRL.ReturnField.FIELD_UPDATE_APK_PATH));
 						}
 					}).setNegativeButton(R.string.str_checkupdate_update_later, 

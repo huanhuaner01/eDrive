@@ -159,7 +159,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -265,8 +265,12 @@
             android:label="@string/title_activity_msg_list" >
         </activity>
         <activity
-            android:name="com.huishen.edrive.center.OrderDetailActivity"
+            android:name=".center.OrderDetailActivity"
             android:label="@string/title_activity_order_detail" >
+        </activity>
+        <activity
+            android:name=".InfoActivity"
+            android:label="@string/title_activity_info" >
         </activity>
     </application>
 

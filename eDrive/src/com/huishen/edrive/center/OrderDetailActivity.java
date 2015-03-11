@@ -1,5 +1,6 @@
 package com.huishen.edrive.center;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,14 +12,17 @@ import com.huishen.edrive.R;
 import com.huishen.edrive.R.layout;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.OnProgressChangedListener;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.widget.RoundImageView;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.media.Rating;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +49,8 @@ public class OrderDetailActivity extends Activity {
    private LinearLayout vidiolay  ,coachlay;
    private ListView list ;
    private ArrayList<HashMap> listdata = new ArrayList<HashMap>();
+   private ProgressDialog MyDialog ;
+   private File andioFile ;
 	@Override
     protected void onResume() {
 	 super.onResume();
@@ -125,7 +131,7 @@ public class OrderDetailActivity extends Activity {
 			JSONObject tempBillInfo = json.optJSONObject("tempBillInfo");
 			ordercontent.setText(tempBillInfo.optString("content", ""));
 			if(!tempBillInfo.optString("audio", "").equals("")){
-				
+//				downloadFile();
 			}else{
 				vidiolay.setVisibility(View.GONE);
 			}
@@ -159,5 +165,15 @@ public class OrderDetailActivity extends Activity {
 			e.printStackTrace() ;
 		}
 	
+	}
+	
+	/**
+	 * 下载语音文件
+	 */
+	private void downloadFile(String path){
+		MyDialog = ProgressDialog.show(this, "提示" , " 加载中... ", true);
+		MyDialog.show();
+		File file =new File(Environment.getExternalStorageDirectory()+"/eDrive/audio/"+"andio.mp3");
+//		NetUtil.requestDownloadFile(path, file, listener);
 	}
 }
