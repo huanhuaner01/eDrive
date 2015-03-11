@@ -143,7 +143,7 @@ public final class SRL {
 		public static final String PARAM_BIND_STU_NAME = "stuRealName" ;
 		public static final String PARAM_BIND_CONTENT = "content" ;
 
-		public static final String PARAM_UPDATE_SOFTKEY = "stu-client";
+		public static final String PARAM_UPDATE_SOFTKEY = "softKey";
 	}
 		//返回码
 	public static final class ReturnCode{

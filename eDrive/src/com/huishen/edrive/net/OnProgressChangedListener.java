@@ -17,4 +17,8 @@ public interface OnProgressChangedListener {
 	 * 完成操作时调用。
 	 */
 	void onTaskFinished();
+	/**
+	 * 当任务因异常等因素失败后调用。
+	 */
+	void onTaskFailed();
 }

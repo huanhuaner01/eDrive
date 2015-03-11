@@ -1,5 +1,6 @@
 package com.huishen.edrive;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.OnProgressChangedListener;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
@@ -23,9 +25,11 @@ import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -99,7 +103,7 @@ public class SplashActivity extends Activity {
 			@Override
 			public void onResponse(String arg0) {
 				try {
-					JSONObject json = new JSONObject(arg0);
+					final JSONObject json = new JSONObject(arg0);
 					int servercode = json.getInt(SRL.ReturnField.FIELD_UPDATE_SERVER_VERSIONCODE);
 					int localcode = Packages.getVersioCode(SplashActivity.this);
 					if (servercode <= localcode){
@@ -108,9 +112,10 @@ public class SplashActivity extends Activity {
 						handler.sendEmptyMessage(SplashHandler.MSG_NO_UPDATE);
 						return;
 					}
-					final boolean forceUpdate = json.optBoolean(SRL.ReturnField.FIELD_UPDATE_FORCE_UPDATE);
+					final boolean forceUpdate = json.optInt(SRL.ReturnField.FIELD_UPDATE_FORCE_UPDATE)==1?true:false;
 					new AlertDialog.Builder(SplashActivity.this)
 					.setMessage(getString(R.string.str_checkupdate_update_avaliable))
+					.setCancelable(false) 
 //					.setMessage(getString(R.string.str_checkupdate_update_description, 
 //							json.optString(SRL.ReturnField.FIELD_UPDATE_SERVER_VERSIONNAME), 
 //							json.optString(SRL.ReturnField.FIELD_UPDATE_SERVER_VERSIONDESC)))
@@ -119,9 +124,9 @@ public class SplashActivity extends Activity {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							performUpdate();
+							performUpdate(json.optString(SRL.ReturnField.FIELD_UPDATE_APK_PATH));
 						}
-					}).setPositiveButton(R.string.str_checkupdate_update_later, 
+					}).setNegativeButton(R.string.str_checkupdate_update_later, 
 							new DialogInterface.OnClickListener() {
 						
 						@Override
@@ -145,9 +150,52 @@ public class SplashActivity extends Activity {
 		};
 	} 
 	
-	private void performUpdate(){
-		//TODO 完成下载安装包和发送安装请求
+	private void performUpdate(String path){
+		final File file = new File(getFilesDir()+File.separator, "edrive.apk");
+		final ProgressDialog dialog = createDownloadDialog();
+		dialog.show();
+		NetUtil.requestDownloadFileUsingAbsPath(path, file, new OnProgressChangedListener() {
+			
+			@Override
+			public void onTaskFinished() {
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.setDataAndType(Uri.fromFile(file),
+						"application/vnd.android.package-archive");
+				startActivity(intent);
+			}
+			
+			@Override
+			public void onTaskFailed() {
+				dialog.dismiss();
+				Toast.makeText(SplashActivity.this, getString(R.string.str_splash_download_fail),
+						Toast.LENGTH_SHORT).show();
+			}
+			
+			@Override
+			public void onProgressChanged(int min, int max, int progress) {
+				if (min==0 && max==100){
+					dialog.setProgress(progress);
+				}
+				else{
+					dialog.setProgress((int) (progress/(double)(max-min)));
+				}
+			}
+		});
 	}
+	
+	private ProgressDialog createDownloadDialog(){
+		ProgressDialog dialog = new ProgressDialog(this);
+		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
+		dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+		dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+		dialog.setIcon(R.drawable.ic_launcher);// 设置提示的title的图标，默认是没有的
+		dialog.setTitle("提示");
+		dialog.setMax(100);
+		dialog.setMessage(getString(R.string.str_splash_downloading));
+		return dialog;
+	}
+	
 	private static final class SplashHandler extends Handler {
 		
 		WeakReference<SplashActivity> wk;
