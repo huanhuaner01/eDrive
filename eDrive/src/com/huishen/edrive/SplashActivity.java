@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -106,9 +107,9 @@ public class SplashActivity extends Activity {
 					final JSONObject json = new JSONObject(arg0);
 					int servercode = json.getInt(SRL.ReturnField.FIELD_UPDATE_SERVER_VERSIONCODE);
 					int localcode = Packages.getVersioCode(SplashActivity.this);
+					Log.d(LOG_TAG, "server=" + servercode + ",local=" + localcode);
 					if (servercode <= localcode){
-						Log.d(LOG_TAG, "server=" + servercode + ",local="
-								+ localcode + ".No avaliable update found.");
+						Log.d(LOG_TAG, "No avaliable update found.");
 						handler.sendEmptyMessage(SplashHandler.MSG_NO_UPDATE);
 						return;
 					}
@@ -154,13 +155,23 @@ public class SplashActivity extends Activity {
 	} 
 	
 	private void performUpdate(String path){
-		final File file = new File(getFilesDir()+File.separator, "edrive.apk");
+		String state = Environment.getExternalStorageState();
+		final File file;
+		if (Environment.MEDIA_MOUNTED.equals(state)){
+			file = new File(Environment.getExternalStorageDirectory()+File.separator, "ecoach.apk");
+		}
+		else{
+			file = new File(getFilesDir() + File.separator, "edrive.apk");	
+		}
+		Log.d(LOG_TAG, "apk path:"+file.getAbsolutePath());
 		final ProgressDialog dialog = createDownloadDialog();
 		dialog.show();
 		NetUtil.requestDownloadFileUsingAbsPath(path, file, new OnProgressChangedListener() {
 			
 			@Override
 			public void onTaskFinished() {
+				dialog.dismiss();
+				finish();//避免用户不更新应用而直接返回时看到的无响应状态。
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.setDataAndType(Uri.fromFile(file),
