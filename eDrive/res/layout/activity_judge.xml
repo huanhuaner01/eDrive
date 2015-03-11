@@ -1,0 +1,161 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical"
+     >
+<include layout="@layout/header_defualt"/>
+
+    <EditText
+        android:id="@+id/judge_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/tv_light_color"
+        android:padding="@dimen/padding_default"
+        android:textSize="@dimen/txtsize_default"
+        android:background="@color/white"
+        android:hint="@string/judge_hint"
+        android:textColorHint="@color/tv_gray_color"
+        android:gravity="left|top"
+        />
+    
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1.5"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_default"
+    android:id="@+id/judge_rating"
+    >
+                  
+               <!-- 教学质量评价 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:layout_marginTop="@dimen/margin_default"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/judge_attitude"
+                    android:textColor="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_default"
+                     />
+
+                <RatingBar
+                    android:id="@+id/jugde_rb_at"
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="1"
+                    android:layout_marginLeft="5dp"
+                     >
+                </RatingBar>
+
+                <TextView
+                    android:id="@+id/jugde_tv_at"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0分 " 
+                    android:textColor="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_default"
+                    />
+            </LinearLayout>
+             
+            <!-- 教学态度 -->
+                        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:layout_marginTop="@dimen/margin_default"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/judge_field"
+                    android:textColor="@color/tv_gray_color" 
+                    android:textSize="@dimen/txtsize_default"
+                    />
+
+                <RatingBar
+                    android:id="@+id/jugde_rb_fd"
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="1"
+                    android:layout_marginLeft="5dp"
+                     >
+                </RatingBar>
+
+                <TextView
+                    android:id="@+id/jugde_tv_fd"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0分 "
+                    android:textColor="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_default"
+                     />
+            </LinearLayout>
+            
+                        <!-- 教学规范 -->
+                                    <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/margin_default"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/judge_traffic"
+                    android:textColor="@color/tv_gray_color" 
+                    android:textSize="@dimen/txtsize_default"
+                    />
+
+                <RatingBar
+                    android:id="@+id/jugde_rb_tf"
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="1"
+                    android:layout_marginLeft="5dp"
+                     >
+                </RatingBar>
+
+                <TextView
+                    android:id="@+id/jugde_tv_tf"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0分 "
+                    android:textColor="@color/tv_gray_color"
+                    android:textSize="@dimen/txtsize_default"
+                     />
+            </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
