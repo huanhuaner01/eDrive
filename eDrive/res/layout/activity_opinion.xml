@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical"
+     >
+    <include layout="@layout/header_defualt"
+     />
+     <EditText
+         android:id="@+id/opinion_edit"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="1"
+         android:hint="请写出您的意见"
+         android:textColorHint="@color/tv_gray_color"
+         android:textColor="@color/tv_light_color"
+         android:textSize="@dimen/txtsize_default"
+         android:padding="@dimen/padding_default"
+         android:gravity="top"
+         android:maxLength="200"
+         android:background="@drawable/selector_complain"
+         />
+         <TextView
+         android:id="@+id/opinion_tv"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="1"
+         android:text="客服QQ:3137160186 投诉电话:4000-838-760"
+         android:textColor="@color/tv_gray_color"
+         android:textSize="@dimen/txtsize_default"
+         android:padding="@dimen/padding_default"
+         android:gravity="top|center_horizontal"
+         />
+</LinearLayout>
