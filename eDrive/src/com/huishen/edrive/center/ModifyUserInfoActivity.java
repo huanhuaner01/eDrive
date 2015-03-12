@@ -268,6 +268,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 								JSONObject json = new JSONObject(str);
 								if(json.getInt("status") == 1){
 									AppUtil.ShowShortToast(ModifyUserInfoActivity.this, "上传成功");
+									getWebData();
 								}
 							}catch(Exception e){
 								e.printStackTrace();
@@ -279,7 +280,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 
 					@Override
 					public void onError(int httpCode) {
-						Log.e(LOG_TAG, "upload fail!");
+						Log.e(LOG_TAG, "upload fail! "+httpCode);
 						AppUtil.ShowShortToast(ModifyUserInfoActivity.this, "上传失败，请重新选择图片");
 						if(MyDialog.isShowing()){
 							MyDialog.dismiss();

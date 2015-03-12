@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
         setContentView(R.layout.activity_main);
         //将Activity添加进入栈
         AppController.getInstance().addActivity(this) ;
-        
+        AppController.getInstance().addMain(this) ;
         //-------------获取传递过来的数据------------------
           isFirstMain = this.getIntent().getBooleanExtra("main", true);
         //-------------获取传递过来的数据结束！--------------

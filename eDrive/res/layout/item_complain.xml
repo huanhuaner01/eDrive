@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
-    android:layout_margin="@dimen/margin_middle"
     android:padding="@dimen/padding_micro"
     android:background="@drawable/selector_complain"
     android:gravity="center_vertical"

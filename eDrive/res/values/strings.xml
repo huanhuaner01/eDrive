@@ -111,6 +111,14 @@
     <string name="judge_attitude">态度</string>
     <string name="judge_field">场地</string>
     <string name="judge_traffic">交通</string>
+
+    <!-- 设置界面 -->
+    <string name="setting_softupdate">软件更新</string>
+    <string name="setting_opinion">意见反馈</string>
+    <string name="setting_obout">关于e驾</string>
+    <string name="setting_contact">联系我们：4000-838-760</string>
+    <string name="setting_logout">退出登录</string>
+
     <!-- 照片来源选择 -->
     <string-array name="str_register_photo_source">
         <item>拍照</item>
@@ -152,5 +160,6 @@
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_judge">JudgeActivity</string>
     <string name="title_activity_complain">ComplainActivity</string>
+    <string name="title_activity_opinion">OpinionActivity</string>
 
 </resources>

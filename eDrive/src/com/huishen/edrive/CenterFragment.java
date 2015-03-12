@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import com.android.volley.Response;
+import com.huishen.edrive.apointment.BindCoachActivity;
+import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.center.ModifyUserInfoActivity;
 import com.huishen.edrive.center.SettingActivity;
@@ -33,6 +35,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
     
     private TextView tel ; //电话号码
     private LinearLayout userinfo ,order,msg ,bindCoach ,share ,setting; //
+    private int coachId = -1 ;
 	public CenterFragment() {
 	}
 	
@@ -66,7 +69,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 		userinfo.setOnClickListener(this);
 		msg.setOnClickListener(this);
 		order.setOnClickListener(this);
-//		bindCoach.setOnClickListener(this);
+		bindCoach.setOnClickListener(this);
 		share.setOnClickListener(this);
 		setting.setOnClickListener(this);
 		tel.setText(Prefs.readString(getActivity(), Const.USER_PHONE));
@@ -104,6 +107,10 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 			if(!json.optString("path", "").equals("")){
 		       NetUtil.requestLoadImage(photoimg, json.optString("path", ""), R.drawable.photo_coach_defualt);
 			}
+			coachId = json.optInt("coachId", -1);
+			if(coachId != -1){
+				Prefs.writeString(getActivity(), Const.USER_COACH_ID, coachId+"");
+			}
             tel.setText(json.optString("phone", "缺失"));
 		}catch(Exception e){
 			
@@ -137,7 +144,13 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 			i.putExtra(ListActivity.STATUS_KEY,ListActivity.STATUS_ORDERLIST);
 			break;
 		case R.id.f_center_bindcoach:
-//			i = new Intent(this.getActivity(),ModifyUserInfoActivity.class);
+			if(coachId != -1){
+			i = new Intent(this.getActivity(),CoachDetailActivity.class);
+			i.putExtra("tag", 1);
+			i.putExtra("id", coachId);
+			}else{
+				i = new Intent(this.getActivity(),BindCoachActivity.class);
+			}
 			break ;
 		case R.id.f_center_share:
 			i = new Intent(this.getActivity(),ShareActivity.class);

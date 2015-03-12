@@ -271,7 +271,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 //		lat=30.577716;//当前学生纬度
 //		String content = edt.toString();
 		if(Prefs.readString(getApplicationContext(), Const.ORDER_STATUS).equals("1")){
-		    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔半个小时再来吧！");
+		    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔15分钟再来吧！");
 		    return ;
 		}
 		if(addr == null || addr.equals("")){

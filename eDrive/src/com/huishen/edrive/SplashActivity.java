@@ -107,7 +107,7 @@ public class SplashActivity extends Activity {
 					final JSONObject json = new JSONObject(arg0);
 					int servercode = json.getInt(SRL.ReturnField.FIELD_UPDATE_SERVER_VERSIONCODE);
 					int localcode = Packages.getVersioCode(SplashActivity.this);
-					Log.d(LOG_TAG, "server=" + servercode + ",local=" + localcode);
+					Log.i(LOG_TAG, "server=" + servercode + ",local=" + localcode);
 					if (servercode <= localcode){
 						Log.d(LOG_TAG, "No avaliable update found.");
 						handler.sendEmptyMessage(SplashHandler.MSG_NO_UPDATE);

@@ -75,6 +75,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		AppController.getInstance().addActivity(this);
 		//-----------------------获取数据-------------------------------
 		addr = this.getIntent().getStringExtra("addr"); 
+		Log.i(TAG, "frist addr "+addr);
 		//-----------------------获取数据结束！---------------------------
 		registView();
 		initView();
@@ -154,6 +155,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		dialog = new PostAddrDialog(this,listener);
 		if(addr == null || addr.equals("")|| addr.equals("null")){
 			dialog.show() ;
+			Log.i(TAG, "frist addr "+addr);
 		}else{
 			Log.i(TAG, addr);
 			addrBtn.setText(addr);
@@ -168,7 +170,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			@Override
 			public void onClick(View arg0) {
 				if(Prefs.readString(getApplicationContext(), Const.ORDER_STATUS).equals("1")){
-				    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔半个小时再来吧！");
+				    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔15分钟再来吧！");
 				}else{
 					 sendTxtOrder();
 				}

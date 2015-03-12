@@ -1,12 +1,119 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:background="@color/main_bg_color"
+    android:orientation="vertical"
+     >
+    <include layout="@layout/header_defualt"
+     />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+                  <!-- 版本升级-->
+                <LinearLayout
+                    android:id="@+id/setting_softup"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/setting_softupdate" />
 
-</RelativeLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_next"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+                          <!-- 意见反馈-->
+                <LinearLayout
+                    android:id="@+id/setting_opinion"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/setting_opinion" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_next"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+                          <!-- 关于我们-->
+                <LinearLayout
+                    android:id="@+id/setting_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/selector_lab_btn"
+                    android:paddingLeft="@dimen/padding_xlarge"
+                    android:paddingRight="@dimen/padding_xlarge"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                     >
+
+                    <TextView
+                        style="@style/coachdetailtextstyle"
+                        android:text="@string/setting_obout" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_next"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divide_line"
+                    android:background="@color/main_bg_color" />
+                
+                <TextView
+                    android:text="@string/setting_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_default"
+                    android:gravity="center"
+                    />
+    </LinearLayout>
+        <Button
+         android:id="@+id/setting_logout"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/button_height"
+         android:background="@drawable/bkg_verify_btn_start"
+         android:layout_margin="@dimen/margin_default"
+         android:text="@string/setting_logout"
+         android:textColor="@color/white"
+         android:textSize="@dimen/txtsize_default"
+         />
+</LinearLayout>

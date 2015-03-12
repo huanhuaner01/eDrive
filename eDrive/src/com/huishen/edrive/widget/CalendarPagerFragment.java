@@ -87,7 +87,7 @@ public class CalendarPagerFragment extends Fragment {
 			this.endDate = new GregorianCalendar(CalendarUtil.MAX_YEAR, 11, 31)
 					.getTime();
 		}
-		Log.i(TAG, "endDate is " + this.endDate);
+//		Log.i(TAG, "endDate is " + this.endDate);
 		this.isSection = true;
 		this.colors = colors ;
 		
@@ -97,7 +97,7 @@ public class CalendarPagerFragment extends Fragment {
 	 * 判断日期是否在可选区域
 	 */
 	private boolean dayisSection(Date date) {
-		Log.i(TAG, "begindate is :" + beginDate.toString());
+//		Log.i(TAG, "begindate is :" + beginDate.toString());
 		int i = date.compareTo(beginDate);
 		int j = date.compareTo(endDate);
 		if (i >= 0 && j <= 0) {
@@ -136,7 +136,7 @@ public class CalendarPagerFragment extends Fragment {
 
 				HashMap<String, Object> map = (HashMap<String, Object>) view
 						.getTag();
-				Log.i(TAG, map.toString());
+//				Log.i(TAG, map.toString());
 				if (Integer.parseInt(map.get("status").toString()) < 0) {
 					return;
 				}
@@ -255,7 +255,7 @@ public class CalendarPagerFragment extends Fragment {
 					}
 				}
 			}
-			Log.i(TAG, map.toString());
+//			Log.i(TAG, map.toString());
 			days.add(map);
 		}
 		return days;

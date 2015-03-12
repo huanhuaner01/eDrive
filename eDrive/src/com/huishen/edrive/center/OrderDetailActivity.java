@@ -200,13 +200,14 @@ public class OrderDetailActivity extends Activity {
 			ordercontent.setText(tempBillInfo.optString("content", ""));
 			if(!tempBillInfo.optString("audio", "").equals("")){
 				downloadFile(tempBillInfo.optString("audio", ""));
+				vidiolay.setVisibility(View.VISIBLE);
 				vidio.setOnClickListener(new OnClickListener(){
 
 					@Override
 					public void onClick(View v) {
 						SimpleRecorder recorder = SimpleRecorder.getInstance();
 						if(andioFile !=null && andioFile.length()>0){
-						recorder.playAudioFile(andioFile);
+						    recorder.playAudioFile(andioFile);
 						}else{
 							AppUtil.ShowShortToast(getApplicationContext(), "语音下载失败");
 						}
@@ -219,6 +220,7 @@ public class OrderDetailActivity extends Activity {
             JSONObject coach = json.optJSONObject("coachInfo");
             
 			if(coach != null){
+				coachlay.setVisibility(View.VISIBLE);
 				coachdistance.setText("距我"+(json.optInt("distance" ,0)/1000.0)+"k");
 				coachname.setText(coach.optString("coachName",""));
 				coachfield.append(coach.optString("address" ,"无"));
@@ -247,6 +249,7 @@ public class OrderDetailActivity extends Activity {
 					commentId = judge.optInt("commentId", -1);
 				}
 				if(commtInfo.length() <1){
+					judgeBtn.setVisibility(View.VISIBLE);
 					judgeBtn.setText("评价");
 					judgeBtn.setOnClickListener(new OnClickListener(){
 
@@ -266,6 +269,7 @@ public class OrderDetailActivity extends Activity {
 					listdata.add(map);
 					judgeBtn.setVisibility(View.GONE);
 				}else{
+					judgeBtn.setVisibility(View.VISIBLE);
 					judgeBtn.setText("追加评价");
 					judgeBtn.setOnClickListener(new OnClickListener(){
 

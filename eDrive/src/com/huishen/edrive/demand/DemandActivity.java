@@ -90,7 +90,8 @@ public class DemandActivity extends Activity implements OnClickListener{
 	private boolean isFirstMain = false ; //标志，是否是第一次登录
     private int coachId = -1 ; //目前点击的教练的id 默认-1没有
     private String addr  ; //地址信息
-	@Override
+	
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		 //将Activity添加进入栈
@@ -134,6 +135,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		LocationClientOption option = new LocationClientOption();
 		option.setOpenGps(true);//
 		option.setCoorType("bd09ll"); //
+		option.setAddrType("all");//返回的定位结果包含地址信息
 		option.setScanSpan(1000);
 		mLocClient.setLocOption(option);
 		mLocClient.start();
@@ -277,7 +279,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 					.direction(100).latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(locData);
-			if (isFirstLoc) {
+			if (isFirstLoc && (location.getLocType() == BDLocation.TypeNetWorkLocation)) {
 				isFirstLoc = false;
 				LatLng ll = new LatLng(location.getLatitude(),
 						location.getLongitude());
@@ -286,6 +288,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 				mBaiduMap.animateMapStatus(u);
 				showRoundCoach(location.getLongitude() ,location.getLatitude());
 				addr = location.getAddrStr() ;
+				Log.w(TAG, "demand addr is "+addr);
 			}
 				
 				mLocClient.stop();

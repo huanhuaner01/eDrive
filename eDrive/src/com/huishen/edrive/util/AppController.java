@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.baidu.mapapi.SDKInitializer;
+import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.demand.OrderFailBroadcastReceiver;
 import com.huishen.edrive.umeng.CustomUMessageHandler;
 import com.umeng.message.PushAgent;
@@ -68,6 +69,7 @@ public class AppController extends Application {
 
    ///////////////////////////退出应用相关////////////////////////////////////
 	private List<Activity> list = new ArrayList<Activity>();
+	private MainActivity main = null ;
 	/**
 	 * 添加acitivty到application
 	 * @param activity
@@ -84,7 +86,22 @@ public class AppController extends Application {
         for (Activity activity : list) {
             activity.finish();
         }
+        
         System.exit(0);
+    }
+    /**
+     * 结束MainActivity
+     * @param context
+     */
+    public void exitMain(Context context) {
+    	main.finish();
+    }
+    /**
+     * 添加mainactivity
+     * @param context
+     */
+    public void addMain(MainActivity maina) {
+       main = maina;
     }
     
     //////////////////////////////////////////////////////////////

@@ -21,7 +21,7 @@ final class ServerAddressProvider {
 
 		@Override
 		public String getServerAddress() {
-			return "http://www.huishen.net/";
+			return "http://118.123.13.229:8081/";
 		}
 		
 	}
@@ -29,9 +29,9 @@ final class ServerAddressProvider {
 	//内部测试服务器
 	private static class InternalTestServer implements IServer{
 
-		@Override
+		@Override 
 		public String getServerAddress() {
-			return "118.123.13.229:8081/enrollsystem/";
+			return "http://192.168.0.210:8080/enrollsystem/";
 		}
 		
 	}

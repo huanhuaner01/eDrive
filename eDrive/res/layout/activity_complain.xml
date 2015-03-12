@@ -10,20 +10,36 @@
          android:id="@+id/complain_list"
          android:layout_width="match_parent"
          android:layout_height="0dp"
-         android:layout_weight="2"
+         android:layout_weight="1.5"
+         android:divider="@color/all_null_color"
+         android:dividerHeight="@dimen/padding_default"
+         android:layout_marginLeft="@dimen/margin_default"
+         android:layout_marginRight="@dimen/margin_default"
+         android:layout_marginTop="@dimen/margin_default"
          />
-     <TextView
+     <EditText
+         android:id="@+id/complain_edit"
          android:layout_width="match_parent"
          android:layout_height="0dp"
          android:layout_weight="1"
          android:layout_margin="@dimen/margin_default"
-         android:background="@drawable/bkg_login_form"
+         android:background="@drawable/selector_complain"
+         android:hint="其他理由"
+         android:maxLength="50"
+         android:textColor="@color/tv_light_color"
+         android:gravity="top"
+         android:padding="@dimen/padding_default"
+         android:textColorHint="@color/tv_gray_color"
          />
      <Button
+         android:id="@+id/complain_btn"
          android:layout_width="match_parent"
          android:layout_height="@dimen/button_height"
          android:background="@drawable/bkg_verify_btn_start"
          android:layout_margin="@dimen/margin_default"
+         android:text="确认投诉"
+         android:textColor="@color/white"
+         android:textSize="@dimen/txtsize_default"
          />
   <!--    <bkg_login_form> -->
 

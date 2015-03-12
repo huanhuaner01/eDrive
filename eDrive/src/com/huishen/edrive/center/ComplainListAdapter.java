@@ -37,15 +37,16 @@ public class ComplainListAdapter extends SimpleAdapter {
 		LinearLayout lay = (LinearLayout)root.findViewById(R.id.item_complain_lay);
 		int status = Integer.parseInt(this.data.get(position).get("status").toString());
 		if(status == 1){
-			img.setSelected(true);
+			img.setImageResource(R.drawable.ic_complain_press);
 			check.setVisibility(View.VISIBLE);
 			lay.setSelected(true);
 			currentChecked = position ;
 		}else{
-			img.setSelected(false);
+			img.setImageResource(R.drawable.selector_complain_ic);
 			check.setVisibility(View.GONE);
 			lay.setSelected(false);
 		}
+		root.setTag(this.data.get(position).get("content").toString());
 		return root ;
 	}
 
@@ -56,7 +57,9 @@ public class ComplainListAdapter extends SimpleAdapter {
 	 * 
 	 */
 	public void selectOption(int position){
+		if(currentChecked != -1){
 		this.data.get(currentChecked).put("status",this.currentpreStatus) ;
+		}
 		this.data.get(position).put("status", 1);
 		this.notifyDataSetChanged() ;
 		

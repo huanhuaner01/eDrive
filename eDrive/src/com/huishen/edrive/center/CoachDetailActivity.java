@@ -50,6 +50,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
     public static String COACH_ID = "id" ;  //传进来的参数key
     private String coachtel ; //教练的电话号码
     private float score = 0 ; //教练评分
+    private int tag = 0;
     //展示训练场图片的弹出框相关
     private CoachFieldImgDialog imgDialog ;
     private ArrayList<String> imgUrls ;
@@ -60,6 +61,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		AppController.getInstance().addActivity(this);
 		/****************获取传进来的数据***************/
 		coachId = this.getIntent().getIntExtra(COACH_ID, -1) ;
+		tag = this.getIntent().getIntExtra("tag", 0);
 		/****************获取传进来的数据结束***************/		
 		registView(); //注册组件
 		initView();  //初始化组件
@@ -161,6 +163,20 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		this.judge.setOnClickListener(this) ;
 		this.setmeal.setOnClickListener(this) ;
 		this.call.setOnClickListener(this);
+		if(tag == 1){
+			TextView note = (TextView)findViewById(R.id.header_note);
+			note.setText("投诉");
+			note.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View arg0) {
+					Intent i = new Intent(CoachDetailActivity.this ,ComplainActivity.class);
+					i.putExtra("coachId",coachId);
+					startActivity(i);
+				}
+				
+			});
+		}
 		
 	}
 	@Override

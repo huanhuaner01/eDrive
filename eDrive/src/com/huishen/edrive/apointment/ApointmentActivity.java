@@ -38,9 +38,9 @@ public class ApointmentActivity extends Activity {
 	private ImageButton back, tel;
 	private RoundImageView photo;
 	private String[] sub = new String[] { "科目一", "科目二", "科目三", "科目四" };
-	private String[] classtime = new String[] { "早上", "中午", "晚上" };
-	private String[] limit = new String[] { "km2a", "km2e", "km2m", "km3a",
-			"km3e", "km3m" };
+	private String[] classtime = new String[] { "上午", "下午", "晚上" };
+	private String[] limit = new String[] { "km2m", "km2a", "km2e", "km3m",
+			"km3a", "km3e" };
 	private AppointmentSubExListApdater adapter;
 	private ArrayList<HashMap<String, String>> mGroupData = null;
 	private ArrayList<ArrayList<HashMap<String, String>>> mData = null;

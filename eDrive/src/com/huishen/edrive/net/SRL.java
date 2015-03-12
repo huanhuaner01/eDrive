@@ -108,6 +108,8 @@ public final class SRL {
 		public static final String METHOD_CANCEL_ORDER = "stuMobile/updateTempBill" ;
 		public static final String METHOD_JUDGE = "stuMobile/addComment" ;
 		public static final String METHOD_PLUS_JUDGE = "stuMobile/addCommentPlusInfo" ;
+		public static final String METHOD_COMPLAIN = "stuMobile/addComplaintInfo" ;
+		public static final String METHOD_ABOUT = "/static/services/aboutUs.html" ;
 		//---------------------------个人中心结束！---------------------------------
 		
 		//---------------------------侧边栏学车指南-----------------------------------
