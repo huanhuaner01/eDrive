@@ -3,6 +3,7 @@ package com.huishen.edrive.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -62,6 +63,7 @@ public class AppController extends Application {
 	 */
 	public final <T> void addNetworkRequest(Request<T> request){
 		if (requestQueue != null){
+//			request.setRetryPolicy(new DefaultRetryPolicy(60 * 1000, 0, 1.0f));
 			requestQueue.add(request);
 		}
 	}

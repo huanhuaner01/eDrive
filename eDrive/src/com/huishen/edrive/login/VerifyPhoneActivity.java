@@ -184,6 +184,9 @@ public class VerifyPhoneActivity extends Activity implements
 				case 3: //3 电话号码输入和发送短信号码不匹配
 					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "电话号码输入和发送短信号码不匹配");
 					break ;
+				case 4: //4已经注册了教练
+					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "对不起，您已经注册了教练，不能成为学员了");
+					break ;
 				case 0: //账号停用
 					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "账号停用");
 					break ;

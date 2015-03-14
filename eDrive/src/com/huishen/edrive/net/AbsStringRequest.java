@@ -10,6 +10,7 @@ import android.util.Log;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.Request.Method;
@@ -35,7 +36,7 @@ import com.android.volley.toolbox.StringRequest;
 class AbsStringRequest extends StringRequest {
 	
 	//默认的超时时间
-	private static final int REQUEST_TIMEOUT = 15 * 1000;
+	private static final int REQUEST_TIMEOUT = 180 * 1000;
 	
 	private static final int HTTP_SUCCESS = 200;
 
@@ -122,12 +123,20 @@ class AbsStringRequest extends StringRequest {
 				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 	}
 	
+	
+	@Override
+	public Request<?> setRetryPolicy(RetryPolicy retryPolicy) {
+		
+		return super.setRetryPolicy(getRetryPolicy());
+	}
+
 	/**
 	 * 重写以获取Cookie。
 	 */
 	@Override
 	protected Response<String> parseNetworkResponse(
 			NetworkResponse response) {
+		
 		if (response.statusCode != HTTP_SUCCESS){
 			return Response.error(new HttpHeaderError(response.statusCode));
 		}

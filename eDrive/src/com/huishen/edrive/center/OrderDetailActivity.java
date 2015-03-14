@@ -123,6 +123,16 @@ public class OrderDetailActivity extends Activity {
 		});
 		}
 		
+		coachphoto.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+			  Intent i = new Intent(OrderDetailActivity.this ,CoachDetailActivity.class);
+			  i.putExtra("id", coachId);
+			  startActivity(i);
+			}
+			
+		});
 	}
 	
 	private void cancelOrder(){

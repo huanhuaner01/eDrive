@@ -10,7 +10,7 @@ package com.huishen.edrive.net;
 final class ServerAddressProvider {
 	
 	//全局变量，服务器路径，只需要修改这里
-	private static final IServer CURRENT_SERVER = new InternalTestServer();
+	private static final IServer CURRENT_SERVER = new PublicServer();
 	
 	protected static final String getServerAddress(){
 		return CURRENT_SERVER.getServerAddress();
@@ -21,7 +21,7 @@ final class ServerAddressProvider {
 
 		@Override
 		public String getServerAddress() {
-			return "http://118.123.13.229:8081/";
+			return "http://bind.ejxc.com.cn:8081/";
 		}
 		
 	}

@@ -104,10 +104,11 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	private void initView() {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
-		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")){
+		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")&&!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("null")){
+			
 			   addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
-			}
-		
+			   Log.i(TAG,Prefs.readString(getApplicationContext(), Const.USER_ADDR));
+	     }
 		this.sound_play.setEnabled(false) ;
 		//----------给选择的服务选项添加数据------------------------
 		keybuffer = new StringBuffer();

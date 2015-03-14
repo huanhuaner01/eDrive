@@ -26,6 +26,7 @@ import com.huishen.edrive.widget.CustomEditText;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -62,7 +63,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
     private double lng ;
     private double lat ;
     private String addr;
-    
+    private ProgressDialog MyDialog ;
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -99,8 +100,10 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	private void initView() {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
-		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")){
+		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")&&!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("null")){
+			
 		   addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
+		   Log.i(TAG,Prefs.readString(getApplicationContext(), Const.USER_ADDR));
 		}
 		//------------------------给gridView添加数据-------------------------------
 		data = new ArrayList<Map<String ,Object>>();
@@ -256,14 +259,18 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		if (content.endsWith(",")){
 			content = edt.delete(edt.length()-1, edt.length()).toString();
 		}
-		if(content.equals("")||content.equals("我需要")){
-			AppUtil.ShowShortToast(this, "订单内容不能为空") ;
+		if(content.equals("")||content.equals(this.getResources().getString(R.string.post_defualt_tv))){
+			AppUtil.ShowShortToast(this, "请输入文字或者选择服务项。") ;
 			return ;
 		}
 		if(addr == null || addr.equals("")){
 			AppUtil.ShowShortToast(this, "地址信息不能为空") ;
 			return ;
 		}
+		  MyDialog = ProgressDialog.show(this, "提示" , " 发布中... ", true);
+		    if(!MyDialog.isShowing()){
+		    	MyDialog.show();
+		    }
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(SRL.Param.PARAM_LATITUDE, lat+"");
         map.put(SRL.Param.PARAM_LONGITUDE,lng+"");
@@ -288,12 +295,17 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    	}else{
 				    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
 				    	}
+				    	
 				    }catch(Exception e){
 				    	   e.printStackTrace() ;
 				    }
+					//关闭进度条
+					if(MyDialog.isShowing()){
+					    MyDialog.dismiss();
+					}
 			}
 			  
-		}, new DefaultErrorListener());
+		}, new DefaultErrorListener(MyDialog));
 		
 	}
 	

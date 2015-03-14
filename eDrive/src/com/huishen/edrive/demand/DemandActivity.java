@@ -279,7 +279,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 					.direction(100).latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(locData);
-			if (isFirstLoc && (location.getLocType() == BDLocation.TypeNetWorkLocation)) {
+			if (isFirstLoc) {
 				isFirstLoc = false;
 				LatLng ll = new LatLng(location.getLatitude(),
 						location.getLongitude());
