@@ -129,7 +129,7 @@ public class SplashActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							Log.i("splash", json.optString(SRL.ReturnField.FIELD_UPDATE_APK_PATH));
 							performUpdate(json.optString(SRL.ReturnField.FIELD_UPDATE_APK_PATH));
-						}
+						}  
 					}).setNegativeButton(R.string.str_checkupdate_update_later, 
 							new DialogInterface.OnClickListener() {
 						

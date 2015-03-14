@@ -108,9 +108,9 @@ public class SuccessDialogActivity extends Activity {
 		
 			@Override
 			public void onResponse(String result) {
-				//{"cohInfo":{"address":"成都市双流县长江路188号","coachId":21,"coachName":"雷猴","countcomment":2,
-//				"path":"/attachment/coh-head/image/IMG_2015021415243200907519.jpg","schoolName":"蜀娟驾校"},
-//				"distance":283}
+//				{"address":null,"cohInfo":
+//				{"coachName":"魏巍","coachScore":3.3,
+//				"path":"/attachment/coh-head/image/IMG_2015031118374503161757.jpg"},"distance":7147324}
 				Log.i(TAG, result) ;
 				    JSONObject json = null ;
 				    try{
@@ -121,11 +121,11 @@ public class SuccessDialogActivity extends Activity {
 				    		coachId = sjson.optInt("coachId" ,-1);
 				    		coachname.setText(sjson.optString("coachName" ,"无"));
 				    		coachname.append("("+sjson.optString("schoolName" ,"无")+")");
-				    		field.append(sjson.optString("address" ,"无"));
+				    		field.append(json.optString("address" ,"无"));
 				    		score.setText((float)(sjson.optDouble("coachScore" ,5))+"分");
 				    		rating.setRating((float)(sjson.optDouble("coachScore" ,5)));
 				    		if(!sjson.optString("path","").equals("")){
-				    		NetUtil.requestLoadImage(img, sjson.getString("path"), R.drawable.photo_coach_defualt);
+				    		  NetUtil.requestLoadImage(img, sjson.getString("path"), R.drawable.photo_coach_defualt);
 				    		}
 				    		
 				    	}
