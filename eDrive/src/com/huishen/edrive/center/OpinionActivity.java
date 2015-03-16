@@ -5,28 +5,27 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import com.android.volley.Response;
-import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
-import com.huishen.edrive.R.layout;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
-import com.huishen.edrive.util.Const;
-import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author zhanghuan
+ *
+ */
 public class OpinionActivity extends Activity {
 	private String TAG = "OpinionActivity" ;
     private TextView title  ,note;
@@ -77,8 +76,8 @@ public class OpinionActivity extends Activity {
 			return ;
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("reviewContent",edit.getText().toString());
-		NetUtil.requestStringData(SRL.Method.METHOD_COMPLAIN, map,
+		map.put("content",edit.getText().toString());
+		NetUtil.requestStringData(SRL.Method.METHOD_OPINION, map,
 				new Response.Listener<String>() {
                        
 					@Override
@@ -89,7 +88,7 @@ public class OpinionActivity extends Activity {
 						}else{
 							try{
 								JSONObject json = new JSONObject(result);
-								if(json.getInt("status")==1){
+								if(json.getInt("code")==0){
 									AppUtil.ShowShortToast(OpinionActivity.this, "成功");
 									finish();
 								}

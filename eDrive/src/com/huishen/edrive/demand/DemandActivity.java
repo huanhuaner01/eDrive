@@ -162,6 +162,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 //							"lat":30.575699,"lng":104.068216,
 //							"path":"/static/img/coachHeader.png","phone":"3558657902"}]
 							JSONArray array = new JSONArray(result);
+							mBaiduMap.clear();
 							for(int i = 0 ; i<array.length() ;i++){
 								JSONObject json = array.getJSONObject(i);
 								Log.i(TAG, json.getDouble(SRL.Param.PARAM_LATITUDE)+"") ;

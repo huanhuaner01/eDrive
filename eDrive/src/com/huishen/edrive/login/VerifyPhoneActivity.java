@@ -50,8 +50,6 @@ public class VerifyPhoneActivity extends Activity implements
 	private TextView tvProtocal;
 	private TextView title ; //标题
 	private ImageButton back ;
-	
-
 	public static final Intent getIntent(Context context) {
 		Intent intent = new Intent(context, VerifyPhoneActivity.class);
 		return intent;
@@ -288,6 +286,9 @@ public class VerifyPhoneActivity extends Activity implements
 					break ;
 				case 0: //电话号码错误
 					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "电话号码错误，1分钟后可重发");
+					break ;
+				case 4: //4已经注册了教练
+					AppUtil.ShowShortToast(VerifyPhoneActivity.this, "对不起，您已经注册了教练，不能成为学员了");
 					break ;
 				}
 			  } catch (JSONException e) {

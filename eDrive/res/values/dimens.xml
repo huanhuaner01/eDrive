@@ -54,7 +54,8 @@
     <dimen name="demand_info_windows">100dp</dimen>
     <dimen name="demand_info_coachsize">60dp</dimen>
     <dimen name="post_dialog_ic_size">100dp</dimen>
-    
+    <dimen name="post_txt_inputheight">300dp</dimen>
+   
     <!-- 教练详情 -->
     <dimen name="coach_detail_head_height">150dp</dimen>
     <dimen name="coach_detail_photo_size">90dp</dimen>

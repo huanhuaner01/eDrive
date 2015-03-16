@@ -39,7 +39,7 @@ public class ComplainActivity extends Activity {
    private List<HashMap<String,Object>> data ;
    private int coachId = -1;
    private String[] comp = new String[]{"抢了单但是不联系","做不到我的学车要求","态度不好,教练是出口成章","教学质量不高，讲的不细，听不懂"};
-   private String def = "";
+   private StringBuffer keybuffer ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,6 +57,7 @@ public class ComplainActivity extends Activity {
 		back = (ImageButton)findViewById(R.id.header_back);
 	}
 	private void initView() {
+		keybuffer = new StringBuffer();
 		this.title.setText("投诉");
 		this.back.setOnClickListener(new OnClickListener(){
 
@@ -82,8 +83,19 @@ public class ComplainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int position,
 					long arg3) {
+				HashMap<String, Object> map = (HashMap<String, Object>) view
+						.getTag();
+				Log.i(TAG, map.toString());
+				int status = Integer.parseInt(map.get("status").toString()) ;
+				String service = map.get("content").toString() ;
+				if (status == 0) {
+					keybuffer.append(service+",");
+				}else{
+					String replaced = keybuffer.toString().replace(service+",", "");
+					keybuffer.delete(0, keybuffer.length());
+					keybuffer.append(replaced);
+				}
 				apdater.selectOption(position);
-				def = (String)view.getTag();
 			}
 			
 		});
@@ -101,13 +113,13 @@ public class ComplainActivity extends Activity {
 	 * 提交投诉
 	 */
 	private void sendToComplain(){
-		if(edit.getText().toString().equals("")&&def.equals("")){
+		if(edit.getText().toString().equals("")&& keybuffer.toString().toString().equals("")){
 			AppUtil.ShowShortToast(getApplicationContext(), "投诉内容不能为空");
 			return ;
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId",coachId+"");
-		map.put("complaintContent",def+","+edit.getText().toString());
+		map.put("complaintContent", keybuffer.toString()+""+edit.getText().toString());
 		NetUtil.requestStringData(SRL.Method.METHOD_COMPLAIN, map,
 				new Response.Listener<String>() {
                        

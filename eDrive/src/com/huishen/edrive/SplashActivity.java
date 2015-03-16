@@ -325,7 +325,6 @@ public class SplashActivity extends Activity {
 
 					@Override
 					public void onErrorResponse(VolleyError arg0) {
-						Log.i("Splash", arg0.getLocalizedMessage());
 						if (arg0.networkResponse == null) {
 							Toast.makeText(SplashActivity.this, "网络连接断开",
 									Toast.LENGTH_SHORT).show();

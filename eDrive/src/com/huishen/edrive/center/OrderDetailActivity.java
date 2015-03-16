@@ -249,6 +249,7 @@ public class OrderDetailActivity extends Activity {
 				listdata.clear();
 				String[] from = new String[]{"time","content"};
 				int[] to = new int[]{R.id.judge_listitem_stuname,R.id.judge_listitem_content};
+				listdata.clear();
 				for(int i = 0 ;i <commtInfo.length() ;i++){
 					JSONObject judge = commtInfo.getJSONObject(i);
 					HashMap<String ,Object> map = new HashMap<String ,Object>();

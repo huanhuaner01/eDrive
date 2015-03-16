@@ -191,15 +191,21 @@ public class ApointmentActivity extends Activity {
 				map.put("subName", sub[i]);
 				int total = 0; // 上限
 				int count = 0; // 已约总数
+				//{"km2a":2,"km3a":1,"km2m":5,"km2e":2,"km3m":1,"km3e":2}
 				if (i == 1) {
 					total = lessonLimit.optInt("km2a", 0)
 							+ lessonLimit.optInt("km2e", 0)
 							+ lessonLimit.optInt("km2m", 0);
 				} else {
 					total = lessonLimit.optInt("km3a", 0)
-							+ lessonLimit.optInt("km3e", 0)
-							+ lessonLimit.optInt("km3m", 0);
+							+ lessonLimit.optInt("km3m", 0)
+							+ lessonLimit.optInt("km3e", 0);
+					Log.i(TAG, "km3a:"+lessonLimit.optInt("km3a", 0));
+					Log.i(TAG, "km3m:"+lessonLimit.optInt("km3m", 0));
+					Log.i(TAG, "km3e:"+lessonLimit.optInt("km3e", 0));
 				}
+				Log.i(TAG, "lessonLimit:"+lessonLimit.toString());
+				Log.i(TAG, "total:"+total);
 				ArrayList<HashMap<String, String>> prms = new ArrayList<HashMap<String, String>>();
 				for (int j = 0; j < lessonCount.length(); j++) {
 					JSONObject subclass = lessonCount.getJSONObject(j);
@@ -208,8 +214,16 @@ public class ApointmentActivity extends Activity {
 						HashMap<String, String> pmap = new HashMap<String, String>();
 						pmap.put("className",
 								classtime[subclass.getInt("lessonTime") - 1]);
-						int classtotal = lessonLimit.getInt(limit[i
+						int classtotal = 0 ;
+						if(i==1){
+						classtotal = lessonLimit.getInt(limit[i
 								* subclass.getInt("lessonTime") - 1]);
+						}else{
+						classtotal = lessonLimit.getInt(limit[i+subclass.getInt("lessonTime")]);	
+						}
+						Log.i(TAG, "classtotal's num "+(i
+								* subclass.getInt("lessonTime") - 1));
+						Log.i(TAG, "classtotal "+classtotal);
 						if (classtotal == subclass.getInt("count")) {
 							pmap.put("code", 2 + "");
 						} else {

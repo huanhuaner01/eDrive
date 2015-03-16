@@ -33,7 +33,6 @@ public final class DefaultErrorListener implements ErrorListener {
 	
 	@Override
 	public void onErrorResponse(VolleyError arg0) {
-		Log.i("DefaultErrorListener", arg0.getLocalizedMessage());
 		if (arg0.networkResponse == null) {
 			Toast.makeText(context, "网络连接断开",
 					Toast.LENGTH_SHORT).show();

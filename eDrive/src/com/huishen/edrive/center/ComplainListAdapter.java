@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 public class ComplainListAdapter extends SimpleAdapter {
 	    private List<? extends Map<String,Object>> data ;
-	    private int currentChecked = -1 ; //记录目前选中的item的下标 。-1为没有选择
-	    private int currentpreStatus = 0 ; //记录目前选中的item之前的状态
 	    private Context context ;
 	public ComplainListAdapter(Context context,
 			List<? extends Map<String, Object>> data, int resource, String[] from,
@@ -39,14 +37,12 @@ public class ComplainListAdapter extends SimpleAdapter {
 		if(status == 1){
 			img.setImageResource(R.drawable.ic_complain_press);
 			check.setVisibility(View.VISIBLE);
-			lay.setSelected(true);
-			currentChecked = position ;
 		}else{
 			img.setImageResource(R.drawable.selector_complain_ic);
 			check.setVisibility(View.GONE);
-			lay.setSelected(false);
 		}
-		root.setTag(this.data.get(position).get("content").toString());
+		
+		root.setTag(this.data.get(position));
 		return root ;
 	}
 
@@ -57,11 +53,13 @@ public class ComplainListAdapter extends SimpleAdapter {
 	 * 
 	 */
 	public void selectOption(int position){
-		if(currentChecked != -1){
-		this.data.get(currentChecked).put("status",this.currentpreStatus) ;
+		if(this.data.get(position).get("status").toString().equals("0")){
+			this.data.get(position).put("status", 1);
+		}else{
+			this.data.get(position).put("status",0);
 		}
-		this.data.get(position).put("status", 1);
 		this.notifyDataSetChanged() ;
+		
 		
 	}
 	

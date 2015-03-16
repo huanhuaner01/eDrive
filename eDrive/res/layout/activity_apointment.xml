@@ -107,6 +107,7 @@
              android:layout_width ="match_parent"   
              android:layout_height ="match_parent"
              android:groupIndicator="@null"
+             android:childDivider="@color/all_null_color"
              android:divider="@color/all_null_color"
              android:dividerHeight="@dimen/divide_line"
              android:listSelector="@drawable/transparent_selector"

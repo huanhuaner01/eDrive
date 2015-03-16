@@ -108,7 +108,7 @@ public class SuccessDialogActivity extends Activity {
 		
 			@Override
 			public void onResponse(String result) {
-//				{"address":null,"cohInfo":
+//				{"schoolInfo":{"campusAddress":"四川省成都市武侯区锦悦西路","campusId":29},"cohInfo":
 //				{"coachName":"魏巍","coachScore":3.3,
 //				"path":"/attachment/coh-head/image/IMG_2015031118374503161757.jpg"},"distance":7147324}
 				Log.i(TAG, result) ;
@@ -117,11 +117,23 @@ public class SuccessDialogActivity extends Activity {
 				    	json = new JSONObject(result);
 				    	distance.setText("距我"+(json.optInt("distance" ,0)/1000.0)+"k");
 				    	JSONObject sjson = json.getJSONObject("cohInfo");
+				    	JSONObject cjson = json.optJSONObject("schoolInfo");
 				    	if(sjson != null){
-				    		coachId = sjson.optInt("coachId" ,-1);
+				    		coachId = sjson.optInt("id" ,-1);
 				    		coachname.setText(sjson.optString("coachName" ,"无"));
-				    		coachname.append("("+sjson.optString("schoolName" ,"无")+")");
-				    		field.append(json.optString("address" ,"无"));
+								if (cjson != null) {
+									coachname.append("("
+											+ cjson.optString("schoolName", "无")
+											+ ")");
+									field.setText("训练场：");
+									if (cjson.optString("campusAddress", "无").equals(
+											"null")) {
+										field.append("无");
+									} else {
+										field.append(cjson.optString("campusAddress",
+												"无"));
+									}
+								}
 				    		score.setText((float)(sjson.optDouble("coachScore" ,5))+"分");
 				    		rating.setRating((float)(sjson.optDouble("coachScore" ,5)));
 				    		if(!sjson.optString("path","").equals("")){

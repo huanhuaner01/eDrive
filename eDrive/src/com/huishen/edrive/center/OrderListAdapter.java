@@ -31,13 +31,18 @@ public class OrderListAdapter extends SimpleAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View root = super.getView(position, convertView, parent);
+		TextView time = (TextView)root.findViewById(R.id.item_order_time);
+		TextView status = (TextView)root.findViewById(R.id.item_order_status);
+		TextView note = (TextView)root.findViewById(R.id.item_order_note);
 		if(Integer.parseInt(data.get(position).get("status").toString()) == 3){
-			TextView time = (TextView)root.findViewById(R.id.item_order_time);
-			TextView status = (TextView)root.findViewById(R.id.item_order_status);
-			TextView note = (TextView)root.findViewById(R.id.item_order_note);
+			
 			time.setTextColor(context.getResources().getColor(R.color.main_color));
 			status.setTextColor(context.getResources().getColor(R.color.main_color));
 			note.setTextColor(context.getResources().getColor(R.color.main_color));
+		}else{
+			time.setTextColor(context.getResources().getColor(R.color.tv_gray_color));
+			status.setTextColor(context.getResources().getColor(R.color.tv_gray_color));
+			note.setTextColor(context.getResources().getColor(R.color.tv_gray_color));
 		}
 		root.setTag(data.get(position));
 		return root ;
