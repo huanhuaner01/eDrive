@@ -76,28 +76,18 @@ public class MsgFragment extends TitleListFragment {
 	@Override
 	public void setList(String data, ListView list) {
 		/**
-		 * {"isBroFalse":[{"content":"18384296843"},
-		 * {"content":"18384296843"},{"content":"18384296843"},
-		 * {"content":"18384296843"},{"content":"18384296843"},
-		 * {"content":"18384296843"},{"content":"18384296843"}],
-		 * "isBroTrue":[{"content":"春天来了"},{"content":"那是一朵花"},
-		 * {"content":"eeeeeeeeee"},{"content":"qqqqqqqqqqqqqqqqqq"},
-		 * {"content":"ggggggggggggg"},{"content":"cccccccccccccccccccc"},
-		 * {"content":"0000000000000"}]}
+		 * [{"pcontent":"bbbbbbbbbbbbbbbbbb"},{"pcontent":"aaaaaaaaaaaaaa"}]
 		 */
 		listdata.clear();
+		if(Prefs.readString(getActivity(), Const.NEW_MSG).equals("1")){
+			Prefs.writeString(getActivity(), Const.NEW_MSG,"0");
+		}
 		try{
-			JSONObject json = new JSONObject(data);
-			JSONArray isbrof = json.optJSONArray("isBroFalse");
-			JSONArray isbrot = json.optJSONArray("isBroTrue");
-			for(int i = 0 ;i < isbrof.length() ; i++){
+			JSONArray json = new JSONArray(data);
+		
+			for(int i = 0 ;i < json.length() ; i++){
 				HashMap<String ,Object> map = new HashMap<String ,Object>();
-				map.put("content", isbrof.getJSONObject(i).get("content"));
-				listdata.add(map);
-			}
-			for(int i = 0 ;i < isbrot.length() ; i++){
-				HashMap<String ,Object> map = new HashMap<String ,Object>();
-				map.put("content", isbrot.getJSONObject(i).get("content"));
+				map.put("content", json.getJSONObject(i).get("pcontent"));
 				listdata.add(map);
 			}
 		    

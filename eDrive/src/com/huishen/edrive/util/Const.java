@@ -41,6 +41,7 @@ public final class Const {
 	
 	public static final String USER_LAST_ORDER_ID = "tempOrderId" ;
 	
+	public static final String NEW_MSG = "newMsg" ;
 	/**
 	 * 订单是否失效的状态
 	 */

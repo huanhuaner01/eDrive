@@ -124,11 +124,13 @@ public class AppointmentSubExListApdater implements ExpandableListAdapter{
 		}else{//可约
 			holder.classBtn.setBackgroundResource(R.drawable.day_exists);
 			holder.classBtn.setText("预约");
+			
 		}
 		holder.classBtn.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {
+//				arg0.setEnabled(false);
 				listener.setOnClick(Integer.parseInt(data.get("subject")), Integer.parseInt(data.get("lessonTime")), Integer.parseInt(data.get("code")));
 			}
 			

@@ -35,6 +35,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
 import com.huishen.edrive.center.CoachDetailActivity;
+import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
@@ -76,7 +77,9 @@ public class DemandActivity extends Activity implements OnClickListener{
 	public MyLocationListenner myListener = new MyLocationListenner();
 	private LocationMode mCurrentMode;
 	BitmapDescriptor mCurrentMarker;
-
+    private ImageButton msg ; //订单消息
+    private ImageView msgTag ; //订单状态
+    
 	private MapView mMapView;
 	private BaiduMap mBaiduMap;
     
@@ -120,6 +123,8 @@ public class DemandActivity extends Activity implements OnClickListener{
 		this.switchbtn = (ImageButton)this.findViewById(R.id.demand_btn_switch) ;
 		this.switchlay = (LinearLayout)this.findViewById(R.id.demand_lay_switch) ;
 		this.switchtv = (TextView)this.findViewById(R.id.demand_tv_switch) ;
+		msg = (ImageButton)findViewById(R.id.main_btn_msg);
+		msgTag = (ImageView)findViewById(R.id.have_message_tag);
 	}
 	
 	/**
@@ -129,7 +134,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 	
 		
 		mBaiduMap.setMyLocationEnabled(true);
-		
+		msgTag.setVisibility(View.GONE);
 		mLocClient = new LocationClient(this);
 		mLocClient.registerLocationListener(myListener);
 		LocationClientOption option = new LocationClientOption();
@@ -141,9 +146,10 @@ public class DemandActivity extends Activity implements OnClickListener{
 		mLocClient.start();
 		this.switchbtn.setOnClickListener(this) ;
 		this.switchlay.setOnClickListener(this);
-		this.back.setImageResource(R.drawable.back_ic) ;
+		this.back.setImageResource(R.drawable.ic_main) ;
 		
 		this.back.setOnClickListener(this) ;
+		msg.setOnClickListener(this);
 		
 	}
 	
@@ -197,7 +203,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 								juedge.setText(marker.getExtraInfo().getFloat(SRL.ReturnField.FIELD_COACH_JUDGE_SCORE)+"分"); //分数显示
 								name.setText(marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_NAME)) ; //教练名称显示
 								if(!marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_PHOTO_PATH).equals("")){
-								NetUtil.requestLoadImage(img,marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_PHOTO_PATH), R.drawable.photo_coach_defualt); //教练头像
+								  NetUtil.requestLoadImage(img,marker.getExtraInfo().getString(SRL.ReturnField.FIELD_COACH_PHOTO_PATH), R.drawable.photo_coach_defualt); //教练头像
 								}
 								InfoWindow mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(view),marker.getPosition() ,-50 ,listener);
 								mBaiduMap.showInfoWindow(mInfoWindow);
@@ -368,6 +374,11 @@ public class DemandActivity extends Activity implements OnClickListener{
 			break ;
 		case R.id.demand_lay_switch:
 			intentPostDemand() ;
+			break ;
+		case R.id.main_btn_msg:
+			Intent i = new Intent(this,ListActivity.class);
+			i.putExtra(ListActivity.STATUS_KEY,ListActivity.STATUS_ORDERLIST);
+			startActivity(i);
 			break ;
 		}
 	}

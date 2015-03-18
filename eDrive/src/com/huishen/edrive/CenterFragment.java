@@ -110,6 +110,8 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 			coachId = json.optInt("coachId", -1);
 			if(coachId != -1){
 				Prefs.writeString(getActivity(), Const.USER_COACH_ID, coachId+"");
+			}else{
+				Prefs.writeString(getActivity(), Const.USER_COACH_ID, "");
 			}
             tel.setText(json.optString("phone", "缺失"));
 		}catch(Exception e){

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -60,6 +61,7 @@ public class VerifyPhoneActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_verify_phone);
 		AppController.getInstance().addActivity(this);
+		
 		initWidgets();
 	}
 
@@ -177,6 +179,11 @@ public class VerifyPhoneActivity extends Activity implements
 					this.setResult(LOGIN_RESULT_CODE) ;
 					AppUtil.saveUserInfo(this, result) ;
 					AppUtil.ShowShortToast(this, "验证登录成功") ;
+					int tag = this.getIntent().getIntExtra("tag", 0);
+					if(tag == 1){
+						Intent i = new Intent(this,MainActivity.class);
+						startActivity(i);
+					}
 					this.finish() ;
 					break ;
 				case 3: //3 电话号码输入和发送短信号码不匹配

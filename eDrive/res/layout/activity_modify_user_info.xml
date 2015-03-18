@@ -78,8 +78,7 @@
                     <TextView
                         android:id="@+id/m_center_tv_phone"
                         style="@style/coachdetailtextstyle"
-                        android:gravity="right"
-                        android:text="@string/defualt_null" />
+                        android:gravity="right" />
                 </LinearLayout>
                  <View
                     android:layout_width="match_parent"
@@ -106,8 +105,7 @@
                     <TextView
                         android:id="@+id/m_center_tv_nickname"
                         style="@style/coachdetailtextstyle"
-                        android:gravity="right"
-                        android:text="@string/defualt_null" />
+                        android:gravity="right" />
                        <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -138,8 +136,7 @@
                     <TextView
                         android:id="@+id/m_center_tv_realname"
                         style="@style/coachdetailtextstyle"
-                        android:gravity="right"
-                        android:text="@string/defualt_null" />
+                        android:gravity="right" />
 
                     <ImageView
                         android:layout_width="wrap_content"

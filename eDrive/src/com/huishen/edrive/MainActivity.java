@@ -3,6 +3,7 @@ package com.huishen.edrive;
 import java.util.HashMap;
 
 import com.android.volley.Response;
+import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
@@ -12,7 +13,10 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +27,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -42,18 +47,40 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     private RadioGroup tabGroup ;
     private String coachId = null ,result;
     private LinearLayout prolay ,infolay ,hospitallay ,standardlay;
+    private ImageButton msg ; //订单消息
+    private ImageView msgTag ; //订单状态
     //初始化数据
     private boolean isFirstMain = true ;
     
     @Override
 	protected void onResume() {
 		coachId = Prefs.readString(this, Const.USER_COACH_ID);
-		if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_appointment){
-			getWebData();
+		Log.i(TAG, "newmsg:"+Prefs.readString(this, Const.NEW_MSG));
+		if(Prefs.readString(this, Const.NEW_MSG).equals("1")){
+			msgTag.setVisibility(View.VISIBLE);
+		}else{
+			msgTag.setVisibility(View.GONE);
 		}
+		
+			Log.i(TAG, "正在刷新");
+			getWebData();
+	
 		super.onResume();
 	}
-
+    
+    private void checkAppoint(){
+    	   FragmentManager fm = this.getSupportFragmentManager();  
+           FragmentTransaction tx = fm.beginTransaction(); 
+       	if(coachId == null || coachId.equals("")){
+			AppointmentNoCoachFragment nocoachfragment = new AppointmentNoCoachFragment();
+			tx.replace(R.id.main_center,nocoachfragment); 
+		}else{
+			
+			ApointmentFragment apointment = new ApointmentFragment(this ,result) ;	
+			tx.replace(R.id.main_center,apointment); 
+		}
+        tx.commitAllowingStateLoss();
+    }
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,8 +151,14 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 					public void onResponse(String result) {
 						Log.i(TAG, result);
 						MainActivity.this.result = result ;
-						tabGroup.setOnCheckedChangeListener(MainActivity.this);
-				    	tabGroup.check(R.id.main_tab_appointment);
+						if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_appointment){
+							checkAppoint();
+						}if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_center){
+							return ;
+						}else{
+						    tabGroup.setOnCheckedChangeListener(MainActivity.this);
+				    	    tabGroup.check(R.id.main_tab_appointment);
+						}
 					}
 				},new DefaultErrorListener());
 		}
@@ -140,10 +173,13 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     	infolay = (LinearLayout)findViewById(R.id.menu_info);
     	hospitallay = (LinearLayout)findViewById(R.id.menu_hospital);
     	standardlay = (LinearLayout)findViewById(R.id.menu_charge_standard);
+		msg = (ImageButton)findViewById(R.id.main_btn_msg);
+		msgTag = (ImageView)findViewById(R.id.have_message_tag);
     }
     
     private void init(){
-    	
+    	//注册广播  
+        registerBoradcastReceiver();  
         if(isFirstMain){
         	UmengServiceProxy.startPushService(this);
         }
@@ -154,6 +190,16 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			public void onClick(View arg0) {
 				panelayout.openPane();
 			}    		
+    	});
+    	msg.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent in = new Intent(MainActivity.this,ListActivity.class);
+				in.putExtra(ListActivity.STATUS_KEY,ListActivity.STATUS_MSGLIST);
+				startActivity(in);
+			}
+    		
     	});
 //    	menu1.setOnClickListener(new OnClickListener(){
 //
@@ -208,7 +254,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     		
     	});
     	//页面切换
-    	getWebData();
+//    	getWebData();
     	tabGroup.setOnCheckedChangeListener(MainActivity.this);
     }
 
@@ -249,6 +295,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 				AppointmentNoCoachFragment nocoachfragment = new AppointmentNoCoachFragment();
 				tx.replace(R.id.main_center,nocoachfragment); 
 			}else{
+				
 				ApointmentFragment apointment = new ApointmentFragment(this ,result) ;	
 				tx.replace(R.id.main_center,apointment); 
 			}
@@ -257,8 +304,9 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			CenterFragment center = new CenterFragment() ;		
 	        tx.replace(R.id.main_center, center);  
 			break ;
+	
 		}
-		 tx.commit();
+		 tx.commitAllowingStateLoss();
 	}
 	
 	///////////////////////退出系统应用//////////////////////////////////////////
@@ -279,4 +327,24 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
          }
          return super.onKeyDown(keyCode, event);
      }
+	 
+	   private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver(){  
+
+			@Override
+			public void onReceive(Context arg0, Intent intent) {
+				String action = intent.getAction();  
+				Log.i(TAG, "来了 action "+action);
+	            if(action.equals("com.huishen.edrive.MSG")){   
+	                msgTag.setVisibility(View.VISIBLE);
+	            }  
+			}  
+	          
+	    }; 
+	    
+	    public void registerBoradcastReceiver(){  
+	        IntentFilter myIntentFilter = new IntentFilter();  
+	        myIntentFilter.addAction("com.huishen.edrive.MSG");  
+	        //注册广播 
+	        registerReceiver(mBroadcastReceiver, myIntentFilter);  
+	    } 
 }

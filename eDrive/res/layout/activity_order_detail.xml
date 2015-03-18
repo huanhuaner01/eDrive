@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/margin_large"
-            android:text="@string/post_tip_fail"
+            android:text="无内容"
             android:textColor="@color/tv_gray_color"
             android:textSize="@dimen/txtsize_middle" />
   

@@ -13,6 +13,7 @@ import com.huishen.edrive.InfoActivity;
 import com.huishen.edrive.R;
 import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.R.layout;
+import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.OnProgressChangedListener;
 import com.huishen.edrive.net.SRL;
@@ -80,7 +81,9 @@ public class SettingActivity extends Activity {
 			public void onClick(View arg0) {
 				AppUtil.removeAllData(getApplicationContext());
 				AppController.getInstance().exitMain(getApplicationContext());
-				AppUtil.intentRegistActivity(SettingActivity.this);
+				Intent i = new Intent(SettingActivity.this, VerifyPhoneActivity.class);
+				i.putExtra("tag", 1);
+				startActivity(i);
 				finish();
 			}
 			

@@ -1,5 +1,7 @@
 package com.huishen.edrive.center;
 
+import java.util.Set;
+
 import com.huishen.edrive.R;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 /**
  * 显示带有标题的列表
@@ -33,9 +36,17 @@ public class ListActivity extends FragmentActivity {
 		setContentView(R.layout.activity_container);
 		AppController.getInstance().addActivity(this) ;
 		//获取传递进来的数据
-		status = this.getIntent().getIntExtra(STATUS_KEY, 0);
+		status = this.getIntent().getIntExtra(STATUS_KEY, 2);
 		value = this.getIntent().getIntExtra(ID_KEY, 0);
-		
+//		Bundle bun = getIntent().getExtras();
+//		if (bun != null)
+//		{
+//		    Set<String> keySet = bun.keySet();
+//		    for (String key : keySet) {
+//		        String v = bun.getString(key);
+//		        Log.i("listActivity","key:"+key+" value:"+v );
+//		    }
+//		}
 		switchFragment();
 	}
 	

@@ -6,12 +6,20 @@
     android:orientation="vertical"
      >
 <include layout="@layout/header_defualt"/>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical"
+    >
     <EditText
         android:id="@+id/judge_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="250dp"
         android:textColor="@color/tv_light_color"
         android:padding="@dimen/padding_default"
         android:textSize="@dimen/txtsize_default"
@@ -157,5 +165,7 @@
                     android:textSize="@dimen/txtsize_default"
                      />
             </LinearLayout>
+            </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>

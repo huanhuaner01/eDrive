@@ -51,6 +51,11 @@ public final class UmengPushConst {
 		 * 订单成功提醒。
 		 */
 		public static final String ACTION_ORDER_SUCCCESS_PUSHDATA = "com.huishen.edrive.ORDER_SUCCCESS";
+		
+		/**
+		 * 消息提醒
+		 */
+		public static final String ACTION_MSG = "com.huishen.edrive.MSG" ;
 	}
 	
 	/**

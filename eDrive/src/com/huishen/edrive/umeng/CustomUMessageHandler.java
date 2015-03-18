@@ -10,10 +10,23 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.Notification.Builder;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.view.View;
 
+import com.huishen.edrive.MainActivity;
+import com.huishen.edrive.R;
+import com.huishen.edrive.center.ListActivity;
+import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.util.Const;
+import com.huishen.edrive.util.Prefs;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.entity.UMessage;
 
@@ -33,7 +46,7 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 	@Override
     public void dealWithCustomMessage(final Context context, final UMessage msg) {
 		//友盟v1.7之后自定义参数extra方式只对notification生效，因此需要手动解析字符串。
-		Log.d(LOG_TAG, "custom message received.extra="+msg.extra+",custom="+msg.custom);
+		Log.i(LOG_TAG, "custom message received.extra="+msg.extra+",custom="+msg.custom);
 		Map<String, String> args = resolveCustomMsg(msg.custom);
 		if (args!=null){
 			Log.d(LOG_TAG, args.toString());
@@ -41,6 +54,52 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 		}
     }
 	
+	@Override
+	public void dealWithNotificationMessage(Context context, UMessage msg){
+		//友盟v1.7之后自定义参数extra方式只对notification生效，因此需要手动解析字符串。
+		Log.i(LOG_TAG, "Notification message received.extra="+msg.extra+",msg="+msg.toString());
+//		super(context,msg);
+//		Map<String, String> args = resolveCustomMsg(msg.custom);
+//		if (args!=null){
+//			Log.d(LOG_TAG, args.toString());
+//			dispatchMessage(context, args);	
+//		}
+		simpleNotice(context,msg);
+		Intent intent = new Intent(UmengPushConst.Action.ACTION_MSG);
+	    
+		intent.putExtra("msg_type", msg.extra.get("msgType"));
+		if(msg.extra.get("msgType").equals("2002")){
+			if(msg.extra.get("isBind").equals("1")){
+	             Prefs.writeString(context, Const.USER_COACH_ID, msg.extra.get("coachId"));
+			}else{
+				 Prefs.writeString(context, Const.USER_COACH_ID, "");
+			}
+		}
+		Prefs.writeString(context, Const.NEW_MSG, 1+"");
+		context.sendOrderedBroadcast(intent, null);
+	}
+	
+	   @SuppressLint("NewApi") 
+	   public void simpleNotice(Context context, UMessage msg) {
+		   NotificationManager nm = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+		    Builder mBuilder = new Builder(context);
+	        mBuilder.setTicker(msg.ticker);
+	        mBuilder.setSmallIcon(R.drawable.ic_launcher);
+	        mBuilder.setContentTitle(msg.title);
+	        mBuilder.setContentText(msg.text);
+	        mBuilder.setDefaults(Notification.DEFAULT_ALL);
+	        //设置点击一次后消失（如果没有点击事件，则该方法无效。）
+	        mBuilder.setAutoCancel(true); 
+	        //点击通知之后需要跳转的页面
+	        Intent resultIntent = new Intent(context, ListActivity.class);
+	        
+	        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	        PendingIntent pIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	        mBuilder.setContentIntent(pIntent);
+	        // mId allows you to update the notification later on.
+	        nm.notify(2, mBuilder.build());
+	       
+	    }
 	/**
 	 * 解析服务器下发的参数信息。
 	 * @param custom 自定义消息字符串，必须为JSON字符串。
