@@ -103,18 +103,23 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 //		{"coachName":"雷猴","coachScore":0.0,
 //			"id":21,"orderCount":0,"path":"/attachment/coh-head/image/IMG_2015021415243200907519.jpg","phone":"18200390901"}}
 		
-//		{"ranking":8,"reputably":95,"result":
-//		{"coachName":"雷猴","coachScore":0.0,
-//		"id":21,"orderCount":0,"path":"/attachment/coh-head/image/IMG_2015021415243200907519.jpg","phone":"18200390901"}}
+//		{"countCohInfo":{"orderNum":2,"sort":1},
+//		"result":{"coachName":"魏巍","coachScore":0.0,
+//		"id":89,"path":"/attachment/coh-head/image/IMG_2015032112163203868727.jpg",
+//		"phone":"15310622047"},"stunum":1}
 		Log.i(TAG, result) ;
 		try{
 			JSONObject json = new JSONObject(result);
-			judgenum.setText(json.optInt("reputably" ,100)+"%") ;
-			ranking.setText(json.optInt("ranking",1)+"");
+			JSONObject jsonco = json.optJSONObject("countCohInfo") ;
+			if(jsonco != null){
+		    demandnum.setText(jsonco.optInt("orderNum")+"") ;
+			judgenum.setText(jsonco.optInt("recom" ,100)+"%") ;
+			ranking.setText(jsonco.optInt("sort",1)+"");
+			}
 			stunum.setText(json.optString("stunum" ,"0"));
 			JSONObject jsonb = json.getJSONObject("result") ;
 			if(jsonb != null){
-				demandnum.setText(jsonb.getInt("orderCount")+"") ;
+//				demandnum.setText(jsonb.getInt("orderCount")+"") ;
 				coachname.setText(jsonb.optString("coachName" ,"暂无")) ;
 				judgescore.setText(jsonb.optDouble("coachScore",0)+"分");
 				score = (float)jsonb.optDouble("coachScore",0) ;

@@ -60,7 +60,7 @@ public class ListActivity extends FragmentActivity {
 		case STATUS_JUDGE:
 			String name = this.getIntent().getStringExtra("coachName");
 			float score = this.getIntent().getFloatExtra("score", 0);
-			CoachJudgeListFragment fragment = new CoachJudgeListFragment(this ,"学员评价",SRL.Method.METHOD_GET_COACH_JUDGE ,value ,name ,score) ;
+			CoachJudgeListFragment fragment = new CoachJudgeListFragment(this ,"学员评价","",value ,name ,score) ;
 	        tx.add(R.id.container, fragment,"f_jljudge");         
 			break ;
 		case STATUS_SETMEAL:

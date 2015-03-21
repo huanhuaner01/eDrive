@@ -40,7 +40,7 @@ public final class SRL {
 		 * 注册登录  参数:phone :18388888888,vcodes=1234  返回值:{status:1|0|2|-1|-2} 0: 账号停用，1:注册登陆成功 2 密码不为空 必须输入密码才能登陆 -2 验证码错误 -1 验证码过期
 		 */
 		public static final String METHOD_LOGIN = "stuMobile/stuMobLoginSubmit";
-		public static final String METHOD_SEND_DEVICETOKEN = "stuMobile/updateDeviceToken" ;
+		public static final String METHOD_SEND_DEVICETOKEN = "/stuMobile/updateDeviceToken" ;
 		/**
 		 * 隐形登录  参数：phone:18388888888,MobileFlag:123456 返回值：{未开发接口}
 		 */
@@ -53,10 +53,7 @@ public final class SRL {
 		// ---------------------------------学员登录注册-------------------------------------------
 		
 		//---------------------------------------教练详情-------------------------------------------------
-		/**
-		 * 通过学员对教练的评价。 参数 : {@link #PARAM_MOBILE_NUMBER} 返回值:{code:0|1}0:发送成功，1:发送异常
-		 */
-		public static final String METHOD_GET_COACH_JUDGE = "";
+		
 	
 		/**
 		 * 根据自己的地理位置，获取周边教练的地理信息

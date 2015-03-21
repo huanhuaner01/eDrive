@@ -59,12 +59,12 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	protected void onResume() {
 		coachId = Prefs.readString(this, Const.USER_COACH_ID);
 		Log.i(TAG, "newmsg:"+Prefs.readString(this, Const.NEW_MSG));
+		
 		if(Prefs.readString(this, Const.NEW_MSG).equals("1")){
 			msgTag.setVisibility(View.VISIBLE);
 		}else{
 			msgTag.setVisibility(View.GONE);
 		}
-		
 			Log.i(TAG, "正在刷新");
 			getWebData();
 	
