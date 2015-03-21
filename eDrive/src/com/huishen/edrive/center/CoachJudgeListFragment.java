@@ -104,7 +104,7 @@ public class CoachJudgeListFragment extends TitleListFragment {
 				}
 			}
 			
-		}, new DefaultErrorListener()) ;
+		}, new DefaultErrorListener(this.getActivity())) ;
 		
 	}
 

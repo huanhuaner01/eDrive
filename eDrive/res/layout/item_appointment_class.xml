@@ -15,8 +15,12 @@
            <TextView
                         android:id="@+id/class_time"
                         style="@style/coachdetailtextstyle"
+                        android:layout_weight="2.5"
                         android:textColor="@color/tv_gray_color"
-                        android:text="@string/defualt_null" />
+                        android:text="@string/defualt_null"
+                        android:paddingLeft="0dp"
+                        android:textSize="@dimen/txtsize_middle"
+                         />
 
                      <TextView
                         android:id="@+id/class_status"

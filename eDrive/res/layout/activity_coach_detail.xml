@@ -195,6 +195,30 @@
                         android:text="@string/coach_detail_scorenum"
                         android:textColor="@color/tv_light_color" />
                 </LinearLayout>
+                     <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/coach_detail_stunum"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.2"
+                        android:gravity="center|bottom"
+                        android:text="25"
+                        android:textColor="@color/main_color"
+                        android:textSize="@dimen/txtsize_xlarge" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/coach_detail_stunum"
+                        android:textColor="@color/tv_light_color" />
+                </LinearLayout>
             </LinearLayout>
 
             <!-- 训练场相关 -->

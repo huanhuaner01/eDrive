@@ -38,7 +38,7 @@ import android.widget.TextView;
  */
 public class CoachDetailActivity extends Activity implements OnClickListener{
 	private String TAG = "CoachDetailActivity" ;
-	private TextView title , coachname , goodnum ,judgescore ,detailContent;
+	private TextView title , coachname , goodnum ,judgescore ,detailContent,stunum;
 	private TextView demandnum ,judgenum ,ranking ;
 	private RatingBar judgerating ;
     private Button call ; //呼叫教练
@@ -91,7 +91,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 				}
 			}
 			
-		}, new DefaultErrorListener()) ;
+		}, new DefaultErrorListener(this)) ;
 	}
 	
 	/**
@@ -111,15 +111,18 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 			JSONObject json = new JSONObject(result);
 			judgenum.setText(json.optInt("reputably" ,100)+"%") ;
 			ranking.setText(json.optInt("ranking",1)+"");
+			stunum.setText(json.optString("stunum" ,"0"));
 			JSONObject jsonb = json.getJSONObject("result") ;
 			if(jsonb != null){
 				demandnum.setText(jsonb.getInt("orderCount")+"") ;
 				coachname.setText(jsonb.optString("coachName" ,"暂无")) ;
 				judgescore.setText(jsonb.optDouble("coachScore",0)+"分");
 				score = (float)jsonb.optDouble("coachScore",0) ;
+				
 				judgerating.setRating((float)jsonb.optDouble("coachScore",0));
+				
 				coachtel = jsonb.optString("phone" ,"");
-				if(!jsonb.optString("path" ,"").equals("")){
+				if(!jsonb.optString("path" ,"").equals("")){					
 				   NetUtil.requestLoadImage(img, jsonb.getString("path"), R.drawable.photo_coach_defualt);
 				}
 			}
@@ -149,6 +152,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		demandnum = (TextView)this.findViewById(R.id.coach_detail_demandnum) ;
 		judgenum = (TextView)this.findViewById(R.id.coach_detail_judgenum) ;
 		ranking = (TextView)this.findViewById(R.id.coach_detail_ranking) ;
+		stunum = (TextView)this.findViewById(R.id.coach_detail_stunum);
 		img = (RoundImageView)findViewById(R.id.coach_detail_img_photo) ;
 	}
 	
@@ -254,12 +258,12 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 				if(result == null || result.equals("")){
 					detailContent.setText("暂无");
 				}else{
-					//{"content":"成都龙泉","drivingAge":6,"schoolName":"蜀娟驾校","shuttleAddress":"成都市高新区"}
+					//{"content":"成都龙泉","coachAge":6,"schoolName":"蜀娟驾校","shuttleAddress":"成都市高新区"}
 					//教练教龄，所属驾校，可接送地点，教学特点
 					try{
 						JSONObject json = new JSONObject(result);
 					 	
-					 detailContent.setText("教练教龄：" +json.optInt("drivingAge",0)+"年"+"\n");
+					 detailContent.setText("教练教龄：" +json.optInt("coachAge",0)+"年"+"\n");
 					 detailContent.append("所属驾校：" +json.optString("schoolName","暂无")+"\n");
 					 detailContent.append("可接送地点：" +json.optString("shuttleAddress","暂无")+"\n");
 					 detailContent.append("教学特点：" +json.optString("content","暂无")+"\n");
@@ -270,7 +274,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 				
 			}
 			
-		}, new DefaultErrorListener()) ;
+		}, new DefaultErrorListener(this)) ;
 	}
 	/**
 	 * 响应学车套餐按钮，跳转到学员评价列表
@@ -327,8 +331,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 					}
 				}
 				
-			}, new DefaultErrorListener());
-	
+			}, new DefaultErrorListener(this));
 	
 	}
 	/**

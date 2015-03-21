@@ -114,7 +114,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 						}
 						
 					}
-				},new DefaultErrorListener());
+				},new DefaultErrorListener(this));
 	}
 	private void setData(String result){
 		/**

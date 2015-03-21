@@ -3,13 +3,16 @@ package com.huishen.edrive;
 import java.util.HashMap;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.demand.DemandActivity;
+import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.umeng.UmengServiceProxy;
 import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 
@@ -71,6 +74,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     private void checkAppoint(){
     	   FragmentManager fm = this.getSupportFragmentManager();  
            FragmentTransaction tx = fm.beginTransaction(); 
+           coachId = Prefs.readString(this, Const.USER_COACH_ID);
        	if(coachId == null || coachId.equals("")){
 			AppointmentNoCoachFragment nocoachfragment = new AppointmentNoCoachFragment();
 			tx.replace(R.id.main_center,nocoachfragment); 
@@ -151,6 +155,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 					public void onResponse(String result) {
 						Log.i(TAG, result);
 						MainActivity.this.result = result ;
+						 coachId = Prefs.readString(MainActivity.this, Const.USER_COACH_ID);
 						if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_appointment){
 							checkAppoint();
 						}if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_center){
@@ -160,7 +165,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 				    	    tabGroup.check(R.id.main_tab_appointment);
 						}
 					}
-				},new DefaultErrorListener());
+				},new DefaultErrorListener(this));
 		}
 	}
 	
@@ -291,6 +296,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			 group.check(R.id.main_tab_appointment);
 			 break ;
 		case R.id.main_tab_appointment:
+			 coachId = Prefs.readString(this, Const.USER_COACH_ID);
 			if(coachId == null || coachId.equals("")){
 				AppointmentNoCoachFragment nocoachfragment = new AppointmentNoCoachFragment();
 				tx.replace(R.id.main_center,nocoachfragment); 
@@ -308,7 +314,8 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 		}
 		 tx.commitAllowingStateLoss();
 	}
-	
+
+
 	///////////////////////退出系统应用//////////////////////////////////////////
 	 private int backindex = 0 ;
 
@@ -333,10 +340,13 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			@Override
 			public void onReceive(Context arg0, Intent intent) {
 				String action = intent.getAction();  
-				Log.i(TAG, "来了 action "+action);
+				Log.i(TAG, "来了 action "+action+" msgtype:"+intent.getStringExtra("msg_type"));
 	            if(action.equals("com.huishen.edrive.MSG")){   
 	                msgTag.setVisibility(View.VISIBLE);
-	            }  
+	            } 
+	            if(intent.getStringExtra("msg_type").equals("2002")){
+	            	getWebData();
+	            }
 			}  
 	          
 	    }; 

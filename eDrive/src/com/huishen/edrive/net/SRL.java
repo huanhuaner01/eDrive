@@ -40,7 +40,7 @@ public final class SRL {
 		 * 注册登录  参数:phone :18388888888,vcodes=1234  返回值:{status:1|0|2|-1|-2} 0: 账号停用，1:注册登陆成功 2 密码不为空 必须输入密码才能登陆 -2 验证码错误 -1 验证码过期
 		 */
 		public static final String METHOD_LOGIN = "stuMobile/stuMobLoginSubmit";
-		
+		public static final String METHOD_SEND_DEVICETOKEN = "stuMobile/updateDeviceToken" ;
 		/**
 		 * 隐形登录  参数：phone:18388888888,MobileFlag:123456 返回值：{未开发接口}
 		 */
@@ -122,6 +122,7 @@ public final class SRL {
 		
 		/**
 		 * 检查软件更新。
+		 * 
 		 */
 		public static final String METHOD_CHECK_UPDATE = "/queryVersion";
 		
@@ -187,7 +188,8 @@ public final class SRL {
 		public static final String COACH_MEAL_PRIZE = "cash" ;
 		public static final String COACH_MEAL_CONTENT = "content" ;
 		public static final String COACH_MEAL_CARTYPE ="carTypeContent" ;
-		
+		public static final String COACH_MEAL_LICENSETYPE = "licenseType" ;
+		public static final String COACH_MEAL_CLASSTYPE = "classType" ;
 		/**
 		 * 检查版本更新时返回，安装包下载路径。
 		 */

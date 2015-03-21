@@ -159,7 +159,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 				}
 			}
 			
-		}, new DefaultErrorListener()) ;
+		}, new DefaultErrorListener(this)) ;
 	}
 	
 }

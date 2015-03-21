@@ -3,10 +3,16 @@
  */
 package com.huishen.edrive.umeng;
 
+import java.util.HashMap;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.android.volley.Response;
+import com.huishen.edrive.net.DefaultErrorListener;
+import com.huishen.edrive.net.NetUtil;
+import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
@@ -59,6 +65,8 @@ public final class UmengServiceProxy {
 //		intent.putExtra(UmengPushConst.EXTRA_DEVICE_TOKEN, deviceToken);
 		// context.sendBroadcast(intent);
 		Log.d(LOG_TAG, "Device registered: " + deviceToken);
+		Prefs.writeString(context, Const.DEVISE_TOKEN , deviceToken);
+		sendDeviceToken();
 		//网络操作，在异步线程中执行。
 		new AsyncTask<Void, Void, Void>() {
 			protected Void doInBackground(Void... params) {
@@ -82,7 +90,25 @@ public final class UmengServiceProxy {
 		}.execute();
 		
 	}
+    
+	/**
+	 * 发送友盟手机设备号给服务器。
+	 */
+	private static void sendDeviceToken() {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put(Const.DEVISE_TOKEN, Prefs.readString(AppController.getInstance(), Const.DEVISE_TOKEN));
+            
+			NetUtil.requestStringData(SRL.Method.METHOD_SEND_DEVICETOKEN, map,
+					new Response.Listener<String>() {
 
+						@Override
+						public void onResponse(String result) {
+							Log.i(LOG_TAG, result);
+							
+						}
+					});
+		
+	}
 	/**
 	 * 关闭推送开关，并执行删除TAG和Alias的操作。
 	 */

@@ -43,6 +43,7 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.umeng.UmengServiceProxy;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
@@ -228,7 +229,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 							
 						});
 					}
-				}, new DefaultErrorListener());
+				}, new DefaultErrorListener(this));
 	
 	
 	}
@@ -382,7 +383,24 @@ public class DemandActivity extends Activity implements OnClickListener{
 			break ;
 		}
 	}
+	/**
+	 * 发送友盟手机设备号给服务器。
+	 */
+	private void sendDeviceToken() {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put(Const.DEVISE_TOKEN, Prefs.readString(getApplicationContext(), Const.DEVISE_TOKEN));
+            
+			NetUtil.requestStringData(SRL.Method.METHOD_SEND_DEVICETOKEN, map,
+					new Response.Listener<String>() {
 
+						@Override
+						public void onResponse(String result) {
+							Log.i(TAG,  result);
+							
+						}
+					},new DefaultErrorListener(this));
+		
+	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i(TAG, "requestCode:"+requestCode+" resultCode:"+resultCode);
@@ -390,6 +408,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 			//如果登录成功
 			if(isFirstMain){
 				UmengServiceProxy.startPushService(this);
+				sendDeviceToken();
 			this.back.setOnClickListener(new OnClickListener(){
 
 				@Override

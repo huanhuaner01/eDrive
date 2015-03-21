@@ -87,7 +87,7 @@
             android:layout_marginTop="@dimen/margin_default"
             android:layout_marginBottom="@dimen/margin_default"
             android:visibility="gone"
->
+                 >
 
             <com.huishen.edrive.widget.RoundImageView
                 android:id="@+id/order_detail_cphoto"

@@ -3,13 +3,17 @@
  */
 package com.huishen.edrive.net;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.huishen.edrive.center.SettingActivity;
+import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 
@@ -19,16 +23,19 @@ import com.huishen.edrive.util.AppUtil;
  */
 public final class DefaultErrorListener implements ErrorListener {
 	
-	private Context context = AppController.getInstance().getApplicationContext();
+	private Activity context ;
 	private ProgressDialog dialog ;
 	
-	public DefaultErrorListener(ProgressDialog dialog) {
+	public DefaultErrorListener(Activity context ,ProgressDialog dialog) {
+		
 		super();
 		this.dialog = dialog ;
+		this.context = context ;
 	}
 
-	public DefaultErrorListener() {
+	public DefaultErrorListener(Activity context) {
 		super();
+		this.context = context ;
 	}
 	
 	@Override
@@ -44,8 +51,12 @@ public final class DefaultErrorListener implements ErrorListener {
 		}
 		if(arg0.networkResponse.statusCode == 320){
 			AppUtil.ShowShortToast(context, "用户已经下线，请重新验证手机");
+			Intent i = new Intent(context, VerifyPhoneActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(i);
+			context.finish();
 		}else{
-			AppUtil.ShowShortToast(context, "访问连接异常");
+			AppUtil.ShowShortToast(context, "服务器开小差啦~");
 		}
 		if(dialog != null&&dialog.isShowing()){
 			dialog.dismiss();

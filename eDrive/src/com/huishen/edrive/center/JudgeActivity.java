@@ -167,7 +167,7 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 							}
 						}
 					}
-	},new DefaultErrorListener());
+	},new DefaultErrorListener(this));
 }
 	
 	/**
@@ -218,6 +218,6 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 							}
 						}
 					}
-	},new DefaultErrorListener());
+	},new DefaultErrorListener(this));
 }
 }

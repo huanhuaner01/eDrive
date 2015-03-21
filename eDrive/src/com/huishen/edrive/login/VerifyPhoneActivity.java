@@ -14,6 +14,8 @@ import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.util.Const;
+import com.huishen.edrive.util.Prefs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -128,6 +130,7 @@ public class VerifyPhoneActivity extends Activity implements
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
             map.put("vcodes", code) ;
+            
 			NetUtil.requestStringData(SRL.Method.METHOD_LOGIN, map,
 					new Response.Listener<String>() {
 

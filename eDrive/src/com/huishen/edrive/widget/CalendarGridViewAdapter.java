@@ -82,7 +82,8 @@ public class CalendarGridViewAdapter extends SimpleAdapter {
 		case -1: //不可选
 			tv.setEnabled(false) ;
 			tv.setSelected(false);
-			tv.setBackground(null);
+			//tv.setBackground(null);此方法4.0.3 vivo手机出现问题
+			tv.setBackgroundColor(0x00000000);
 			tv.setTextColor(this.context.getResources().getColor(R.color.tv_smallgrap_color)) ;
 			break ;
 		case -2: //今天不可选

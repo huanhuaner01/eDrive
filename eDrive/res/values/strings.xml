@@ -77,6 +77,7 @@
     <string name="coach_detail_demandnum">抢单数量</string>
     <string name="coach_detail_judgenum">好评率</string>
     <string name="coach_detail_scorenum">教练排名</string>
+    <string name="coach_detail_stunum">学员数量</string>
     <string name="coach_detail_trainfield">所在训练场位置</string>
     <string name="coach_detail_trainfieldimg">训练场图片</string>
     <string name="coach_detail">教练详情</string>
@@ -111,6 +112,7 @@
     <string name="judge_attitude">态度</string>
     <string name="judge_field">场地</string>
     <string name="judge_traffic">交通</string>
+    <string name="version">版本号：</string>
 
     <!-- 设置界面 -->
     <string name="setting_softupdate">软件更新</string>
@@ -161,5 +163,6 @@
     <string name="title_activity_judge">JudgeActivity</string>
     <string name="title_activity_complain">ComplainActivity</string>
     <string name="title_activity_opinion">OpinionActivity</string>
+    <string name="title_activity_version">VersionActivity</string>
 
 </resources>

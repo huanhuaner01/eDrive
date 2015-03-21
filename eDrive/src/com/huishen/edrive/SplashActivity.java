@@ -14,6 +14,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
+import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.OnProgressChangedListener;
 import com.huishen.edrive.net.SRL;
@@ -342,7 +343,7 @@ public class SplashActivity extends Activity {
 					}
 				});
 	}
-
+	
 	/**
 	 * 响应隐形登录事件方法
 	 * @param result

@@ -42,6 +42,8 @@ public final class Const {
 	public static final String USER_LAST_ORDER_ID = "tempOrderId" ;
 	
 	public static final String NEW_MSG = "newMsg" ;
+	
+	public static final String DEVISE_TOKEN = "device_token" ;
 	/**
 	 * 订单是否失效的状态
 	 */

@@ -97,7 +97,7 @@ public class OpinionActivity extends Activity {
 							}
 						}
 					}
-				},new DefaultErrorListener());
+				},new DefaultErrorListener(this));
 		
 	}
 }

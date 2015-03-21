@@ -108,36 +108,35 @@ public class SuccessDialogActivity extends Activity {
 		
 			@Override
 			public void onResponse(String result) {
-//				{"schoolInfo":{"campusAddress":"四川省成都市武侯区锦悦西路","campusId":29},"cohInfo":
-//				{"coachName":"魏巍","coachScore":3.3,
-//				"path":"/attachment/coh-head/image/IMG_2015031118374503161757.jpg"},"distance":7147324}
+//				 {"distance":715,"schoolInfo":{
+//				"address":"四川省成都市武侯区锦悦西路","busNumber":"4110学",
+//				"coachName":"任涛","coachScore":0.0,"id":63,
+//				"path":"/attachment/coh-head/image/IMG_2015031910151302089758.jpg","schoolName":"慧莘驾校"}}
 				Log.i(TAG, result) ;
 				    JSONObject json = null ;
 				    try{
 				    	json = new JSONObject(result);
 				    	distance.setText("距我"+(json.optInt("distance" ,0)/1000.0)+"k");
-				    	JSONObject sjson = json.getJSONObject("cohInfo");
 				    	JSONObject cjson = json.optJSONObject("schoolInfo");
-				    	if(sjson != null){
-				    		coachId = sjson.optInt("id" ,-1);
-				    		coachname.setText(sjson.optString("coachName" ,"无"));
-								if (cjson != null) {
-									coachname.append("("
+				    	if(cjson != null){
+				    		coachId = cjson.optInt("id" ,-1);
+				    		coachname.setText(cjson.optString("coachName" ,"无"));
+						    coachname.append("("
 											+ cjson.optString("schoolName", "无")
 											+ ")");
 									field.setText("训练场：");
-									if (cjson.optString("campusAddress", "无").equals(
+									if (cjson.optString("address", "无").equals(
 											"null")) {
 										field.append("无");
 									} else {
-										field.append(cjson.optString("campusAddress",
+										field.append(cjson.optString("address",
 												"无"));
 									}
-								}
-				    		score.setText((float)(sjson.optDouble("coachScore" ,5))+"分");
-				    		rating.setRating((float)(sjson.optDouble("coachScore" ,5)));
-				    		if(!sjson.optString("path","").equals("")){
-				    		  NetUtil.requestLoadImage(img, sjson.getString("path"), R.drawable.photo_coach_defualt);
+							
+				    		score.setText((float)(cjson.optDouble("coachScore" ,5))+"分");
+				    		rating.setRating((float)(cjson.optDouble("coachScore" ,5)));
+				    		if(!cjson.optString("path","").equals("")){
+				    		  NetUtil.requestLoadImage(img, cjson.getString("path"), R.drawable.photo_coach_defualt);
 				    		}
 				    		
 				    	}
@@ -146,7 +145,7 @@ public class SuccessDialogActivity extends Activity {
 				    }
 			}
 			
-		}, new DefaultErrorListener());
+		}, new DefaultErrorListener(this));
 	}
 
 }

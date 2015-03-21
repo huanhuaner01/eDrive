@@ -94,7 +94,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 						}
 						
 					}
-				},new DefaultErrorListener());
+				},new DefaultErrorListener(this.getActivity()));
 	}
 	private void setData(String result){
 		/**

@@ -10,18 +10,13 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
-import android.app.Notification.Builder;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.app.NotificationCompat.Builder;
 import android.util.Log;
-import android.view.View;
-
-import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.util.AppController;
@@ -70,16 +65,17 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 		intent.putExtra("msg_type", msg.extra.get("msgType"));
 		if(msg.extra.get("msgType").equals("2002")){
 			if(msg.extra.get("isBind").equals("1")){
+				 
 	             Prefs.writeString(context, Const.USER_COACH_ID, msg.extra.get("coachId"));
 			}else{
 				 Prefs.writeString(context, Const.USER_COACH_ID, "");
 			}
+			intent.putExtra("isbind",msg.extra.get("isBind"));
 		}
 		Prefs.writeString(context, Const.NEW_MSG, 1+"");
 		context.sendOrderedBroadcast(intent, null);
 	}
 	
-	   @SuppressLint("NewApi") 
 	   public void simpleNotice(Context context, UMessage msg) {
 		   NotificationManager nm = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
 		    Builder mBuilder = new Builder(context);
@@ -98,6 +94,35 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 	        mBuilder.setContentIntent(pIntent);
 	        // mId allows you to update the notification later on.
 	        nm.notify(2, mBuilder.build());
+		   
+		 //Notification的滚动提示  
+//		   String tickerText = msg.ticker;  
+//		   //Notification的图标，一般不要用彩色的  
+//		   int icon =R.drawable.ic_launcher;  
+//		      
+//		   //contentTitle和contentText都是标准的Notification View的内容  
+//		   //Notification的内容标题，拖下来后看到的标题  
+//		   String contentTitle=msg.title;  
+//		   //Notification的内容  
+//		   String contentText=msg.text;  
+//		      
+//		   //Notification的Intent，即点击后转向的Activity  
+//		   Intent notificationIntent = new Intent(context, ListActivity.class);  
+////		   notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);  
+//		   PendingIntent contentIntent = PendingIntent.getActivity(context, 0,   
+//		           notificationIntent,PendingIntent.FLAG_CANCEL_CURRENT);  
+//		      
+//		   //创建Notifcation  
+//		   Notification notification = new Notification(icon, tickerText, System.currentTimeMillis());  
+//		   //设定Notification出现时的声音，一般不建议自定义  
+//		   notification.defaults = Notification.DEFAULT_ALL;   
+//		   //指定Flag，Notification.FLAG_AUTO_CANCEL意指点击这个Notification后，立刻取消自身  
+//		   //这符合一般的Notification的运作规范  
+//		   notification.flags|=Notification.FLAG_AUTO_CANCEL;  
+//		   notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);  
+//		     
+//		   //显示这个notification  
+//		   nm.notify(1, notification); 
 	       
 	    }
 	/**

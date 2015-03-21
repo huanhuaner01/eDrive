@@ -41,7 +41,6 @@ public class OrderListFragment extends TitleListFragment {
 	
 	@Override
 	public void onResume() {
-		getWebData();
 		super.onResume();
 	}
 
@@ -72,7 +71,7 @@ public class OrderListFragment extends TitleListFragment {
 						}
 						
 					}
-				},new DefaultErrorListener());
+				},new DefaultErrorListener(this.getActivity()));
 //		setList("" , list);
 	}
 

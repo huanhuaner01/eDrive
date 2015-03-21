@@ -15,6 +15,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -22,6 +23,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
 import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.model.LatLng;
@@ -126,10 +128,12 @@ public class CoachTrainFieldActivity extends Activity {
 							JSONArray array = new JSONArray(result);
 							for(int i = 0 ; i<array.length() ;i++){
 								JSONObject json = array.getJSONObject(i);
+								Log.i(TAG, json.toString());
 								String gps = json.optString(SRL.ReturnField.FIELD_GPSADDR);
 								String[] gpss = gps.split("\\|");
-								Log.i(TAG, gps+" "+gpss[0]+" "+gpss[1]) ;
+								
 								if(gpss.length == 2){
+							    Log.i(TAG, gps+" "+gpss[0]+" "+gpss[1]) ;
 								double lat = Double.parseDouble(gpss[1]);
 								double lng = Double.parseDouble(gpss[0]) ;
 								Log.i(TAG, gps+"") ;
@@ -170,8 +174,23 @@ public class CoachTrainFieldActivity extends Activity {
 							}
 							
 						});
+						//单击地图隐藏弹出框
+						mBaiduMap.setOnMapClickListener(new OnMapClickListener(){
+
+							@Override
+							public void onMapClick(LatLng arg0) {
+					                mBaiduMap.hideInfoWindow();
+							}
+
+							@Override
+							public boolean onMapPoiClick(MapPoi arg0) {
+								// TODO Auto-generated method stub
+								return false;
+							}
+							
+						});
 					}
-				}, new DefaultErrorListener());
+				}, new DefaultErrorListener(this));
 	
 	
 	}

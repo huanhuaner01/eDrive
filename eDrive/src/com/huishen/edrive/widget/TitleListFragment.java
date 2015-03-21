@@ -57,6 +57,14 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 	}
 	
 	@Override
+	public void onResume() {
+		//获取网络数据
+		getWebData();
+		super.onResume();
+		
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		    
@@ -85,8 +93,7 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 		if(titlestr != null){
 			this.title.setText(titlestr) ;
 		}
-		//获取网络数据
-		getWebData();
+		
 		
 		setBack(back);
 	

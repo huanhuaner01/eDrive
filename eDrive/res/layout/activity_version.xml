@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical"
+    
+     >
+     <include layout="@layout/header_defualt"
+     />
+          <ImageView
+                android:id="@+id/aboutus_app_icon"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_launcher"/>
+
+        <ImageView
+                android:id="@+id/aboutus_app_icon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:contentDescription="@null"
+                android:src="@drawable/main_title_ic"/>
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:background="@drawable/selector_lab_btn"
+             android:layout_margin="@dimen/margin_default"
+             android:padding="@dimen/padding_default"
+             android:gravity="center_vertical"
+             >
+            <TextView
+                android:id="@+id/aboutus_tv_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/version"
+                android:textColor="@color/tv_light_color"
+                android:textSize="@dimen/txtsize_default"
+                />
+        </LinearLayout>
+</LinearLayout>

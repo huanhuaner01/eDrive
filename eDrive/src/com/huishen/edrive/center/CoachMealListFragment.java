@@ -54,7 +54,7 @@ public class CoachMealListFragment extends TitleListFragment {
 				}
 			}
 			
-		}, new DefaultErrorListener()) ;
+		}, new DefaultErrorListener(this.getActivity())) ;
 	}
 
 	@Override
@@ -83,6 +83,8 @@ public class CoachMealListFragment extends TitleListFragment {
 			ArrayList<String> childmap = new ArrayList<String>();
 			childmap.add("套餐内容包含服务："+json.optString(SRL.ReturnField.COACH_MEAL_CONTENT ,"暂无")) ;
 			childmap.add("驾驶车型："+json.optString(SRL.ReturnField.COACH_MEAL_CARTYPE ,"暂无")) ;
+			childmap.add("班        型："+json.optString(SRL.ReturnField.COACH_MEAL_CLASSTYPE ,"暂无")) ;
+			childmap.add("训练类型："+json.optString(SRL.ReturnField.COACH_MEAL_LICENSETYPE ,"暂无")) ;
 			mData.add(childmap);
 		}
 		

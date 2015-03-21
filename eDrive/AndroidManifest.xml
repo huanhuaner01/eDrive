@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.huishen.edrive"
-    android:versionCode="10"
-    android:versionName="1.0.10"
-     >
+    android:versionCode="12"
+    android:versionName="1.0.12" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -20,7 +19,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -76,22 +74,21 @@
         <!-- 注册订单失败的提醒闹钟 -->
         <receiver android:name=".demand.OrderFailBroadcastReceiver" >
         </receiver>
-     <!-- 测试服  
+        <!-- 测试服 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="TuZ4A7AwHvj7BW6fDqhE1WrR" />
-        -->   
-   <!-- 正式服  --> 
+          
+        <!--
+        正式服  
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="A6XzmdYODPCiHNTSQhcBnkQa" />
-             
-               
-
+            android:value="A6XzmdYODPCiHNTSQhcBnkQa" />         -->
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,11 +97,17 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
-        <activity android:name=".demand.DemandActivity" >
+        <activity android:name=".demand.DemandActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
-        <activity android:name=".login.VerifyPhoneActivity" >
+        <activity android:name=".login.VerifyPhoneActivity" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
 
         <service
@@ -113,13 +116,21 @@
             android:process=":remote" >
         </service>
 
-        <activity android:name=".demand.PostTxtActivity" >
+        <activity android:name=".demand.PostTxtActivity" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
-        <activity android:name=".demand.PostSoundActivity" >
+        <activity android:name=".demand.PostSoundActivity" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
-        <activity android:name=".center.CoachDetailActivity" >
+        <activity android:name=".center.CoachDetailActivity" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
-        <activity android:name=".login.ServiceInfoActivity" >
+        <activity android:name=".login.ServiceInfoActivity" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
 
         <service
@@ -167,7 +178,7 @@
             <!--
          <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
+    </intent-filter>
             -->
 
         </receiver>
@@ -212,88 +223,136 @@
 
         <activity
             android:name=".demand.CoachActivity"
-            android:label="@string/title_activity_coach" >
+            android:label="@string/title_activity_coach"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".center.CoachTrainFieldActivity"
-            android:label="@string/title_activity_coach_train_field" >
+            android:label="@string/title_activity_coach_train_field" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".apointment.ApointmentActivity"
-            android:label="@string/title_activity_appointment" >
+            android:label="@string/title_activity_appointment"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".center.ListActivity"
-            android:label="@string/title_activity_coach_judge_list" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".MainActivity">
-           </meta-data>
-           
+            android:label="@string/title_activity_coach_judge_list" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" >
+            </meta-data>
         </activity>
         <activity
             android:name=".apointment.BindCoachActivity"
-            android:label="@string/title_activity_bind_coach" >
+            android:label="@string/title_activity_bind_coach" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".apointment.BindCoachWriteActivity"
-            android:label="@string/title_activity_bind_coach_write" >
+            android:label="@string/title_activity_bind_coach_write" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".demand.FailDialogActivity"
             android:label="@string/title_activity_fail_dialog"
-            android:theme="@style/DialogActivityNoTitlebar" >
+            android:theme="@style/DialogActivityNoTitlebar" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".demand.SuccessDialogActivity"
             android:label="@string/title_activity_success_dialog"
-            android:theme="@style/DialogActivityNoTitlebar" >
+            android:theme="@style/DialogActivityNoTitlebar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".center.ModifyUserInfoActivity"
-            android:label="@string/title_activity_modify_user_info" >
+            android:label="@string/title_activity_modify_user_info" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".center.MsgActivity"
-            android:label="@string/title_activity_msg" >
+            android:label="@string/title_activity_msg" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".center.OrderActivity"
-            android:label="@string/title_activity_order" >
+            android:label="@string/title_activity_order" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".center.ShareActivity"
-            android:label="@string/title_activity_share" >
+            android:label="@string/title_activity_share" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".center.SettingActivity"
-            android:label="@string/title_activity_setting" >
+            android:label="@string/title_activity_setting"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".center.ModifyUserInfoSecendActivity"
-            android:label="@string/title_activity_modify_user_info_secend" >
+            android:label="@string/title_activity_modify_user_info_secend"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".center.MsgListActivity"
-            android:label="@string/title_activity_msg_list" >
+            android:label="@string/title_activity_msg_list" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
             android:name=".center.OrderDetailActivity"
-            android:label="@string/title_activity_order_detail" >
+            android:label="@string/title_activity_order_detail"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".InfoActivity"
-            android:label="@string/title_activity_info" >
+            android:label="@string/title_activity_info"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".center.JudgeActivity"
-            android:label="@string/title_activity_judge" >
+            android:label="@string/title_activity_judge"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".center.ComplainActivity"
-            android:label="@string/title_activity_complain" >
+            android:label="@string/title_activity_complain" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
         </activity>
         <activity
-            android:name="com.huishen.edrive.center.OpinionActivity"
-            android:label="@string/title_activity_opinion" >
+            android:name=".center.OpinionActivity"
+            android:label="@string/title_activity_opinion"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <activity
+            android:name=".VersionActivity"
+            android:label="@string/title_activity_version" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            >
         </activity>
     </application>
 

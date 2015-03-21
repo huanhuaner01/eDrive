@@ -1,6 +1,7 @@
 package com.huishen.edrive.apointment;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -38,7 +39,7 @@ public class ApointmentActivity extends Activity {
 	private ImageButton back, tel;
 	private RoundImageView photo;
 	private String[] sub = new String[] { "科目一", "科目二", "科目三", "科目四" };
-	private String[] classtime = new String[] { "上午", "下午", "晚上" };
+	private String[] classtime = new String[] { "上午：07:00—12:00", "下午：13:00—18:00", "晚上：19:00—22:00" };
 	private String[] limit = new String[] { "km2m", "km2a", "km2e", "km3m",
 			"km3a", "km3e" };
 	private AppointmentSubExListApdater adapter;
@@ -48,7 +49,8 @@ public class ApointmentActivity extends Activity {
 	private MessageDialog dialog;
 
 	private String date;
-
+    
+	private int crrenNum = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,26 +106,26 @@ public class ApointmentActivity extends Activity {
 		// -------添加约课数据-------
 		mGroupData = new ArrayList<HashMap<String, String>>();
 		mData = new ArrayList<ArrayList<HashMap<String, String>>>();
-		for (int i = 1; i < 3; i++) {
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("subName", sub[i]);
-			map.put("subStatus", "0/3");
-			mGroupData.add(map);
-			ArrayList<HashMap<String, String>> prms = new ArrayList<HashMap<String, String>>();
-			for (int j = 0; j < 3; j++) {
-				HashMap<String, String> pmap = new HashMap<String, String>();
-				pmap.put("className", classtime[j]);
-				pmap.put("classStatus", "0/0");
-				pmap.put("code", 0 + "");
-				prms.add(pmap);
-			}
-			mData.add(prms);
-		}
-		adapter = new AppointmentSubExListApdater(this, mGroupData, mData, null);
-		list.setAdapter(adapter);
-		if (adapter.getGroupCount() >= 0) {
-			list.expandGroup(0);
-		}
+//		for (int i = 1; i < 3; i++) {
+//			HashMap<String, String> map = new HashMap<String, String>();
+//			map.put("subName", sub[i]);
+//			map.put("subStatus", "0/3");
+//			mGroupData.add(map);
+//			ArrayList<HashMap<String, String>> prms = new ArrayList<HashMap<String, String>>();
+//			for (int j = 0; j < 3; j++) {
+//				HashMap<String, String> pmap = new HashMap<String, String>();
+//				pmap.put("className", classtime[j]);
+//				pmap.put("classStatus", "0/0");
+//				pmap.put("code", 0 + "");
+//				prms.add(pmap);
+//			}
+//			mData.add(prms);
+//		}
+//		adapter = new AppointmentSubExListApdater(this, mGroupData, mData, null);
+//		list.setAdapter(adapter);
+//		if (adapter.getGroupCount() >= 0) {
+//			list.expandGroup(0);
+//		}
 		getData();
 
 	}
@@ -146,7 +148,7 @@ public class ApointmentActivity extends Activity {
 							setData(result);
 						}
 					}
-				}, new DefaultErrorListener());
+				}, new DefaultErrorListener(this));
 	}
 
 	/**
@@ -224,11 +226,12 @@ public class ApointmentActivity extends Activity {
 						Log.i(TAG, "classtotal's num "+(i
 								* subclass.getInt("lessonTime") - 1));
 						Log.i(TAG, "classtotal "+classtotal);
-						if (classtotal == subclass.getInt("count")) {
+						if (classtotal == subclass.optInt("count" ,0)) {
 							pmap.put("code", 2 + "");
 						} else {
 							pmap.put("code", 0 + "");
 						}
+						crrenNum = stuLessonInfo.length() ;
 						for (int n = 0; n < stuLessonInfo.length(); n++) {
 							JSONObject stuclass = stuLessonInfo
 									.getJSONObject(n);
@@ -239,13 +242,14 @@ public class ApointmentActivity extends Activity {
 								pmap.put("code", 1 + "");
 							}
 						}
-						pmap.put("classStatus", subclass.getInt("count") + "/"
+						pmap.put("classStatus", subclass.optInt("count",0) + "/"
 								+ classtotal);
 						pmap.put("lessonTime", subclass.getInt("lessonTime")
 								+ "");
 						pmap.put("subject", subclass.getInt("subject") + "");
 						prms.add(pmap);
-						count = count + subclass.getInt("count");
+						//
+						count = count + subclass.optInt("count" ,0);
 					}
 				}
 				map.put("subStatus", count + "/" + total);
@@ -257,11 +261,11 @@ public class ApointmentActivity extends Activity {
 			list.setAdapter(adapter);
 			if (adapter.getGroupCount() >= 0) {
 				list.expandGroup(0);
+				list.expandGroup(1);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private TimeClassApointListener listener = new TimeClassApointListener() {
@@ -280,7 +284,10 @@ public class ApointmentActivity extends Activity {
 	};
 
 	private void actionAppoint(final int subject, final int lessionDate) {
-
+        if(crrenNum >0){
+        	AppUtil.ShowShortToast(getApplicationContext(), "对不起，一天只能预约一节课");
+        	return ;
+        }
 		dialog = new MessageDialog(this, "您确定要预约以下时间吗？", "练习项目：" + sub[subject]
 				+ "\n" + "练车时间：" + date + " " + classtime[lessionDate - 1],
 				false, new MassageListener() {
@@ -358,7 +365,7 @@ public class ApointmentActivity extends Activity {
 							
 						}
 					}
-				}, new DefaultErrorListener());
+				}, new DefaultErrorListener(this));
 	}
 
 	/**
@@ -395,7 +402,7 @@ public class ApointmentActivity extends Activity {
 							}
 						}
 					}
-				}, new DefaultErrorListener());
+				}, new DefaultErrorListener(this));
 	}
 
 	/**

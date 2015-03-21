@@ -324,7 +324,7 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 						}
 
 					}
-				}, new DefaultErrorListener());
+				}, new DefaultErrorListener(this));
 	}
 //	/**
 //	 * 服务器返回值处理

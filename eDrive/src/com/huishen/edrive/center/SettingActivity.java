@@ -12,6 +12,7 @@ import com.android.volley.Response.Listener;
 import com.huishen.edrive.InfoActivity;
 import com.huishen.edrive.R;
 import com.huishen.edrive.SplashActivity;
+import com.huishen.edrive.VersionActivity;
 import com.huishen.edrive.R.layout;
 import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.NetUtil;
@@ -143,6 +144,8 @@ public class SettingActivity extends Activity {
 					if (servercode <= localcode){
 						Log.d(TAG, "No avaliable update found.");
 						AppUtil.ShowShortToast(getApplicationContext(), "版本已经是最新");
+						Intent i = new Intent(SettingActivity.this,VersionActivity.class);
+						startActivity(i);
 						return;
 					}
 					final boolean forceUpdate = json.optInt(SRL.ReturnField.FIELD_UPDATE_FORCE_UPDATE)==1?true:false;

@@ -130,7 +130,7 @@ public class FailDialogActivity extends Activity {
 				}
 			}
 			
-		}, new DefaultErrorListener());
+		}, new DefaultErrorListener(this));
 
 		finish();
 	}

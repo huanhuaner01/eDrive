@@ -7,6 +7,8 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.Response.ErrorListener;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
@@ -14,6 +16,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.huishen.edrive.R;
+import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -215,7 +218,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				}
 			}
 			
-		}, new DefaultErrorListener());
+		}, errorlister);
 	}
 	/**
 	 * 
@@ -271,6 +274,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		    if(!MyDialog.isShowing()){
 		    	MyDialog.show();
 		    }
+		    commit.setEnabled(false);
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(SRL.Param.PARAM_LATITUDE, lat+"");
         map.put(SRL.Param.PARAM_LONGITUDE,lng+"");
@@ -283,6 +287,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			@Override
 			public void onResponse(String result) {
 				    JSONObject json = null ;
+				    commit.setEnabled(true);
 				    try{
 				    	json = new JSONObject(result);
 				    	
@@ -305,7 +310,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 					}
 			}
 			  
-		}, new DefaultErrorListener(MyDialog));
+		}, errorlister);
 		
 	}
 	
@@ -350,7 +355,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    }
 			}
 			
-		}, new DefaultErrorListener());
+		}, new DefaultErrorListener(this));
 	}
 
 	@Override
@@ -358,6 +363,34 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		// TODO Auto-generated method stub
 		
 	}
-	
+	private ErrorListener errorlister = new ErrorListener() {
+
+		@Override
+		public void onErrorResponse(VolleyError arg0) {
+		    commit.setEnabled(true);
+			if (arg0.networkResponse == null) {
+				Toast.makeText(PostTxtActivity.this, "网络连接断开",
+						Toast.LENGTH_SHORT).show();
+				Log.i("DefaultErrorListener", arg0.toString());
+				if(MyDialog != null&&MyDialog.isShowing()){
+					MyDialog.dismiss();
+				}
+				return ;
+			}
+			if(arg0.networkResponse.statusCode == 320){
+				AppUtil.ShowShortToast(PostTxtActivity.this, "用户已经下线，请重新验证手机");
+				Intent i = new Intent(PostTxtActivity.this, VerifyPhoneActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				
+				PostTxtActivity.this.startActivity(i);
+				finish();
+			}else{
+				AppUtil.ShowShortToast(PostTxtActivity.this, "服务器开小差啦~");
+			}
+			if(MyDialog != null&&MyDialog.isShowing()){
+				MyDialog.dismiss();
+			}
+		}
+	};
 
 }

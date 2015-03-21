@@ -69,7 +69,7 @@ public class MsgFragment extends TitleListFragment {
 						}
 						
 					}
-				},new DefaultErrorListener());
+				},new DefaultErrorListener(this.getActivity()));
 //		setList("" , list);
 	}
 

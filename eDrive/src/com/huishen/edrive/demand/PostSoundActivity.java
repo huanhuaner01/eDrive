@@ -8,6 +8,8 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import com.android.volley.Response;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.VolleyError;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
@@ -15,6 +17,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.huishen.edrive.R;
+import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -27,6 +30,7 @@ import com.huishen.edrive.util.SimpleRecorder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -196,9 +200,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			public void onClick(View arg0) {
 				finish();
 			}
-		});
-		
-	
+		});			
 		
 		dialog = new PostAddrDialog(this,listener);
 		if(addr == null || addr.equals("")|| addr.equals("null")){
@@ -225,11 +227,16 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	    if(!MyDialog.isShowing()){
 	    	MyDialog.show();
 	    }
+	    sound_play.setEnabled(false);
+	    send.setEnabled(false);
 		HashMap<String, String> map = new HashMap<String, String>();
+		
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_SERVICE_INFO, map,  new Response.Listener<String>() {
 			
 			@Override
 			public void onResponse(String result) {
+				 sound_play.setEnabled(true);
+				 send.setEnabled(true);
 				Log.i(TAG, result);
 				if(result==null ||result.equals("")){
 					AppUtil.ShowShortToast(getApplicationContext(), "亲，没有预设服务哟");
@@ -257,7 +264,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 				}
 			}
 			
-		}, new DefaultErrorListener(MyDialog));
+		}, new DefaultErrorListener(this ,MyDialog));
 	}
 	
 	/**
@@ -291,6 +298,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		 if(!MyDialog.isShowing()){
 			 MyDialog.show();
 		 }
+		 
 //        HashMap<String, String> map = new HashMap<String, String>();
 //        map.put(SRL.Param.PARAM_LATITUDE, lat+"");
 //        map.put(SRL.Param.PARAM_LONGITUDE,lng+"");
@@ -302,6 +310,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 
 			@Override
 			public void onSuccess(String str) {
+				sound_play.setEnabled(true);
+			    send.setEnabled(true);
 				Log.i(TAG, str) ;
 				if(str.equals("")){
 					AppUtil.ShowShortToast(getApplicationContext(), "发布异常");
@@ -312,6 +322,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 
 			@Override
 			public void onError(int httpCode) {
+				sound_play.setEnabled(true);
+			    send.setEnabled(true);
 				AppUtil.ShowShortToast(getApplicationContext(), "网络错误："+httpCode);
 				if(MyDialog.isShowing()){
 					MyDialog.dismiss();
@@ -349,6 +361,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			}
 		  return ;
 	  } 
+	  sound_play.setEnabled(false);
+	  send.setEnabled(false);
       HashMap<String, String> map = new HashMap<String, String>();
       map.put(SRL.Param.PARAM_LATITUDE, lat+"");
       map.put(SRL.Param.PARAM_LONGITUDE,lng+"");
@@ -361,6 +375,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 
 			@Override
 			public void onResponse(String result) {
+				sound_play.setEnabled(true);
+			    send.setEnabled(true);
 			    JSONObject json = null ;
 			    try{
 			    	json = new JSONObject(result);
@@ -382,7 +398,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 				}
 			}
 			
-		},new DefaultErrorListener(MyDialog));
+		},errorlister);
 	
 	}
 	/**
@@ -462,6 +478,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		
 			@Override
 			public void onResponse(String result) {
+				sound_play.setEnabled(true);
+			    send.setEnabled(true);
 				    JSONObject json = null ;
 				    try{
 				    	json = new JSONObject(result);
@@ -477,7 +495,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 				    }
 			}
 			
-		}, new DefaultErrorListener(MyDialog));
+		},errorlister);
 	
 	}
 
@@ -485,4 +503,34 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
 		  
 	}
+	
+	private ErrorListener errorlister = new ErrorListener() {
+
+		@Override
+		public void onErrorResponse(VolleyError arg0) {
+			sound_play.setEnabled(true);
+		    send.setEnabled(true);
+			if (arg0.networkResponse == null) {
+				Toast.makeText(PostSoundActivity.this, "网络连接断开",
+						Toast.LENGTH_SHORT).show();
+				Log.i("DefaultErrorListener", arg0.toString());
+				if(dialog != null&&dialog.isShowing()){
+					dialog.dismiss();
+				}
+				return ;
+			}
+			if(arg0.networkResponse.statusCode == 320){
+				AppUtil.ShowShortToast(PostSoundActivity.this, "用户已经下线，请重新验证手机");
+				Intent i = new Intent(PostSoundActivity.this, VerifyPhoneActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				
+				PostSoundActivity.this.startActivity(i);
+			}else{
+				AppUtil.ShowShortToast(PostSoundActivity.this, "服务器开小差啦~");
+			}
+			if(MyDialog != null&&MyDialog.isShowing()){
+				MyDialog.dismiss();
+			}
+		}
+	};
 }
