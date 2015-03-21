@@ -12,6 +12,23 @@
 
 # Add any project specific keep options here:
 
+-libraryjars libs/BaiduLBS_Android.jar
+-keep class com.baidu.** { *; }
+-keep class vi.com.gdi.bgl.android.**{*;}
+-keep,allowshrinking class org.android.agoo.service.* {
+    public <fields>;
+    public <methods>;
+}
+
+-keep,allowshrinking class com.umeng.message.* {
+    public <fields>;
+    public <methods>;
+}
+
+-keep public class com.com.huishen.edrive.R$*{
+   public static final int *;
+}
+
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
