@@ -150,11 +150,13 @@ public class OrderDetailActivity extends Activity {
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", orderId + "");
+		cancelOrderBtn.setEnabled(false);
 		NetUtil.requestStringData(SRL.Method.METHOD_CANCEL_ORDER, map,
 				new Response.Listener<String>() {
 
 					@Override
 					public void onResponse(String result) {
+						cancelOrderBtn.setEnabled(true);
 						Log.i(TAG, result);
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(OrderDetailActivity.this,
@@ -177,7 +179,7 @@ public class OrderDetailActivity extends Activity {
 							MyDialog.dismiss();
 						}
 					}
-				}, new DefaultErrorListener(this,MyDialog));
+				}, new DefaultErrorListener(this,MyDialog,cancelOrderBtn));
 	}
 
 	/**

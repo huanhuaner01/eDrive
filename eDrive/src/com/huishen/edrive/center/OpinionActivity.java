@@ -77,11 +77,13 @@ public class OpinionActivity extends Activity {
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("content",edit.getText().toString());
+		note.setEnabled(false);
 		NetUtil.requestStringData(SRL.Method.METHOD_OPINION, map,
 				new Response.Listener<String>() {
                        
 					@Override
 					public void onResponse(String result) {
+						note.setEnabled(true);
 						Log.i(TAG, result);
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(OpinionActivity.this, "服务器繁忙");
@@ -97,7 +99,7 @@ public class OpinionActivity extends Activity {
 							}
 						}
 					}
-				},new DefaultErrorListener(this));
+				},new DefaultErrorListener(this,note));
 		
 	}
 }

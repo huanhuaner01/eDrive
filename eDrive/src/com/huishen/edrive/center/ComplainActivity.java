@@ -117,6 +117,7 @@ public class ComplainActivity extends Activity {
 			AppUtil.ShowShortToast(getApplicationContext(), "投诉内容不能为空");
 			return ;
 		}
+		btn.setEnabled(false);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId",coachId+"");
 		map.put("complaintContent", keybuffer.toString()+""+edit.getText().toString());
@@ -125,6 +126,7 @@ public class ComplainActivity extends Activity {
                        
 					@Override
 					public void onResponse(String result) {
+						btn.setEnabled(true);
 						Log.i(TAG, result);
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(ComplainActivity.this, "服务器繁忙");
@@ -141,7 +143,7 @@ public class ComplainActivity extends Activity {
 							}
 						}
 					}
-	},new DefaultErrorListener(this));
+	},new DefaultErrorListener(this ,btn));
 	}
 	
 }

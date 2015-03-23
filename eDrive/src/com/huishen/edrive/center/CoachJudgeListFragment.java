@@ -68,9 +68,9 @@ public class CoachJudgeListFragment extends TitleListFragment {
 				mapa.put("rating",(float)json.optDouble("score",0));
 				StringBuilder tel = new StringBuilder(json.optString("phone","匿名")) ;
 				Log.i(TAG, "before:"+tel.toString()) ;
-				if(!tel.equals("匿名") && !tel.equals("") && tel.length()>10){
-					tel.replace(4, 7, "****");
-				}
+//				if(!tel.equals("匿名") && !tel.equals("") && tel.length()>10){
+//					tel.replace(4, 7, "****");
+//				}
 				Log.i(TAG, tel.toString()) ;
 				mapa.put("stuname",tel.toString()+" "+json.optString("contentTime" ,""));
 				mapa.put("content",json.optString("content" ,""));

@@ -17,7 +17,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -35,7 +38,7 @@ public class CoachFieldImgDialog extends Dialog implements View.OnClickListener{
 	private ImageLoader imageLoader ;
 	private ImgViewPagerAdapter adapter ;
 	private Context context ;
-	
+	private FrameLayout layout ;
 	
 	public CoachFieldImgDialog(Context context , ArrayList<String> imgUrls) {
 		super(context,R.style.dataselectstyle);
@@ -78,11 +81,20 @@ public class CoachFieldImgDialog extends Dialog implements View.OnClickListener{
 		viewpager = (ViewPager) findViewById(R.id.dialog_coachfield_viewpager);
 		backActivity = (Button) findViewById(R.id.dialog_coachfield_back);
 		num = (TextView) findViewById(R.id.dialog_coachfield_num);
+		layout = (FrameLayout) findViewById(R.id.dialog_frame);
 	}
 
 	private void init() {
 		   
-	  
+		LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) layout.getLayoutParams(); //取控件textView当前的布局参数  
+		WindowManager wm =(WindowManager) getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+		linearParams.height = wm.getDefaultDisplay().getWidth();// 控件的高强制设成20  
+		  
+		linearParams.width = wm.getDefaultDisplay().getWidth();// 控件的宽强制设成30   
+		  
+		layout.setLayoutParams(linearParams); //使设置好的布局参数应用到控件</pre> 
+		
 		    list = new ArrayList<View>(); 
 		    if(imgUrls != null){
 		    	if(imgUrls.size()>0){

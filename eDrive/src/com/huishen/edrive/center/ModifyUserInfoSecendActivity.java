@@ -310,11 +310,13 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 	private void sendToUpdate(String key, String value) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(key, value);
+		commit.setEnabled(false);
 		NetUtil.requestStringData(SRL.Method.METHOD_EDIT_USERINFO, map,
 				new Response.Listener<String>() {
 
 					@Override
 					public void onResponse(String result) {
+						commit.setEnabled(true);
 						Log.i(TAG, result);
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(
@@ -324,7 +326,7 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 						}
 
 					}
-				}, new DefaultErrorListener(this));
+				}, new DefaultErrorListener(this ,commit));
 	}
 //	/**
 //	 * 服务器返回值处理

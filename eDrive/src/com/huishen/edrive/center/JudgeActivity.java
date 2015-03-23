@@ -146,11 +146,13 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 		map.put("serviceScore", rb_at.getRating()+"");
 		map.put("qualityScore", rb_fd.getRating()+"");
 		map.put("ruleScore", rb_tf.getRating()+"");
+		note.setEnabled(false);
 		NetUtil.requestStringData(SRL.Method.METHOD_PLUS_JUDGE, map,
 				new Response.Listener<String>() {
                        
 					@Override
 					public void onResponse(String result) {
+						note.setEnabled(true);
 						Log.i(TAG, result);
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(JudgeActivity.this, "服务器繁忙");
@@ -167,7 +169,7 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 							}
 						}
 					}
-	},new DefaultErrorListener(this));
+	},new DefaultErrorListener(this ,note));
 }
 	
 	/**
@@ -197,11 +199,13 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 		map.put("serviceScore", rb_at.getRating()+"");
 		map.put("qualityScore", rb_fd.getRating()+"");
 		map.put("ruleScore", rb_tf.getRating()+"");
+		note.setEnabled(false);
 		NetUtil.requestStringData(SRL.Method.METHOD_JUDGE, map,
 				new Response.Listener<String>() {
                        
 					@Override
 					public void onResponse(String result) {
+						note.setEnabled(true);
 						Log.i(TAG, result);
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(JudgeActivity.this, "服务器繁忙");
@@ -218,6 +222,6 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 							}
 						}
 					}
-	},new DefaultErrorListener(this));
+	},new DefaultErrorListener(this ,note));
 }
 }

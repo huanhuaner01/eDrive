@@ -176,7 +176,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			@Override
 			public void onClick(View arg0) {
 				if(Prefs.readString(getApplicationContext(), Const.ORDER_STATUS).equals("1")){
-				    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔15分钟再来吧！");
+				    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔5分钟再来吧！");
 				}else{
 					 sendTxtOrder();
 				}
@@ -297,6 +297,8 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    		Prefs.writeString(getApplicationContext(), Const.USER_LAST_ORDER_ID,json.getInt(Const.USER_LAST_ORDER_ID)+"") ;
 				    		AppController.getInstance().setAlarm(PostTxtActivity.this,json.getInt(Const.USER_LAST_ORDER_ID));
 				    		finish();
+				    	}else if(json.getInt("code") == 2){//2:此区域附近无教练;;
+				    		AppUtil.ShowShortToast(getApplicationContext(), "此区域附近无教练") ;
 				    	}else{
 				    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
 				    	}

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -37,7 +38,7 @@ public class OrderListFragment extends TitleListFragment {
 	private String[] from  = new String[]{"time","statusvalue","content" ,"note"};
 	private int[] to = new int[]{R.id.item_order_time,R.id.item_order_status,R.id.item_order_content,R.id.item_order_note};
 	private OrderListAdapter adapter ;
-	
+	private MessageDialog dialog ;
 	
 	@Override
 	public void onResume() {
@@ -136,6 +137,37 @@ public class OrderListFragment extends TitleListFragment {
                 }
 			}
 		});
+//		/**
+//		 * 添加删除事件
+//		 */
+//		list.setOnItemLongClickListener(new OnItemLongClickListener(){
+//
+//			@Override
+//			public boolean onItemLongClick(AdapterView<?> arg0, View view,
+//					int arg2, long arg3) {
+//				   final HashMap<String ,Object> map = (HashMap<String ,Object>)view.getTag();
+//	                int mapstatus =Integer.parseInt( map.get("status").toString()); 
+//	                if(mapstatus != 1 && mapstatus != 3){
+//	                	dialog = new MessageDialog(getActivity(),"是否删除该订单？"
+//	    						,"",false ,new MassageListener(){
+//
+//	    							@Override
+//	    							public void setCommitClick() {
+//	    								delateOrder(Integer.parseInt(map.get("id").toString()));
+//	    							}
+//
+//	    							@Override
+//	    							public void setCancelClick() {
+//	    								dialog.dismiss();
+//	    							}
+//	    					
+//	    				});
+//	    				dialog.show();
+//	                }
+//				return false;
+//			}
+//			
+//		});
 		list.setAdapter(adapter);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -145,11 +177,27 @@ public class OrderListFragment extends TitleListFragment {
 		}
 		}
 	}
-
+    
+	/**
+	 * 删除订单
+	 * @param orderId
+	 */
+	private void delateOrder(int orderId){
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put("orderId", orderId+"");
+//		NetUtil.requestStringData(SRL.Method.METHOD_GET_ORDER_LIST, map,
+//				new Response.Listener<String>() {
+//                       
+//					@Override
+//					public void onResponse(String result) {
+//						Log.i(TAG, result);
+//						if()
+//					}
+//				},new DefaultErrorListener(this.getActivity()));
+	}
 	@Override
 	public void setList(String data, ExpandableListView list) {
-		// TODO Auto-generated method stub
-
+		
 	}
 	
 	@Override

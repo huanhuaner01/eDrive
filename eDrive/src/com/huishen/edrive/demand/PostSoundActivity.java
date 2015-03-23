@@ -279,7 +279,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 //		lat=30.577716;//当前学生纬度
 //		String content = edt.toString();
 		if(Prefs.readString(getApplicationContext(), Const.ORDER_STATUS).equals("1")){
-		    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔15分钟再来吧！");
+		    AppUtil.ShowShortToast(getApplicationContext(), "亲，操作过于频繁，请隔5分钟再来吧！");
 		    return ;
 		}
 		if(addr == null || addr.equals("")){
@@ -387,6 +387,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			    		Prefs.writeString(getApplicationContext(), Const.USER_LAST_ORDER_ID,json.getInt(Const.USER_LAST_ORDER_ID)+"") ;
 			    		AppController.getInstance().setAlarm(PostSoundActivity.this,json.getInt(Const.USER_LAST_ORDER_ID));
 			    		finish();
+			    	}if(json.getInt("code") == 2){//2:此区域附近无教练;;
+			    		AppUtil.ShowShortToast(getApplicationContext(), "此区域附近无教练") ;
 			    	}else{
 			    		AppUtil.ShowShortToast(getApplicationContext(), "发布失败") ;
 			    	}

@@ -130,13 +130,14 @@ public class VerifyPhoneActivity extends Activity implements
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
             map.put("vcodes", code) ;
-            
+            btnStart.setEnabled(false);
 			NetUtil.requestStringData(SRL.Method.METHOD_LOGIN, map,
 					new Response.Listener<String>() {
 
 						@Override
 						public void onResponse(String result) {
 							Log.i(TAG, result);
+							btnStart.setEnabled(true);
 							//判断返回状态
 							// ResponseParser.isReturnSuccessCode(arg0);
 							actionLogin(result);
@@ -145,6 +146,7 @@ public class VerifyPhoneActivity extends Activity implements
 
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
+							btnStart.setEnabled(true);
 							if (arg0.networkResponse == null) {
 								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
 										Toast.LENGTH_SHORT).show();

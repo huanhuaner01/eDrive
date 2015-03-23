@@ -6,6 +6,7 @@
     android:background="@color/white"
     >
    <FrameLayout
+       android:id = "@+id/dialog_frame"
        android:layout_width="match_parent"
        android:layout_height="@dimen/coach_detail_fieldimg_dialog_height"
        >

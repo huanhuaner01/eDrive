@@ -125,10 +125,12 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 		
 		map.put(SRL.Param.PARAM_BIND_STU_NAME,name );
 		map.put(SRL.Param.PARAM_BIND_CONTENT, content);
+		commit.setEnabled(false);
 		NetUtil.requestStringData(SRL.Method.METHOD_BIND_COACH, map, new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {
+				commit.setEnabled(true);
 				if(result == null || result.equals("")){
 					AppUtil.ShowShortToast(getApplicationContext(), "获取数据异常");
 				}else{
@@ -159,7 +161,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 				}
 			}
 			
-		}, new DefaultErrorListener(this)) ;
+		}, new DefaultErrorListener(this ,commit)) ;
 	}
 	
 }

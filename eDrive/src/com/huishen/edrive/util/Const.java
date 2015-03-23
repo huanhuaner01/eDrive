@@ -22,7 +22,7 @@ public final class Const {
 	/**
 	 * 订单失效提醒时间
 	 */
-	public static final int FAIL_ORDER_ALARM_TIME = 1000*60*15;
+	public static final int FAIL_ORDER_ALARM_TIME = 1000*60*5;
 	
 	/**
 	 * 用户数据

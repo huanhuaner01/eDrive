@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
@@ -25,6 +27,7 @@ public final class DefaultErrorListener implements ErrorListener {
 	
 	private Activity context ;
 	private ProgressDialog dialog ;
+	private View btn ;
 	
 	public DefaultErrorListener(Activity context ,ProgressDialog dialog) {
 		
@@ -32,7 +35,21 @@ public final class DefaultErrorListener implements ErrorListener {
 		this.dialog = dialog ;
 		this.context = context ;
 	}
-
+    
+	public DefaultErrorListener(Activity context ,ProgressDialog dialog,View btn) {
+		
+		super();
+		this.btn = btn ;
+		this.dialog = dialog ;
+		this.context = context ;
+	}
+	public DefaultErrorListener(Activity context ,View btn) {
+		
+		super();
+		this.btn = btn ;
+		this.context = context ;
+	}
+	
 	public DefaultErrorListener(Activity context) {
 		super();
 		this.context = context ;
@@ -40,13 +57,17 @@ public final class DefaultErrorListener implements ErrorListener {
 	
 	@Override
 	public void onErrorResponse(VolleyError arg0) {
+		if(dialog != null&&dialog.isShowing()){
+			dialog.dismiss();
+		}
+		if(btn != null){
+			btn.setEnabled(true);
+		}
 		if (arg0.networkResponse == null) {
 			Toast.makeText(context, "网络连接断开",
 					Toast.LENGTH_SHORT).show();
 			Log.i("DefaultErrorListener", arg0.toString());
-			if(dialog != null&&dialog.isShowing()){
-				dialog.dismiss();
-			}
+		
 			return ;
 		}
 		if(arg0.networkResponse.statusCode == 320){
@@ -57,9 +78,6 @@ public final class DefaultErrorListener implements ErrorListener {
 			context.finish();
 		}else{
 			AppUtil.ShowShortToast(context, "服务器开小差啦~");
-		}
-		if(dialog != null&&dialog.isShowing()){
-			dialog.dismiss();
 		}
 	}
 

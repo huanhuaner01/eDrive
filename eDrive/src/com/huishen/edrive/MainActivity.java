@@ -142,9 +142,13 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	 */
 	private void getWebData(){
 		if(Prefs.readString(this, Const.USER_COACH_ID).equals("")){
-
-			tabGroup.setOnCheckedChangeListener(MainActivity.this);
-	    	tabGroup.check(R.id.main_tab_appointment);
+			if(tabGroup.getCheckedRadioButtonId()==R.id.main_tab_appointment){
+			    tabGroup.check(R.id.main_tab_appointment);
+			}
+			else if(tabGroup.getCheckedRadioButtonId()!=R.id.main_tab_appointment && tabGroup.getCheckedRadioButtonId()!=R.id.main_tab_center){
+				 tabGroup.check(R.id.main_tab_appointment);
+			}
+			
 		}else{
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId",Prefs.readString(this, Const.USER_COACH_ID));
@@ -261,6 +265,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     	//页面切换
 //    	getWebData();
     	tabGroup.setOnCheckedChangeListener(MainActivity.this);
+    	
     }
 
     
