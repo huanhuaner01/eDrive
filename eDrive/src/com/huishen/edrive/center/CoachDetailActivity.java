@@ -14,12 +14,15 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
+import com.huishen.edrive.widget.LoadingDialog;
+import com.huishen.edrive.widget.LoadingView;
 import com.huishen.edrive.widget.RoundImageView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -36,15 +39,19 @@ import android.widget.TextView;
  * @author zhanghuan
  * 
  */
-public class CoachDetailActivity extends Activity implements OnClickListener{
+public class CoachDetailActivity extends Activity implements OnClickListener ,SwipeRefreshLayout.OnRefreshListener{
 	private String TAG = "CoachDetailActivity" ;
 	private TextView title , coachname , goodnum ,judgescore ,detailContent,stunum;
 	private TextView demandnum ,judgenum ,ranking ;
 	private RatingBar judgerating ;
     private Button call ; //呼叫教练
     private ImageButton good  , back; //点赞按钮 ,返回按钮
-    private LinearLayout field ,fieldimg ,detail , judge ,setmeal ;
+    private LinearLayout field ,fieldimg ,detail , judge ,setmeal ,content ;
     private RoundImageView img ;
+    private LoadingView loading ; //加载页
+    private LoadingDialog dialog ; //加载弹出框
+	//下拉刷新组件
+	public SwipeRefreshLayout mSwipeLayout;
     //初始化相关
     private int coachId = -1  ;
     public static String COACH_ID = "id" ;  //传进来的参数key
@@ -77,6 +84,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 			AppUtil.ShowShortToast(this,"获取数据异常") ;
 			return ;
 		}
+	    
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(COACH_ID, coachId+"");
 //		map.put(SRL.Param.PARAM_LATITUDE, lat+"");
@@ -89,9 +97,12 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 				}else{
 					setViewData(result) ;
 				}
+				if(mSwipeLayout.isRefreshing()){
+					mSwipeLayout.setRefreshing(false);
+				}
 			}
 			
-		}, new DefaultErrorListener(this)) ;
+		}, new DefaultErrorListener(this,null ,loading ,mSwipeLayout)) ;
 	}
 	
 	/**
@@ -130,9 +141,15 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 				if(!jsonb.optString("path" ,"").equals("")){					
 				   NetUtil.requestLoadImage(img, jsonb.getString("path"), R.drawable.photo_coach_defualt);
 				}
+				
 			}
+			if(content.getVisibility() == View.GONE){
+			content.setVisibility(View.VISIBLE);
+			loading.setVisibility(View.GONE);
+			}		
 			}catch(Exception e){
 				AppUtil.ShowShortToast(getApplicationContext(), "数据解析异常");
+				loading.showFailLoadidng();
 				e.printStackTrace();
 			}
 	}
@@ -148,7 +165,9 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		judge = (LinearLayout)this.findViewById(R.id.coach_detail_judge) ;
 		setmeal = (LinearLayout)this.findViewById(R.id.m_center_lay_addr) ;
 		this.detailContent = (TextView)this.findViewById(R.id.coach_detail_tv_content) ;
-		
+		loading = (LoadingView)findViewById(R.id.coachdetail_loading);
+		content = (LinearLayout)findViewById(R.id.coachdetail_content);
+		mSwipeLayout = (SwipeRefreshLayout)findViewById(R.id.coachdetail_swipely);
 		//教练基本信息
 		coachname = (TextView)this.findViewById(R.id.coach_detail_tv_coachname) ;
 		goodnum = (TextView)this.findViewById(R.id.coach_detail_tv_good) ;
@@ -163,7 +182,11 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 	
 	
 	private void initView() {
+		mSwipeLayout.setOnRefreshListener(this);
+		mSwipeLayout.setColorScheme(R.color.color_refresh_1, R.color.color_refresh_2,
+				R.color.color_refresh_3, R.color.color_refresh_4);
 		this.title.setText(this.getResources().getString(R.string.coach_detail));
+		dialog = new LoadingDialog(this);
 		this.back.setOnClickListener(this) ;
 		this.good.setOnClickListener(this) ;
 		this.field.setOnClickListener(this) ;
@@ -301,10 +324,14 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 		    imgUrls.clear();
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put(COACH_ID, coachId+"");
+			if(!dialog.isShowing()){
+				dialog.show();
+			}
 			NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_FIELDPIC, map,new Response.Listener<String>() {
 
 				@Override
 				public void onResponse(String result) {
+					dialog.dismiss();
 					if(result == null || result.equals("")){
 						AppUtil.ShowShortToast(getApplicationContext(), "此教练没有图片") ;
 					}else{
@@ -336,7 +363,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 					}
 				}
 				
-			}, new DefaultErrorListener(this));
+			}, new DefaultErrorListener(this ,dialog));
 	
 	}
 	/**
@@ -344,6 +371,11 @@ public class CoachDetailActivity extends Activity implements OnClickListener{
 	 */
 	private void actionGood() {
 		
+	}
+
+	@Override
+	public void onRefresh() {
+		getNetData();
 	}	
 	
 }

@@ -25,6 +25,7 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.CustomEditText;
+import com.huishen.edrive.widget.LoadingDialog;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -66,7 +67,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
     private double lng ;
     private double lat ;
     private String addr;
-    private ProgressDialog MyDialog ;
+    private LoadingDialog loadingDialog ;
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -103,6 +104,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	private void initView() {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
+		loadingDialog = new LoadingDialog(this);
 		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")&&!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("null")){
 			
 		   addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
@@ -270,9 +272,8 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			AppUtil.ShowShortToast(this, "地址信息不能为空") ;
 			return ;
 		}
-		  MyDialog = ProgressDialog.show(this, "提示" , " 发布中... ", true);
-		    if(!MyDialog.isShowing()){
-		    	MyDialog.show();
+		    if(!loadingDialog.isShowing()){
+		    	loadingDialog.show();
 		    }
 		    commit.setEnabled(false);
         HashMap<String, String> map = new HashMap<String, String>();
@@ -305,11 +306,12 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    	
 				    }catch(Exception e){
 				    	   e.printStackTrace() ;
-				    }
+				    }finally{
 					//关闭进度条
-					if(MyDialog.isShowing()){
-					    MyDialog.dismiss();
+					if(loadingDialog.isShowing()){
+						loadingDialog.dismiss();
 					}
+				    }
 			}
 			  
 		}, errorlister);
@@ -335,6 +337,9 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	 * 访问网络设置常用地址
 	 */
 	private void setWebAddr(){
+	    if(!loadingDialog.isShowing()){
+	    	loadingDialog.show();
+	    }
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(Const.USER_ID,Prefs.readString(this, Const.USER_ID));
         map.put(Const.USER_ADDR ,addr);
@@ -342,7 +347,11 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		
 			@Override
 			public void onResponse(String result) {
+			    if(loadingDialog.isShowing()){
+			    	loadingDialog.dismiss();
+			    }
 				    JSONObject json = null ;
+				    
 				    try{
 				    	json = new JSONObject(result);
 				    	
@@ -357,7 +366,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    }
 			}
 			
-		}, new DefaultErrorListener(this));
+		}, new DefaultErrorListener(this,loadingDialog));
 	}
 
 	@Override
@@ -374,8 +383,8 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				Toast.makeText(PostTxtActivity.this, "网络连接断开",
 						Toast.LENGTH_SHORT).show();
 				Log.i("DefaultErrorListener", arg0.toString());
-				if(MyDialog != null&&MyDialog.isShowing()){
-					MyDialog.dismiss();
+				if(loadingDialog != null&&loadingDialog.isShowing()){
+					loadingDialog.dismiss();
 				}
 				return ;
 			}
@@ -389,8 +398,8 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			}else{
 				AppUtil.ShowShortToast(PostTxtActivity.this, "服务器开小差啦~");
 			}
-			if(MyDialog != null&&MyDialog.isShowing()){
-				MyDialog.dismiss();
+			if(loadingDialog != null&&loadingDialog.isShowing()){
+				loadingDialog.dismiss();
 			}
 		}
 	};

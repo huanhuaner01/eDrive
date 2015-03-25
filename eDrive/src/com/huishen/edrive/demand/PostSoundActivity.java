@@ -27,6 +27,7 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.util.SimpleRecorder;
+import com.huishen.edrive.widget.LoadingDialog;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -68,7 +69,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
     private double lng ;
     private double lat ;
     private String addr;
-    private ProgressDialog MyDialog ;
+    private LoadingDialog loadingdialog ;
 //    = ProgressDialog.show( MyActivity.this, " " , " Loading. Please wait ... ", true);
 	@Override
 	protected void onResume() {
@@ -108,6 +109,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	private void initView() {
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
+		loadingdialog = new LoadingDialog(this);
 		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")&&!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("null")){
 			
 			   addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
@@ -223,9 +225,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	 * 获取服务项
 	 */
 	private void getService(){
-	    MyDialog = ProgressDialog.show(this, "提示" , " 加载中... ", true);
-	    if(!MyDialog.isShowing()){
-	    	MyDialog.show();
+	    if(!loadingdialog.isShowing()){
+	    	loadingdialog.show();
 	    }
 	    sound_play.setEnabled(false);
 	    send.setEnabled(false);
@@ -259,12 +260,12 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 				}
 				}
 				//关闭进度条
-				if(MyDialog.isShowing()){
-				    MyDialog.dismiss();
+				if(loadingdialog.isShowing()){
+					loadingdialog.dismiss();
 				}
 			}
 			
-		}, new DefaultErrorListener(this ,MyDialog));
+		}, new DefaultErrorListener(this ,loadingdialog));
 	}
 	
 	/**
@@ -293,10 +294,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		}
 		Log.i(TAG, "进入上传语音的方法！") ;
 		//显示进度条
-		 MyDialog = ProgressDialog.show(this, "提示" , " 发布中... ", true);
-		 MyDialog.show();
-		 if(!MyDialog.isShowing()){
-			 MyDialog.show();
+		 if(!loadingdialog.isShowing()){
+			 loadingdialog.show();
 		 }
 		 
 //        HashMap<String, String> map = new HashMap<String, String>();
@@ -325,8 +324,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 				sound_play.setEnabled(true);
 			    send.setEnabled(true);
 				AppUtil.ShowShortToast(getApplicationContext(), "网络错误："+httpCode);
-				if(MyDialog.isShowing()){
-					MyDialog.dismiss();
+				if(loadingdialog.isShowing()){
+					loadingdialog.dismiss();
 				}
 			}
 
@@ -348,16 +347,16 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		 JSONObject json = new JSONObject(result); 
 		 if(json.getInt("code") != 0){
 			 AppUtil.ShowShortToast(getApplicationContext(), "语音上传失败！");
-			  if(MyDialog != null&&MyDialog.isShowing()){
-				  MyDialog.dismiss();
+			  if(loadingdialog != null&&loadingdialog.isShowing()){
+				  loadingdialog.dismiss();
 				}
 			  return ;
 		 }
 		 audio = json.getString("audio");
 	  }catch(Exception e){
 		  e.printStackTrace();
-		  if(MyDialog != null&&MyDialog.isShowing()){
-			  MyDialog.dismiss();
+		  if(loadingdialog != null&&loadingdialog.isShowing()){
+			  loadingdialog.dismiss();
 			}
 		  return ;
 	  } 
@@ -395,8 +394,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			    }catch(Exception e){
 			    	   e.printStackTrace() ;
 			    }
-				if(MyDialog.isShowing()){
-					MyDialog.dismiss();
+				if(loadingdialog.isShowing()){
+					loadingdialog.dismiss();
 				}
 			}
 			
@@ -530,8 +529,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			}else{
 				AppUtil.ShowShortToast(PostSoundActivity.this, "服务器开小差啦~");
 			}
-			if(MyDialog != null&&MyDialog.isShowing()){
-				MyDialog.dismiss();
+			if(loadingdialog != null&&loadingdialog.isShowing()){
+				loadingdialog.dismiss();
 			}
 		}
 	};

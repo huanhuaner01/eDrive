@@ -16,6 +16,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.LoadingDialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -53,6 +54,7 @@ public class VerifyPhoneActivity extends Activity implements
 	private TextView tvProtocal;
 	private TextView title ; //标题
 	private ImageButton back ;
+	private LoadingDialog  dialog ;
 	public static final Intent getIntent(Context context) {
 		Intent intent = new Intent(context, VerifyPhoneActivity.class);
 		return intent;
@@ -80,6 +82,8 @@ public class VerifyPhoneActivity extends Activity implements
 		btnVerify.setOnClickListener(this);
 		this.btnStart.setOnClickListener(this) ;
 		back.setOnClickListener(this) ;
+		
+		dialog = new LoadingDialog(this);
 		// 用于限制验证码的长度
 		editVerifyCode.addTextChangedListener(new TextWatcher() {
 
@@ -131,6 +135,9 @@ public class VerifyPhoneActivity extends Activity implements
 			map.put("phone", num);
             map.put("vcodes", code) ;
             btnStart.setEnabled(false);
+            if(!dialog.isShowing()){
+            	dialog.show();
+            }
 			NetUtil.requestStringData(SRL.Method.METHOD_LOGIN, map,
 					new Response.Listener<String>() {
 
@@ -138,6 +145,7 @@ public class VerifyPhoneActivity extends Activity implements
 						public void onResponse(String result) {
 							Log.i(TAG, result);
 							btnStart.setEnabled(true);
+							dialog.cancel();
 							//判断返回状态
 							// ResponseParser.isReturnSuccessCode(arg0);
 							actionLogin(result);
@@ -147,6 +155,7 @@ public class VerifyPhoneActivity extends Activity implements
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
 							btnStart.setEnabled(true);
+							dialog.cancel();
 							if (arg0.networkResponse == null) {
 								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
 										Toast.LENGTH_SHORT).show();
@@ -228,9 +237,14 @@ public class VerifyPhoneActivity extends Activity implements
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
+		   //显示加载框
+		   if(!dialog.isShowing()){
+			   dialog.show();
+		   }
 		
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
+			
 			NetUtil.requestStringData(SRL.Method.METHOD_GET_VERIFY_CODE, map,
 					new Response.Listener<String>() {
 
@@ -238,11 +252,13 @@ public class VerifyPhoneActivity extends Activity implements
 						public void onResponse(String result) {
 							Log.i(TAG, result);
 							actionVerifyResult(result);
+							dialog.cancel();
 						}
 					}, new Response.ErrorListener() {
 
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
+							dialog.cancel();
 							if (arg0.networkResponse == null) {
 								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
 										Toast.LENGTH_SHORT).show();
@@ -276,7 +292,7 @@ public class VerifyPhoneActivity extends Activity implements
 			}
 		}.start();
 	}
-
+    
 	/**
 	 * 服务器返回值处理
 	 */

@@ -18,6 +18,7 @@ import com.huishen.edrive.util.BitmapUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.util.Uris;
+import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.RoundImageView;
 
 import android.app.Activity;
@@ -53,7 +54,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
     private TextView tel , nickname ,realname ,title; //电话号码
     private LinearLayout photolay ,phonelay, nicknamelay ,realnamelay ,addrlay; //
     
-    private ProgressDialog MyDialog ;
+    private LoadingDialog dialog ;
     
     
 	@Override
@@ -94,12 +95,15 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 		nicknamelay.setOnClickListener(this) ;
 		realnamelay.setOnClickListener(this) ;
 		addrlay.setOnClickListener(this) ;
-		getWebData();
+		dialog = new LoadingDialog(this);
 	}
 	/**
 	 * 获取网络数据
 	 */
 	private void getWebData(){
+		if(!dialog.isShowing()){
+			dialog.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_CENTER_USERINFO, map,
 				new Response.Listener<String>() {
@@ -107,6 +111,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 					@Override
 					public void onResponse(String result) {
 						Log.i(LOG_TAG, result);
+						dialog.dismiss();
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(ModifyUserInfoActivity.this, "服务器繁忙");
 						}else{
@@ -114,7 +119,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 						}
 						
 					}
-				},new DefaultErrorListener(this));
+				},new DefaultErrorListener(this ,dialog));
 	}
 	private void setData(String result){
 		/**
@@ -247,18 +252,16 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 
 	private final void uploadPhoto(File file) {
 		//显示进度条
-		 MyDialog = ProgressDialog.show(this, "提示" , " 上传中... ", true);
-		 MyDialog.show();
-		 if(!MyDialog.isShowing()){
-			 MyDialog.show();
+		 if(!dialog.isShowing()){
+			 dialog.show();
 		 }
 		NetUtil.requestUploadFile(file, SRL.Method.METHOD_UPLOAD_PHOTO,
 				new UploadResponseListener() {
 
 					@Override
 					public void onSuccess(String str) {
-						if(MyDialog.isShowing()){
-							MyDialog.dismiss();
+						if(dialog.isShowing()){
+							dialog.dismiss();
 						}
 						Log.i(LOG_TAG, str);
 						if(str == null || str.equals("")){
@@ -282,8 +285,8 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 					public void onError(int httpCode) {
 						Log.e(LOG_TAG, "upload fail! "+httpCode);
 						AppUtil.ShowShortToast(ModifyUserInfoActivity.this, "上传失败，请重新选择图片");
-						if(MyDialog.isShowing()){
-							MyDialog.dismiss();
+						if(dialog.isShowing()){
+							dialog.dismiss();
 						}
 						getWebData();
 					}

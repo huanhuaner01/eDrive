@@ -33,6 +33,7 @@ import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.widget.LoadingDialog;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -59,8 +60,9 @@ public class CoachTrainFieldActivity extends Activity {
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
 	private LocationMode mCurrentMode;
-	BitmapDescriptor mCurrentMarker;
-
+	private BitmapDescriptor mCurrentMarker;
+    private LoadingDialog dialog ;
+	
 	private MapView mMapView;
 	private BaiduMap mBaiduMap;
 	private boolean isFirstLoc = true;//
@@ -87,6 +89,7 @@ public class CoachTrainFieldActivity extends Activity {
 	private void registView() {
 		this.title = (TextView) this.findViewById(R.id.header_title);
 		this.back = (ImageButton) this.findViewById(R.id.header_back) ;
+		dialog = new LoadingDialog(this);
 	}
 	private void initView() {
         this.title.setText("训练场位置") ;
@@ -114,8 +117,12 @@ public class CoachTrainFieldActivity extends Activity {
 	 * 获取教练训练场数据，并显示到地图上
 	 */
 	private void getWebData(){
+		if(!dialog.isShowing()){
+			dialog.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(CoachDetailActivity.COACH_ID, coachId+"");
+		
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_FIELD, map,
 				new Response.Listener<String>() {
 
@@ -154,6 +161,8 @@ public class CoachTrainFieldActivity extends Activity {
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();
+						}finally{
+							dialog.dismiss();
 						}
 						mBaiduMap.setOnMarkerClickListener(new OnMarkerClickListener(){
 
@@ -190,7 +199,7 @@ public class CoachTrainFieldActivity extends Activity {
 							
 						});
 					}
-				}, new DefaultErrorListener(this));
+				}, new DefaultErrorListener(this ,dialog));
 	
 	
 	}

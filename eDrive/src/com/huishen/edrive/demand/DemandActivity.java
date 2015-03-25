@@ -45,6 +45,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.LoadingDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -95,6 +96,7 @@ public class DemandActivity extends Activity implements OnClickListener{
     private int coachId = -1 ; //目前点击的教练的id 默认-1没有
     private String addr  ; //地址信息
 	
+    private LoadingDialog dialog ; //加载弹出框
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -111,7 +113,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		
 		mMapView = (MapView) findViewById(R.id.bmapView);
 		mBaiduMap = mMapView.getMap();
-	
+		dialog = new LoadingDialog(this);
 		registView();
 		initView() ;
 	}
@@ -155,14 +157,19 @@ public class DemandActivity extends Activity implements OnClickListener{
 	}
 	
 	private void showRoundCoach(double lng ,double lat){
+		if(!dialog.isShowing()){ //显示加载框
+		dialog.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(SRL.Param.PARAM_LONGITUDE, lng+"");
 		map.put(SRL.Param.PARAM_LATITUDE, lat+"");
+		
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_ROUND_COACH, map,
 				new Response.Listener<String>() {
 
 					@Override
 					public void onResponse(String result) {
+						dialog.dismiss();
 						Log.i(TAG, result);
 						try {
 							//返回值：[{"coachId":1,"coachName":"张三","coachScore":2.1,"issue":20,
@@ -229,7 +236,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 							
 						});
 					}
-				}, new DefaultErrorListener(this));
+				}, new DefaultErrorListener(this ,dialog));
 	
 	
 	}

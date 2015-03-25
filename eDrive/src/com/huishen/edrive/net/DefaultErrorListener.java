@@ -4,9 +4,11 @@
 package com.huishen.edrive.net;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import com.huishen.edrive.center.SettingActivity;
 import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.widget.LoadingView;
 
 /**
  * @author zhanghuan
@@ -26,22 +29,38 @@ import com.huishen.edrive.util.AppUtil;
 public final class DefaultErrorListener implements ErrorListener {
 	
 	private Activity context ;
-	private ProgressDialog dialog ;
+	private Dialog dialog ;
 	private View btn ;
-	
-	public DefaultErrorListener(Activity context ,ProgressDialog dialog) {
+	private LoadingView loading ;
+	private SwipeRefreshLayout refresh ;
+	public DefaultErrorListener(Activity context ,Dialog dialog) {
 		
 		super();
 		this.dialog = dialog ;
 		this.context = context ;
 	}
     
-	public DefaultErrorListener(Activity context ,ProgressDialog dialog,View btn) {
+	public DefaultErrorListener(Activity context ,Dialog dialog,View btn) {
 		
 		super();
 		this.btn = btn ;
 		this.dialog = dialog ;
 		this.context = context ;
+	}
+	public DefaultErrorListener(Activity context ,Dialog dialog,LoadingView loading) {
+		
+		super();
+		this.loading =loading ;
+		this.dialog = dialog ;
+		this.context = context ;
+	}
+	public DefaultErrorListener(Activity context ,Dialog dialog,LoadingView loading ,SwipeRefreshLayout refresh) {
+		
+		super();
+		this.loading =loading ;
+		this.dialog = dialog ;
+		this.context = context ;
+		this.refresh = refresh ;
 	}
 	public DefaultErrorListener(Activity context ,View btn) {
 		
@@ -63,11 +82,16 @@ public final class DefaultErrorListener implements ErrorListener {
 		if(btn != null){
 			btn.setEnabled(true);
 		}
+		if(loading != null&&loading.getVisibility()==View.VISIBLE){
+			loading.showFailLoadidng();
+		}
+		if(refresh != null&&refresh.isRefreshing()){
+			refresh.setRefreshing(false);
+		}
 		if (arg0.networkResponse == null) {
 			Toast.makeText(context, "网络连接断开",
 					Toast.LENGTH_SHORT).show();
-			Log.i("DefaultErrorListener", arg0.toString());
-		
+			Log.i("DefaultErrorListener", arg0.toString());		
 			return ;
 		}
 		if(arg0.networkResponse.statusCode == 320){
