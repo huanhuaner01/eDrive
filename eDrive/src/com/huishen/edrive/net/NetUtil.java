@@ -357,4 +357,40 @@ public final class NetUtil {
 			};
 		}.execute();
 	}
+	/**
+	 * 提交下载文件的请求。
+	 * 
+	 * @param absPath
+	 *            资源的绝对路径。
+	 * @param params
+	 *            上传参数
+	 * @param target
+	 *            要保存到的目标文件。
+	 * @param listener
+	 *            进度监听器。
+	 */
+	public static final void requestDownloadFileUsingAbsPath(final String absPath,final Map<String ,String> params,
+			final File target, final OnProgressChangedListener listener) {
+		new SimpleDownloadTask(target, absPath ,params){
+			@Override
+			protected void onPostExecute(Boolean result) {
+				super.onPostExecute(result);
+				if (result){
+					Log.i(LOG_TAG, "File download finished:"+absPath);
+					listener.onTaskFinished();
+				}
+				else{
+					Log.i(LOG_TAG, "File download failed:"+absPath);
+					listener.onTaskFailed();
+				}
+			}
+			@Override
+			protected void onProgressUpdate(Integer... values) {
+				if (values.length != 3){
+					throw new IllegalArgumentException("required param lost.");
+				}
+				listener.onProgressChanged(values[0], values[1], values[2]);
+			};
+		}.execute();
+	}
 }

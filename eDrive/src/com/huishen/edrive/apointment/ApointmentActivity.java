@@ -18,6 +18,7 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.CalendarUtil;
+import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.RoundImageView;
 
 import android.app.Activity;
@@ -47,7 +48,7 @@ public class ApointmentActivity extends Activity {
 	private ArrayList<ArrayList<HashMap<String, String>>> mData = null;
 
 	private MessageDialog dialog;
-
+    private LoadingDialog loading ;
 	private String date;
     
 	private int crrenNum = 0;
@@ -78,6 +79,7 @@ public class ApointmentActivity extends Activity {
 
 	private void init() {
 		this.title.setText("预约管理");
+		loading = new LoadingDialog(this);
 		this.back.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -131,7 +133,9 @@ public class ApointmentActivity extends Activity {
 	}
 
 	private void getData() {
-
+        if(!loading.isShowing()){
+        	loading.show();
+        }
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId", Prefs.readString(this, Const.USER_COACH_ID));
 		map.put("lessonDate", date);
@@ -141,6 +145,7 @@ public class ApointmentActivity extends Activity {
 					@Override
 					public void onResponse(String result) {
 						Log.i(TAG, result);
+						loading.dismiss();
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(ApointmentActivity.this,
 									"服务器繁忙");
@@ -148,7 +153,7 @@ public class ApointmentActivity extends Activity {
 							setData(result);
 						}
 					}
-				}, new DefaultErrorListener(this));
+				}, new DefaultErrorListener(this ,loading));
 	}
 
 	/**

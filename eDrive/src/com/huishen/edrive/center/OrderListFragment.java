@@ -72,7 +72,7 @@ public class OrderListFragment extends TitleListFragment {
 						}
 						
 					}
-				},new DefaultErrorListener(this.getActivity()));
+				},new DefaultErrorListener(this.getActivity() ,null ,loading ,mSwipeLayout));
 //		setList("" , list);
 	}
 
@@ -83,10 +83,15 @@ public class OrderListFragment extends TitleListFragment {
 		 *"coachId":21,"coachName":"雷猴","content":"能45-60天拿证,考试包接包送,",
 		 *"createTime":"2015-03-10","id":494,"schoolName":"蜀娟驾校","status":3}
 		 */
+		
 		listdata.clear();
 		try{
 			JSONArray array = new JSONArray(data);
-			
+			   if(array.length() == 0){
+			    	loading.setVisibility(View.VISIBLE);
+			    	loading.showFailLoadidng("亲，您没有订单哟~");
+			    }else{
+			    	loading.setVisibility(View.GONE);
 		for(int i = 0 ;i< array.length() ;i++){
 			JSONObject json = array.optJSONObject(i);
 			HashMap<String ,Object> map = new HashMap<String ,Object>();
@@ -118,7 +123,7 @@ public class OrderListFragment extends TitleListFragment {
 			map.put("id", json.optInt("id", 1));
 			listdata.add(map);
 		}
-		
+			    }
 		adapter = new OrderListAdapter(getActivity(), listdata, R.layout.item_orderlist, from, to);
 		list.setOnItemClickListener(new OnItemClickListener(){
 
@@ -171,6 +176,8 @@ public class OrderListFragment extends TitleListFragment {
 		list.setAdapter(adapter);
 		}catch(Exception e){
 			e.printStackTrace();
+			loading.setVisibility(View.VISIBLE);
+	    	loading.showFailLoadidng();
 		}finally{
 		if(this.mSwipeLayout.isRefreshing()){
 			mSwipeLayout.setRefreshing(false);

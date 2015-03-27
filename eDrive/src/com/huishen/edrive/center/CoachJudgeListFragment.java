@@ -100,11 +100,14 @@ public class CoachJudgeListFragment extends TitleListFragment {
 				if(result == null || result.equals("")){
 					AppUtil.ShowShortToast(context.getApplicationContext(), "获取数据异常");
 				}else{
+					if(loading.getVisibility() == View.VISIBLE){
+					loading.setVisibility(View.GONE);
+					}
 					setList(result,CoachJudgeListFragment.this.list);
 				}
 			}
 			
-		}, new DefaultErrorListener(this.getActivity())) ;
+		}, new DefaultErrorListener(this.getActivity(),null ,loading ,mSwipeLayout)) ;
 		
 	}
 

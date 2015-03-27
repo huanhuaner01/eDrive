@@ -14,7 +14,6 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.huishen.edrive.demand.DemandActivity;
-import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.OnProgressChangedListener;
 import com.huishen.edrive.net.SRL;
@@ -167,7 +166,9 @@ public class SplashActivity extends Activity {
 		Log.d(LOG_TAG, "apk path:"+file.getAbsolutePath());
 		final ProgressDialog dialog = createDownloadDialog();
 		dialog.show();
-		NetUtil.requestDownloadFileUsingAbsPath(path, file, new OnProgressChangedListener() {
+		HashMap<String ,String> params = new HashMap<String ,String>();
+		params.put("isU", "1");
+		NetUtil.requestDownloadFileUsingAbsPath(path,params , file, new OnProgressChangedListener() {
 			
 			@Override
 			public void onTaskFinished() {

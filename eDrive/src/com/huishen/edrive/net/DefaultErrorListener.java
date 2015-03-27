@@ -5,20 +5,15 @@ package com.huishen.edrive.net;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
-import com.huishen.edrive.center.SettingActivity;
 import com.huishen.edrive.login.VerifyPhoneActivity;
-import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.widget.LoadingView;
 
@@ -27,7 +22,7 @@ import com.huishen.edrive.widget.LoadingView;
  *
  */
 public final class DefaultErrorListener implements ErrorListener {
-	
+	private String TAG = "DefaultErrorListener" ;
 	private Activity context ;
 	private Dialog dialog ;
 	private View btn ;
@@ -68,7 +63,13 @@ public final class DefaultErrorListener implements ErrorListener {
 		this.btn = btn ;
 		this.context = context ;
 	}
-	
+    public DefaultErrorListener(Activity context ,View btn ,Dialog dialog) {
+		
+		super();
+		this.btn = btn ;
+		this.context = context ;
+		this.dialog = dialog ;
+	}
 	public DefaultErrorListener(Activity context) {
 		super();
 		this.context = context ;
@@ -82,14 +83,14 @@ public final class DefaultErrorListener implements ErrorListener {
 		if(btn != null){
 			btn.setEnabled(true);
 		}
-		if(loading != null&&loading.getVisibility()==View.VISIBLE){
+		if(loading != null&&(loading.getVisibility()==View.VISIBLE)){
 			loading.showFailLoadidng();
 		}
 		if(refresh != null&&refresh.isRefreshing()){
 			refresh.setRefreshing(false);
 		}
 		if (arg0.networkResponse == null) {
-			Toast.makeText(context, "网络连接断开",
+			Toast.makeText(context, "网络连接断开,请检查网络",
 					Toast.LENGTH_SHORT).show();
 			Log.i("DefaultErrorListener", arg0.toString());		
 			return ;

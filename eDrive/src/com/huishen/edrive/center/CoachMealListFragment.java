@@ -41,6 +41,7 @@ public class CoachMealListFragment extends TitleListFragment {
 		if(coachId == -1){
 			AppUtil.ShowShortToast(this.context,"获取数据异常") ;
 		}
+		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", coachId+"");
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_MEAL, map, new Response.Listener<String>() {
@@ -54,7 +55,7 @@ public class CoachMealListFragment extends TitleListFragment {
 				}
 			}
 			
-		}, new DefaultErrorListener(this.getActivity())) ;
+		}, new DefaultErrorListener(this.getActivity() ,null ,loading ,mSwipeLayout)) ;
 	}
 
 	@Override
@@ -64,7 +65,9 @@ public class CoachMealListFragment extends TitleListFragment {
 
 	@Override
 	public void setList(String data, ExpandableListView list) {
-		
+		if(loading.getVisibility() == View.VISIBLE){
+			loading.setVisibility(View.GONE);
+		}
 		//设置列表项
 		mGroupData = new ArrayList<HashMap<String ,String>>();
 		mData = new ArrayList<ArrayList<String>>();

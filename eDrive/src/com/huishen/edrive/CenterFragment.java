@@ -73,19 +73,20 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 		share.setOnClickListener(this);
 		setting.setOnClickListener(this);
 		tel.setText(Prefs.readString(getActivity(), Const.USER_PHONE));
-		getWebData();
 	}
 	
 	/**
 	 * 获取网络数据
 	 */
 	private void getWebData(){
+	
 		HashMap<String, String> map = new HashMap<String, String>();
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_CENTER_INFO, map,
 				new Response.Listener<String>() {
                        
 					@Override
 					public void onResponse(String result) {
+						
 						Log.i(TAG, result);
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(getActivity(), "服务器繁忙");
@@ -126,8 +127,9 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 
 	@Override
 	public void onResume() {
-		super.onResume();
 		getWebData();
+		super.onResume();
+		
 	}
 
 	@Override

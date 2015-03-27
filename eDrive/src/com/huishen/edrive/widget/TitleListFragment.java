@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 	public int BACK_ACTIVITY =1 ; 
 	private View RootView ;  //根组件
 	private TextView title ; //标题,位于右边的文字
+	public LoadingView loading ; //加载页面
 	public ListView list ; //列表
 	public ExpandableListView expandablelist ; //扩展列表，默认隐藏
 	private ImageButton back ; //返回键
@@ -83,6 +85,7 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 		this.expandablelist = (ExpandableListView)RootView.findViewById(R.id.titlelist_expandablelist);
 		this.back = (ImageButton)RootView.findViewById(R.id.header_back) ;
 		this.mSwipeLayout = (SwipeRefreshLayout)RootView.findViewById(R.id.swipe_ly);
+		loading = (LoadingView)RootView.findViewById(R.id.titlelist_loading);
 	}
 
 	private void initView() {
@@ -94,7 +97,14 @@ public abstract class TitleListFragment extends Fragment implements SwipeRefresh
 			this.title.setText(titlestr) ;
 		}
 		
-		
+		this.loading.setReLoadingListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				getWebData();
+			}
+			
+		});
 		setBack(back);
 	
 	}

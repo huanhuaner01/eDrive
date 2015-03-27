@@ -69,41 +69,42 @@ public class MsgFragment extends TitleListFragment {
 						}
 						
 					}
-				},new DefaultErrorListener(this.getActivity()));
+				},new DefaultErrorListener(this.getActivity(),null,loading ,mSwipeLayout));
 //		setList("" , list);
 	}
 
 	@Override
 	public void setList(String data, ListView list) {
 		/**
-		 * [{"pcontent":"bbbbbbbbbbbbbbbbbb"},{"pcontent":"aaaaaaaaaaaaaa"}]
+		 * {"total":1,"pageSize":10,"conditions":{"target":"18384296843"},"pageNumber":1,"rows":[{"pcontent":"你好，你已成功绑定了教练，快去预约练车吧"}]}
 		 */
+		if(loading.getVisibility() == View.VISIBLE){
+			loading.setVisibility(View.GONE);
+		}
 		listdata.clear();
 		if(Prefs.readString(getActivity(), Const.NEW_MSG).equals("1")){
 			Prefs.writeString(getActivity(), Const.NEW_MSG,"0");
 		}
 		try{
 			JSONArray json = new JSONArray(data);
-		
+			Log.i(TAG, json.length()+" 行数据");
+		    if(json.length() == 0){
+		    	loading.setVisibility(View.VISIBLE);
+		    	loading.showFailLoadidng("亲，您没有消息哟~~");
+		    }else{
 			for(int i = 0 ;i < json.length() ; i++){
 				HashMap<String ,Object> map = new HashMap<String ,Object>();
 				map.put("content", json.getJSONObject(i).get("pcontent"));
 				listdata.add(map);
 			}
-		    
-//		for(int i = 0 ;i< 10 ;i++){
-//			HashMap map = new HashMap<String ,Object>();
-//			map.put("content", "教练抢到了");
-//			map.put("id", i);
-//			listdata.add(map);
-//		}
+		  
 		
 		adapter = new SimpleAdapter(getActivity(), listdata, R.layout.item_msg_lay, from, to);
 		list.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
+						long arg3) {
 				dialog = new MessageDialog(getActivity(),"消息内容"
 						,listdata.get(position).get("content").toString(),false ,new MassageListener(){
 
@@ -125,8 +126,11 @@ public class MsgFragment extends TitleListFragment {
 			
 		});
 		list.setAdapter(adapter);
+		    }
 		}catch(Exception e){
 			e.printStackTrace();
+			loading.setVisibility(View.VISIBLE);
+	    	loading.showFailLoadidng();
 		}finally{
 		if(this.mSwipeLayout.isRefreshing()){
 			mSwipeLayout.setRefreshing(false);

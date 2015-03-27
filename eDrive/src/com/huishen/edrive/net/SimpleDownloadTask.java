@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Map;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * 执行下载任务。下载成功则结果为true，否则返回false。
@@ -15,20 +17,25 @@ import android.os.AsyncTask;
  * @create 2015-3-6
  */
 public class SimpleDownloadTask extends AsyncTask<Void, Integer, Boolean>{
-	
+	private String LOG_TAG = "SimpleDownloadTask" ;
 	private File file;
 	private String url;
-	
+	private  Map<String, String> maps ;
 	public SimpleDownloadTask(File file, String url) {
 		super();
 		this.file = file;
 		this.url = url;
 	}
-
+	public SimpleDownloadTask(File file, String url , Map<String, String> params) {
+		super();
+		this.file = file;
+		this.url = url;
+		this.maps = params ;
+	}
 	@Override
 	protected final Boolean doInBackground(Void... params) {
 		try {
-			download(file, url);
+			download(file, url ,maps);
 		} catch (Exception e) {
 			onErrorOccured(e);
 			return false;
@@ -36,7 +43,16 @@ public class SimpleDownloadTask extends AsyncTask<Void, Integer, Boolean>{
 		return true;
 	}
 	
-	private void download(File file, String path) throws Exception {
+	private void download(File file, String path , Map<String, String> params) throws Exception {
+		//HackUrl
+		if (params!=null && params.size()>0){
+			StringBuilder sb = new StringBuilder(path).append("?");
+			for (String key : params.keySet()){
+				sb.append(key).append("=").append(params.get(key));
+			}
+			path = sb.toString();
+			Log.d(LOG_TAG, "Final url:"+path);
+		}
 		URL url = new URL(path);	//throws MalformedURLException
 		URLConnection conn = url.openConnection();
 		conn.connect();

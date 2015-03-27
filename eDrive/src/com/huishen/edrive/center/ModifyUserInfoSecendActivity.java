@@ -22,6 +22,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.LoadingDialog;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 	private TextView title;
 	private ImageButton back;
     private LinearLayout nicknamelay ,realnamelay ,addrlay ;
+    private LoadingDialog dialog ;
  // 定位相关
     private LocationClient mLocationClient ;
 	@Override
@@ -66,6 +68,7 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 		this.title = (TextView) findViewById(R.id.header_title);
 		this.back = (ImageButton) findViewById(R.id.header_back);
 		this.commit = (Button) findViewById(R.id.modify_user_secend_commit);
+		dialog = new LoadingDialog(this);
 		switch (tag) {
 //		case 0 :
 //			Log.i(TAG, "tag is "+tag);
@@ -311,6 +314,9 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(key, value);
 		commit.setEnabled(false);
+		if(!dialog.isShowing()){
+			dialog.show();
+		}
 		NetUtil.requestStringData(SRL.Method.METHOD_EDIT_USERINFO, map,
 				new Response.Listener<String>() {
 
@@ -318,6 +324,7 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 					public void onResponse(String result) {
 						commit.setEnabled(true);
 						Log.i(TAG, result);
+						dialog.dismiss();
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(
 									ModifyUserInfoSecendActivity.this, "服务器繁忙");
@@ -326,7 +333,7 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 						}
 
 					}
-				}, new DefaultErrorListener(this ,commit));
+				}, new DefaultErrorListener(this ,commit ,dialog));
 	}
 //	/**
 //	 * 服务器返回值处理
