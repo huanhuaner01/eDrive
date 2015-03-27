@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:gravity="center"
+    android:background="@color/main_bg_color"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <!-- 加载中  -->
+     <LinearLayout
+         android:id="@+id/ly_loading_nor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" 
+        
+        >
+
+        <ProgressBar
+            android:id="@+id/ly_loading_nor_pb"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateDrawable="@anim/loading_frame"  />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/ly_loading"
+            android:textColor="@color/tv_gray_color"
+            android:textSize="@dimen/txtsize_default" 
+            android:padding="@dimen/padding_middle"/>
+    </LinearLayout>
+    
+    <!-- 加载失败 -->
+       <LinearLayout
+        android:id="@+id/ly_loading_fail"  
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/loading_fail"
+            />
+        <TextView
+            android:id="@+id/ly_loading_tv_fail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/ly_loading_fail"
+            android:textColor="@color/tv_gray_color"
+            android:textSize="@dimen/txtsize_default"
+            android:padding="@dimen/padding_middle"
+            
+             />
+        <Button
+            android:id="@+id/ly_loading_reBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/ly_reloading"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txtsize_default"
+            android:padding="@dimen/padding_default"
+            android:background="@drawable/bkg_login_btn_register" />
+    </LinearLayout>
+</FrameLayout>
+</LinearLayout>
