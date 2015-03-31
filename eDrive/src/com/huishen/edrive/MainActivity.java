@@ -352,6 +352,9 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	            if(intent.getStringExtra("msg_type").equals("2002")){
 	            	getWebData();
 	            }
+	            if(intent.getStringExtra("msg_type").equals("2003")&&intent.getStringExtra("unbindStatus").equals("2")){
+	            	getWebData();
+	            }
 			}  
 	          
 	    }; 

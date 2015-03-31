@@ -10,7 +10,6 @@ import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.center.ModifyUserInfoActivity;
 import com.huishen.edrive.center.SettingActivity;
-import com.huishen.edrive.center.ShareActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -26,6 +25,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -70,7 +70,19 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 		msg.setOnClickListener(this);
 		order.setOnClickListener(this);
 		bindCoach.setOnClickListener(this);
-		share.setOnClickListener(this);
+		share.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+						Intent sendIntent = new Intent();
+						sendIntent.setAction(Intent.ACTION_SEND);
+						sendIntent.putExtra(Intent.EXTRA_TEXT, "http://bind.ejxc.com.cn:8083/downloads/stu.html");
+						sendIntent.setType("text/plain");
+						startActivity(Intent.createChooser(sendIntent, "选择接收者"));
+					
+			}
+			
+		});
 		setting.setOnClickListener(this);
 		tel.setText(Prefs.readString(getActivity(), Const.USER_PHONE));
 	}
@@ -116,7 +128,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 			}
             tel.setText(json.optString("phone", "缺失"));
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 
 	}
@@ -157,7 +169,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 			}
 			break ;
 		case R.id.f_center_share:
-			i = new Intent(this.getActivity(),ShareActivity.class);
+	
 			break;
 		case R.id.f_center_setting:
 			i = new Intent(this.getActivity(),SettingActivity.class);

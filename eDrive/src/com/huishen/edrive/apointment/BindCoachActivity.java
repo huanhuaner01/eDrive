@@ -12,11 +12,11 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.LoadingDialog;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,6 +38,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
    private LinearLayout telLay ,stunameLay ,stupassLay ;
    
    private Intent intent ; //填写数据的intent
+   private LoadingDialog dialog ; //加载框
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,6 +61,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 	}
 	private void initView() {
 		title.setText(this.getResources().getString(R.string.bind_coach));
+		dialog = new LoadingDialog(this);
 		tel.setText(Prefs.readString(getApplicationContext(), SRL.Param.PARAM_BIND_COACH_PHONE));
 		stuname.setText(Prefs.readString(getApplicationContext(), SRL.Param.PARAM_BIND_STU_NAME)) ;
 		this.back.setOnClickListener(this) ;
@@ -120,6 +122,9 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 			AppUtil.ShowShortToast(getApplicationContext(), "请填写学员姓名");
 			return ;
 		}
+		if(!dialog.isShowing()){
+		  dialog.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(SRL.Param.PARAM_BIND_COACH_PHONE, tel);
 		
@@ -131,6 +136,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 			@Override
 			public void onResponse(String result) {
 				commit.setEnabled(true);
+				dialog.dismiss();
 				if(result == null || result.equals("")){
 					AppUtil.ShowShortToast(getApplicationContext(), "获取数据异常");
 				}else{
@@ -161,7 +167,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 				}
 			}
 			
-		}, new DefaultErrorListener(this ,commit)) ;
+		}, new DefaultErrorListener(this ,commit ,dialog)) ;
 	}
 	
 }

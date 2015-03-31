@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:padding="@dimen/padding_default"
+    android:background="@drawable/selector_complain"
+    android:gravity="center_vertical"
+    android:id="@+id/item_unbind_lay"
+    >
+    <ImageView
+        android:id="@+id/item_unbind_ic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/selector_radio"
+        android:layout_marginRight="@dimen/margin_default"
+        />
+      <TextView
+          android:id="@+id/item_unbind_tv"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="投诉内容"
+          android:textColor="@color/tv_light_color"
+          android:textSize="@dimen/txtsize_default"
+          />
+</LinearLayout>

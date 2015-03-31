@@ -72,6 +72,14 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 			}
 			intent.putExtra("isbind",msg.extra.get("isBind"));
 		}
+		//解绑消息
+		if(msg.extra.get("msgType").equals("2003")){
+			if(msg.extra.get("unbindStatus").equals("2")){
+				 Prefs.writeString(context, Const.USER_COACH_ID, "");
+				 Log.i(LOG_TAG, "kwyi");
+			}
+			intent.putExtra("unbindStatus", msg.extra.get("unbindStatus"));
+		}
 		Prefs.writeString(context, Const.NEW_MSG, 1+"");
 		context.sendOrderedBroadcast(intent, null);
 	}

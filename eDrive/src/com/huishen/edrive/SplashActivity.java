@@ -22,6 +22,10 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Packages;
 import com.huishen.edrive.util.Prefs;
+import com.tencent.stat.StatConfig;
+import com.tencent.stat.StatReportStrategy;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,21 +55,56 @@ import android.widget.Toast;
  *
  */
 public class SplashActivity extends Activity {
-
+	//统计相关
+	private static StatLogger logger = new StatLogger("MTADemon");
+	
+	//统计结束
+	
+	
 	private static final String LOG_TAG = "SplashActivity";
-
+	
+	
 	private ViewPager viewPager; // 新手引导的pager
 	private ImageView imageView; // 常规启动的Splash
 	private ArrayList<View> dotList; // 新手引导的Pager下的小点
 	private volatile boolean firstuse;
 
 	private SplashHandler handler;
+	
+	static StatLogger getLogger() {
+		return logger;
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
+		StatService.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
+		StatService.onPause(this);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		AppController.getInstance().addActivity(this);
+		
+		
+		//启动腾讯mta
+		android.os.Debug.startMethodTracing("MTA");
+		// 打开debug开关，可查看mta上报日志或错误
+		// 发布时，请务必要删除本行或设为false
+		StatConfig.setDebugEnable(true);
+		initMTAConfig(true);
+		
+		
+		
 		handler = new SplashHandler(new WeakReference<SplashActivity>(this));
 		viewPager = (ViewPager) findViewById(R.id.splash_viewpager);
 		imageView = (ImageView) findViewById(R.id.splash_image);
@@ -83,6 +122,53 @@ public class SplashActivity extends Activity {
 			initViewPager();
 		}
 		checkSoftwareUpdate();
+	}
+	
+	
+	/**
+	 * 根据不同的模式，建议设置的开关状态，可根据实际情况调整，仅供参考。
+	 * 
+	 * @param isDebugMode
+	 *            根据调试或发布条件，配置对应的MTA配置
+	 */
+	private void initMTAConfig(boolean isDebugMode) {
+		logger.d("isDebugMode:" + isDebugMode);
+		if (isDebugMode) { // 调试时建议设置的开关状态
+			// 查看MTA日志及上报数据内容
+			StatConfig.setDebugEnable(true);
+			// 禁用MTA对app未处理异常的捕获，方便开发者调试时，及时获知详细错误信息。
+			// StatConfig.setAutoExceptionCaught(false);
+			// StatConfig.setEnableSmartReporting(false);
+			// Thread.setDefaultUncaughtExceptionHandler(new
+			// UncaughtExceptionHandler() {
+			//
+			// @Override
+			// public void uncaughtException(Thread thread, Throwable ex) {
+			// logger.error("setDefaultUncaughtExceptionHandler");
+			// }
+			// });
+			// 调试时，使用实时发送
+//			StatConfig.setStatSendStrategy(StatReportStrategy.BATCH);
+//			// 是否按顺序上报
+//			StatConfig.setReportEventsByOrder(false);
+//			// 缓存在内存的buffer日志数量,达到这个数量时会被写入db
+//			StatConfig.setNumEventsCachedInMemory(30);
+//			// 缓存在内存的buffer定期写入的周期
+//			StatConfig.setFlushDBSpaceMS(10 * 1000);
+//			// 如果用户退出后台，记得调用以下接口，将buffer写入db
+//			StatService.flushDataToDB(getApplicationContext());
+
+//			 StatConfig.setEnableSmartReporting(false);
+//			 StatConfig.setSendPeriodMinutes(1);
+//			 StatConfig.setStatSendStrategy(StatReportStrategy.PERIOD);
+		} else { // 发布时，建议设置的开关状态，请确保以下开关是否设置合理
+			// 禁止MTA打印日志
+			StatConfig.setDebugEnable(false);
+			// 根据情况，决定是否开启MTA对app未处理异常的捕获
+			StatConfig.setAutoExceptionCaught(true);
+			// 选择默认的上报策略
+			StatConfig.setStatSendStrategy(StatReportStrategy.APP_LAUNCH);
+		}
 	}
 	private void checkSoftwareUpdate(){
 		HashMap<String , String> hashMap = new HashMap<String, String>();

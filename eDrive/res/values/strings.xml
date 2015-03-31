@@ -165,9 +165,13 @@
     <string name="title_activity_opinion">OpinionActivity</string>
     <string name="title_activity_version">VersionActivity</string>
 
-    
-        <!-- 加载相关  -->
+    <!-- 加载相关 -->
     <string name="ly_loading">努力加载中&#8230;</string>
     <string name="ly_loading_fail">加载失败</string>
     <string name="ly_reloading">点击重试</string>
+    
+    <!-- 解绑页面 -->
+    <string name="unbind_note">亲~告诉教练你解绑的理由吧</string>
+    <string name="title_activity_un_bind_coach">UnBindCoachActivity</string>
+
 </resources>

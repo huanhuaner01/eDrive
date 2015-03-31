@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.apointment.UnBindCoachActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -57,7 +58,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
     public static String COACH_ID = "id" ;  //传进来的参数key
     private String coachtel ; //教练的电话号码
     private float score = 0 ; //教练评分
-    private int tag = 0;
+    private int tag = 0; //1是绑定教练界面
     //展示训练场图片的弹出框相关
     private CoachFieldImgDialog imgDialog ;
     private ArrayList<String> imgUrls ;
@@ -194,6 +195,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
 		this.detail.setOnClickListener(this) ;
 		this.judge.setOnClickListener(this) ;
 		this.setmeal.setOnClickListener(this) ;
+	
 		this.call.setOnClickListener(this);
 		if(tag == 1){
 			TextView note = (TextView)findViewById(R.id.header_note);
@@ -208,6 +210,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
 				}
 				
 			});
+			this.call.setText("解除绑定");
 		}
 		
 	}
@@ -244,6 +247,11 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
 			actionMealLay() ;
 			break;
 		case R.id.coach_detail_btn_call:
+			if(tag == 1){
+				Intent ib = new Intent(this ,UnBindCoachActivity.class);
+				ib.putExtra("coachId", coachId);
+				startActivity(ib);
+			}else
 			if(coachtel == null || coachtel.equals("")){
 				AppUtil.ShowShortToast(getApplicationContext(), "对不起，此教练没有电话号码") ;
 			}else{

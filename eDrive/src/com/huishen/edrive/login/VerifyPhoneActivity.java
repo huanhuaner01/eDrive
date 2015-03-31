@@ -8,6 +8,10 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
 import com.huishen.edrive.net.NetUtil;
@@ -55,6 +59,11 @@ public class VerifyPhoneActivity extends Activity implements
 	private TextView title ; //标题
 	private ImageButton back ;
 	private LoadingDialog  dialog ;
+	private String addr; //地址
+	private double lng ,lat ;//经度，纬度
+	 // 定位相关
+    private LocationClient mLocationClient ;
+    
 	public static final Intent getIntent(Context context) {
 		Intent intent = new Intent(context, VerifyPhoneActivity.class);
 		return intent;
@@ -114,7 +123,8 @@ public class VerifyPhoneActivity extends Activity implements
 			sendVerifyRequest();
 			break;
 		case R.id.verify_btn_start:
-			sendVerifyCode();
+			getGps();
+//			sendVerifyCode();
 			break;
 		case R.id.header_back:
 			this.finish();
@@ -134,6 +144,9 @@ public class VerifyPhoneActivity extends Activity implements
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
             map.put("vcodes", code) ;
+            map.put("lng", lng+"");
+            map.put("lat", lat+"");
+            map.put("addr", addr);
             btnStart.setEnabled(false);
             if(!dialog.isShowing()){
             	dialog.show();
@@ -171,7 +184,52 @@ public class VerifyPhoneActivity extends Activity implements
 					});
 		
 	}
+	
+	/**
+	 * 
+	 * 初始化第一个gps按钮的显示，定位
+	 * @param view
+	 */
+	private void getGps(){
+		mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+		Log.i(TAG, "正在定位");
+		BDLocationListener myListener = new BDLocationListener() {
 
+			@Override
+			public void onReceiveLocation(BDLocation location) {
+				//Receive Location 
+				if (location.getLocType() == BDLocation.TypeNetWorkLocation){
+					addr=location.getAddrStr();
+					lng = location.getLongitude();
+					lat = location.getLatitude();
+					mLocationClient.stop() ;
+					sendVerifyCode();
+				}
+			}
+
+			@Override
+			public void onReceivePoi(BDLocation arg0) {
+				
+			}
+
+		};
+//		    mLocationClient = new LocationClient(this.mContext.getApplicationContext());     //声明LocationClient类
+		    mLocationClient.registerLocationListener( myListener );    //注册监听函数
+		    
+		    LocationClientOption option = new LocationClientOption();
+//		    option.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式
+		    option.setCoorType("bd09ll");//返回的定位结果是百度经纬度,默认值gcj02
+		    option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
+		    option.setOpenGps(true);
+//		    option.disableCache(true);//禁止启用缓存定位
+		    option.setAddrType("all");//返回的定位结果包含地址信息
+		    mLocationClient.setLocOption(option); 
+		    if(!mLocationClient.isStarted()){
+		      mLocationClient.start();
+		    }
+		    Log.i(TAG, "应该在定位");
+	}
+	
 	/**
 	 * 登录注册获取数据动作
 	 * @param result

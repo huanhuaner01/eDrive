@@ -67,4 +67,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- 解绑页面 -->
+    <dimen name="unbind_other_height">120dp</dimen>
 </resources>
