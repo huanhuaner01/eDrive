@@ -88,7 +88,12 @@ public class SplashActivity extends Activity {
 		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
 		StatService.onPause(this);
 	}
-	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
