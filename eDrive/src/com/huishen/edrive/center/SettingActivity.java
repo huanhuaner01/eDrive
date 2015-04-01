@@ -21,6 +21,8 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Packages;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -50,6 +52,26 @@ public class SettingActivity extends Activity {
    private Button logout ;
    private ImageButton back ;
    private LinearLayout softup , opinion ,about ;
+   
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
+   
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

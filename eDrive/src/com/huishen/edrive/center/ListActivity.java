@@ -3,8 +3,12 @@ package com.huishen.edrive.center;
 import java.util.Set;
 
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.widget.LoadingDialog;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -29,6 +33,25 @@ public class ListActivity extends FragmentActivity {
     
     private int status = 0 ;
     private int value = 0 ;
+    
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

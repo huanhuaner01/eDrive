@@ -3,18 +3,17 @@ package com.huishen.edrive;
 import java.util.HashMap;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.demand.DemandActivity;
-import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.umeng.UmengServiceProxy;
 import com.huishen.edrive.util.AppController;
-import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,6 +42,7 @@ import android.widget.Toast;
  * 
  */
 public class MainActivity extends FragmentActivity implements OnCheckedChangeListener{
+	StatLogger logger = SplashActivity.getLogger();
 	private String TAG = "MainActivity" ;
 	//UI相关
     private SlidingPaneLayout panelayout ;
@@ -69,9 +69,21 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			getWebData();
 	
 		super.onResume();
+		StatService.onResume(this);
 	}
     
-    private void checkAppoint(){
+    @Override
+	protected void onPause() {
+		super.onPause();
+		StatService.onPause(this);
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	private void checkAppoint(){
     	   FragmentManager fm = this.getSupportFragmentManager();  
            FragmentTransaction tx = fm.beginTransaction(); 
            coachId = Prefs.readString(this, Const.USER_COACH_ID);
@@ -95,7 +107,6 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
         //-------------获取传递过来的数据------------------
           isFirstMain = this.getIntent().getBooleanExtra("main", true);
         //-------------获取传递过来的数据结束！--------------
-        
         registView();
         init() ;
         

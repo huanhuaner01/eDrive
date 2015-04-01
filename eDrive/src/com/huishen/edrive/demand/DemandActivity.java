@@ -15,6 +15,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -30,10 +31,10 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
-import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.model.LatLng;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.login.VerifyPhoneActivity;
@@ -46,6 +47,8 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.LoadingDialog;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -77,7 +80,6 @@ public class DemandActivity extends Activity implements OnClickListener{
 	
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
-	private LocationMode mCurrentMode;
 	BitmapDescriptor mCurrentMarker;
     private ImageButton msg ; //订单消息
     private ImageView msgTag ; //订单状态
@@ -97,6 +99,12 @@ public class DemandActivity extends Activity implements OnClickListener{
     private String addr  ; //地址信息
 	
     private LoadingDialog dialog ; //加载弹出框
+    
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	
+	/***************************腾讯统计基本框架结束*************************************/
+    
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,10 +117,11 @@ public class DemandActivity extends Activity implements OnClickListener{
 		 //这里通过key的方式获取值     
 		/*******************************************/
     	setContentView(R.layout.activity_demand);
-		mCurrentMode = LocationMode.NORMAL;
 		
 		mMapView = (MapView) findViewById(R.id.bmapView);
 		mBaiduMap = mMapView.getMap();
+		
+		
 		dialog = new LoadingDialog(this);
 		registView();
 		initView() ;
@@ -138,15 +147,21 @@ public class DemandActivity extends Activity implements OnClickListener{
 		
 		mBaiduMap.setMyLocationEnabled(true);
 		msgTag.setVisibility(View.GONE);
+		// 开启定位图层
+		mBaiduMap.setMyLocationEnabled(true);
+		// 定位初始化
 		mLocClient = new LocationClient(this);
 		mLocClient.registerLocationListener(myListener);
 		LocationClientOption option = new LocationClientOption();
-		option.setOpenGps(true);//
-		option.setCoorType("bd09ll"); //
-		option.setAddrType("all");//返回的定位结果包含地址信息
+		option.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式
+		option.setOpenGps(true);// 打开gps
+		option.setCoorType("bd09ll"); // 设置坐标类型
 		option.setScanSpan(1000);
+		option.setIsNeedAddress(true);//返回的定位结果包含地址信息
+		option.setNeedDeviceDirect(true);//返回的定位结果包含手机机头的方向
 		mLocClient.setLocOption(option);
 		mLocClient.start();
+		
 		this.switchbtn.setOnClickListener(this) ;
 		this.switchlay.setOnClickListener(this);
 		this.back.setImageResource(R.drawable.ic_main) ;
@@ -157,8 +172,8 @@ public class DemandActivity extends Activity implements OnClickListener{
 	}
 	
 	private void showRoundCoach(double lng ,double lat){
-		if(!dialog.isShowing()){ //显示加载框
-		dialog.show();
+		if(!isFinishing()&&!dialog.isShowing()){ //显示加载框
+		   dialog.show();
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(SRL.Param.PARAM_LONGITUDE, lng+"");
@@ -308,11 +323,6 @@ public class DemandActivity extends Activity implements OnClickListener{
 				
 				mLocClient.stop();
 			}
-
-		@Override
-		public void onReceivePoi(BDLocation arg0) {
-			
-		}
 	}
     
 	private OnInfoWindowClickListener listener =   new OnInfoWindowClickListener()  
@@ -334,12 +344,15 @@ public class DemandActivity extends Activity implements OnClickListener{
 	protected void onPause() {
 		mMapView.onPause();
 		super.onPause();
+		StatService.onPause(this);
+		
 	}
 
 	@Override
 	protected void onResume() {
 		mMapView.onResume();
 		super.onResume();
+		StatService.onResume(this);
 	}
 	
 	/**
@@ -360,6 +373,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		mMapView.onDestroy();
 		mMapView = null;
 		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
 	}
 
 	/**
@@ -395,7 +409,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 	 */
 	private void sendDeviceToken() {
 			HashMap<String, String> map = new HashMap<String, String>();
-			map.put(Const.DEVISE_TOKEN, Prefs.readString(getApplicationContext(), Const.DEVISE_TOKEN));
+			map.put(Const.DEVISE_TOKEN, Prefs.readString(this, Const.DEVISE_TOKEN));
             
 			NetUtil.requestStringData(SRL.Method.METHOD_SEND_DEVICETOKEN, map,
 					new Response.Listener<String>() {
@@ -441,18 +455,76 @@ public class DemandActivity extends Activity implements OnClickListener{
 		 
        if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
-    	   if(!Prefs.checkUser(getApplicationContext())){
+    	   if(!Prefs.checkUser(this)){
             if(backindex == 0){
            	 Toast.makeText(DemandActivity.this,"再按一次退出e驾学车!", Toast.LENGTH_SHORT).show();
            	 backindex++;
            	 return false ;
             }
-            AppController.getInstance().exit(this.getApplicationContext());
+            AppController.getInstance().exit(this);
             return true;
     	   }
         }
         return super.onKeyDown(keyCode, event);
     }
 	
-	
+	 
+	 
+//	 /**
+//	     * 检测离线地图
+//	     */
+//	    private void checkOfflineMap() {
+//	        //获取当前城市的id
+//	        baiduMapProxy = BaiduMapProxy.getInstance();
+//	        cityCode = Integer.parseInt(baiduMapProxy.getCachedLocation().getCityCode());
+//
+//	        mOffline = new MKOfflineMap();
+//
+//	        mOffline.init(new MKOfflineMapListener() {
+//	            @Override
+//	            public void onGetOfflineMapState(int type, int state) {
+//	                switch (type) {
+//	                    case MKOfflineMap.TYPE_DOWNLOAD_UPDATE:
+//	                        // 离线地图下载更新事件类型
+//	                        MKOLUpdateElement update = mOffline.getUpdateInfo(state);
+//	                        Log.e("Map", update.cityName + " ," + update.ratio);
+//	                        progressDialog.setProgress(update.ratio);
+//	                        if(update.ratio == 100) {
+//	                            progressDialog.dismiss();
+//	                            Uis.toastShort(SnapSuccessActivity.this,"离线地图下载完成");
+//	                        }
+//	                        Log.e("Map", "TYPE_DOWNLOAD_UPDATE");
+//	                        break;
+//	                    case MKOfflineMap.TYPE_NEW_OFFLINE:
+//	                        // 有新离线地图安装
+//	                        Log.e("Map", "TYPE_NEW_OFFLINE");
+//	                        break;
+//	                    case MKOfflineMap.TYPE_VER_UPDATE:
+//	                        // 版本更新提示
+//	                        break;
+//	                }
+//
+//	            }
+//	        });
+//
+//	        boolean hasMap = false;
+//
+//	        ArrayList<MKOLUpdateElement> localMapList = mOffline.getAllUpdateInfo();
+//
+//	        if (localMapList != null) {
+//	            for (MKOLUpdateElement mkolUpdateElement : localMapList) {
+//	                if (mkolUpdateElement.cityID == cityCode) {
+//	                    hasMap = true;
+//	                }
+//	            }
+//	        }
+//
+//	        if (!hasMap) {
+//	            alertText.setText("您所在城市为" + baiduMapProxy.getCachedLocation().getCity() + "，推荐您下载离线地图");
+//	            builder.create().show();
+//	        }
+//
+//	       // mOffline.remove(cityCode);
+//
+//	    }
 }

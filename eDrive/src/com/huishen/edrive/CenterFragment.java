@@ -76,7 +76,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 			public void onClick(View arg0) {
 						Intent sendIntent = new Intent();
 						sendIntent.setAction(Intent.ACTION_SEND);
-						sendIntent.putExtra(Intent.EXTRA_TEXT, "http://bind.ejxc.com.cn:8083/downloads/stu.html");
+						sendIntent.putExtra(Intent.EXTRA_TEXT, "推荐一个学车新玩法，下载安装即送学车报名抵用卷1000+200元，点击即可下载http://bind.ejxc.com.cn:8083/downloads/stu.html");
 						sendIntent.setType("text/plain");
 						startActivity(Intent.createChooser(sendIntent, "选择接收者"));
 					

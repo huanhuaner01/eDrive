@@ -35,13 +35,13 @@ public final class DefaultErrorListener implements ErrorListener {
 		this.context = context ;
 	}
     
-	public DefaultErrorListener(Activity context ,Dialog dialog,View btn) {
-		
-		super();
-		this.btn = btn ;
-		this.dialog = dialog ;
-		this.context = context ;
-	}
+//	public DefaultErrorListener(Activity context ,Dialog dialog,View btn) {
+//		
+//		super();
+//		this.btn = btn ;
+//		this.dialog = dialog ;
+//		this.context = context ;
+//	}
 	public DefaultErrorListener(Activity context ,Dialog dialog,LoadingView loading) {
 		
 		super();

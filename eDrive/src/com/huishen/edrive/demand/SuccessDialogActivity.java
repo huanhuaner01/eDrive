@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
@@ -16,6 +17,8 @@ import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.util.SimpleAudioPlayer;
 import com.huishen.edrive.widget.RoundImageView;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -36,11 +39,30 @@ public class SuccessDialogActivity extends Activity {
     private RatingBar rating ;
     private RoundImageView img ;
     private int coachId ;
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_success_dialog);
 		AppController.getInstance().addActivity(this);
+		android.os.Debug.startMethodTracing("MTASuccessDialogActivity");
 		setFinishOnTouchOutside(false);
 		removeLimit();
 		tempOrderId = this.getIntent().getLongExtra("tempOrderId", 0);

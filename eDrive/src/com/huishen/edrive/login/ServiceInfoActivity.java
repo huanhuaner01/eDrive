@@ -1,8 +1,11 @@
 package com.huishen.edrive.login;
 
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.util.AppController;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,11 +22,32 @@ public class ServiceInfoActivity extends Activity {
     private RadioGroup group ;
     private TextView title ;
     private ImageButton back ;
+    
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_service_info);
 		AppController.getInstance().addActivity(this);
+		android.os.Debug.startMethodTracing("MTAServiceInfoActivity");
 		registView();
 		init();
 	}

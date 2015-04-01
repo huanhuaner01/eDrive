@@ -11,8 +11,10 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.R.layout;
 import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
@@ -23,6 +25,8 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.LoadingDialog;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -52,6 +56,27 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
     private LoadingDialog dialog ;
  // 定位相关
     private LocationClient mLocationClient ;
+    
+    
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -170,16 +195,13 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 			@Override
 			public void onReceiveLocation(BDLocation location) {
 				//Receive Location 
+				// map view 销毁后不在处理新接收的位置
+				if (location == null)
+					return;
 				if (location.getLocType() == BDLocation.TypeNetWorkLocation){
 					addr.setText(location.getAddrStr());
 					mLocationClient.stop() ;
 				}
-			}
-
-			@Override
-			public void onReceivePoi(BDLocation arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 
 		};
@@ -187,13 +209,12 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 		    mLocationClient.registerLocationListener( myListener );    //注册监听函数
 		    
 		    LocationClientOption option = new LocationClientOption();
-//		    option.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式
+		    option.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式
 		    option.setCoorType("bd09ll");//返回的定位结果是百度经纬度,默认值gcj02
 		    option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
-		    option.setOpenGps(true);
-		    option.disableCache(true);//禁止启用缓存定位
-		    option.setAddrType("all");//返回的定位结果包含地址信息
-		    mLocationClient.setLocOption(option); 
+		    option.setIsNeedAddress(true);//返回的定位结果包含地址信息
+		    option.setNeedDeviceDirect(true);//返回的定位结果包含手机机头的方向
+		    mLocationClient.setLocOption(option);
 		    if(!mLocationClient.isStarted()){
 		      mLocationClient.start();
 		    }
@@ -323,8 +344,10 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 					@Override
 					public void onResponse(String result) {
 						commit.setEnabled(true);
+						if(dialog.isShowing()){
+							dialog.show();
+						}
 						Log.i(TAG, result);
-						dialog.dismiss();
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(
 									ModifyUserInfoSecendActivity.this, "服务器繁忙");
@@ -333,7 +356,7 @@ public class ModifyUserInfoSecendActivity extends Activity implements OnClickLis
 						}
 
 					}
-				}, new DefaultErrorListener(this ,commit ,dialog));
+				}, new DefaultErrorListener(this ,commit,dialog));
 	}
 //	/**
 //	 * 服务器返回值处理

@@ -16,6 +16,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
@@ -26,6 +27,8 @@ import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.CustomEditText;
 import com.huishen.edrive.widget.LoadingDialog;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -68,16 +71,30 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
     private double lat ;
     private String addr;
     private LoadingDialog loadingDialog ;
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
 	@Override
 	protected void onResume() {
 		super.onResume();
+		StatService.onResume(this);
 	}
-
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_txt);
 		AppController.getInstance().addActivity(this);
+		android.os.Debug.startMethodTracing("MTAPostTxtActivity");
 		//-----------------------获取数据-------------------------------
 		addr = this.getIntent().getStringExtra("addr"); 
 		Log.i(TAG, "frist addr "+addr);
@@ -110,6 +127,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		   addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
 		   Log.i(TAG,Prefs.readString(getApplicationContext(), Const.USER_ADDR));
 		}
+		this.commit.setEnabled(false);
 		//------------------------给gridView添加数据-------------------------------
 		data = new ArrayList<Map<String ,Object>>();
 		String[] from = new String[]{"service"};
@@ -192,11 +210,18 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	 * 获取服务项
 	 */
 	private void getService(){
+		if(!loadingDialog.isShowing()){
+			loadingDialog.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_SERVICE_INFO, map,  new Response.Listener<String>() {
 			
 			@Override
 			public void onResponse(String result) {
+				if(loadingDialog.isShowing()){
+					loadingDialog.dismiss();
+				}
+				commit.setEnabled(true);
 				Log.i(TAG, result);
 				if(result==null ||result.equals("")){
 					AppUtil.ShowShortToast(getApplicationContext(), "亲，没有预设服务哟");
@@ -288,6 +313,10 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			@Override
 			public void onResponse(String result) {
 				    JSONObject json = null ;
+				  //关闭进度条
+					if(loadingDialog.isShowing()){
+						loadingDialog.dismiss();
+					}
 				    commit.setEnabled(true);
 				    try{
 				    	json = new JSONObject(result);
@@ -306,11 +335,6 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 				    	
 				    }catch(Exception e){
 				    	   e.printStackTrace() ;
-				    }finally{
-					//关闭进度条
-					if(loadingDialog.isShowing()){
-						loadingDialog.dismiss();
-					}
 				    }
 			}
 			  
@@ -379,6 +403,9 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		@Override
 		public void onErrorResponse(VolleyError arg0) {
 		    commit.setEnabled(true);
+			if(loadingDialog != null&&loadingDialog.isShowing()){
+				loadingDialog.dismiss();
+			}
 			if (arg0.networkResponse == null) {
 				Toast.makeText(PostTxtActivity.this, "网络连接断开",
 						Toast.LENGTH_SHORT).show();
@@ -398,9 +425,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			}else{
 				AppUtil.ShowShortToast(PostTxtActivity.this, "服务器开小差啦~");
 			}
-			if(loadingDialog != null&&loadingDialog.isShowing()){
-				loadingDialog.dismiss();
-			}
+		
 		}
 	};
 

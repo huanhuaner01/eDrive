@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.R.layout;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
@@ -17,7 +18,10 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.SimpleRecorder;
+import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.RoundImageView;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -55,16 +59,30 @@ public class OrderDetailActivity extends Activity {
 	private LinearLayout vidiolay, coachlay;
 	private ListView list;
 	private ArrayList<HashMap<String, Object>> listdata = new ArrayList<HashMap<String, Object>>();
-	private ProgressDialog MyDialog;
+	private LoadingDialog dialog;
 	private File andioFile;
 	private int commentId;
 
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
 	@Override
 	protected void onResume() {
 		super.onResume();
+		StatService.onResume(this);
 		getWebDate();
 	}
-
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -100,6 +118,7 @@ public class OrderDetailActivity extends Activity {
 
 	private void initView() {
 		title.setText("订单详情");
+		dialog = new LoadingDialog(this);
 		back.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -144,9 +163,8 @@ public class OrderDetailActivity extends Activity {
 	}
 
 	private void cancelOrder() {
-		MyDialog = ProgressDialog.show(this, "提示", " 取消中... ", true);
-		if (!MyDialog.isShowing()) {
-			MyDialog.show();
+		if(!isFinishing()&&!dialog.isShowing()){
+			dialog.show();
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", orderId + "");
@@ -157,6 +175,9 @@ public class OrderDetailActivity extends Activity {
 					@Override
 					public void onResponse(String result) {
 						cancelOrderBtn.setEnabled(true);
+						if(dialog.isShowing()){
+							dialog.dismiss();
+						}
 						Log.i(TAG, result);
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(OrderDetailActivity.this,
@@ -174,12 +195,8 @@ public class OrderDetailActivity extends Activity {
 
 							}
 						}
-						// 关闭进度条
-						if (MyDialog != null && MyDialog.isShowing()) {
-							MyDialog.dismiss();
-						}
 					}
-				}, new DefaultErrorListener(this,MyDialog,cancelOrderBtn));
+				}, new DefaultErrorListener(this,cancelOrderBtn,dialog));
 	}
 
 	/**
@@ -191,13 +208,18 @@ public class OrderDetailActivity extends Activity {
 		if (coachId != -1) {
 			map.put("coachId", coachId + "");
 		}
-
+        if(!isFinishing()&&!dialog.isShowing()){
+        	dialog.show();
+        }
 		NetUtil.requestStringData(SRL.Method.METHOD_GET_ORDER_DETAIL, map,
 				new Response.Listener<String>() {
 
 					@Override
 					public void onResponse(String result) {
 						Log.i(TAG, result);
+						if(dialog.isShowing()){
+							dialog.dismiss();
+						}
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(OrderDetailActivity.this,
 									"服务器繁忙");
@@ -205,7 +227,7 @@ public class OrderDetailActivity extends Activity {
 							setData(result);
 						}
 					}
-				}, new DefaultErrorListener(this));
+				}, new DefaultErrorListener(this,dialog));
 	}
 
 	private void setData(String data) {
@@ -355,8 +377,9 @@ public class OrderDetailActivity extends Activity {
 	 * 下载语音文件
 	 */
 	private void downloadFile(String path) {
-		MyDialog = ProgressDialog.show(this, "提示", " 加载中... ", true);
-		MyDialog.show();
+       if(!isFinishing()&&!dialog.isShowing()){
+    	   dialog.show();
+       }
 		andioFile = new File(Environment.getExternalStorageDirectory()
 				+ "/eDrive/audio/" + "andio.mp3");
 		NetUtil.requestDownloadFile(path, andioFile,
@@ -365,8 +388,8 @@ public class OrderDetailActivity extends Activity {
 					@Override
 					public void onTaskFinished() {
 						// 关闭进度条
-						if (MyDialog.isShowing()) {
-							MyDialog.dismiss();
+						if (dialog.isShowing()) {
+							dialog.dismiss();
 						}
 						AppUtil.ShowShortToast(getApplicationContext(),
 								"语音下载完成");
@@ -376,8 +399,8 @@ public class OrderDetailActivity extends Activity {
 					@Override
 					public void onTaskFailed() {
 						// 关闭进度条
-						if (MyDialog.isShowing()) {
-							MyDialog.dismiss();
+						if (dialog.isShowing()) {
+							dialog.dismiss();
 						}
 						AppUtil.ShowShortToast(getApplicationContext(),
 								"语音下载失败");

@@ -9,11 +9,15 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.widget.LoadingDialog;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -40,6 +44,27 @@ public class ComplainActivity extends Activity {
    private int coachId = -1;
    private String[] comp = new String[]{"抢了单但是不联系","做不到我的学车要求","态度不好,教练是出口成章","教学质量不高，讲的不细，听不懂"};
    private StringBuffer keybuffer ;
+   private LoadingDialog dialog ;
+   
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
+   
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,6 +84,7 @@ public class ComplainActivity extends Activity {
 	private void initView() {
 		keybuffer = new StringBuffer();
 		this.title.setText("投诉");
+		dialog = new LoadingDialog(this);
 		this.back.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -118,6 +144,9 @@ public class ComplainActivity extends Activity {
 			return ;
 		}
 		btn.setEnabled(false);
+		if(!isFinishing()&&!dialog.isShowing()){
+			dialog.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId",coachId+"");
 		map.put("complaintContent", keybuffer.toString()+""+edit.getText().toString());
@@ -127,6 +156,9 @@ public class ComplainActivity extends Activity {
 					@Override
 					public void onResponse(String result) {
 						btn.setEnabled(true);
+						if(dialog.isShowing()){
+							dialog.dismiss();
+						}
 						Log.i(TAG, result);
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(ComplainActivity.this, "服务器繁忙");
@@ -143,7 +175,7 @@ public class ComplainActivity extends Activity {
 							}
 						}
 					}
-	},new DefaultErrorListener(this ,btn));
+	},new DefaultErrorListener(this ,btn ,dialog));
 	}
 	
 }

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -13,6 +14,8 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -31,11 +34,33 @@ public class FailDialogActivity extends Activity {
 	private String TAG = "FailDialogActivity" ;
     private int orderId ; //订单号
     private Button resend ,cancel ;
+    
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fail_dialog);
+		
 		AppController.getInstance().addActivity(this);
+		android.os.Debug.startMethodTracing("MTAFailDialogActivity");
 		setFinishOnTouchOutside(false);
 		//--------------------获取数据-------------------
 		orderId = this.getIntent().getIntExtra(Const.USER_LAST_ORDER_ID, 0);

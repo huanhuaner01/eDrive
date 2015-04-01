@@ -56,7 +56,7 @@ import android.widget.Toast;
  */
 public class SplashActivity extends Activity {
 	//统计相关
-	private static StatLogger logger = new StatLogger("MTADemon");
+	private static StatLogger logger = new StatLogger("MTAeDrive");
 	
 	//统计结束
 	
@@ -71,7 +71,7 @@ public class SplashActivity extends Activity {
 
 	private SplashHandler handler;
 	
-	static StatLogger getLogger() {
+	public static StatLogger getLogger() {
 		return logger;
 	}
 

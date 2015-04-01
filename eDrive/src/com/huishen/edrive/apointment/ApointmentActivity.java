@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
@@ -20,6 +21,8 @@ import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.CalendarUtil;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.RoundImageView;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -52,11 +55,30 @@ public class ApointmentActivity extends Activity {
 	private String date;
     
 	private int crrenNum = 0;
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apointment);
 		AppController.getInstance().addActivity(this);
+		
 		// ---------------------获取数据----------------------
 		date = this.getIntent().getStringExtra("lessonDate");
 
@@ -133,7 +155,7 @@ public class ApointmentActivity extends Activity {
 	}
 
 	private void getData() {
-        if(!loading.isShowing()){
+        if(!isFinishing()&&!loading.isShowing()){
         	loading.show();
         }
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -145,7 +167,9 @@ public class ApointmentActivity extends Activity {
 					@Override
 					public void onResponse(String result) {
 						Log.i(TAG, result);
-						loading.dismiss();
+						if(loading.isShowing()){
+						   loading.dismiss();
+						}
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(ApointmentActivity.this,
 									"服务器繁忙");
@@ -338,6 +362,9 @@ public class ApointmentActivity extends Activity {
 	 * @param lessionDate
 	 */
 	private void sendAppoint(int subject, int lessionDate) {
+		if(!isFinishing() && !loading.isShowing()){
+			loading.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId", Prefs.readString(this, Const.USER_COACH_ID));
 		map.put("lessonDate", date);
@@ -349,6 +376,9 @@ public class ApointmentActivity extends Activity {
 					@Override
 					public void onResponse(String result) {
 						Log.i(TAG, result);
+						if(loading.isShowing()){
+							loading.dismiss();
+						}
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(ApointmentActivity.this,
 									"服务器繁忙");
@@ -370,13 +400,16 @@ public class ApointmentActivity extends Activity {
 							
 						}
 					}
-				}, new DefaultErrorListener(this));
+				}, new DefaultErrorListener(this ,loading));
 	}
 
 	/**
 	 * 取消预约
 	 */
 	private void cancelAppoint(int subject, int lessionDate) {
+		if(!isFinishing() && !loading.isShowing()){
+			loading.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId", Prefs.readString(this, Const.USER_COACH_ID));
 		map.put("lessonDate", date);
@@ -388,6 +421,9 @@ public class ApointmentActivity extends Activity {
 					@Override
 					public void onResponse(String result) {
 						Log.i(TAG, result);
+						if(loading.isShowing()){
+							loading.dismiss();
+						}
 						if (result == null || result.equals("")) {
 							AppUtil.ShowShortToast(ApointmentActivity.this,
 									"服务器繁忙");
@@ -407,7 +443,7 @@ public class ApointmentActivity extends Activity {
 							}
 						}
 					}
-				}, new DefaultErrorListener(this));
+				}, new DefaultErrorListener(this ,loading));
 	}
 
 	/**

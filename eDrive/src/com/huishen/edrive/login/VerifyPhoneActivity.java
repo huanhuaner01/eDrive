@@ -12,8 +12,10 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
@@ -21,6 +23,8 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.LoadingDialog;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.content.Context;
@@ -64,6 +68,24 @@ public class VerifyPhoneActivity extends Activity implements
 	 // 定位相关
     private LocationClient mLocationClient ;
     
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
 	public static final Intent getIntent(Context context) {
 		Intent intent = new Intent(context, VerifyPhoneActivity.class);
 		return intent;
@@ -74,7 +96,7 @@ public class VerifyPhoneActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_verify_phone);
 		AppController.getInstance().addActivity(this);
-		
+		android.os.Debug.startMethodTracing("MTAVerifyPhoneActivity");
 		initWidgets();
 	}
 
@@ -158,7 +180,9 @@ public class VerifyPhoneActivity extends Activity implements
 						public void onResponse(String result) {
 							Log.i(TAG, result);
 							btnStart.setEnabled(true);
-							dialog.cancel();
+							if(dialog.isShowing()){
+							dialog.dismiss();
+							}
 							//判断返回状态
 							// ResponseParser.isReturnSuccessCode(arg0);
 							actionLogin(result);
@@ -168,7 +192,9 @@ public class VerifyPhoneActivity extends Activity implements
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
 							btnStart.setEnabled(true);
-							dialog.cancel();
+							if(dialog.isShowing()){
+							dialog.dismiss();
+							}
 							if (arg0.networkResponse == null) {
 								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
 										Toast.LENGTH_SHORT).show();
@@ -191,7 +217,7 @@ public class VerifyPhoneActivity extends Activity implements
 	 * @param view
 	 */
 	private void getGps(){
-		mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+		mLocationClient = new LocationClient(this);     //声明LocationClient类
 		Log.i(TAG, "正在定位");
 		BDLocationListener myListener = new BDLocationListener() {
 
@@ -207,17 +233,12 @@ public class VerifyPhoneActivity extends Activity implements
 				}
 			}
 
-			@Override
-			public void onReceivePoi(BDLocation arg0) {
-				
-			}
-
 		};
 //		    mLocationClient = new LocationClient(this.mContext.getApplicationContext());     //声明LocationClient类
 		    mLocationClient.registerLocationListener( myListener );    //注册监听函数
 		    
 		    LocationClientOption option = new LocationClientOption();
-//		    option.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式
+		    option.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式
 		    option.setCoorType("bd09ll");//返回的定位结果是百度经纬度,默认值gcj02
 		    option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
 		    option.setOpenGps(true);
@@ -309,14 +330,19 @@ public class VerifyPhoneActivity extends Activity implements
 						@Override
 						public void onResponse(String result) {
 							Log.i(TAG, result);
+							if(dialog.isShowing()){
+							dialog.dismiss();
+							}
 							actionVerifyResult(result);
-							dialog.cancel();
+						
 						}
 					}, new Response.ErrorListener() {
 
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
-							dialog.cancel();
+							if(dialog.isShowing()){
+							    dialog.dismiss();
+							}
 							if (arg0.networkResponse == null) {
 								Toast.makeText(VerifyPhoneActivity.this, "网络连接断开",
 										Toast.LENGTH_SHORT).show();

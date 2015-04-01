@@ -28,12 +28,15 @@ import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.model.LatLng;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.widget.LoadingDialog;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -69,6 +72,11 @@ public class CoachTrainFieldActivity extends Activity {
 	
 	//初始化相关
     private int coachId = -1  ;
+    
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+
+	/***************************腾讯统计基本框架结束*************************************/
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -235,12 +243,14 @@ public class CoachTrainFieldActivity extends Activity {
 	protected void onPause() {
 		mMapView.onPause();
 		super.onPause();
+		StatService.onPause(this);
 	}
 
 	@Override
 	protected void onResume() {
 		mMapView.onResume();
 		super.onResume();
+		StatService.onResume(this);
 	}
 	
 	/**
@@ -261,6 +271,7 @@ public class CoachTrainFieldActivity extends Activity {
 		mMapView.onDestroy();
 		mMapView = null;
 		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
 	}
 
 }

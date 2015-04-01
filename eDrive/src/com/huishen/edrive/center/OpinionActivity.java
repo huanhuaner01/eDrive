@@ -6,11 +6,15 @@ import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
+import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.widget.LoadingDialog;
+import com.tencent.stat.StatService;
+import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -31,6 +35,25 @@ public class OpinionActivity extends Activity {
     private TextView title  ,note;
     private ImageButton back ;
     private EditText edit ;
+    private LoadingDialog dialog ; //加载框
+	/***************************腾讯统计相关框架*************************************/
+	StatLogger logger = SplashActivity.getLogger();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		StatService.onResume(this);
+	}
+	   @Override
+		protected void onPause() {
+			super.onPause();
+			StatService.onPause(this);
+		}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	/***************************腾讯统计基本框架结束*************************************/
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +71,7 @@ public class OpinionActivity extends Activity {
 	}
 	private void initView() {
 		this.title.setText("意见反馈");
+		dialog = new LoadingDialog(this);
 		this.back.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -75,6 +99,9 @@ public class OpinionActivity extends Activity {
 			AppUtil.ShowShortToast(getApplicationContext(), "亲，请填写反馈内容！");
 			return ;
 		}
+		if(!isFinishing()&& !dialog.isShowing()){
+			dialog.show();
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("content",edit.getText().toString());
 		note.setEnabled(false);
@@ -84,6 +111,9 @@ public class OpinionActivity extends Activity {
 					@Override
 					public void onResponse(String result) {
 						note.setEnabled(true);
+						if(dialog.isShowing()){
+							dialog.dismiss();
+						}
 						Log.i(TAG, result);
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(OpinionActivity.this, "服务器繁忙");
@@ -99,7 +129,7 @@ public class OpinionActivity extends Activity {
 							}
 						}
 					}
-				},new DefaultErrorListener(this,note));
+				},new DefaultErrorListener(this,note,dialog));
 		
 	}
 }

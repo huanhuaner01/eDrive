@@ -74,18 +74,17 @@
         <!-- 注册订单失败的提醒闹钟 -->
         <receiver android:name=".demand.OrderFailBroadcastReceiver" >
         </receiver>
-        <!-- 测试服
+        <!-- 测试服 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="TuZ4A7AwHvj7BW6fDqhE1WrR" />
-   -->
+   
         <!--
-                               正式服  -->
+                               正式服 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="A6XzmdYODPCiHNTSQhcBnkQa" />
-        
-        
+            android:value="A6XzmdYODPCiHNTSQhcBnkQa" />  
+         --> 
         <!-- 腾讯mta -->
         <meta-data android:name="TA_APPKEY" android:value="Aqc1104418334"/> 　　
         <meta-data android:name="InstallChannel" android:value="应用宝"/>
