@@ -85,6 +85,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		}
 	@Override
 	protected void onDestroy() {
+		mSearch.destroy();
 		super.onDestroy();
 		android.os.Debug.stopMethodTracing();
 	}
@@ -122,6 +123,10 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	
 		this.title.setText(this.getResources().getString(R.string.post_title));
 		loadingDialog = new LoadingDialog(this);
+		 // 搜索相关
+	    mSearch = GeoCoder.newInstance();
+		mSearch.setOnGetGeoCodeResultListener(this);
+		
 		if(!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("")&&!Prefs.readString(getApplicationContext(), Const.USER_ADDR).equals("null")){
 			
 		   addr = Prefs.readString(getApplicationContext(), Const.USER_ADDR);
@@ -186,9 +191,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			Log.i(TAG, addr);
 			addrBtn.setText(addr);
 			// 初始化搜索模块，注册事件监听
-		    // 搜索相关
-		    mSearch = GeoCoder.newInstance();
-			mSearch.setOnGetGeoCodeResultListener(this);
+		   
 			GeoSearch(addr);
 		}
 		this.commit.setOnClickListener(new OnClickListener(){
@@ -263,6 +266,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	 **/
 	@Override
 	public void onGetGeoCodeResult(GeoCodeResult result) {
+		Log.i(TAG, "心情不好啦");
 		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 			Toast.makeText(this, "抱歉，未能找到结果", Toast.LENGTH_LONG)
 					.show();

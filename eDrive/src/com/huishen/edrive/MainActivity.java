@@ -3,6 +3,11 @@ package com.huishen.edrive;
 import java.util.HashMap;
 
 import com.android.volley.Response;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
@@ -41,7 +46,7 @@ import android.widget.Toast;
  * @author zhanghuan
  * 
  */
-public class MainActivity extends FragmentActivity implements OnCheckedChangeListener{
+public class MainActivity extends FragmentActivity implements OnCheckedChangeListener, OnGetGeoCoderResultListener{
 	StatLogger logger = SplashActivity.getLogger();
 	private String TAG = "MainActivity" ;
 	//UI相关
@@ -109,45 +114,8 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
         //-------------获取传递过来的数据结束！--------------
         registView();
         init() ;
-        
-//        HashMap<String, String> map = new HashMap<String, String>();
-//        map.put(SRL.PARAM_USERNAME, "sl");
-//        map.put(SRL.PARAM_PASSWORD, "ass");
-//        NetUtil.requestStringData(SRL.METHOD_LOGIN, map, new Response.Listener<String>() {
-//
-//			@Override
-//			public void onResponse(String arg0) {
-//				ResponseParser.isReturnSuccessCode(arg0);
-//			}
-//		}, new Response.ErrorListener() {
-//
-//			@Override
-//			public void onErrorResponse(VolleyError arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
-//        NetUtil.requestUploadFile(new File("as"), SRL.METHOD_UPLOAD_CERTIFICATES,new UploadResponseListener(){
-//
-//			@Override
-//			public void onSuccess(String str) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onError(int httpCode) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onProgressChanged(int hasFinished) {
-//				// TODO Auto-generated method stub
-//				
-//			}});
     }
-    
+	
 	/**
 	 * 获取数据
 	 */
@@ -363,7 +331,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	            if(intent.getStringExtra("msg_type").equals("2002")){
 	            	getWebData();
 	            }
-	            if(intent.getStringExtra("msg_type").equals("2003")&&intent.getStringExtra("unbindStatus").equals("2")){
+	            if(intent.getStringExtra("msg_type").equals("2003")){
 	            	getWebData();
 	            }
 			}  
@@ -375,5 +343,16 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	        myIntentFilter.addAction("com.huishen.edrive.MSG");  
 	        //注册广播 
 	        registerReceiver(mBroadcastReceiver, myIntentFilter);  
-	    } 
+	    }
+
+		@Override
+		public void onGetGeoCodeResult(GeoCodeResult arg0) {
+			Log.i(TAG, "地理编码："+arg0.getAddress());
+		}
+
+		@Override
+		public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
+			// TODO Auto-generated method stub
+			
+		} 
 }

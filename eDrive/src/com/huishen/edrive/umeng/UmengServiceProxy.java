@@ -103,7 +103,7 @@ public final class UmengServiceProxy {
 
 						@Override
 						public void onResponse(String result) {
-							Log.i(LOG_TAG, result);
+							Log.i(LOG_TAG, "发送手机设备号："+result);
 							
 						}
 					});

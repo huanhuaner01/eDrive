@@ -38,14 +38,13 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
     private String address  ;
     private double  longitude ; //经度
     private double latitude ; //纬度
- // 搜索相关
+    // 搜索相关
     private GeoCoder mSearch ; // 搜索模块，也可去掉地图模块独立使用
     
-    public PostAddrDialog(Context context , PostDialogInterface listener) {
+    public PostAddrDialog(Context context , PostDialogInterface listener ) {
         super(context,R.style.dataselectstyle);
         this.context = context;
         this.listener = listener ;
-        mLocationClient = new LocationClient(context.getApplicationContext());     //声明LocationClient类
     }
     
     
@@ -53,7 +52,6 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
         super(context, theme);
         this.context = context;
         this.listener = listener ;
-        mLocationClient = new LocationClient(context.getApplicationContext());     //声明LocationClient类
     }
     
     @Override
@@ -61,6 +59,10 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.dialog_post_lay);
+        mLocationClient = new LocationClient(context);     //声明LocationClient类
+   	 // 搜索相关
+	    mSearch = GeoCoder.newInstance();
+		mSearch.setOnGetGeoCodeResultListener(this);
         registView();
         init() ;
     }
@@ -80,18 +82,13 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
      * 初始化
      */
     private void init(){
-    	this.addrBtn.setOnClickListener(this) ;
-    	this.commit.setOnClickListener(this) ;
     	//
 		// 初始化搜索模块，注册事件监听
-		mSearch = GeoCoder.newInstance();
-		mSearch.setOnGetGeoCodeResultListener(this);
-//		setCancelable(false);//取消back键的监听
-      //定义Maker坐标点  
-//      LatLng point = new LatLng(30.575505, 104.06584); 
+	
+    	this.addrBtn.setOnClickListener(this) ;
+    	this.commit.setOnClickListener(this) ;
      
     }
-
 	@Override
 	public void onClick(View v) {
 		Log.i(TAG,v.getId()+"") ;
@@ -103,7 +100,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 			if(addredit.getText().toString().equals("")){
 				Toast.makeText(context, "地址栏不能为空", Toast.LENGTH_SHORT).show() ;
 			}else{
-			    GeoSearch(addredit.getText().toString());
+				GeoSearch();
 			}
 			break ;
 		}
@@ -112,14 +109,22 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 	/**
 	 * 
 	 */
-	private void GeoSearch(String addr){
-		   
+	private void GeoSearch(){
 	     // Geo搜索
-		            Log.i(TAG, "GeoSearch");
+		            Log.i(TAG, "GeoSearch你倒是给我搜呀");
 	     			mSearch.geocode(new GeoCodeOption().city("")
 	     					.address(this.addredit.getText().toString()));
+//	     		
 	}
 	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		mSearch.destroy();
+		super.onStop();
+	}
+
+
 	/**
 	 * 
 	 * 初始化第一个gps按钮的显示，定位
@@ -140,7 +145,7 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 					listener.result(0,address, longitude, latitude);
 					addredit.setText(address);
 					Toast.makeText(context, location.getAddrStr(), Toast.LENGTH_SHORT).show();
-			//		mLocationClient.stop() ;
+					mLocationClient.stop() ;
 					dismiss();
 				}
 			}
@@ -167,17 +172,19 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 	@Override
 	public void dismiss() {
 		if(mLocationClient.isStarted()){
-		mLocationClient.stop();
+		   mLocationClient.stop();
 		}
+		mSearch.destroy();
 		super.dismiss();
 	}
 
-
+	
 	/**
 	 * 寻找地理位置相关
 	 **/
 	@Override
 	public void onGetGeoCodeResult(GeoCodeResult result) {
+		Log.i(TAG, "为何如此对我！");
 		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 			Toast.makeText(context, "抱歉，未能找到结果", Toast.LENGTH_LONG)
 					.show();
@@ -185,16 +192,16 @@ public class PostAddrDialog extends Dialog implements View.OnClickListener
 		}
 		else{
 			listener.result(1,result.getAddress(), result.getLocation().longitude, result.getLocation().latitude);
-			
-		    this.dismiss() ;
+			Log.i(TAG, "获取的数据："+result.getAddress());
+//		    this.dismiss() ;
 		}
 		
 	}
 
-
 	@Override
 	public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
-	
+		// TODO Auto-generated method stub
+		
 	}
 	
 

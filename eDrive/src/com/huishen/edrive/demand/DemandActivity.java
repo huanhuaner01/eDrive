@@ -7,10 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageLoader.ImageContainer;
-import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -31,6 +27,9 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
+import com.baidu.mapapi.map.offline.MKOLUpdateElement;
+import com.baidu.mapapi.map.offline.MKOfflineMap;
+import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.model.LatLng;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
@@ -51,6 +50,7 @@ import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -86,7 +86,7 @@ public class DemandActivity extends Activity implements OnClickListener{
     
 	private MapView mMapView;
 	private BaiduMap mBaiduMap;
-    
+	private MKOfflineMap mOffline = null; //离线地图
 	//UI相关
 	private ImageButton back ; //标题栏返回键
 	private ImageButton switchbtn ;
@@ -99,6 +99,7 @@ public class DemandActivity extends Activity implements OnClickListener{
     private String addr  ; //地址信息
 	
     private LoadingDialog dialog ; //加载弹出框
+    private ProgressDialog progressDialog ;
     
 	/***************************腾讯统计相关框架*************************************/
 	StatLogger logger = SplashActivity.getLogger();
@@ -184,7 +185,9 @@ public class DemandActivity extends Activity implements OnClickListener{
 
 					@Override
 					public void onResponse(String result) {
+						if(dialog.isShowing()){
 						dialog.dismiss();
+						}
 						Log.i(TAG, result);
 						try {
 							//返回值：[{"coachId":1,"coachName":"张三","coachScore":2.1,"issue":20,
@@ -368,7 +371,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		// 
 		mLocClient.stop();
 		//
-		clearOverlay(null);
+//		clearOverlay(null);
 		mBaiduMap.setMyLocationEnabled(false);
 		mMapView.onDestroy();
 		mMapView = null;
@@ -404,24 +407,24 @@ public class DemandActivity extends Activity implements OnClickListener{
 			break ;
 		}
 	}
-	/**
-	 * 发送友盟手机设备号给服务器。
-	 */
-	private void sendDeviceToken() {
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put(Const.DEVISE_TOKEN, Prefs.readString(this, Const.DEVISE_TOKEN));
-            
-			NetUtil.requestStringData(SRL.Method.METHOD_SEND_DEVICETOKEN, map,
-					new Response.Listener<String>() {
-
-						@Override
-						public void onResponse(String result) {
-							Log.i(TAG,  result);
-							
-						}
-					},new DefaultErrorListener(this));
-		
-	}
+//	/**
+//	 * 发送友盟手机设备号给服务器。
+//	 */
+//	private void sendDeviceToken() {
+//			HashMap<String, String> map = new HashMap<String, String>();
+//			map.put(Const.DEVISE_TOKEN, Prefs.readString(this, Const.DEVISE_TOKEN));
+//            
+//			NetUtil.requestStringData(SRL.Method.METHOD_SEND_DEVICETOKEN, map,
+//					new Response.Listener<String>() {
+//
+//						@Override
+//						public void onResponse(String result) {
+//							Log.i(TAG,  result);
+//							
+//						}
+//					},new DefaultErrorListener(this));
+//		
+//	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i(TAG, "requestCode:"+requestCode+" resultCode:"+resultCode);
@@ -429,7 +432,8 @@ public class DemandActivity extends Activity implements OnClickListener{
 			//如果登录成功
 			if(isFirstMain){
 				UmengServiceProxy.startPushService(this);
-				sendDeviceToken();
+				
+//				sendDeviceToken();
 			this.back.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -473,13 +477,12 @@ public class DemandActivity extends Activity implements OnClickListener{
 //	 /**
 //	     * 检测离线地图
 //	     */
-//	    private void checkOfflineMap() {
-//	        //获取当前城市的id
-//	        baiduMapProxy = BaiduMapProxy.getInstance();
-//	        cityCode = Integer.parseInt(baiduMapProxy.getCachedLocation().getCityCode());
+//	    private void checkOfflineMap(int cityCode) {
 //
 //	        mOffline = new MKOfflineMap();
-//
+////			int cityid = cityCode;
+////			mOffline.start(cityid);
+//			
 //	        mOffline.init(new MKOfflineMapListener() {
 //	            @Override
 //	            public void onGetOfflineMapState(int type, int state) {
@@ -491,7 +494,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 //	                        progressDialog.setProgress(update.ratio);
 //	                        if(update.ratio == 100) {
 //	                            progressDialog.dismiss();
-//	                            Uis.toastShort(SnapSuccessActivity.this,"离线地图下载完成");
+//	                            AppUtil.ShowShortToast(SnapSuccessActivity.this,"离线地图下载完成");
 //	                        }
 //	                        Log.e("Map", "TYPE_DOWNLOAD_UPDATE");
 //	                        break;
