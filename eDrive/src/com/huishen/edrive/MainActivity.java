@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     @Override
 	protected void onResume() {
 		coachId = Prefs.readString(this, Const.USER_COACH_ID);
-		Log.i(TAG, "newmsg:"+Prefs.readString(this, Const.NEW_MSG));
+		Log.i(TAG, "MainActivity OnResume()");
 		
 		if(Prefs.readString(this, Const.NEW_MSG).equals("1")){
 			msgTag.setVisibility(View.VISIBLE);
@@ -79,12 +79,14 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     
     @Override
 	protected void onPause() {
+    	Log.i(TAG, "MainActivity onPause()");
 		super.onPause();
 		StatService.onPause(this);
 	}
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+		Log.i(TAG, "MainActivity onDestroy()");
 		super.onDestroy();
 		android.os.Debug.stopMethodTracing();
 	}

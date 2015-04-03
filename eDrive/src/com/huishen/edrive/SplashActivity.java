@@ -102,7 +102,7 @@ public class SplashActivity extends Activity {
 		
 		
 		//启动腾讯mta
-		android.os.Debug.startMethodTracing("MTA");
+//		android.os.Debug.startMethodTracing("MTA");
 		// 打开debug开关，可查看mta上报日志或错误
 		// 发布时，请务必要删除本行或设为false
 		StatConfig.setDebugEnable(true);
@@ -477,7 +477,11 @@ public class SplashActivity extends Activity {
 		for (int i = 0; i < pagenum; i++) {
 			ImageView img = new ImageView(this);
 			img.setLayoutParams(params);
+			if(i==(pagenum-1)){
+				img.setImageResource(picid.getResourceId(i, -1));
+			}else{
 			img.setBackgroundResource(picid.getResourceId(i, -1));
+			}
 			images.add(img);
 		}
 		picid.recycle();

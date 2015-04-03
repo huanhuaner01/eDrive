@@ -95,7 +95,6 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_txt);
 		AppController.getInstance().addActivity(this);
-		android.os.Debug.startMethodTracing("MTAPostTxtActivity");
 		//-----------------------获取数据-------------------------------
 		addr = this.getIntent().getStringExtra("addr"); 
 		Log.i(TAG, "frist addr "+addr);
@@ -266,7 +265,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 	 **/
 	@Override
 	public void onGetGeoCodeResult(GeoCodeResult result) {
-		Log.i(TAG, "心情不好啦");
+		Log.i(TAG, "第一次获取地理位置信息");
 		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 			Toast.makeText(this, "抱歉，未能找到结果", Toast.LENGTH_LONG)
 					.show();
@@ -275,6 +274,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		else{
 			lat = result.getLocation().latitude ;
 			lng = result.getLocation().longitude ;
+			mSearch.destroy();
 		}
 		
 	}

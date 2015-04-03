@@ -47,7 +47,6 @@ public class ServiceInfoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_service_info);
 		AppController.getInstance().addActivity(this);
-		android.os.Debug.startMethodTracing("MTAServiceInfoActivity");
 		registView();
 		init();
 	}

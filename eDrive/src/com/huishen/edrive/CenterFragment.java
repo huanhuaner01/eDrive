@@ -116,6 +116,9 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 		 * "phone":"18384296843","picid":1,"stuName":"18384296843","stuid":34}
 		 */
 		try{
+			if(this.getActivity().isFinishing()){
+				return ;
+			}
 			JSONObject json = new JSONObject(result);
 			if(!json.optString("path", "").equals("")){
 		       NetUtil.requestLoadImage(photoimg, json.optString("path", ""), R.drawable.photo_coach_defualt);
@@ -168,9 +171,6 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 				i = new Intent(this.getActivity(),BindCoachActivity.class);
 			}
 			break ;
-		case R.id.f_center_share:
-	
-			break;
 		case R.id.f_center_setting:
 			i = new Intent(this.getActivity(),SettingActivity.class);
 			break;

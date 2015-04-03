@@ -117,8 +117,7 @@ public class DemandActivity extends Activity implements OnClickListener{
         
 		 //这里通过key的方式获取值     
 		/*******************************************/
-    	setContentView(R.layout.activity_demand);
-		
+    	setContentView(R.layout.activity_demand);	
 		mMapView = (MapView) findViewById(R.id.bmapView);
 		mBaiduMap = mMapView.getMap();
 		
@@ -321,10 +320,11 @@ public class DemandActivity extends Activity implements OnClickListener{
 				mBaiduMap.animateMapStatus(u);
 				showRoundCoach(location.getLongitude() ,location.getLatitude());
 				addr = location.getAddrStr() ;
+				mLocClient.stop();
 				Log.w(TAG, "demand addr is "+addr);
 			}
 				
-				mLocClient.stop();
+				
 			}
 	}
     

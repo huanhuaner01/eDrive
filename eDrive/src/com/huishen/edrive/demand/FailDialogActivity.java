@@ -60,7 +60,6 @@ public class FailDialogActivity extends Activity {
 		setContentView(R.layout.activity_fail_dialog);
 		
 		AppController.getInstance().addActivity(this);
-		android.os.Debug.startMethodTracing("MTAFailDialogActivity");
 		setFinishOnTouchOutside(false);
 		//--------------------获取数据-------------------
 		orderId = this.getIntent().getIntExtra(Const.USER_LAST_ORDER_ID, 0);

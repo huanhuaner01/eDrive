@@ -62,7 +62,6 @@ public class SuccessDialogActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_success_dialog);
 		AppController.getInstance().addActivity(this);
-		android.os.Debug.startMethodTracing("MTASuccessDialogActivity");
 		setFinishOnTouchOutside(false);
 		removeLimit();
 		tempOrderId = this.getIntent().getLongExtra("tempOrderId", 0);

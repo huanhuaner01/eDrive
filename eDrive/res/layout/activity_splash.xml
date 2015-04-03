@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f4f7"
     tools:context="${relativePackage}.${activityClass}" >
 
     <android.support.v4.view.ViewPager
@@ -39,7 +40,7 @@
         android:id="@+id/splash_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/pic_splash_4"
+        android:src="@drawable/pic_splash_4"
         android:contentDescription="@null" />
 
 </RelativeLayout>

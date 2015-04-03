@@ -96,7 +96,6 @@ public class VerifyPhoneActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_verify_phone);
 		AppController.getInstance().addActivity(this);
-		android.os.Debug.startMethodTracing("MTAVerifyPhoneActivity");
 		initWidgets();
 	}
 

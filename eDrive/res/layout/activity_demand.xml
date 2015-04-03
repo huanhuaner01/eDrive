@@ -5,13 +5,12 @@
     android:orientation="vertical" 
     >
   <include layout="@layout/header_main" />  
-      <com.baidu.mapapi.map.MapView
+       <com.baidu.mapapi.map.MapView
         android:id="@+id/bmapView"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:clickable="true"
         android:layout_weight="1"
-         />
+        android:clickable="true" />
           <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divide_line"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.huishen.edrive"
-    android:versionCode="16"
+    android:versionCode="18"
     android:versionName="1.1.0" >
 
     <uses-sdk
@@ -74,11 +74,11 @@
         <!-- 注册订单失败的提醒闹钟 -->
         <receiver android:name=".demand.OrderFailBroadcastReceiver" >
         </receiver>
-        <!-- 测试服    -->
+        <!-- 测试服   -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="TuZ4A7AwHvj7BW6fDqhE1WrR" />
- 
+          
         <!--
                                正式服 
         <meta-data

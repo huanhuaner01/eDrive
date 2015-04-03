@@ -12,9 +12,16 @@
 
 # Add any project specific keep options here:
 
--libraryjars libs/BaiduLBS_Android.jar
+-libraryjars libs/baidumapapi_v3_3_0.jar
+-libraryjars libs/locSDK_5.0.jar
+-libraryjars libs/mid-sdk-2.10.jar
+-libraryjars libs/mta-sdk-2.0.2.jar
+
 -keep class com.baidu.** { *; }
+-keep class com.baidu.mapapi.**{*;}
 -keep class vi.com.gdi.bgl.android.**{*;}
+-keep class com.tencent.** { *; }
+
 -keep,allowshrinking class org.android.agoo.service.* {
     public <fields>;
     public <methods>;

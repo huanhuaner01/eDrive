@@ -88,6 +88,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		}
 	@Override
 	protected void onDestroy() {
+		mSearch.destroy();
 		super.onDestroy();
 		android.os.Debug.stopMethodTracing();
 	}
@@ -97,7 +98,6 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_sound);
 		AppController.getInstance().addActivity(this);
-		android.os.Debug.startMethodTracing("MTAPostSoundActivity");
 		//-----------------------获取数据-------------------------------
 		addr = this.getIntent().getStringExtra("addr"); 
 		//-----------------------获取数据结束！---------------------------
@@ -304,9 +304,9 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			AppUtil.ShowShortToast(this, "地址信息不能为空") ;
 			return ;
 		}
-		if(keybuffer.equals("") && (audiofile.length()<=0))
+		if((audiofile ==null) || (audiofile.length()<=0))
 		{
-			AppUtil.ShowShortToast(this, "亲，什么都没有，教练不要哟") ;
+			AppUtil.ShowShortToast(this, "亲，大胆说出你的需求吧！") ;
 			return ;
 		}
 		Log.i(TAG, "进入上传语音的方法！") ;
@@ -402,7 +402,8 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			     		Prefs.writeString(getApplicationContext(), Const.ORDER_STATUS,"1") ;
 			    		Prefs.writeString(getApplicationContext(), Const.USER_LAST_ORDER_ID,json.getInt(Const.USER_LAST_ORDER_ID)+"") ;
 			    		AppController.getInstance().setAlarm(PostSoundActivity.this,json.getInt(Const.USER_LAST_ORDER_ID));
-			    		finish();
+			    		finish(); 
+			    		return ;
 			    	}if(json.getInt("code") == 2){//2:此区域附近无教练;;
 			    		AppUtil.ShowShortToast(getApplicationContext(), "此区域附近无教练") ;
 			    	}else{
@@ -480,6 +481,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		else{
 			lat = result.getLocation().latitude ;
 			lng = result.getLocation().longitude ;
+			mSearch.destroy();
 		}
 		
 	}
@@ -528,6 +530,9 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		public void onErrorResponse(VolleyError arg0) {
 			sound_play.setEnabled(true);
 		    send.setEnabled(true);
+			if(loadingdialog != null&&loadingdialog.isShowing()){
+				loadingdialog.dismiss();
+			}
 			if (arg0.networkResponse == null) {
 				Toast.makeText(PostSoundActivity.this, "网络连接断开",
 						Toast.LENGTH_SHORT).show();
@@ -546,9 +551,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 			}else{
 				AppUtil.ShowShortToast(PostSoundActivity.this, "服务器开小差啦~");
 			}
-			if(loadingdialog != null&&loadingdialog.isShowing()){
-				loadingdialog.dismiss();
-			}
+		
 		}
 	};
 }
