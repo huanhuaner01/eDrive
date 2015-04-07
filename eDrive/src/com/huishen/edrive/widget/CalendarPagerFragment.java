@@ -10,6 +10,7 @@ import java.util.List;
 import com.huishen.edrive.ApointmentFragment;
 import com.huishen.edrive.R;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,46 +32,47 @@ public class CalendarPagerFragment extends Fragment {
 	private Date beginDate, endDate; // 日历控件的可选区间
 	private int[] colors ; //可选区域的颜色值
 	private boolean isSection = false;
-    private CalendarResult fragment ;
+    private CalendarResult listener ;
 	
-//	public static CalendarPagerFragment create(int monthIndex) {
-//		CalendarPagerFragment fragment = new CalendarPagerFragment();
-//		Bundle args = new Bundle();
-//		args.putInt(INDEX, monthIndex);
-//		fragment.setArguments(args);
-//		return fragment;
-//	}
+	public static CalendarPagerFragment create(int monthIndex) {
+		CalendarPagerFragment fragment = new CalendarPagerFragment();
+		Bundle args = new Bundle();
+		args.putInt(INDEX, monthIndex);
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+	public static CalendarPagerFragment create(int monthIndex,
+			String beginDate, String endDate ,int[] colors) {
+		CalendarPagerFragment fragment = new CalendarPagerFragment();
+		Bundle args = new Bundle();
+		args.putInt(INDEX, monthIndex);
+		args.putString(DATE_BEGIN, beginDate);
+		args.putString(DATE_END, endDate);
+		args.putIntArray(COLORS, colors) ;
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+//	public CalendarPagerFragment(CalendarResult fragment, int position,
+//			String beginDate, String endDate, int[] colors) {
+//		mMonthIndex = position;
+//		this.listener = fragment ;
+//		if (beginDate == null
+//				&& endDate == null) {
+//			return;
 //
-//	public static CalendarPagerFragment create(int monthIndex,
-//			String beginDate, String endDate ,int[] colors) {
-//		CalendarPagerFragment fragment = new CalendarPagerFragment();
-//		Bundle args = new Bundle();
-//		args.putInt(INDEX, monthIndex);
-//		args.putString(DATE_BEGIN, beginDate);
-//		args.putString(DATE_END, endDate);
-//		args.put
-//		args.putIntArray(COLORS, colors) ;
-//		fragment.setArguments(args);
-//		return fragment;
+//		}
+//		setSection(beginDate, endDate ,colors);
 //	}
-
-	public CalendarPagerFragment(CalendarResult fragment, int position,
-			String beginDate, String endDate, int[] colors) {
-		mMonthIndex = position;
-		this.fragment = fragment ;
-		if (beginDate == null
-				&& endDate == null) {
-			return;
-
-		}
-		setSection(beginDate, endDate ,colors);
-	}
-
-	public CalendarPagerFragment(CalendarResult fragment, int position) {
-		this.fragment = fragment ;
-		mMonthIndex = position;
-		
-	}
+//	public CalendarPagerFragment() {
+//		
+//	}
+//	public CalendarPagerFragment(CalendarResult fragment, int position) {
+//		this.listener = fragment ;
+//		mMonthIndex = position;
+//		
+//	}
 
 	/**
 	 * 设置可选区间
@@ -106,24 +108,26 @@ public class CalendarPagerFragment extends Fragment {
 		return false;
 	}
 
-//	@Override
-//	public void onCreate(Bundle savedInstanceState) {
-//		super.onCreate(savedInstanceState);
-//		mMonthIndex = getArguments().getInt(INDEX);
-//		if (getArguments().getString(DATE_BEGIN) == null
-//				&& getArguments().getString(DATE_END) == null) {
-//			return;
-//		}
-//		setSection(getArguments().getString(DATE_BEGIN), getArguments()
-//				.getString(DATE_END) ,getArguments().getIntArray(COLORS));
-//	}
-
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mMonthIndex = getArguments().getInt(INDEX);
+		if (getArguments().getString(DATE_BEGIN) == null
+				&& getArguments().getString(DATE_END) == null) {
+			return;
+		}
+		
+		setSection(getArguments().getString(DATE_BEGIN), getArguments()
+				.getString(DATE_END) ,getArguments().getIntArray(COLORS));
+	}
+    
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = null;
 		view = inflater.inflate(R.layout.fragment_calendar, container, false);
 		GridView grid = (GridView) view.findViewById(R.id.gridview);
+//		Log.i(TAG, "set calendar gridView");
 		adapter = new CalendarGridViewAdapter(container.getContext(),
 				getDays(), R.layout.calendar_day, new String[] { "day" },
 				new int[] { R.id.day });
@@ -144,7 +148,7 @@ public class CalendarPagerFragment extends Fragment {
 				Date date = CalendarUtil.getDate(mMonthIndex);
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-");
 				String d = df.format(date);
-				fragment.setResult(d+map.get("day")) ;
+				listener.setResult(d+map.get("day")) ;
 //				Intent intent = new Intent(); 
 //				intent.putExtra(CalendarActivity.RESULT_DATA, d + map.get("day"));
 //				CalendarPagerFragment.this.getActivity().setResult(CalendarPagerFragment.this.getActivity().RESULT_OK, intent); 
@@ -155,7 +159,19 @@ public class CalendarPagerFragment extends Fragment {
 		return view;
 
 	}
-
+    
+	/**
+	 * 获取父activity,并且转换为CalendarResult
+	 */
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		      try{  
+		    	  listener =(CalendarResult)activity;  
+		      }catch(ClassCastException e){  
+		          throw new ClassCastException(activity.toString()+"must implement CalendarResult");  
+		      } 
+	}
 	private List<HashMap<String, Object>> getDays() {
 		int daynum = CalendarUtil.getDayNum(mMonthIndex);
 		int dayweek = CalendarUtil.getDayWeek(mMonthIndex);

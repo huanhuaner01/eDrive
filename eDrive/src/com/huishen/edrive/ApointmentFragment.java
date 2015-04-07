@@ -20,10 +20,12 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.CalendarFragment;
+import com.huishen.edrive.widget.CalendarPagerFragment;
 import com.huishen.edrive.widget.CalendarResult;
 import com.huishen.edrive.widget.CalendarUtil;
 import com.huishen.edrive.widget.RoundImageView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,7 +48,7 @@ import android.widget.Toast;
  * @author zhanghuan
  * 
  */
-public class ApointmentFragment extends Fragment implements CalendarResult {
+public class ApointmentFragment extends Fragment {
 	private String TAG = "ApointmentFragment";
 
 	private FragmentActivity activity;
@@ -58,9 +60,31 @@ public class ApointmentFragment extends Fragment implements CalendarResult {
 	private int[] colors;
 	private String result;
 
-	public ApointmentFragment(FragmentActivity activity, String result) {
-		this.activity = activity;
-		this.result = result;
+//	public ApointmentFragment(FragmentActivity activity, String result) {
+//		this.activity = activity;
+//		this.result = result;
+//	}
+	public static ApointmentFragment create(String result) {
+		ApointmentFragment fragment = new ApointmentFragment();
+		Bundle args = new Bundle();
+		args.putString("DATA", result);
+		fragment.setArguments(args);
+		return fragment;
+	}
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		result = getArguments().getString("DATA");
+	}
+    
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+	     try{  
+	    	 this.activity =(FragmentActivity)activity;  
+	      }catch(ClassCastException e){  
+	          throw new ClassCastException(activity.toString()+"must implement FragmentActivity");  
+	      } 
 	}
 
 	@Override
@@ -69,7 +93,7 @@ public class ApointmentFragment extends Fragment implements CalendarResult {
 		View rootView = inflater.inflate(R.layout.fragment_appointment, null);
 		registView(rootView);
 		initView();
-
+        Log.i(TAG, "create apointmentFramgent");
 		return rootView;
 	}
 
@@ -77,8 +101,8 @@ public class ApointmentFragment extends Fragment implements CalendarResult {
 	 * 初始化
 	 */
 	private void initView() {
-		setData(result);
-
+//		setData(result);
+    
 	}
 
 	/**
@@ -137,14 +161,35 @@ public class ApointmentFragment extends Fragment implements CalendarResult {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getWebData();
 	}
-
-	@Override
-	public void setResult(String day) {
-		Log.i("apointmentFragment", "获取了时间"+day);
-		Intent i = new Intent(this.getActivity(), ApointmentActivity.class);
-		i.putExtra("lessonDate", day);
-		this.getActivity().startActivity(i);
+	
+	
+	/**
+	 * 获取数据
+	 */
+	private void getWebData(){
+//		if(Prefs.readString(this, Const.USER_COACH_ID).equals("")){
+//			if(tabGroup.getCheckedRadioButtonId()==R.id.main_tab_appointment){
+//			    tabGroup.check(R.id.main_tab_appointment);
+//			}
+//			else if(tabGroup.getCheckedRadioButtonId()!=R.id.main_tab_appointment && tabGroup.getCheckedRadioButtonId()!=R.id.main_tab_center){
+//				 tabGroup.check(R.id.main_tab_appointment);
+//			}
+//			
+//		}else{
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("coachId",Prefs.readString(this.getActivity(), Const.USER_COACH_ID));
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_APPOINT, map,
+				new Response.Listener<String>() {
+                       
+					@Override
+					public void onResponse(String result) {
+						Log.i(TAG, result);
+						setData(result);
+					}
+				},new DefaultErrorListener(this.getActivity()));
+		
 	}
 
 	/**
@@ -233,14 +278,14 @@ public class ApointmentFragment extends Fragment implements CalendarResult {
 					Log.i(TAG, "haode有满课");
 				}
 			}
+			Log.i(TAG, "this is begin to create calendar");
 			FragmentManager fm = activity.getSupportFragmentManager();
 			FragmentTransaction tx = fm.beginTransaction();
-			CalendarFragment calendar = new CalendarFragment(this.activity,
-					(CalendarResult) this, true, begindate, enddate, colors);
+			CalendarFragment calendar =CalendarFragment.create(true, begindate, enddate, colors);
 			tx.replace(R.id.appointment_calendar, calendar);
 			tx.commit();
 		} catch (Exception e) {
-
+          e.printStackTrace();
 		}
 	}
 

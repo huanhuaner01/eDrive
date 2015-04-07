@@ -80,15 +80,20 @@
             android:value="TuZ4A7AwHvj7BW6fDqhE1WrR" />
           
         <!--
-                               正式服 
+                               正式服  
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="A6XzmdYODPCiHNTSQhcBnkQa" />  
-         --> 
+          -->
         <!-- 腾讯mta -->
         <meta-data android:name="TA_APPKEY" android:value="Aqc1104418334"/> 　　
-        <meta-data android:name="InstallChannel" android:value="应用宝"/>
-        
+        <!--  <meta-data android:name="InstallChannel" android:value="应用宝"/>  -->
+        <!--  --><meta-data android:name="InstallChannel" android:value="慧莘科技"/>
+        <!--  <meta-data android:name="InstallChannel" android:value="豌豆荚"/> -->
+         <!-- <meta-data android:name="InstallChannel" android:value="百度"/>  -->
+        <!-- <meta-data android:name="InstallChannel" android:value="华为"/>  -->
+        <!-- <meta-data android:name="InstallChannel" android:value="小米"/>  -->
+        <!-- <meta-data android:name="InstallChannel" android:value="360"/>  -->
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"

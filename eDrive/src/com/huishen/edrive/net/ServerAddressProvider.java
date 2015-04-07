@@ -10,7 +10,7 @@ package com.huishen.edrive.net;
 final class ServerAddressProvider {
 	
 	//全局变量，服务器路径，只需要修改这里
-	private static final IServer CURRENT_SERVER = new InternalTestServer();
+	private static final IServer CURRENT_SERVER = new PublicServer();
 	
 	protected static final String getServerAddress(){
 		return CURRENT_SERVER.getServerAddress();

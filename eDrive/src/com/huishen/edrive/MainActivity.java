@@ -8,6 +8,7 @@ import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.huishen.edrive.apointment.ApointmentActivity;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.demand.DemandActivity;
 import com.huishen.edrive.net.DefaultErrorListener;
@@ -17,6 +18,7 @@ import com.huishen.edrive.umeng.UmengServiceProxy;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.CalendarResult;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
 
@@ -46,7 +48,7 @@ import android.widget.Toast;
  * @author zhanghuan
  * 
  */
-public class MainActivity extends FragmentActivity implements OnCheckedChangeListener, OnGetGeoCoderResultListener{
+public class MainActivity extends FragmentActivity implements OnCheckedChangeListener,CalendarResult{
 	StatLogger logger = SplashActivity.getLogger();
 	private String TAG = "MainActivity" ;
 	//UI相关
@@ -60,6 +62,11 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     //初始化数据
     private boolean isFirstMain = true ;
     
+    //fragment管理
+    private ApointmentFragment apointf ; //约课界面
+    private CenterFragment centerf ; //个人中心
+    private AppointmentNoCoachFragment noapointf ; //没有教练约课页面
+    
     @Override
 	protected void onResume() {
 		coachId = Prefs.readString(this, Const.USER_COACH_ID);
@@ -71,8 +78,8 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			msgTag.setVisibility(View.GONE);
 		}
 			Log.i(TAG, "正在刷新");
-			getWebData();
-	
+	    switchFramgnet();
+	    
 		super.onResume();
 		StatService.onResume(this);
 	}
@@ -99,7 +106,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 			tx.replace(R.id.main_center,nocoachfragment); 
 		}else{
 			
-			ApointmentFragment apointment = new ApointmentFragment(this ,result) ;	
+			ApointmentFragment apointment = ApointmentFragment.create(result) ;	
 			tx.replace(R.id.main_center,apointment); 
 		}
         tx.commitAllowingStateLoss();
@@ -121,37 +128,14 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	/**
 	 * 获取数据
 	 */
-	private void getWebData(){
-		if(Prefs.readString(this, Const.USER_COACH_ID).equals("")){
+	private void switchFramgnet(){
 			if(tabGroup.getCheckedRadioButtonId()==R.id.main_tab_appointment){
 			    tabGroup.check(R.id.main_tab_appointment);
 			}
 			else if(tabGroup.getCheckedRadioButtonId()!=R.id.main_tab_appointment && tabGroup.getCheckedRadioButtonId()!=R.id.main_tab_center){
 				 tabGroup.check(R.id.main_tab_appointment);
 			}
-			
-		}else{
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("coachId",Prefs.readString(this, Const.USER_COACH_ID));
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_APPOINT, map,
-				new Response.Listener<String>() {
-                       
-					@Override
-					public void onResponse(String result) {
-						Log.i(TAG, result);
-						MainActivity.this.result = result ;
-						 coachId = Prefs.readString(MainActivity.this, Const.USER_COACH_ID);
-						if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_appointment){
-							checkAppoint();
-						}if(tabGroup.getCheckedRadioButtonId() == R.id.main_tab_center){
-							return ;
-						}else{
-						    tabGroup.setOnCheckedChangeListener(MainActivity.this);
-				    	    tabGroup.check(R.id.main_tab_appointment);
-						}
-					}
-				},new DefaultErrorListener(this));
-		}
+	
 	}
 	
     private void registView(){
@@ -273,34 +257,58 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 	    FragmentManager fm = this.getSupportFragmentManager();  
-        FragmentTransaction tx = fm.beginTransaction();  
+        FragmentTransaction tx = fm.beginTransaction();
+        hideFragments(tx);
 		switch(checkedId){
 		
 		case R.id.main_tab_demand:
 			 Intent i = new Intent(MainActivity.this ,DemandActivity.class);
 			 startActivity(i);
-			 group.check(R.id.main_tab_appointment);
+			 group.clearCheck();
 			 break ;
 		case R.id.main_tab_appointment:
 			 coachId = Prefs.readString(this, Const.USER_COACH_ID);
 			if(coachId == null || coachId.equals("")){
-				AppointmentNoCoachFragment nocoachfragment = new AppointmentNoCoachFragment();
-				tx.replace(R.id.main_center,nocoachfragment); 
-			}else{
+				if(noapointf == null){
+				noapointf = new AppointmentNoCoachFragment();
+				tx.add(R.id.main_center,noapointf); 
+				}else{
+					tx.show(noapointf);
+				}
 				
-				ApointmentFragment apointment = new ApointmentFragment(this ,result) ;	
-				tx.replace(R.id.main_center,apointment); 
+			}else{
+				if(apointf == null){
+				  apointf = ApointmentFragment.create(result) ;	
+				  tx.add(R.id.main_center,apointf); 
+				}else{
+				  tx.show(apointf);	
+				}
+				
 			}
 			break ;
 		case R.id.main_tab_center:
-			CenterFragment center = new CenterFragment() ;		
-	        tx.replace(R.id.main_center, center);  
+			if(centerf == null){
+			    centerf = new CenterFragment() ;
+			    tx.add(R.id.main_center, centerf);  
+			}else{
+				tx.show(centerf);
+			}
+	        
 			break ;
 	
 		}
 		 tx.commitAllowingStateLoss();
 	}
-
+	
+	// 当fragment已被实例化，就隐藏起来
+	  public void hideFragments(FragmentTransaction ft) {
+	    if (noapointf != null)
+	      ft.hide(noapointf);
+	    if (apointf != null)
+	      ft.hide(apointf);
+	    if (centerf != null)
+	      ft.hide(centerf);
+	  }
 
 	///////////////////////退出系统应用//////////////////////////////////////////
 	 private int backindex = 0 ;
@@ -331,10 +339,10 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	                msgTag.setVisibility(View.VISIBLE);
 	            } 
 	            if(intent.getStringExtra("msg_type").equals("2002")){
-	            	getWebData();
+	            	switchFramgnet();
 	            }
 	            if(intent.getStringExtra("msg_type").equals("2003")){
-	            	getWebData();
+	            	switchFramgnet();
 	            }
 			}  
 	          
@@ -348,13 +356,10 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 	    }
 
 		@Override
-		public void onGetGeoCodeResult(GeoCodeResult arg0) {
-			Log.i(TAG, "地理编码："+arg0.getAddress());
-		}
-
-		@Override
-		public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
-			// TODO Auto-generated method stub
-			
+		public void setResult(String day) {
+			Log.i("apointmentFragment", "获取了时间"+day);
+			Intent i = new Intent(this, ApointmentActivity.class);
+			i.putExtra("lessonDate", day);
+			this.startActivity(i);
 		} 
 }

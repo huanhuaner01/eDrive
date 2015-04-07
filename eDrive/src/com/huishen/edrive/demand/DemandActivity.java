@@ -1,5 +1,6 @@
 package com.huishen.edrive.demand;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -34,6 +35,8 @@ import com.baidu.mapapi.model.LatLng;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
 import com.huishen.edrive.SplashActivity;
+import com.huishen.edrive.apointment.MassageListener;
+import com.huishen.edrive.apointment.MessageDialog;
 import com.huishen.edrive.center.CoachDetailActivity;
 import com.huishen.edrive.center.ListActivity;
 import com.huishen.edrive.login.VerifyPhoneActivity;
@@ -100,6 +103,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 	
     private LoadingDialog dialog ; //加载弹出框
     private ProgressDialog progressDialog ;
+    private MessageDialog Offlinedialog ; //离线弹出框
     
 	/***************************腾讯统计相关框架*************************************/
 	StatLogger logger = SplashActivity.getLogger();
@@ -252,6 +256,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 							}
 							
 						});
+						
 					}
 				}, new DefaultErrorListener(this ,dialog));
 	
@@ -321,6 +326,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 				showRoundCoach(location.getLongitude() ,location.getLatitude());
 				addr = location.getAddrStr() ;
 				mLocClient.stop();
+				checkOfflineMap(Integer.parseInt(location.getCityCode()) ,location.getCity());
 				Log.w(TAG, "demand addr is "+addr);
 			}
 				
@@ -407,24 +413,6 @@ public class DemandActivity extends Activity implements OnClickListener{
 			break ;
 		}
 	}
-//	/**
-//	 * 发送友盟手机设备号给服务器。
-//	 */
-//	private void sendDeviceToken() {
-//			HashMap<String, String> map = new HashMap<String, String>();
-//			map.put(Const.DEVISE_TOKEN, Prefs.readString(this, Const.DEVISE_TOKEN));
-//            
-//			NetUtil.requestStringData(SRL.Method.METHOD_SEND_DEVICETOKEN, map,
-//					new Response.Listener<String>() {
-//
-//						@Override
-//						public void onResponse(String result) {
-//							Log.i(TAG,  result);
-//							
-//						}
-//					},new DefaultErrorListener(this));
-//		
-//	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i(TAG, "requestCode:"+requestCode+" resultCode:"+resultCode);
@@ -474,60 +462,84 @@ public class DemandActivity extends Activity implements OnClickListener{
 	
 	 
 	 
-//	 /**
-//	     * 检测离线地图
-//	     */
-//	    private void checkOfflineMap(int cityCode) {
-//
-//	        mOffline = new MKOfflineMap();
-////			int cityid = cityCode;
-////			mOffline.start(cityid);
-//			
-//	        mOffline.init(new MKOfflineMapListener() {
-//	            @Override
-//	            public void onGetOfflineMapState(int type, int state) {
-//	                switch (type) {
-//	                    case MKOfflineMap.TYPE_DOWNLOAD_UPDATE:
-//	                        // 离线地图下载更新事件类型
-//	                        MKOLUpdateElement update = mOffline.getUpdateInfo(state);
-//	                        Log.e("Map", update.cityName + " ," + update.ratio);
-//	                        progressDialog.setProgress(update.ratio);
-//	                        if(update.ratio == 100) {
-//	                            progressDialog.dismiss();
-//	                            AppUtil.ShowShortToast(SnapSuccessActivity.this,"离线地图下载完成");
-//	                        }
-//	                        Log.e("Map", "TYPE_DOWNLOAD_UPDATE");
-//	                        break;
-//	                    case MKOfflineMap.TYPE_NEW_OFFLINE:
-//	                        // 有新离线地图安装
-//	                        Log.e("Map", "TYPE_NEW_OFFLINE");
-//	                        break;
-//	                    case MKOfflineMap.TYPE_VER_UPDATE:
-//	                        // 版本更新提示
-//	                        break;
-//	                }
-//
-//	            }
-//	        });
-//
-//	        boolean hasMap = false;
-//
-//	        ArrayList<MKOLUpdateElement> localMapList = mOffline.getAllUpdateInfo();
-//
-//	        if (localMapList != null) {
-//	            for (MKOLUpdateElement mkolUpdateElement : localMapList) {
-//	                if (mkolUpdateElement.cityID == cityCode) {
-//	                    hasMap = true;
-//	                }
-//	            }
-//	        }
-//
-//	        if (!hasMap) {
+	 /**
+	     * 检测离线地图
+	     */
+	    private void checkOfflineMap(final int cityCode ,String cityName) {
+
+	        mOffline = new MKOfflineMap();
+	        mOffline.init(new MKOfflineMapListener() {
+	            @Override
+	            public void onGetOfflineMapState(int type, int state) {
+	                switch (type) {
+	                    case MKOfflineMap.TYPE_DOWNLOAD_UPDATE:
+	                        // 离线地图下载更新事件类型
+	                        MKOLUpdateElement update = mOffline.getUpdateInfo(state);
+	                        Log.e("Map", update.cityName + " ," + update.ratio);
+	                        progressDialog.setProgress(update.ratio);
+	                        if(update.ratio == 100) {
+	                            progressDialog.dismiss();
+	                            mOffline.destroy();
+	                            AppUtil.ShowShortToast(DemandActivity.this,"离线地图下载完成");
+	                        }
+	                        Log.e("Map", "TYPE_DOWNLOAD_UPDATE");
+	                        break;
+	                    case MKOfflineMap.TYPE_NEW_OFFLINE:
+	                        // 有新离线地图安装
+	                        Log.e("Map", "TYPE_NEW_OFFLINE");
+	                        break;
+	                    case MKOfflineMap.TYPE_VER_UPDATE:
+	                        // 版本更新提示
+	                        break;
+	                }
+
+	            }
+	        });
+
+	        boolean hasMap = false;
+	    	// 获取已下过的离线地图信息
+	        ArrayList<MKOLUpdateElement> localMapList = mOffline.getAllUpdateInfo();
+
+	        if (localMapList != null) {
+	            for (MKOLUpdateElement mkolUpdateElement : localMapList) {
+	                if (mkolUpdateElement.cityID == cityCode) {
+	                    hasMap = true;
+	                }
+	            }
+	        }
+
+	        if (!hasMap) {
+	        	Offlinedialog = new MessageDialog(this ,"离线地图下载提示" ,"您所在城市为" +cityName + "，推荐您下载离线地图" ,
+	        			false ,new MassageListener(){
+
+							@Override
+							public void setCommitClick() {
+								start(cityCode);
+							}
+
+							@Override
+							public void setCancelClick() {
+								Offlinedialog.dismiss();
+							}
+	        		
+	        	});
+	        	Offlinedialog.show();
 //	            alertText.setText("您所在城市为" + baiduMapProxy.getCachedLocation().getCity() + "，推荐您下载离线地图");
 //	            builder.create().show();
-//	        }
-//
-//	       // mOffline.remove(cityCode);
-//
-//	    }
+	        }
+
+	       // mOffline.remove(cityCode);
+
+	    }
+	    
+	    /**
+		 * 开始离线地图下载
+		 * 
+		 * @param view
+		 */
+		public void start(int cityId) {
+			mOffline.start(cityId);
+			Toast.makeText(this, "开始下载离线地图. cityid: " + cityId, Toast.LENGTH_SHORT)
+					.show();
+		}
 }

@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,23 +37,46 @@ public class CalendarFragment extends Fragment {
     private int[] colors = null ; //可选区的颜色值
     private boolean isSection = false ; //是否是选区状态
     private FragmentActivity activity ;
-    private CalendarResult fragment ;
     
-	public CalendarFragment(FragmentActivity activity ,CalendarResult fragment,boolean isSection ,String beginDate ,String endDate ,int[] colors) {
-		super();
-	     this.isSection = isSection ;
-	        if(isSection){
-	        	this.beginDate = beginDate ;
-	        	this.endDate = endDate ;
-	        }
-	        this.activity = activity ;
-	        this.fragment = fragment ;
-	        this.colors = colors ;
+
+	public static CalendarFragment create() {
+		CalendarFragment fragment = new CalendarFragment();
+//		Bundle args = new Bundle();
+//		args.putInt(INDEX, monthIndex);
+//		fragment.setArguments(args);
+		return fragment;
 	}
-	public CalendarFragment(FragmentActivity activity ,CalendarResult fragment) {
-		super();
-	        this.activity = activity ;
-	        this.fragment = fragment ;
+
+	public static CalendarFragment create(boolean isSection,
+			String beginDate, String endDate ,int[] colors) {
+		CalendarFragment fragment = new CalendarFragment();
+		Bundle args = new Bundle();
+		args.putBoolean("isSection", isSection);
+		args.putString("beginDate", beginDate);
+		args.putString("endDate", endDate);
+		args.putIntArray("colors", colors) ;
+		fragment.setArguments(args);
+		return fragment;
+	}
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	     this.isSection = getArguments().getBoolean("isSection") ;
+        if(isSection){
+        	this.beginDate = getArguments().getString("beginDate") ;
+        	this.endDate = getArguments().getString("endDate");
+        }
+        this.colors = getArguments().getIntArray("colors") ;
+	}
+    
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+	     try{  
+	    	 this.activity =(FragmentActivity)activity;  
+	      }catch(ClassCastException e){  
+	          throw new ClassCastException(activity.toString()+"must implement FragmentActivity");  
+	      } 
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,11 +103,12 @@ public class CalendarFragment extends Fragment {
      * 初始化事件
      */
 	private void init() {
+//		Log.i(TAG, "set calendar pager");
 	      CalendarPagerAdapter mPagerAdapter = new CalendarPagerAdapter(this.activity.getSupportFragmentManager());
 	        
 	        /**************选择区间设置*********************/
 	       if(this.isSection){
-	        mPagerAdapter.setSection(this.fragment ,beginDate, endDate ,this.colors) ;
+	        mPagerAdapter.setSection(beginDate, endDate ,this.colors) ;
 	       }
 	        /**************选择区间设置结束******************/
 	        
