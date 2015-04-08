@@ -15,6 +15,7 @@ import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -32,8 +33,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ComplainActivity extends Activity {
-	private String TAG = "ComplainActivity" ;
+public class ComplainActivity extends BaseActivity {
    private ComplainListAdapter apdater ;
    private ListView list ;
    private EditText edit;
@@ -47,22 +47,7 @@ public class ComplainActivity extends Activity {
    private LoadingDialog dialog ;
    
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+	//继承BaseActivity
 	/***************************腾讯统计基本框架结束*************************************/
    
 	@Override
@@ -70,6 +55,7 @@ public class ComplainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_complain);
 		AppController.getInstance().addActivity(this);
+		this.setTag("ComplainActivity");
 		coachId = this.getIntent().getIntExtra("coachId", -1);
 		registView();
 		initView();
@@ -150,7 +136,7 @@ public class ComplainActivity extends Activity {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId",coachId+"");
 		map.put("complaintContent", keybuffer.toString()+""+edit.getText().toString());
-		NetUtil.requestStringData(SRL.Method.METHOD_COMPLAIN, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_COMPLAIN,TAG , map,
 				new Response.Listener<String>() {
                        
 					@Override

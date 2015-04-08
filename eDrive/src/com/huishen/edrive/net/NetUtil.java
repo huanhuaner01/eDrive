@@ -84,10 +84,12 @@ public final class NetUtil {
 	 * 
 	 * @param relativePath
 	 *            资源的相对位置
+	 * @param tag
+	 *            请求队列标志
 	 * @param listener
 	 *            回调监听器。强烈建议使用 {@link ResponseListener}而不是原始的  {@link Listener}。
 	 */
-	public static final void requestStringData(String relativePath,
+	public static final void requestStringData(String relativePath,String tag ,
 			Listener<String> listener) {
 		if (relativePath == null || listener == null) {
 			throw new NullPointerException("params cannot be null!");
@@ -99,7 +101,7 @@ public final class NetUtil {
 			params.put(SRL.Param.PARAM_MOBILE_FLAG, flag);
 		}
 		Log.d(LOG_TAG, "request params:"+params);
-		AppController.getInstance().addNetworkRequest(
+		AppController.getInstance().addToRequestQueue(
 				new AbsStringRequest(getAbsolutePath(relativePath), listener){
 					@Override
 					protected void onReadCookie(String cookie) {
@@ -122,7 +124,7 @@ public final class NetUtil {
 							throws AuthFailureError {
 						return params;
 					}
-				});
+				} ,tag);
 	}
 
 	/**
@@ -130,12 +132,14 @@ public final class NetUtil {
 	 * 
 	 * @param relativePath
 	 *            资源的相对位置
+	 * @param tag 
+	 *            请求队列标志(可通过这个标志，消除对应的请求)
 	 * @param params
 	 *            要提交的参数
 	 * @param listener
 	 *            回调监听器。强烈建议使用 {@link ResponseListener}而不是原始的  {@link Listener}。
 	 */
-	public static final void requestStringData(String relativePath,
+	public static final void requestStringData(String relativePath,String tag ,
 			final Map<String, String> params, Listener<String> listener) {
 		if (relativePath == null || params == null || listener == null) {
 			throw new NullPointerException("params cannot be null!");
@@ -146,7 +150,7 @@ public final class NetUtil {
 			params.put(SRL.Param.PARAM_MOBILE_FLAG, flag);
 		}
 		Log.d(LOG_TAG, "request params:"+params);
-		AppController.getInstance().addNetworkRequest(
+		AppController.getInstance().addToRequestQueue(
 				new AbsStringRequest(getAbsolutePath(relativePath), listener) {
 					@Override
 					protected Map<String, String> getParams()
@@ -168,7 +172,7 @@ public final class NetUtil {
 						localHashMap.put("Cookie", cookie);
 						return localHashMap;
 					}
-				});
+				} ,tag);
 	}
 
 	/**
@@ -176,6 +180,8 @@ public final class NetUtil {
 	 * 
 	 * @param relativePath
 	 *            资源的相对位置
+	 * @param tag 
+	 *            请求队列标志(可通过这个标志，消除对应的请求)
 	 * @param params
 	 *            要提交的参数
 	 * @param listener
@@ -183,7 +189,7 @@ public final class NetUtil {
 	 * @param errlisListener
 	 *            网络异常监听器
 	 */
-	public static final void requestStringData(String relativePath,
+	public static final void requestStringData(String relativePath,String tag,
 			final Map<String, String> params, Listener<String> listener,
 			ErrorListener errlisListener) {
 		if (relativePath == null || params == null || listener == null) {
@@ -195,7 +201,7 @@ public final class NetUtil {
 			params.put(SRL.Param.PARAM_MOBILE_FLAG, flag);
 		}
 		Log.d(LOG_TAG, "request params:"+params);
-		AppController.getInstance().addNetworkRequest(
+		AppController.getInstance().addToRequestQueue(
 				new AbsStringRequest(getAbsolutePath(relativePath), listener, errlisListener) {
 					@Override
 					protected Map<String, String> getParams()
@@ -210,14 +216,14 @@ public final class NetUtil {
 					@Override
 					public Map<String, String> getHeaders() throws AuthFailureError {
 						String cookie = AppController.getInstance().getSessionId();
-						if (cookie==null){
+						if(cookie==null){
 							return super.getHeaders();
 						}
 						HashMap<String, String> localHashMap = new HashMap<String, String>();	
 						localHashMap.put("Cookie", cookie);
 						return localHashMap;
 					}
-				});
+				} ,tag);
 	}
 	
 	/**
@@ -392,5 +398,20 @@ public final class NetUtil {
 				listener.onProgressChanged(values[0], values[1], values[2]);
 			};
 		}.execute();
+	}
+	
+	/**
+	 * 取消tag对应的网络请求
+	 * @param Tag
+	 */
+	public static final void cancelRequest(String Tag){
+		AppController.getInstance().cancelPendingRequests(Tag);
+	}
+	/**
+	 * 取消所有网络请求
+	 * @param Tag
+	 */
+	public static final void cancelRequest(){
+		AppController.getInstance().cancelPendingRequests();
 	}
 }

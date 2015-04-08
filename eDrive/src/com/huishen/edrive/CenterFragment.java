@@ -16,11 +16,11 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseFragment;
 import com.huishen.edrive.widget.RoundImageView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +29,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CenterFragment extends Fragment implements View.OnClickListener{
-	private String TAG = "CenterFragment" ;
+public class CenterFragment extends BaseFragment implements View.OnClickListener{
     private RoundImageView photoimg; //学员头像
     
     private TextView tel ; //电话号码
@@ -43,6 +42,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_center, null);
+		this.setTag("CenterFragment");
 		registView(rootView);
 		initView();
 		return rootView ;
@@ -93,7 +93,7 @@ public class CenterFragment extends Fragment implements View.OnClickListener{
 	private void getWebData(){
 	
 		HashMap<String, String> map = new HashMap<String, String>();
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_CENTER_INFO, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_CENTER_INFO,TAG , map,
 				new Response.Listener<String>() {
                        
 					@Override

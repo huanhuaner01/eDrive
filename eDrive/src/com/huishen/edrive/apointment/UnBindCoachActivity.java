@@ -15,6 +15,7 @@ import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -43,7 +44,7 @@ import android.widget.AdapterView.OnItemClickListener;
  * @author zhanghuan
  *
  */
-public class UnBindCoachActivity extends Activity implements OnItemClickListener{
+public class UnBindCoachActivity extends BaseActivity implements OnItemClickListener{
     private String TAG = "UnBindCoachActivity" ;
     private ListView list ;
     private EditText edit ;
@@ -56,29 +57,14 @@ public class UnBindCoachActivity extends Activity implements OnItemClickListener
     private LoadingDialog loading ;
     
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+	//继承BaseActivity,已经集成
 	/***************************腾讯统计基本框架结束*************************************/
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_un_bind_coach);
-		android.os.Debug.startMethodTracing("MTAUnBindCoachActivity");
+		this.setTag("UnBindCoachActivity");
 		registView();
 		initView();
 	}
@@ -147,7 +133,7 @@ public class UnBindCoachActivity extends Activity implements OnItemClickListener
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("content", contents[checkposition]+","+edit.getText().toString());
 //		map.put(SRL.Param.PARAM_LATITUDE, lat+"");
-		NetUtil.requestStringData(SRL.Method.METHOD_UNBIND_COACH, map, new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_UNBIND_COACH, TAG ,map, new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {

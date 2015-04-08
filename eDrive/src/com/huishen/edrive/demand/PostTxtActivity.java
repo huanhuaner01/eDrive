@@ -25,6 +25,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.CustomEditText;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
@@ -55,8 +56,7 @@ import android.widget.Toast;
  * @author zhanghuan
  *
  */
-public class PostTxtActivity extends Activity implements OnGetGeoCoderResultListener{
-	private String TAG= "PostTxtActivity" ;
+public class PostTxtActivity extends BaseActivity implements OnGetGeoCoderResultListener{
     private TextView title ;
     private ImageButton back ;
     private GridView postGrid ; //选择信息
@@ -72,22 +72,13 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
     private String addr;
     private LoadingDialog loadingDialog ;
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
+
 	@Override
 	protected void onDestroy() {
+		if(mSearch != null){
 		mSearch.destroy();
+		}
 		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
 	}
 	/***************************腾讯统计基本框架结束*************************************/
 	@Override
@@ -95,6 +86,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_txt);
 		AppController.getInstance().addActivity(this);
+		this.setTag("PostTxtActivity");
 		//-----------------------获取数据-------------------------------
 		addr = this.getIntent().getStringExtra("addr"); 
 		Log.i(TAG, "frist addr "+addr);
@@ -216,7 +208,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
 			loadingDialog.show();
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_SERVICE_INFO, map,  new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_SERVICE_INFO,TAG , map,  new Response.Listener<String>() {
 			
 			@Override
 			public void onResponse(String result) {
@@ -312,7 +304,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
         map.put(SRL.Param.PARAM_CONTENT, content);
         map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
         map.put(SRL.Param.PARAM_STUADDR,addr);
-		NetUtil.requestStringData(SRL.Method.METHOD_SEND_TXT_ORDER, map,  new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_SEND_TXT_ORDER,TAG , map,  new Response.Listener<String>() {
 		
 			@Override
 			public void onResponse(String result) {
@@ -371,7 +363,7 @@ public class PostTxtActivity extends Activity implements OnGetGeoCoderResultList
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(Const.USER_ID,Prefs.readString(this, Const.USER_ID));
         map.put(Const.USER_ADDR ,addr);
-		NetUtil.requestStringData(SRL.Method.METHOD_SET_ADDR, map,  new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_SET_ADDR,TAG , map,  new Response.Listener<String>() {
 		
 			@Override
 			public void onResponse(String result) {

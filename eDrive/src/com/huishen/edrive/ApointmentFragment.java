@@ -19,6 +19,7 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseFragment;
 import com.huishen.edrive.widget.CalendarFragment;
 import com.huishen.edrive.widget.CalendarPagerFragment;
 import com.huishen.edrive.widget.CalendarResult;
@@ -48,8 +49,7 @@ import android.widget.Toast;
  * @author zhanghuan
  * 
  */
-public class ApointmentFragment extends Fragment {
-	private String TAG = "ApointmentFragment";
+public class ApointmentFragment extends BaseFragment {
 
 	private FragmentActivity activity;
 	private int coachId;
@@ -59,11 +59,6 @@ public class ApointmentFragment extends Fragment {
 	private RoundImageView photo;
 	private int[] colors;
 	private String result;
-
-//	public ApointmentFragment(FragmentActivity activity, String result) {
-//		this.activity = activity;
-//		this.result = result;
-//	}
 	public static ApointmentFragment create(String result) {
 		ApointmentFragment fragment = new ApointmentFragment();
 		Bundle args = new Bundle();
@@ -91,6 +86,7 @@ public class ApointmentFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_appointment, null);
+		this.setTag("ApointmentFragment"); //设置tag
 		registView(rootView);
 		initView();
         Log.i(TAG, "create apointmentFramgent");
@@ -180,7 +176,7 @@ public class ApointmentFragment extends Fragment {
 //		}else{
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId",Prefs.readString(this.getActivity(), Const.USER_COACH_ID));
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_APPOINT, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_APPOINT,TAG, map,
 				new Response.Listener<String>() {
                        
 					@Override

@@ -28,6 +28,7 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.util.SimpleRecorder;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -51,8 +52,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class PostSoundActivity extends Activity implements OnClickListener ,OnGetGeoCoderResultListener{
-	private String TAG= "PostSoundActivity" ;
+public class PostSoundActivity extends BaseActivity implements OnClickListener ,OnGetGeoCoderResultListener{
     private TextView title ;
     private ImageButton back ;
     private GridView postGrid ; //选择信息
@@ -75,22 +75,13 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
     private LoadingDialog loadingdialog ;
 //    = ProgressDialog.show( MyActivity.this, " " , " Loading. Please wait ... ", true);
     /***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
+
 	@Override
 	protected void onDestroy() {
+		if(mSearch != null){
 		mSearch.destroy();
+		}
 		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
 	}
 	/***************************腾讯统计基本框架结束*************************************/
 	@Override
@@ -98,6 +89,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_sound);
 		AppController.getInstance().addActivity(this);
+		this.setTag("PostSoundActivity");
 		//-----------------------获取数据-------------------------------
 		addr = this.getIntent().getStringExtra("addr"); 
 		//-----------------------获取数据结束！---------------------------
@@ -249,7 +241,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
 	    send.setEnabled(false);
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_SERVICE_INFO, map,  new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_SERVICE_INFO, TAG ,map,  new Response.Listener<String>() {
 			
 			@Override
 			public void onResponse(String result) {
@@ -387,7 +379,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
       map.put(SRL.Param.PARAM_STUREALNAME,Prefs.readString(this, Const.USER_PHONE) ) ;
       map.put(SRL.Param.PARAM_STUADDR, addr);
       map.put("audio",audio );
-		NetUtil.requestStringData(SRL.Method.METHOD_SEND_TXT_ORDER, map,  new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_SEND_TXT_ORDER,TAG , map,  new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {
@@ -494,7 +486,7 @@ public class PostSoundActivity extends Activity implements OnClickListener ,OnGe
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(Const.USER_ID,Prefs.readString(this, Const.USER_ID));
         map.put(Const.USER_ADDR ,addr);
-		NetUtil.requestStringData(SRL.Method.METHOD_SET_ADDR, map,  new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_SET_ADDR,TAG , map,  new Response.Listener<String>() {
 		
 			@Override
 			public void onResponse(String result) {

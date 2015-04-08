@@ -98,7 +98,7 @@ public final class UmengServiceProxy {
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put(Const.DEVISE_TOKEN, Prefs.readString(AppController.getInstance(), Const.DEVISE_TOKEN));
             
-			NetUtil.requestStringData(SRL.Method.METHOD_SEND_DEVICETOKEN, map,
+			NetUtil.requestStringData(SRL.Method.METHOD_SEND_DEVICETOKEN,null, map,
 					new Response.Listener<String>() {
 
 						@Override

@@ -16,6 +16,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -37,7 +38,7 @@ import android.widget.Toast;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 
-public class JudgeActivity extends Activity implements OnRatingBarChangeListener{
+public class JudgeActivity extends BaseActivity implements OnRatingBarChangeListener{
 	private String TAG = "JudgeActivity";
 	private TextView title ,note,attitude , field ,tf ; //标题,态度，场地，交通
 	private EditText jugdecontent ; //评价内容
@@ -49,22 +50,7 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 	private LoadingDialog dialog ; //加载框
 	
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+
 	/***************************腾讯统计基本框架结束*************************************/
 	
 	@Override
@@ -73,6 +59,7 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 		setContentView(R.layout.activity_judge);
 		AppController.getInstance().addActivity(this);
 		//-------------------获取资料---------------------
+		this.setTag("JudgeActivity");
 		tag = this.getIntent().getIntExtra("tag",1);
 		coachId = this.getIntent().getIntExtra("coachId", -1);
 		
@@ -176,7 +163,7 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 		map.put("qualityScore", rb_fd.getRating()+"");
 		map.put("ruleScore", rb_tf.getRating()+"");
 		note.setEnabled(false);
-		NetUtil.requestStringData(SRL.Method.METHOD_PLUS_JUDGE, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_PLUS_JUDGE,TAG , map,
 				new Response.Listener<String>() {
                        
 					@Override
@@ -235,7 +222,7 @@ public class JudgeActivity extends Activity implements OnRatingBarChangeListener
 		if(!isFinishing()&&!dialog.isShowing()){
 			dialog.show();
 		}
-		NetUtil.requestStringData(SRL.Method.METHOD_JUDGE, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_JUDGE,TAG , map,
 				new Response.Listener<String>() {
                        
 					@Override

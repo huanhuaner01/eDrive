@@ -2,6 +2,7 @@ package com.huishen.edrive;
 
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.widget.BaseActivity;
 import com.tencent.stat.StatService;
 
 import android.app.Activity;
@@ -12,7 +13,7 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class InfoActivity extends Activity {
+public class InfoActivity extends BaseActivity {
 	private WebView webview  ;
     private TextView  title ;
     private ImageButton back ;
@@ -29,24 +30,6 @@ public class InfoActivity extends Activity {
 		registView();
 		init();
 	}
-	/***************************腾讯统计相关框架*************************************/
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
-	/***************************腾讯统计基本框架结束*************************************/
 	private void registView() {
 		title = (TextView) findViewById(R.id.header_title);
 		back = (ImageButton) findViewById(R.id.header_back);

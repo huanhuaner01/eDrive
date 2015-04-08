@@ -12,6 +12,7 @@ import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -30,29 +31,14 @@ import android.widget.TextView;
  * @author zhanghuan
  *
  */
-public class OpinionActivity extends Activity {
+public class OpinionActivity extends BaseActivity {
 	private String TAG = "OpinionActivity" ;
     private TextView title  ,note;
     private ImageButton back ;
     private EditText edit ;
     private LoadingDialog dialog ; //加载框
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+
 	/***************************腾讯统计基本框架结束*************************************/
     
 	@Override
@@ -60,6 +46,7 @@ public class OpinionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_opinion);
 		AppController.getInstance().addActivity(this);
+		this.setTag("OpinionActivity");
 		registView();
 		initView();
 	}
@@ -105,7 +92,7 @@ public class OpinionActivity extends Activity {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("content",edit.getText().toString());
 		note.setEnabled(false);
-		NetUtil.requestStringData(SRL.Method.METHOD_OPINION, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_OPINION, TAG ,map,
 				new Response.Listener<String>() {
                        
 					@Override

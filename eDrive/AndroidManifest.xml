@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.huishen.edrive"
-    android:versionCode="18"
-    android:versionName="1.1.0" >
+    android:versionCode="19"
+    android:versionName="1.1.1(内测)" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <!-- <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission> -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -30,10 +29,8 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- 来电消音 -->
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" >
     </uses-permission>
@@ -47,8 +44,7 @@
         android:normalScreens="false"
         android:resizeable="true"
         android:smallScreens="true" />
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+   
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <!-- 友盟推送相关权限  BEGIN -->
@@ -63,6 +59,7 @@
     <!-- 【可选】根据需要添加 -->
     <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
     <!-- 友盟推送相关权限  END -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>  
 
     <application
         android:name=".util.AppController"

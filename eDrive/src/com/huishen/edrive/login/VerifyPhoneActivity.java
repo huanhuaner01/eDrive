@@ -22,6 +22,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -52,9 +53,8 @@ import android.widget.Toast;
  * @author zhanghuan
  *
  */
-public class VerifyPhoneActivity extends Activity implements
+public class VerifyPhoneActivity extends BaseActivity implements
 		OnClickListener {
-    private String TAG = "VerifyPhoneActivity" ;
     public static int LOGIN_CODE = 1 ;
     public static int LOGIN_RESULT_CODE = 10;
 	private EditText editPhoneNumber, editVerifyCode;
@@ -69,21 +69,13 @@ public class VerifyPhoneActivity extends Activity implements
     private LocationClient mLocationClient ;
     
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
+
 	@Override
 	protected void onDestroy() {
+		if(dialog.isShowing()){
+			dialog.dismiss();
+		}
 		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
 	}
 	/***************************腾讯统计基本框架结束*************************************/
 	public static final Intent getIntent(Context context) {
@@ -96,6 +88,7 @@ public class VerifyPhoneActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_verify_phone);
 		AppController.getInstance().addActivity(this);
+		this.setTag("VerifyPhoneActivity");
 		initWidgets();
 	}
 
@@ -172,7 +165,7 @@ public class VerifyPhoneActivity extends Activity implements
             if(!dialog.isShowing()){
             	dialog.show();
             }
-			NetUtil.requestStringData(SRL.Method.METHOD_LOGIN, map,
+			NetUtil.requestStringData(SRL.Method.METHOD_LOGIN,TAG , map,
 					new Response.Listener<String>() {
 
 						@Override
@@ -323,7 +316,7 @@ public class VerifyPhoneActivity extends Activity implements
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("phone", num);
 			
-			NetUtil.requestStringData(SRL.Method.METHOD_GET_VERIFY_CODE, map,
+			NetUtil.requestStringData(SRL.Method.METHOD_GET_VERIFY_CODE,TAG , map,
 					new Response.Listener<String>() {
 
 						@Override

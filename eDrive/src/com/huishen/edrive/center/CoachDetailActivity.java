@@ -16,6 +16,7 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.LoadingView;
 import com.huishen.edrive.widget.RoundImageView;
@@ -43,7 +44,7 @@ import android.widget.TextView;
  * @author zhanghuan
  * 
  */
-public class CoachDetailActivity extends Activity implements OnClickListener ,SwipeRefreshLayout.OnRefreshListener{
+public class CoachDetailActivity extends BaseActivity implements OnClickListener ,SwipeRefreshLayout.OnRefreshListener{
 	private String TAG = "CoachDetailActivity" ;
 	private TextView title , coachname , goodnum ,judgescore ,detailContent,stunum;
 	private TextView demandnum ,judgenum ,ranking ;
@@ -67,21 +68,13 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
     private ArrayList<String> imgUrls ;
     
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
+    //继承BaseActivity已经集成
 	@Override
 	protected void onDestroy() {
+		if(dialog.isShowing()){
+			dialog.dismiss();
+		}
 		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
 	}
 	/***************************腾讯统计基本框架结束*************************************/
     
@@ -90,6 +83,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_coach_detail);
 		AppController.getInstance().addActivity(this);
+		this.setTag("CoachDetailActivity");
 		/****************获取传进来的数据***************/
 		coachId = this.getIntent().getIntExtra(COACH_ID, -1) ;
 		tag = this.getIntent().getIntExtra("tag", 0);
@@ -112,7 +106,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(COACH_ID, coachId+"");
 //		map.put(SRL.Param.PARAM_LATITUDE, lat+"");
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_DETAIL, map, new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_DETAIL,TAG, map, new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {
@@ -309,7 +303,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(COACH_ID, coachId+"");
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_INFO, map,new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_INFO,TAG, map,new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {
@@ -358,7 +352,7 @@ public class CoachDetailActivity extends Activity implements OnClickListener ,Sw
 			if(!dialog.isShowing()){
 				dialog.show();
 			}
-			NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_FIELDPIC, map,new Response.Listener<String>() {
+			NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_FIELDPIC,TAG , map,new Response.Listener<String>() {
 
 				@Override
 				public void onResponse(String result) {

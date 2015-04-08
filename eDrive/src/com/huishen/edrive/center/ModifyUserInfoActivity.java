@@ -19,6 +19,7 @@ import com.huishen.edrive.util.BitmapUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.util.Uris;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.RoundImageView;
 import com.tencent.stat.StatService;
@@ -46,11 +47,10 @@ import android.widget.TextView;
  * @author zhanghuan
  *
  */
-public class ModifyUserInfoActivity extends Activity implements OnClickListener{
+public class ModifyUserInfoActivity extends BaseActivity implements OnClickListener{
 	private static final int REQUEST_CODE_TAKE_PHOTO = 0x2001;
 	private static final int REQUEST_CODE_FROM_ALBUM = 0x2101;
 	private static final int REQUEST_CODE_CROP_PHOTO = 0x2201;
-	private String LOG_TAG = "ModifyUserInfoActivity" ;
     private RoundImageView photoimg; //学员头像
     private ImageButton back ;
     private String nicknamestr ,realnamestr ,addrstr ;
@@ -61,23 +61,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
     
     
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-		getWebData();
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+
 	/***************************腾讯统计基本框架结束*************************************/
 	
 	@Override
@@ -85,6 +69,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify_user_info);
 		AppController.getInstance().addActivity(this);
+		this.setTag("ModifyUserInfoActivity");
 		registView();
 		initView();
 		
@@ -122,18 +107,18 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 			dialog.show();
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_CENTER_USERINFO, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_CENTER_USERINFO,TAG, map,
 				new Response.Listener<String>() {
                        
 					@Override
 					public void onResponse(String result) {
-						Log.i(LOG_TAG, result);
+						Log.i(TAG, result);
 						dialog.dismiss();
 						if(result == null || result.equals("")){
 							AppUtil.ShowShortToast(ModifyUserInfoActivity.this, "服务器繁忙");
 						}else{
 							setData(result);
-						}
+						} 
 						
 					}
 				},new DefaultErrorListener(this ,dialog));
@@ -240,7 +225,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 	private final File getAvatarFile() {
 		File target = new File(Environment.getExternalStorageDirectory()+"/eDrive/picture/", "avatar.jpg");
 		if (!target.exists()) {
-			Log.d(LOG_TAG, "target doesnot exist.create it.");
+			Log.d(TAG, "target doesnot exist.create it.");
 			target.getParentFile().mkdirs(); // 避免将末尾的文件名命名为文件夹
 			try {
 				target.createNewFile();
@@ -280,7 +265,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 						if(dialog.isShowing()){
 							dialog.dismiss();
 						}
-						Log.i(LOG_TAG, str);
+						Log.i(TAG, str);
 						if(str == null || str.equals("")){
 							AppUtil.ShowShortToast(getApplicationContext(), "服务器繁忙，请稍后重试");
 						}else{
@@ -300,7 +285,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 
 					@Override
 					public void onError(int httpCode) {
-						Log.e(LOG_TAG, "upload fail! "+httpCode);
+						Log.e(TAG, "upload fail! "+httpCode);
 						AppUtil.ShowShortToast(ModifyUserInfoActivity.this, "上传失败，请重新选择图片");
 						if(dialog.isShowing()){
 							dialog.dismiss();
@@ -310,7 +295,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 
 					@Override
 					public void onProgressChanged(int hasFinished) {
-						Log.d(LOG_TAG, "uploading...finished " + hasFinished
+						Log.d(TAG, "uploading...finished " + hasFinished
 								+ "%");
 					}
 				});
@@ -319,7 +304,7 @@ public class ModifyUserInfoActivity extends Activity implements OnClickListener{
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.d(LOG_TAG, "requestCode=" + requestCode + ", resultCode="
+		Log.d(TAG, "requestCode=" + requestCode + ", resultCode="
 				+ resultCode);
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {

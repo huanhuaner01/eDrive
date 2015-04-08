@@ -22,6 +22,7 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Packages;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.tencent.stat.StatConfig;
 import com.tencent.stat.StatReportStrategy;
 import com.tencent.stat.StatService;
@@ -54,14 +55,11 @@ import android.widget.Toast;
  * @author zhanghuan
  *
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 	//统计相关
 	private static StatLogger logger = new StatLogger("MTAeDrive");
 	
 	//统计结束
-	
-	
-	private static final String LOG_TAG = "SplashActivity";
 	
 	
 	private ViewPager viewPager; // 新手引导的pager
@@ -74,37 +72,17 @@ public class SplashActivity extends Activity {
 	public static StatLogger getLogger() {
 		return logger;
 	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
-		StatService.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
-		StatService.onPause(this);
-	}
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		AppController.getInstance().addActivity(this);
-		
+		this.setTag("SplashActivity");
 		
 		//启动腾讯mta
 //		android.os.Debug.startMethodTracing("MTA");
 		// 打开debug开关，可查看mta上报日志或错误
-		// 发布时，请务必要删除本行或设为false
+		// TODO 发布时，请务必要删除本行或设为false
 		StatConfig.setDebugEnable(true);
 		initMTAConfig(true);
 		
@@ -115,7 +93,7 @@ public class SplashActivity extends Activity {
 		imageView = (ImageView) findViewById(R.id.splash_image);
 
 		firstuse = checkFirstStart();
-		Log.d(LOG_TAG, "check first use: " + firstuse);
+		Log.d(TAG, "check first use: " + firstuse);
 		if (!firstuse) {
 			viewPager.setVisibility(View.INVISIBLE);
 			findViewById(R.id.splash_ll_dots).setVisibility(View.INVISIBLE);
@@ -178,7 +156,7 @@ public class SplashActivity extends Activity {
 	private void checkSoftwareUpdate(){
 		HashMap<String , String> hashMap = new HashMap<String, String>();
 		hashMap .put(SRL.Param.PARAM_UPDATE_SOFTKEY, "stu_client.apk");
-		NetUtil.requestStringData(SRL.Method.METHOD_CHECK_UPDATE, hashMap, getUpdateResponseListener(),
+		NetUtil.requestStringData(SRL.Method.METHOD_CHECK_UPDATE, TAG ,hashMap, getUpdateResponseListener(),
 				new ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
@@ -198,9 +176,9 @@ public class SplashActivity extends Activity {
 					final JSONObject json = new JSONObject(arg0);
 					int servercode = json.getInt(SRL.ReturnField.FIELD_UPDATE_SERVER_VERSIONCODE);
 					int localcode = Packages.getVersioCode(SplashActivity.this);
-					Log.i(LOG_TAG, "server=" + servercode + ",local=" + localcode);
+					Log.i(TAG, "server=" + servercode + ",local=" + localcode);
 					if (servercode <= localcode){
-						Log.d(LOG_TAG, "No avaliable update found.");
+						Log.d(TAG, "No avaliable update found.");
 						handler.sendEmptyMessage(SplashHandler.MSG_NO_UPDATE);
 						return;
 					}
@@ -254,7 +232,7 @@ public class SplashActivity extends Activity {
 		else{
 			file = new File(getFilesDir() + File.separator, "edrive.apk");	
 		}
-		Log.d(LOG_TAG, "apk path:"+file.getAbsolutePath());
+		Log.d(TAG, "apk path:"+file.getAbsolutePath());
 		final ProgressDialog dialog = createDownloadDialog();
 		dialog.show();
 		HashMap<String ,String> params = new HashMap<String ,String>();
@@ -332,7 +310,7 @@ public class SplashActivity extends Activity {
 			super.handleMessage(msg);
 			SplashActivity activity = wk.get();
 			if (activity==null){
-				Log.w(LOG_TAG, "reference is null.");
+//				Log.w(TAG, "reference is null.");
 				return ;
 			}
 			switch (msg.what) {
@@ -353,7 +331,7 @@ public class SplashActivity extends Activity {
 				}
 				break;
 			case MSG_MAX_WAIT:
-				Log.d(LOG_TAG, "max wait time up, force enter next activity.");
+//				Log.d(TAG, "max wait time up, force enter next activity.");
 				activity.startNextActivity();
 				break;
 			default:
@@ -367,11 +345,11 @@ public class SplashActivity extends Activity {
 	 */
 	private final void startNextActivity() {
 		boolean isuser = Prefs.checkUser(this);
-		Log.i(LOG_TAG, "isuser is "+isuser);
+		Log.i(TAG, "isuser is "+isuser);
 		
           //如果用户存在则进入主页面
 		 if(isuser ){
-			 Log.i(LOG_TAG, "login");
+			 Log.i(TAG, "login");
 			 login();
 		 }else{
 			 intentDemand() ;
@@ -405,8 +383,8 @@ public class SplashActivity extends Activity {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(Const.USER_PHONE,Prefs.readString(this, Const.USER_PHONE) );//电话号码
 		map.put(Const.USER_MOBILEFLAG, Prefs.readString(this, Const.USER_MOBILEFLAG)) ; //MobileFlag
-		Log.i(LOG_TAG, "rcegwthtyjjhs"+Prefs.readString(this, Const.USER_MOBILEFLAG));
-		NetUtil.requestStringData(SRL.Method.METHOD_LOGIN_PRI, map,
+		Log.i(TAG, "rcegwthtyjjhs"+Prefs.readString(this, Const.USER_MOBILEFLAG));
+		NetUtil.requestStringData(SRL.Method.METHOD_LOGIN_PRI,TAG, map,
 				new Response.Listener<String>() {
 
 					@Override
@@ -441,7 +419,7 @@ public class SplashActivity extends Activity {
 	 * @param result
 	 */
 	private void actionlogin(String result){
-		Log.i(LOG_TAG, result) ;
+		Log.i(TAG, result) ;
 		if(result == null || result.equals("")){
 			AppUtil.ShowShortToast(getApplicationContext(), "登录异常");
 			intentMain();
@@ -490,7 +468,7 @@ public class SplashActivity extends Activity {
 		// safety check
 		int dotnum = llDots.getChildCount();
 		if (pagenum != dotnum) {
-			Log.e(LOG_TAG, "UI bug detected: dots!=pages.");
+			Log.e(TAG, "UI bug detected: dots!=pages.");
 			throw new RuntimeException("UI bug detected: dots!=pages.");
 		}
 		for (int i = 0; i < dotnum; i++) {
@@ -512,7 +490,7 @@ public class SplashActivity extends Activity {
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				if (arg0 == pagenum - 1 && !hasJumped) {
-					Log.d(LOG_TAG, "on page last");
+					Log.d(TAG, "on page last");
 					hasJumped = true;
 //					startNextActivity();
 					//using handler to force update.

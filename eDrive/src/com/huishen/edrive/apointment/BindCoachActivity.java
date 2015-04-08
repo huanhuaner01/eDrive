@@ -13,6 +13,7 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -33,7 +34,7 @@ import android.widget.TextView;
  * @author zhanghuan
  *
  */
-public class BindCoachActivity extends Activity implements OnClickListener{
+public class BindCoachActivity extends BaseActivity implements OnClickListener{
    private TextView title  ,tel ,stuname ,stupass;
    private ImageButton back ;
    private Button commit ;
@@ -43,22 +44,10 @@ public class BindCoachActivity extends Activity implements OnClickListener{
    private Intent intent ; //填写数据的intent
    private LoadingDialog dialog ; //加载框
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
 	@Override
 	protected void onResume() {
 		initView();
 		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
 	}
 	/***************************腾讯统计基本框架结束*************************************/
 	@Override
@@ -146,7 +135,7 @@ public class BindCoachActivity extends Activity implements OnClickListener{
 		map.put(SRL.Param.PARAM_BIND_STU_NAME,name );
 		map.put(SRL.Param.PARAM_BIND_CONTENT, content);
 		commit.setEnabled(false);
-		NetUtil.requestStringData(SRL.Method.METHOD_BIND_COACH, map, new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_BIND_COACH,TAG , map, new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {

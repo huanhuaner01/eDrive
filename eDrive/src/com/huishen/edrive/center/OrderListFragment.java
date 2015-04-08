@@ -33,33 +33,26 @@ import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.TitleListFragment;
 
 public class OrderListFragment extends TitleListFragment {
-	private String TAG = "OrderListFragment" ;
 	private ArrayList<Map<String ,Object>> listdata = new ArrayList<Map<String ,Object>>();
 	private String[] from  = new String[]{"time","statusvalue","content" ,"note"};
 	private int[] to = new int[]{R.id.item_order_time,R.id.item_order_status,R.id.item_order_content,R.id.item_order_note};
 	private OrderListAdapter adapter ;
 	private MessageDialog dialog ;
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
 	public OrderListFragment(Context context, String titlestr, String url) {
 		super(context, titlestr, url);
-		// TODO Auto-generated constructor stub
+		this.setTag("OrderListFragment");
 	}
 
 	public OrderListFragment(Context context, Object tag, String titlestr,
 			String url) {
 		super(context, tag, titlestr, url);
-		// TODO Auto-generated constructor stub
+		this.setTag("OrderListFragment");
 	}
 
 	@Override
 	public void getWebData() {
 		HashMap<String, String> map = new HashMap<String, String>();
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_ORDER_LIST, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_ORDER_LIST, TAG ,map,
 				new Response.Listener<String>() {
                        
 					@Override

@@ -18,6 +18,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.CalendarUtil;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.RoundImageView;
@@ -36,8 +37,8 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class ApointmentActivity extends Activity {
-	private String TAG = "ApointmentActivity", telstr;
+public class ApointmentActivity extends BaseActivity {
+	private String  telstr;
 	private ExpandableListView list;
 	private TextView title, coachname, carnum, time, week;
 	private ImageButton back, tel;
@@ -56,22 +57,7 @@ public class ApointmentActivity extends Activity {
     
 	private int crrenNum = 0;
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+    //继承BaseActivity 自动集成腾讯统计
 	/***************************腾讯统计基本框架结束*************************************/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +69,7 @@ public class ApointmentActivity extends Activity {
 		date = this.getIntent().getStringExtra("lessonDate");
 
 		// ---------------------获取数据结束！-------------------------
+		this.setTag("ApointmentActivity");
 		registView();
 		init();
 	}
@@ -161,7 +148,7 @@ public class ApointmentActivity extends Activity {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("coachId", Prefs.readString(this, Const.USER_COACH_ID));
 		map.put("lessonDate", date);
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_SUBJECT, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_SUBJECT,TAG , map,
 				new Response.Listener<String>() {
 
 					@Override
@@ -370,7 +357,7 @@ public class ApointmentActivity extends Activity {
 		map.put("lessonDate", date);
 		map.put("lessonTime", lessionDate + "");
 		map.put("subject", subject + "");
-		NetUtil.requestStringData(SRL.Method.METHOD_SEND_APPOINT, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_SEND_APPOINT,TAG , map,
 				new Response.Listener<String>() {
 
 					@Override
@@ -415,7 +402,7 @@ public class ApointmentActivity extends Activity {
 		map.put("lessonDate", date);
 		map.put("lessonTime", lessionDate + "");
 		map.put("subject", subject + "");
-		NetUtil.requestStringData(SRL.Method.METHOD_CANCEL_APPOINT, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_CANCEL_APPOINT,TAG, map,
 				new Response.Listener<String>() {
 
 					@Override

@@ -27,12 +27,14 @@ public class CoachMealListFragment extends TitleListFragment {
 	public CoachMealListFragment(Context context, String titlestr, String url ,int coachId) {
 		super(context, titlestr, url);
 		this.coachId = coachId ;
+		this.setTag("CoachMealListFragment");
 	}
 
 	public CoachMealListFragment(Context context, Object tag,
 			String titlestr, String url ,int coachId) {
 		super(context, tag, titlestr, url);
 		this.coachId = coachId ;
+		this.setTag("CoachMealListFragment");
 	}
 
 	@Override
@@ -44,7 +46,7 @@ public class CoachMealListFragment extends TitleListFragment {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", coachId+"");
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_MEAL, map, new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_MEAL, TAG ,map, new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {

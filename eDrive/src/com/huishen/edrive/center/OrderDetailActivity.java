@@ -18,6 +18,7 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.SimpleRecorder;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.RoundImageView;
 import com.tencent.stat.StatService;
@@ -47,8 +48,7 @@ import android.widget.TextView;
  * @author zhanghuan
  * 
  */
-public class OrderDetailActivity extends Activity {
-	private String TAG = "OrderDetailActivity";
+public class OrderDetailActivity extends BaseActivity {
 	private TextView title, ordercontent, coachname, coachfield, coachjudge,
 			coachdistance, titlenote;
 	private int orderId, coachId;
@@ -64,23 +64,7 @@ public class OrderDetailActivity extends Activity {
 	private int commentId;
 
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-		getWebDate();
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+
 	/***************************腾讯统计基本框架结束*************************************/
 	
 	@Override
@@ -88,6 +72,7 @@ public class OrderDetailActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_detail);
 		AppController.getInstance().addActivity(this);
+		this.setTag("OrderDetailActivity");
 		// ---------------------获取数据-----------------------
 		orderId = this.getIntent().getIntExtra("id", -1);
 		coachId = this.getIntent().getIntExtra("coachId", -1);
@@ -169,7 +154,7 @@ public class OrderDetailActivity extends Activity {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", orderId + "");
 		cancelOrderBtn.setEnabled(false);
-		NetUtil.requestStringData(SRL.Method.METHOD_CANCEL_ORDER, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_CANCEL_ORDER,TAG , map,
 				new Response.Listener<String>() {
 
 					@Override
@@ -211,7 +196,7 @@ public class OrderDetailActivity extends Activity {
         if(!isFinishing()&&!dialog.isShowing()){
         	dialog.show();
         }
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_ORDER_DETAIL, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_ORDER_DETAIL, TAG ,map,
 				new Response.Listener<String>() {
 
 					@Override

@@ -48,6 +48,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -74,8 +75,7 @@ import android.widget.Toast;
  * @author zhanghuan
  *
  */
-public class DemandActivity extends Activity implements OnClickListener{
-	private String TAG = "DemandActivity" ;
+public class DemandActivity extends BaseActivity implements OnClickListener{
 	//常量
 	private int STATUS_INPUT = 0 ; //文字输入
 	private int STATUS_SOUND = 1 ; //语音输入
@@ -106,7 +106,6 @@ public class DemandActivity extends Activity implements OnClickListener{
     private MessageDialog Offlinedialog ; //离线弹出框
     
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
 	
 	/***************************腾讯统计基本框架结束*************************************/
     
@@ -115,6 +114,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		 //将Activity添加进入栈
         AppController.getInstance().addActivity(this) ;
+        this.setTag("DemandActivity");
 		/***************获取传递的数据*******************/
         
         isFirstMain = this.getIntent().getBooleanExtra(IS_MAIN, false) ;
@@ -183,7 +183,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 		map.put(SRL.Param.PARAM_LONGITUDE, lng+"");
 		map.put(SRL.Param.PARAM_LATITUDE, lat+"");
 		
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_ROUND_COACH, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_ROUND_COACH,TAG , map,
 				new Response.Listener<String>() {
 
 					@Override
@@ -326,7 +326,7 @@ public class DemandActivity extends Activity implements OnClickListener{
 				showRoundCoach(location.getLongitude() ,location.getLatitude());
 				addr = location.getAddrStr() ;
 				mLocClient.stop();
-				checkOfflineMap(Integer.parseInt(location.getCityCode()) ,location.getCity());
+//				checkOfflineMap(Integer.parseInt(location.getCityCode()) ,location.getCity());
 				Log.w(TAG, "demand addr is "+addr);
 			}
 				
@@ -341,9 +341,9 @@ public class DemandActivity extends Activity implements OnClickListener{
         public void onInfoWindowClick()  
         {  
         	if(Prefs.checkUser(DemandActivity.this)){
-           Intent i = new Intent(DemandActivity.this,CoachDetailActivity.class);
-           i.putExtra(CoachDetailActivity.COACH_ID, coachId) ;
-           DemandActivity.this.startActivity(i);
+              Intent i = new Intent(DemandActivity.this,CoachDetailActivity.class);
+              i.putExtra(CoachDetailActivity.COACH_ID, coachId) ;
+              DemandActivity.this.startActivity(i);
         	}else{
         		AppUtil.intentRegistActivity(DemandActivity.this);
         	}
@@ -353,7 +353,6 @@ public class DemandActivity extends Activity implements OnClickListener{
 	protected void onPause() {
 		mMapView.onPause();
 		super.onPause();
-		StatService.onPause(this);
 		
 	}
 
@@ -361,7 +360,6 @@ public class DemandActivity extends Activity implements OnClickListener{
 	protected void onResume() {
 		mMapView.onResume();
 		super.onResume();
-		StatService.onResume(this);
 	}
 	
 	/**
@@ -374,6 +372,9 @@ public class DemandActivity extends Activity implements OnClickListener{
 	}
 	@Override
 	protected void onDestroy() {
+		if(dialog.isShowing()){
+			dialog.dismiss();
+		}
 		// 
 		mLocClient.stop();
 		//
@@ -382,7 +383,6 @@ public class DemandActivity extends Activity implements OnClickListener{
 		mMapView.onDestroy();
 		mMapView = null;
 		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
 	}
 
 	/**
@@ -476,6 +476,9 @@ public class DemandActivity extends Activity implements OnClickListener{
 	                        // 离线地图下载更新事件类型
 	                        MKOLUpdateElement update = mOffline.getUpdateInfo(state);
 	                        Log.e("Map", update.cityName + " ," + update.ratio);
+	                        if(progressDialog == null){
+	                        	progressDialog = new ProgressDialog(DemandActivity.this);
+	                        }
 	                        progressDialog.setProgress(update.ratio);
 	                        if(update.ratio == 100) {
 	                            progressDialog.dismiss();

@@ -34,6 +34,7 @@ import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
+import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
@@ -54,16 +55,13 @@ import android.app.Activity;
  * @author zhanghuan
  *
  */
-public class CoachTrainFieldActivity extends Activity {
-	private String TAG = "CoachTrainFieldActivity" ;
+public class CoachTrainFieldActivity extends BaseActivity {
 	//标题栏相关
 	private TextView title ; 
 	private ImageButton back ; 
 	//地图相关
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
-	private LocationMode mCurrentMode;
-	private BitmapDescriptor mCurrentMarker;
     private LoadingDialog dialog ;
 	
 	private MapView mMapView;
@@ -74,7 +72,6 @@ public class CoachTrainFieldActivity extends Activity {
     private int coachId = -1  ;
     
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
 
 	/***************************腾讯统计基本框架结束*************************************/
     
@@ -83,11 +80,11 @@ public class CoachTrainFieldActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_coach_train_field);
 		AppController.getInstance().addActivity(this);
+		this.setTag("CoachTrainFieldActivity");
 		/****************获取传进来的数据***************/
 		
 		coachId = this.getIntent().getIntExtra(CoachDetailActivity.COACH_ID, -1) ;
-		/****************获取传进来的数据结束***************/	
-	    mCurrentMode = LocationMode.NORMAL;
+		/****************获取传进来的数据结束***************/
 		
 		mMapView = (MapView) findViewById(R.id.bmapView);
 		mBaiduMap = mMapView.getMap();
@@ -131,7 +128,7 @@ public class CoachTrainFieldActivity extends Activity {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(CoachDetailActivity.COACH_ID, coachId+"");
 		
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_FIELD, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_FIELD, TAG ,map,
 				new Response.Listener<String>() {
 
 					@Override
@@ -243,14 +240,12 @@ public class CoachTrainFieldActivity extends Activity {
 	protected void onPause() {
 		mMapView.onPause();
 		super.onPause();
-		StatService.onPause(this);
 	}
 
 	@Override
 	protected void onResume() {
 		mMapView.onResume();
 		super.onResume();
-		StatService.onResume(this);
 	}
 	
 	/**
@@ -271,7 +266,6 @@ public class CoachTrainFieldActivity extends Activity {
 		mMapView.onDestroy();
 		mMapView = null;
 		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
 	}
 
 }

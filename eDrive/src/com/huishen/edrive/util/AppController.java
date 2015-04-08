@@ -58,15 +58,15 @@ public class AppController extends Application {
 		return mInstance;
 	}
 
-	/**
-	 * 提交新的网络请求。
-	 */
-	public final <T> void addNetworkRequest(Request<T> request){
-		if (requestQueue != null){
-//			request.setRetryPolicy(new DefaultRetryPolicy(60 * 1000, 0, 1.0f));
-			requestQueue.add(request);
-		}
-	}
+//	/**
+//	 * 提交新的网络请求。
+//	 */
+//	public final <T> void addNetworkRequest(Request<T> request ){
+//		if (requestQueue != null){
+////			request.setRetryPolicy(new DefaultRetryPolicy(60 * 1000, 0, 1.0f));
+//			requestQueue.add(request);
+//		}
+//	}
    
 
    ///////////////////////////退出应用相关////////////////////////////////////
@@ -118,20 +118,36 @@ public class AppController extends Application {
 
 	public <T> void addToRequestQueue(Request<T> req, String tag) {
 		// set the default tag if tag is empty
+		if (requestQueue != null){
 		req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
 		requestQueue.add(req);
+		}
 	}
 
 	public <T> void addToRequestQueue(Request<T> req) {
-		req.setTag(TAG);
-		requestQueue.add(req);
+		if (requestQueue != null){
+		   req.setTag(TAG);
+		   requestQueue.add(req);
+		}
 		
 	}
 
+	/**
+	 * 取消tag的所有网络请求
+	 * @param tag
+	 */
 	public void cancelPendingRequests(Object tag) {
 		if (requestQueue != null) {
 			requestQueue.cancelAll(tag);
 			
+		}
+	}
+	/**
+	 * 取消所有的网络请求
+	 */
+	public void cancelPendingRequests() {
+		if (requestQueue != null) {			
+			requestQueue.cancelAll(this);
 		}
 	}
 	

@@ -97,20 +97,6 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
 		super.onDestroy();
 		android.os.Debug.stopMethodTracing();
 	}
-	private void checkAppoint(){
-    	   FragmentManager fm = this.getSupportFragmentManager();  
-           FragmentTransaction tx = fm.beginTransaction(); 
-           coachId = Prefs.readString(this, Const.USER_COACH_ID);
-       	if(coachId == null || coachId.equals("")){
-			AppointmentNoCoachFragment nocoachfragment = new AppointmentNoCoachFragment();
-			tx.replace(R.id.main_center,nocoachfragment); 
-		}else{
-			
-			ApointmentFragment apointment = ApointmentFragment.create(result) ;	
-			tx.replace(R.id.main_center,apointment); 
-		}
-        tx.commitAllowingStateLoss();
-    }
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

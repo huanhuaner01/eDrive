@@ -28,7 +28,6 @@ import com.huishen.edrive.widget.TitleListFragment;
  *
  */
 public class CoachJudgeListFragment extends TitleListFragment {
-	private String TAG = "CoachJudgeListFragment" ;
     private int coachId ;
     private String coachName ;
     private float score ;
@@ -93,7 +92,7 @@ public class CoachJudgeListFragment extends TitleListFragment {
 		}
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", coachId+"");
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_JUDGE_LIST, map, new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_JUDGE_LIST,TAG , map, new Response.Listener<String>() {
 
 			@Override
 			public void onResponse(String result) {
@@ -122,10 +121,16 @@ public class CoachJudgeListFragment extends TitleListFragment {
 			
 		});
 	}
-
+    
 	@Override
 	public void setList(String data, ExpandableListView list) {
 		
+	}
+
+	@Override
+	public void onDestroy() {
+		NetUtil.cancelRequest(TAG);
+		super.onDestroy();
 	}
 	
 	

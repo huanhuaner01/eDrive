@@ -38,7 +38,6 @@ import com.huishen.edrive.widget.TitleListFragment;
  *
  */
 public class MsgFragment extends TitleListFragment { 
-	private String TAG = "MsgFragment" ;
 	private ArrayList<Map<String ,Object>> listdata = new ArrayList<Map<String ,Object>>();
 	private String[] from  = new String[]{"content"};
 	private int[] to = new int[]{R.id.item_msg_content};
@@ -46,17 +45,19 @@ public class MsgFragment extends TitleListFragment {
 	private MessageDialog dialog ;
 	public MsgFragment(Context context, String titlestr, String url) {
 		super(context, titlestr, url);
+		this.setTag("MsgFragment");
 	}
 
 	public MsgFragment(Context context, Object tag, String titlestr, String url) {
 		super(context, tag, titlestr, url);
+		this.setTag("MsgFragment");
 	}
 
 	@Override
 	public void getWebData() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("target", Prefs.readString(getActivity(), Const.USER_PHONE));
-		NetUtil.requestStringData(SRL.Method.METHOD_GET_MSG_LIST, map,
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_MSG_LIST,TAG, map,
 				new Response.Listener<String>() {
                        
 					@Override

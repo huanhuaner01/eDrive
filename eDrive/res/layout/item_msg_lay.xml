@@ -2,30 +2,101 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:gravity="center_vertical"
-    android:padding="@dimen/padding_default"
-    android:background="@drawable/selector_lab_btn"
+    android:background="@color/main_bg_color"
+    android:paddingLeft="@dimen/padding_default"
+    android:paddingRight="@dimen/padding_default"
+    android:paddingTop="@dimen/padding_middle"
+    android:paddingBottom="@dimen/padding_middle"
      >
-   <ImageView 
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:src="@drawable/ic_msg_nor"
-       />
-   <TextView
+     <TextView
+         android:id="@+id/item_msg_time"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="今天 下午3:00"
+         android:layout_gravity="center_horizontal"
+         android:background="@drawable/gray_radi"
+         android:textSize="@dimen/txtsize_middle"
+         android:textColor="@color/white"
+         android:paddingTop="@dimen/padding_micro"
+         android:paddingBottom="@dimen/padding_micro"
+         android:paddingLeft="@dimen/padding_default"
+         android:paddingRight="@dimen/padding_default"
+         />
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         android:background="@drawable/rect_graycorner"
+         android:layout_marginTop="@dimen/margin_middle"
+         >
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:padding="@dimen/padding_default"
+             android:orientation="vertical"
+             >
+         <TextView
+            android:id="@+id/item_msg_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="绑定消息"
+            android:textColor="@color/tv_light_color"
+            android:textSize="@dimen/txtsize_middle"
+             />
+         <!--  
+         <View 
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/divide_line"
+             android:background="@color/tv_smallgrap_color"
+             />
+         -->
+      <com.android.volley.toolbox.NetworkImageView   
+        android:id="@+id/item_msg_icon"  
+        android:layout_width="match_parent"  
+        android:layout_height="wrap_content"  
+        android:layout_gravity="center_horizontal"  
+        />  
+      <TextView
        android:id="@+id/item_msg_content"
-       android:layout_width="0dp"
+       android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_weight="1"
        android:text="教练抢到了您的订单"
-       android:singleLine="true"
-       android:textColor="@color/tv_light_color"
+       android:maxLength="50"
+       android:textColor="@color/tv_gray_color"
        android:textSize="@dimen/txtsize_middle"
+       android:layout_marginTop="@dimen/margin_default"
        />
-     <ImageView 
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:src="@drawable/ic_next"
+      </LinearLayout>
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/divide_line"
+          android:background="@color/tv_smallgrap_color" 
+          />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          android:paddingLeft="@dimen/padding_default"
+          android:paddingRight="@dimen/padding_default"
+          android:paddingTop="@dimen/padding_middle"
+          android:paddingBottom="@dimen/padding_middle"
+         >
+      <TextView
+          android:text="查看更多"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textColor="@color/tv_light_color"
+          android:textSize="@dimen/txtsize_middle"
+          /> 
+       <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@drawable/ic_next"
        />
-
+       </LinearLayout>
+      </LinearLayout>
 </LinearLayout>

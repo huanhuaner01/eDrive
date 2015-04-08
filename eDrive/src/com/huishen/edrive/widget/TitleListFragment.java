@@ -24,7 +24,7 @@ import android.widget.TextView;
  * @author zhanghuan
  *
  */
-public abstract class TitleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public abstract class TitleListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 	//下拉刷新组件
 	public SwipeRefreshLayout mSwipeLayout;
 	/** 返回上一个fragment */

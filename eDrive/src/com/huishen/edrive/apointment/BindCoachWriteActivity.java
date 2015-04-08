@@ -8,6 +8,7 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
 
@@ -29,7 +30,7 @@ import android.widget.Toast;
  * @author zhanghuan
  *
  */
-public class BindCoachWriteActivity extends Activity {
+public class BindCoachWriteActivity extends BaseActivity {
  private int key = 1 ; //1代表绑定号码 ，2代表填写学员姓名 ，3代表填写密码
  private LinearLayout tellay , namelay ,passlay ;
  private TextView title ,note ;
@@ -37,28 +38,14 @@ public class BindCoachWriteActivity extends Activity {
  private ImageButton back ;
  private EditText coachtel ,stuname , stupass ,constupass ;
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+	//继承baseActvity 已经集成
 	/***************************腾讯统计基本框架结束*************************************/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bind_coach_write);
 		AppController.getInstance().addActivity(this);
+		this.setTag("BindCoachWriteActivity");
 		//----------获取上一个activity传递的数据--------------
 		key = this.getIntent().getIntExtra("key", 1);
 		//----------获取上一个activity传递的数据结束！--------------

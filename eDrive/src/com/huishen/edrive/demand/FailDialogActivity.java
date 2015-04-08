@@ -14,6 +14,7 @@ import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.BaseActivity;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
 
@@ -30,28 +31,12 @@ import android.widget.Button;
  * @author zhanghuan
  * 
  */
-public class FailDialogActivity extends Activity {
-	private String TAG = "FailDialogActivity" ;
+public class FailDialogActivity extends BaseActivity {
     private int orderId ; //订单号
     private Button resend ,cancel ;
     
 	/***************************腾讯统计相关框架*************************************/
-	StatLogger logger = SplashActivity.getLogger();
-	@Override
-	protected void onResume() {
-		super.onResume();
-		StatService.onResume(this);
-	}
-	   @Override
-		protected void onPause() {
-			super.onPause();
-			StatService.onPause(this);
-		}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Debug.stopMethodTracing();
-	}
+
 	/***************************腾讯统计基本框架结束*************************************/
     
 	@Override
@@ -60,6 +45,7 @@ public class FailDialogActivity extends Activity {
 		setContentView(R.layout.activity_fail_dialog);
 		
 		AppController.getInstance().addActivity(this);
+		this.setTag("FailDialogActivity");
 		setFinishOnTouchOutside(false);
 		//--------------------获取数据-------------------
 		orderId = this.getIntent().getIntExtra(Const.USER_LAST_ORDER_ID, 0);
@@ -122,7 +108,7 @@ public class FailDialogActivity extends Activity {
 	private void resendOrder(){
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(Const.USER_LAST_ORDER_ID, orderId+"");
-		NetUtil.requestStringData(SRL.Method.METHOD_RESEND_ORDER, map,  new Response.Listener<String>() {
+		NetUtil.requestStringData(SRL.Method.METHOD_RESEND_ORDER,TAG , map,  new Response.Listener<String>() {
 			
 			@Override
 			public void onResponse(String result) {
