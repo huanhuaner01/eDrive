@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 import android.util.Log;
 
 /**
- * ����������ʾ�Ĺ�����
+ * 时间管理工具类
  * @author zhanghuan
  *
  */
@@ -21,7 +21,7 @@ public class CalendarUtil {
 	public CalendarUtil() {
 	}
 	/**
-	 * ���Ҫ��ʾ�����е�����
+	 * 获取系统支持的所有月份
 	 * @return
 	 */
 	public static int getAllMonth(){
@@ -30,6 +30,14 @@ public class CalendarUtil {
 		return year*12 ;
 	}
     
+	/**
+	 * 获取当前时间节点（格式为yyyy-MM-dd HH:mm）
+	 * @return
+	 */
+	public static String getCurrentTime(){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");//设置日期格式
+		return df.format(new Date());// new Date()为获取当前系统时间
+	}
 	public static Date getDate(int index){
 		int year = MIN_YEAR+index/12;
 		int month = index%12;
@@ -110,7 +118,7 @@ public class CalendarUtil {
 	}
 	
 	/**
-	 * ��ȡĿǰ�·���������ҳ����±�
+	 * 获取当前月份检索
 	 * @return
 	 */
 	public static int getCurrentMouth(){
@@ -123,7 +131,7 @@ public class CalendarUtil {
 	} 
 	
 	/**
-	 * ��ý��������·ݵĵڼ���
+	 * 获取当前天数
 	 * @return
 	 */
 	public static int getCurrentDay(){
@@ -132,8 +140,8 @@ public class CalendarUtil {
 		return day ;
 	}
 	/**
-	 * �������
-	 * @return ��ʽΪyyyy-MM-dd���ַ�
+	 * 获取明天的日期
+	 * @return时间格式yyyy-MM-dd
 	 */
 	public static String getTomorrow(){
 		Calendar cal=Calendar.getInstance();

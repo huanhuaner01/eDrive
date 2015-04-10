@@ -38,12 +38,13 @@
              android:orientation="vertical"
              >
          <TextView
-            android:id="@+id/item_msg_type"
+            android:id="@+id/item_msg_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
             android:text="绑定消息"
             android:textColor="@color/tv_light_color"
             android:textSize="@dimen/txtsize_middle"
+            android:layout_marginBottom="@dimen/padding_middle"
              />
          <!--  
          <View 
@@ -54,8 +55,8 @@
          -->
       <com.android.volley.toolbox.NetworkImageView   
         android:id="@+id/item_msg_icon"  
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"  
-        android:layout_height="wrap_content"  
         android:layout_gravity="center_horizontal"  
         />  
       <TextView

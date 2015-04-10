@@ -13,7 +13,17 @@ public class AppMessage implements Serializable {
 	private String content;
 	private String time;
 	private String iconPath ;
+	private String title ; 
 	private int type;
+	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public int getType() {
 		return type;
@@ -22,13 +32,6 @@ public class AppMessage implements Serializable {
 	public void setType(int type) {
 		this.type = type;
 	}
-
-	public class MsgType{
-		public final int SYSTEM_MESSAGE = 0;
-//		public final int ARRANG_MESSAGE = 1;
-		public final int BINDING_MESSAGE = 2;
-	}
-
 
 	public String getIconPath() {
 		return iconPath;
@@ -62,4 +65,11 @@ public class AppMessage implements Serializable {
 	public void setTime(String time) {
 		this.time = time;
 	}
+
+	@Override
+	public String toString() {
+		return "id:"+getId()+" content:"+getContent()+" time:"+getTime()
+				+" iconpath:"+getIconPath()+" type:"+getType()+" title:"+getTitle();
+	}
+	
 }

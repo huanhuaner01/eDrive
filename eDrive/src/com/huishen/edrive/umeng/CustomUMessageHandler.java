@@ -19,9 +19,12 @@ import android.support.v4.app.NotificationCompat.Builder;
 import android.util.Log;
 import com.huishen.edrive.R;
 import com.huishen.edrive.center.ListActivity;
+import com.huishen.edrive.db.AppMessage;
+import com.huishen.edrive.db.MeaasgeDbManager;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
+import com.huishen.edrive.widget.CalendarUtil;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.entity.UMessage;
 
@@ -60,6 +63,7 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 //			dispatchMessage(context, args);	
 //		}
 		simpleNotice(context,msg);
+		insertDB(context,msg);
 		Intent intent = new Intent(UmengPushConst.Action.ACTION_MSG);
 	    
 		intent.putExtra("msg_type", msg.extra.get("msgType"));
@@ -84,8 +88,34 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 		context.sendOrderedBroadcast(intent, null);
 	}
 	
+	/**
+	 * 保存数据库
+	 * @param context
+	 * @param msg
+	 */
+	private void insertDB(Context context, UMessage msg){
+		MeaasgeDbManager db = new MeaasgeDbManager(context);
+		AppMessage appmsg = new AppMessage();
+		appmsg.setContent(msg.text); //消息内容
+		appmsg.setTitle(msg.title); //消息标题
+		appmsg.setType(Integer.parseInt(msg.extra.get("msgType"))); //消息类型
+		appmsg.setIconPath(msg.extra.get("path")); //图片路径
+		appmsg.setTime(CalendarUtil.getCurrentTime()) ; //消息时间
+//		db.clearAllMessages(); //测试删除
+		if(db.saveAppMessage(appmsg)){
+			Log.i(LOG_TAG, "msg is insert to db! id is "+appmsg.getId());
+		}else{
+			Log.i(LOG_TAG, "msg is not insert to db");
+		}
+		
+	}
+	  /**
+	   * 显示在通知栏
+	   * @param context
+	   * @param msg
+	   */
 	   public void simpleNotice(Context context, UMessage msg) {
-		   NotificationManager nm = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+		    NotificationManager nm = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
 		    Builder mBuilder = new Builder(context);
 	        mBuilder.setTicker(msg.ticker);
 	        mBuilder.setSmallIcon(R.drawable.ic_launcher);

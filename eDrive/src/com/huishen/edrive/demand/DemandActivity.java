@@ -104,6 +104,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
     private LoadingDialog dialog ; //加载弹出框
     private ProgressDialog progressDialog ;
     private MessageDialog Offlinedialog ; //离线弹出框
+    private int cityId ; //城市id,用于离线地图下载
     
 	/***************************腾讯统计相关框架*************************************/
 	
@@ -153,6 +154,8 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 		msgTag.setVisibility(View.GONE);
 		// 开启定位图层
 		mBaiduMap.setMyLocationEnabled(true);
+		mMapView.removeViewAt(1);
+		
 		// 定位初始化
 		mLocClient = new LocationClient(this);
 		mLocClient.registerLocationListener(myListener);
@@ -323,10 +326,15 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll,15);
 				Log.w("LocationDemo","地理位置"+location.getLatitude()+","+location.getLongitude());
 				mBaiduMap.animateMapStatus(u);
-				showRoundCoach(location.getLongitude() ,location.getLatitude());
 				addr = location.getAddrStr() ;
 				mLocClient.stop();
-//				checkOfflineMap(Integer.parseInt(location.getCityCode()) ,location.getCity());
+				if(location.getCityCode() == null){
+					Log.i(TAG, "location.getCityCode() is null");
+				}else{
+					cityId = Integer.parseInt(location.getCityCode());
+				  checkOfflineMap(Integer.parseInt(location.getCityCode()) ,location.getCity());
+				  showRoundCoach(location.getLongitude() ,location.getLatitude());
+				}
 				Log.w(TAG, "demand addr is "+addr);
 			}
 				
@@ -351,6 +359,12 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
     };
 	@Override
 	protected void onPause() {
+		if(cityId != 0){
+		MKOLUpdateElement temp = mOffline.getUpdateInfo(cityId);
+		if (temp != null && temp.status == MKOLUpdateElement.DOWNLOADING) {
+			mOffline.pause(cityId);
+		}
+		}
 		mMapView.onPause();
 		super.onPause();
 		
@@ -372,11 +386,17 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 	}
 	@Override
 	protected void onDestroy() {
-		if(dialog.isShowing()){
+		if(dialog!= null&&dialog.isShowing()){
 			dialog.dismiss();
 		}
 		// 
 		mLocClient.stop();
+		if(progressDialog!= null && progressDialog.isShowing()){
+		progressDialog.dismiss();
+		}
+		if(mOffline != null){
+		mOffline.destroy();
+		}
 		//
 //		clearOverlay(null);
 		mBaiduMap.setMyLocationEnabled(false);
@@ -466,7 +486,8 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 	     * 检测离线地图
 	     */
 	    private void checkOfflineMap(final int cityCode ,String cityName) {
-
+	    	if(mOffline == null){
+	    		
 	        mOffline = new MKOfflineMap();
 	        mOffline.init(new MKOfflineMapListener() {
 	            @Override
@@ -475,9 +496,9 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 	                    case MKOfflineMap.TYPE_DOWNLOAD_UPDATE:
 	                        // 离线地图下载更新事件类型
 	                        MKOLUpdateElement update = mOffline.getUpdateInfo(state);
-	                        Log.e("Map", update.cityName + " ," + update.ratio);
 	                        if(progressDialog == null){
-	                        	progressDialog = new ProgressDialog(DemandActivity.this);
+	                        	progressDialog = createDownloadDialog();
+	                        	progressDialog.show();
 	                        }
 	                        progressDialog.setProgress(update.ratio);
 	                        if(update.ratio == 100) {
@@ -485,11 +506,9 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 	                            mOffline.destroy();
 	                            AppUtil.ShowShortToast(DemandActivity.this,"离线地图下载完成");
 	                        }
-	                        Log.e("Map", "TYPE_DOWNLOAD_UPDATE");
 	                        break;
 	                    case MKOfflineMap.TYPE_NEW_OFFLINE:
 	                        // 有新离线地图安装
-	                        Log.e("Map", "TYPE_NEW_OFFLINE");
 	                        break;
 	                    case MKOfflineMap.TYPE_VER_UPDATE:
 	                        // 版本更新提示
@@ -498,7 +517,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 
 	            }
 	        });
-
+	    	}
 	        boolean hasMap = false;
 	    	// 获取已下过的离线地图信息
 	        ArrayList<MKOLUpdateElement> localMapList = mOffline.getAllUpdateInfo();
@@ -535,6 +554,17 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 
 	    }
 	    
+		private ProgressDialog createDownloadDialog(){
+			ProgressDialog dialog = new ProgressDialog(this);
+			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
+			dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+			dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+			dialog.setIcon(R.drawable.ic_launcher);// 设置提示的title的图标，默认是没有的
+			dialog.setTitle("提示");
+			dialog.setMax(100);
+			dialog.setMessage("正在努力下载离线地图......");
+			return dialog;
+		}
 	    /**
 		 * 开始离线地图下载
 		 * 
@@ -544,5 +574,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 			mOffline.start(cityId);
 			Toast.makeText(this, "开始下载离线地图. cityid: " + cityId, Toast.LENGTH_SHORT)
 					.show();
+			progressDialog = createDownloadDialog();
+        	progressDialog.show();
 		}
 }

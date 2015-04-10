@@ -60,10 +60,12 @@ public class ModifyUserInfoActivity extends BaseActivity implements OnClickListe
     private LoadingDialog dialog ;
     
     
-	/***************************腾讯统计相关框架*************************************/
+	@Override
+	protected void onResume() {
+		super.onResume();
+		getWebData();
+	}
 
-	/***************************腾讯统计基本框架结束*************************************/
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,6 +100,7 @@ public class ModifyUserInfoActivity extends BaseActivity implements OnClickListe
 		realnamelay.setOnClickListener(this) ;
 		addrlay.setOnClickListener(this) ;
 		dialog = new LoadingDialog(this);
+		
 	}
 	/**
 	 * 获取网络数据
