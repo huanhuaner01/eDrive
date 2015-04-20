@@ -84,9 +84,7 @@ public class SplashActivity extends BaseActivity {
 		// 打开debug开关，可查看mta上报日志或错误
 		// TODO 发布时，请务必要删除本行或设为false
 		StatConfig.setDebugEnable(true);
-		initMTAConfig(true);
-		
-		
+		initMTAConfig(true);				
 		
 		handler = new SplashHandler(new WeakReference<SplashActivity>(this));
 		viewPager = (ViewPager) findViewById(R.id.splash_viewpager);
@@ -511,7 +509,7 @@ public class SplashActivity extends BaseActivity {
 	private boolean checkFirstStart() {
 		// 首次使用时应为true
 		boolean value = Prefs.getBoolean(this, Const.KEY_FIRSTUSE, true);
-		Prefs.setBoolean(this, Const.KEY_FIRSTUSE, false);
+//		Prefs.setBoolean(this, Const.KEY_FIRSTUSE, false);
 		return value;
 	}
 

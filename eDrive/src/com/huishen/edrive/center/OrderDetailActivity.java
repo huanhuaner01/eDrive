@@ -4,13 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.android.volley.Response;
 import com.huishen.edrive.R;
-import com.huishen.edrive.SplashActivity;
-import com.huishen.edrive.R.layout;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.OnProgressChangedListener;
@@ -21,18 +18,10 @@ import com.huishen.edrive.util.SimpleRecorder;
 import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.RoundImageView;
-import com.tencent.stat.StatService;
-import com.tencent.stat.common.StatLogger;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Rating;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -79,6 +68,12 @@ public class OrderDetailActivity extends BaseActivity {
 		// ---------------------获取数据结束！--------------------
 		registView();
 		initView();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		getWebDate();
 	}
 
 	private void registView() {

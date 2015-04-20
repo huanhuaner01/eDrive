@@ -34,7 +34,6 @@ import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.model.LatLng;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
-import com.huishen.edrive.SplashActivity;
 import com.huishen.edrive.apointment.MassageListener;
 import com.huishen.edrive.apointment.MessageDialog;
 import com.huishen.edrive.center.CoachDetailActivity;
@@ -49,10 +48,12 @@ import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
 import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.BaseActivity;
+import com.huishen.edrive.widget.GuideView;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -61,8 +62,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -140,6 +144,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 		this.switchbtn = (ImageButton)this.findViewById(R.id.demand_btn_switch) ;
 		this.switchlay = (LinearLayout)this.findViewById(R.id.demand_lay_switch) ;
 		this.switchtv = (TextView)this.findViewById(R.id.demand_tv_switch) ;
+		bg = (FrameLayout)findViewById(R.id.demand_bg);
 		msg = (ImageButton)findViewById(R.id.main_btn_msg);
 		msgTag = (ImageView)findViewById(R.id.have_message_tag);
 	}
@@ -147,9 +152,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 	/**
 	 * 初始化组件
 	 */
-	private void initView(){
-	
-		
+	private void initView(){		
 		mBaiduMap.setMyLocationEnabled(true);
 		msgTag.setVisibility(View.GONE);
 		// 开启定位图层
@@ -177,7 +180,17 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 		msg.setOnClickListener(this);
 		
 	}
-	
+	/**
+	 * 检查是否是第一次启动，如果是则进入知道页面
+	 * @return
+	 */
+	private boolean checkFirstStart() {
+		// 首次使用时应为true
+		boolean value = Prefs.getBoolean(this, Const.KEY_FIRSTUSE, true);
+//		Prefs.setBoolean(this, Const.KEY_FIRSTUSE, false);
+		return value;
+	}
+
 	private void showRoundCoach(double lng ,double lat){
 		if(!isFinishing()&&!dialog.isShowing()){ //显示加载框
 		   dialog.show();
@@ -194,7 +207,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 						if(dialog.isShowing()){
 						dialog.dismiss();
 						}
-						Log.i(TAG, result);
+//						Log.i(TAG, result);
 						try {
 							//返回值：[{"coachId":1,"coachName":"张三","coachScore":2.1,"issue":20,
 //							"lat":30.575699,"lng":104.068216,
@@ -203,7 +216,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 							mBaiduMap.clear();
 							for(int i = 0 ; i<array.length() ;i++){
 								JSONObject json = array.getJSONObject(i);
-								Log.i(TAG, json.getDouble(SRL.Param.PARAM_LATITUDE)+"") ;
+//								Log.i(TAG, json.getDouble(SRL.Param.PARAM_LATITUDE)+"") ;
 								LatLng point = new LatLng(json.getDouble(SRL.Param.PARAM_LATITUDE),json.getDouble(SRL.Param.PARAM_LONGITUDE));
 								BitmapDescriptor bdA = BitmapDescriptorFactory
 										.fromResource(R.drawable.ic_gcoding);
@@ -269,7 +282,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 	 * 输入状态转换
 	 */
 	private void switchStatus(){
-		Log.i("DemandActivity", "currentStatus :"+currentStatus) ;
+//		Log.i("DemandActivity", "currentStatus :"+currentStatus) ;
 		   if(currentStatus == STATUS_INPUT){
 			    currentStatus = STATUS_SOUND ;
 		    	this.switchbtn.setImageResource(R.drawable.demand_input_white);
@@ -577,4 +590,99 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 			progressDialog = createDownloadDialog();
         	progressDialog.show();
 		}
+		
+		//////////////////加载启动页///////////////////////////
+		
+		private int bgheight ,bgwidth ,index =1;
+		private int backheight ,backwidth ,switchheight ,switchwidth ,tsheight ,tswidth ;
+		private FrameLayout bg ;
+		private GuideView guide ; //指导页
+		private HashMap<String ,Integer> map ;
+		@SuppressLint("ClickableViewAccessibility") private void showGuide(){
+			if(!checkFirstStart()){
+				return ;
+	         }
+			
+			guide = (GuideView)findViewById(R.id.demand_guide);
+			guide.setVisibility(View.VISIBLE);
+			map = new HashMap<String ,Integer>();
+		    map.put("xPoint", this.getResources().getDimensionPixelSize(R.dimen.demand_bottom_padding));
+		    map.put("yPoint", bgheight -this.getResources().getDimensionPixelSize(R.dimen.demand_bottom_padding) - switchheight );
+		    map.put("width", switchwidth);
+		    map.put("height", switchheight);
+		    map.put("padding", this.getResources().getDimensionPixelSize(R.dimen.demand_bottom_padding)/2);
+		    map.put("position", GuideView.TOP);
+		    map.put("shape", GuideView.CRICLE);
+		    map.put("img", R.drawable.icon_guide1);
+		    guide.setAttr(map);
+		    guide.setOnTouchListener(new OnTouchListener(){
+
+				@Override
+				public boolean onTouch(View arg0, MotionEvent arg1) {
+					if(arg1.getAction() == MotionEvent.ACTION_DOWN){
+						switch(index){
+						case 1:
+							showTsGuide();
+							index = 2 ;
+							break;
+						case 2:
+							showBackGuide();
+							index = 3;
+							break ;
+						case 3:
+							Prefs.setBoolean(DemandActivity.this, Const.KEY_FIRSTUSE, false);
+							guide.setVisibility(View.GONE);
+							break ;
+						}
+					}
+					return true;
+				}
+		    	
+		    });
+			 
+		}
+		private void showTsGuide(){
+			map.put("xPoint", this.getResources().getDimensionPixelSize(R.dimen.demand_bottom_padding)+switchwidth);
+		    map.put("yPoint", bgheight -this.getResources().getDimensionPixelSize(R.dimen.demand_bottom_padding) - switchheight );
+		    map.put("width", tswidth);
+		    map.put("height", tsheight);
+		    map.put("padding", this.getResources().getDimensionPixelSize(R.dimen.demand_bottom_padding)/2);
+		    map.put("position", GuideView.TOP);
+		    map.put("shape", GuideView.RECT);
+		    map.put("img", R.drawable.icon_guide2);
+		    guide.setAttr(map);
+		}
+		private void showBackGuide(){
+			map.put("xPoint", 0);
+		    map.put("yPoint",0);
+		    map.put("width", backwidth);
+		    map.put("height",backheight);
+		    map.put("padding", this.getResources().getDimensionPixelSize(R.dimen.demand_bottom_padding)/2);
+		    map.put("position", GuideView.BUTTOM_RIGHT);
+		    map.put("shape", GuideView.CRICLE);
+		    map.put("img", R.drawable.icon_guide3);
+		    guide.setAttr(map);
+		}
+		/**
+		 * 获取组件的高宽
+		 */
+		 @Override
+		   public void onWindowFocusChanged(boolean hasFocus) {
+			super.onWindowFocusChanged(hasFocus);
+//			Log.i(TAG, "onWindowFocusChanged. height:"+switchheight+" width :"+switchwidth);
+			if(hasFocus&&checkFirstStart()){
+		       backheight = back.getHeight() ;
+		       backwidth = back.getWidth() ;
+		       switchheight = switchbtn.getHeight() ;
+		       switchwidth = switchbtn.getWidth() ;
+		       tsheight = switchlay.getHeight();
+		       tswidth = switchlay.getWidth() ;
+			   bgheight = bg.getHeight() ;
+			   bgwidth = bg.getWidth() ;
+			   showGuide();
+			   Log.i(TAG, "给我进来");
+			}
+			
+		   }
+		 
 }

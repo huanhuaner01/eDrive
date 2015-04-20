@@ -9,6 +9,7 @@ import com.huishen.edrive.R.layout;
 import com.huishen.edrive.db.AppMessage;
 import com.huishen.edrive.db.MeaasgeDbManager;
 import com.huishen.edrive.db.MessageDbHelper;
+import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.widget.BaseActivity;
 
@@ -85,7 +86,7 @@ public class MsgDetailActivity extends BaseActivity {
 			img.setVisibility(View.VISIBLE);
 		    img.setDefaultImageResId(R.drawable.ic_defualt_image);
 		    img.setErrorImageResId(R.drawable.ic_error_image);
-		    img.setImageUrl(msg.getIconPath(), imageLoader);
+		    img.setImageUrl(NetUtil.getAbsolutePath(msg.getIconPath()), imageLoader);
 		}
 		else{
 			img.setVisibility(View.GONE);

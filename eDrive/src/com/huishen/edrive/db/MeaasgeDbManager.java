@@ -84,6 +84,12 @@ public final class MeaasgeDbManager {
     }
     
     /**
+     * 删除_id为id的数据
+     */
+    public void deleteMessages(int id ) {
+        db.delete(MessageDbHelper.TABLE_MESSAGE, "_id = ?", new String[]{id+""});
+    }
+    /**
      * 将消息bean转换为ContentValues进行数据插入
      * @param msg
      * @return

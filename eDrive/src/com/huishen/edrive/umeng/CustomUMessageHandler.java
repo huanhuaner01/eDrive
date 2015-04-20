@@ -98,8 +98,11 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 		AppMessage appmsg = new AppMessage();
 		appmsg.setContent(msg.text); //消息内容
 		appmsg.setTitle(msg.title); //消息标题
+		if(!msg.extra.get("headline").equals("")){
+			appmsg.setTitle(msg.extra.get("headline")); //消息标题
+		}
 		appmsg.setType(Integer.parseInt(msg.extra.get("msgType"))); //消息类型
-		appmsg.setIconPath(msg.extra.get("path")); //图片路径
+		appmsg.setIconPath(msg.extra.get("img")); //图片路径
 		appmsg.setTime(CalendarUtil.getCurrentTime()) ; //消息时间
 //		db.clearAllMessages(); //测试删除
 		if(db.saveAppMessage(appmsg)){
