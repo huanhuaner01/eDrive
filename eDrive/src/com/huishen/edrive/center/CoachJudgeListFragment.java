@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.android.volley.Response;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -48,7 +49,7 @@ public class CoachJudgeListFragment extends TitleListFragment {
 	}
 
 	@Override
-	public void setList(String data, ListView list) {
+	public void setList(String data, PullToRefreshListView list) {
 //		[{"content":"很好","contentTime":"2015-02-04","phone":"13558657902","score":5.0},
 //		  {"content":"21","contentTime":"2015-02-05","phone":"313","score":3.0}]
 		Log.i(TAG, data) ;
@@ -80,9 +81,7 @@ public class CoachJudgeListFragment extends TitleListFragment {
 		}
 		CoachJudgeListAdapter judgeAdapter = new CoachJudgeListAdapter(this.context,judgeListData);
 		list.setAdapter(judgeAdapter);
-		if(this.mSwipeLayout.isRefreshing()){
-			mSwipeLayout.setRefreshing(false);
-		}
+		list.onRefreshComplete(); 
 	}
 
 	@Override
@@ -106,7 +105,7 @@ public class CoachJudgeListFragment extends TitleListFragment {
 				}
 			}
 			
-		}, new DefaultErrorListener(this.getActivity(),null ,loading ,mSwipeLayout)) ;
+		}, new DefaultErrorListener(this.getActivity(),null ,loading ,list)) ;
 		
 	}
 
@@ -131,6 +130,11 @@ public class CoachJudgeListFragment extends TitleListFragment {
 	public void onDestroy() {
 		NetUtil.cancelRequest(TAG);
 		super.onDestroy();
+	}
+
+	@Override
+	public void getMore() {
+		
 	}
 	
 	

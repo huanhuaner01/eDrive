@@ -21,6 +21,7 @@ import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.android.volley.Response;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huishen.edrive.R;
 import com.huishen.edrive.apointment.MassageListener;
 import com.huishen.edrive.apointment.MessageDialog;
@@ -65,12 +66,12 @@ public class OrderListFragment extends TitleListFragment {
 						}
 						
 					}
-				},new DefaultErrorListener(this.getActivity() ,null ,loading ,mSwipeLayout));
+				},new DefaultErrorListener(this.getActivity() ,null ,loading ,list));
 //		setList("" , list);
 	}
 
 	@Override
-	public void setList(String data, ListView list) {
+	public void setList(String data, PullToRefreshListView list) {
 		/**
 		 *[{"audio":"/attachment/audio/34/FILE_2015031015130108025507.mp3",
 		 *"coachId":21,"coachName":"雷猴","content":"能45-60天拿证,考试包接包送,",
@@ -172,8 +173,8 @@ public class OrderListFragment extends TitleListFragment {
 			loading.setVisibility(View.VISIBLE);
 	    	loading.showFailLoadidng();
 		}finally{
-		if(this.mSwipeLayout.isRefreshing()){
-			mSwipeLayout.setRefreshing(false);
+		if(list.isRefreshing()){
+			list.onRefreshComplete();
 		}
 		}
 	}
@@ -210,6 +211,12 @@ public class OrderListFragment extends TitleListFragment {
 			}
 			
 		});
+	}
+
+	@Override
+	public void getMore() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

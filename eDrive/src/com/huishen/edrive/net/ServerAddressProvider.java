@@ -23,7 +23,6 @@ final class ServerAddressProvider {
 		public String getServerAddress() {
 			return "http://bind.ejxc.com.cn:8081/";
 		}
-		
 	}
 	
 	//内部测试服务器

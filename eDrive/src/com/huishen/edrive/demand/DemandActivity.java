@@ -402,7 +402,7 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 		if(dialog!= null&&dialog.isShowing()){
 			dialog.dismiss();
 		}
-		// 
+		//  
 		mLocClient.stop();
 		if(progressDialog!= null && progressDialog.isShowing()){
 		progressDialog.dismiss();

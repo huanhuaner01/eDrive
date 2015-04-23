@@ -1,32 +1,32 @@
 package com.huishen.edrive.widget;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import com.huishen.edrive.R;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 /**
  * 带有标题的listFragment
  * @author zhanghuan
  *
  */
-public abstract class TitleListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public abstract class TitleListFragment extends BaseFragment implements OnRefreshListener2<ListView> {
 	//下拉刷新组件
-	public SwipeRefreshLayout mSwipeLayout;
+//	public SwipeRefreshLayout mSwipeLayout;
 	/** 返回上一个fragment */
 	public int BACK_FRAGMENT = 0 ; 
 	/** 返回上一个activity **/
@@ -34,7 +34,7 @@ public abstract class TitleListFragment extends BaseFragment implements SwipeRef
 	private View RootView ;  //根组件
 	private TextView title ; //标题,位于右边的文字
 	public LoadingView loading ; //加载页面
-	public ListView list ; //列表
+	public PullToRefreshListView list ; //列表
 	public ExpandableListView expandablelist ; //扩展列表，默认隐藏
 	private ImageButton back ; //返回键
     private String titlestr ;
@@ -81,17 +81,22 @@ public abstract class TitleListFragment extends BaseFragment implements SwipeRef
 
 	private void registView() {
 		this.title = (TextView)RootView.findViewById(R.id.header_title) ;
-		this.list = (ListView)RootView.findViewById(R.id.titlelist_list) ;
+		this.list = (PullToRefreshListView)RootView.findViewById(R.id.titlelist_list) ;
 		this.expandablelist = (ExpandableListView)RootView.findViewById(R.id.titlelist_expandablelist);
 		this.back = (ImageButton)RootView.findViewById(R.id.header_back) ;
-		this.mSwipeLayout = (SwipeRefreshLayout)RootView.findViewById(R.id.swipe_ly);
+//		this.mSwipeLayout = (SwipeRefreshLayout)RootView.findViewById(R.id.swipe_ly);
 		loading = (LoadingView)RootView.findViewById(R.id.titlelist_loading);
 	}
 
 	private void initView() {
-		mSwipeLayout.setOnRefreshListener(this);
-		mSwipeLayout.setColorScheme(R.color.color_refresh_1, R.color.color_refresh_2,
-				R.color.color_refresh_3, R.color.color_refresh_4);
+//		mSwipeLayout.setOnRefreshListener(this);
+//		mSwipeLayout.setColorScheme(R.color.color_refresh_1, R.color.color_refresh_2,
+//				R.color.color_refresh_3, R.color.color_refresh_4);
+		list.setOnRefreshListener(this);
+		list.setMode(Mode.BOTH);  
+		list.getLoadingLayoutProxy(false, true).setPullLabel("上拉加载...");  
+	    list.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");  
+	    list.getLoadingLayoutProxy(false, true).setReleaseLabel("放开加载更多...");
 		//设置标题
 		if(titlestr != null){
 			this.title.setText(titlestr) ;
@@ -113,13 +118,17 @@ public abstract class TitleListFragment extends BaseFragment implements SwipeRef
 	 * 访问网络，获取网络数据
 	 */
 	public abstract void getWebData();
+	/**
+	 * 访问网络，获取加载更多
+	 */
+	public abstract void getMore();
 	
 	/**
 	 * 设置普通列表
 	 * @param data
 	 * @param list
 	 */
-	public abstract void setList(String data,ListView list);
+	public abstract void setList(String data,PullToRefreshListView list);
 	
 	/**
 	 * 设置可扩展列表
@@ -140,7 +149,7 @@ public abstract class TitleListFragment extends BaseFragment implements SwipeRef
 				 Log.i("TitleListFragment", "点击了返回键");
 				 FragmentManager fm = getFragmentManager();  
 			     fm.popBackStack();
-			}
+			}  
 			
 		}) ;
 	}
@@ -158,9 +167,19 @@ public abstract class TitleListFragment extends BaseFragment implements SwipeRef
 		}
 	}
 	
+//	@Override
+//	public void onRefresh() {
+//		getWebData() ;
+//	}
 	@Override
-	public void onRefresh() {
+	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+		
+//		Toast.makeText(this, "上拉刷新", Toast.LENGTH_SHORT).show();
 		getWebData() ;
 	}
-	
+	@Override
+	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//		list.onRefreshComplete();
+		getMore();
+	}
 }

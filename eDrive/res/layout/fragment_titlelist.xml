@@ -6,24 +6,26 @@
     android:orientation="vertical" >
 
     <include layout="@layout/header_defualt" />
-
+<!-- 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_ly"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-      <FrameLayout
+        android:layout_height="match_parent" > -->
+      <RelativeLayout
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           >
           
       
-        <ListView
+        <com.handmark.pulltorefresh.library.PullToRefreshListView  
             android:id="@+id/titlelist_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/main_bg_color"
             android:dividerHeight="@dimen/divide_line"
-            android:listSelector="@drawable/transparent_selector" />
+            android:listSelector="@drawable/transparent_selector" 
+            
+            />
         <ExpandableListView 
            android:id ="@+id/titlelist_expandablelist"   
            android:layout_width ="match_parent"   
@@ -40,7 +42,7 @@
             android:layout_height="match_parent">
         </com.huishen.edrive.widget.LoadingView>
           
-        </FrameLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        </RelativeLayout>
+   <!--  </android.support.v4.widget.SwipeRefreshLayout> -->
 
 </LinearLayout>

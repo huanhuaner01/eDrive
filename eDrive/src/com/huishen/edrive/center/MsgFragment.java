@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huishen.edrive.R;
 import com.huishen.edrive.db.AppMessage;
 import com.huishen.edrive.db.MeaasgeDbManager;
@@ -75,7 +76,7 @@ public class MsgFragment extends TitleListFragment {
 		// },new DefaultErrorListener(this.getActivity(),null,loading
 		// ,mSwipeLayout));
 		// setList("" , list);
-		this.mSwipeLayout.setEnabled(false);
+		list.onRefreshComplete();
 		getMsg();
 	}
 
@@ -103,16 +104,14 @@ public class MsgFragment extends TitleListFragment {
 		}
 
 		setList("", list);
-		if (this.mSwipeLayout.isRefreshing()) {
-			mSwipeLayout.setRefreshing(false);
-		}
+		list.onRefreshComplete();
 		if (loading.getVisibility() == View.VISIBLE) {
 			loading.setVisibility(View.GONE);
 		}
 	}
 
 	@Override
-	public void setList(String data, ListView list) {
+	public void setList(String data, PullToRefreshListView list) {
 		adapter = new MsgAdapter(getActivity(), listdata,
 				R.layout.item_msg_lay, from, to);
 
@@ -123,7 +122,7 @@ public class MsgFragment extends TitleListFragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				Log.i(TAG, "id is "
-						+ listdata.get(position).get("id").toString());
+						+ listdata.get(position+1).get("id").toString());
 				Intent i = new Intent(getActivity(), MsgDetailActivity.class);
 				i.putExtra(
 						"id",
@@ -133,7 +132,7 @@ public class MsgFragment extends TitleListFragment {
 			}
 		});
 		// 长按事件
-		list.setOnItemLongClickListener(new OnItemLongClickListener() {
+		list.getRefreshableView().setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -229,5 +228,11 @@ public class MsgFragment extends TitleListFragment {
 			root.setTag(listdata.get(position).get("id"));
 			return root;
 		}
+	}
+
+	@Override
+	public void getMore() {
+		// TODO Auto-generated method stub
+		
 	}
 }

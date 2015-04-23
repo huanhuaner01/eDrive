@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.android.volley.Response;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
@@ -57,11 +58,11 @@ public class CoachMealListFragment extends TitleListFragment {
 				}
 			}
 			
-		}, new DefaultErrorListener(this.getActivity() ,null ,loading ,mSwipeLayout)) ;
+		}, new DefaultErrorListener(this.getActivity() ,null ,loading ,list)) ;
 	}
 
 	@Override
-	public void setList(String data, ListView list) {
+	public void setList(String data, PullToRefreshListView list) {
 		
 	}
 
@@ -101,13 +102,14 @@ public class CoachMealListFragment extends TitleListFragment {
 		}catch(Exception e){
 			e.printStackTrace() ;
 		}
-		if(this.mSwipeLayout.isRefreshing()){
-			mSwipeLayout.setRefreshing(false);
-		}
+//		if(list.isRefreshing()){
+//			mSwipeLayout.setRefreshing(false);
+//		}
 	}
 	
 	@Override
 	public void setBack(ImageButton back2) {
+	
 		back2.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -116,6 +118,12 @@ public class CoachMealListFragment extends TitleListFragment {
 			}
 			
 		});
+	}
+
+	@Override
+	public void getMore() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
