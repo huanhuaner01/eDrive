@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huishen.edrive.R;
 import com.huishen.edrive.db.AppMessage;
@@ -76,8 +77,9 @@ public class MsgFragment extends TitleListFragment {
 		// },new DefaultErrorListener(this.getActivity(),null,loading
 		// ,mSwipeLayout));
 		// setList("" , list);
-		list.onRefreshComplete();
+		list.setMode(Mode.PULL_FROM_START);
 		getMsg();
+		new GetDataTask().execute();
 	}
 
 	/**
@@ -104,7 +106,6 @@ public class MsgFragment extends TitleListFragment {
 		}
 
 		setList("", list);
-		list.onRefreshComplete();
 		if (loading.getVisibility() == View.VISIBLE) {
 			loading.setVisibility(View.GONE);
 		}
@@ -157,7 +158,7 @@ public class MsgFragment extends TitleListFragment {
 			}
 
 		});
-		list.setAdapter(adapter);
+		list.getRefreshableView().setAdapter(adapter);
 	}
 
 	/**
@@ -173,11 +174,6 @@ public class MsgFragment extends TitleListFragment {
 		db.deleteMessages(id);
 		listdata.remove(position);
 		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void setList(String data, ExpandableListView list) {
-
 	}
 
 	@Override
@@ -232,7 +228,6 @@ public class MsgFragment extends TitleListFragment {
 
 	@Override
 	public void getMore() {
-		// TODO Auto-generated method stub
 		
 	}
 }

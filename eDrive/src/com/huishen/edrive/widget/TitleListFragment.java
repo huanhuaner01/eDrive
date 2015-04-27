@@ -7,6 +7,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huishen.edrive.R;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -35,7 +36,6 @@ public abstract class TitleListFragment extends BaseFragment implements OnRefres
 	private TextView title ; //标题,位于右边的文字
 	public LoadingView loading ; //加载页面
 	public PullToRefreshListView list ; //列表
-	public ExpandableListView expandablelist ; //扩展列表，默认隐藏
 	private ImageButton back ; //返回键
     private String titlestr ;
     private String url ;
@@ -82,10 +82,10 @@ public abstract class TitleListFragment extends BaseFragment implements OnRefres
 	private void registView() {
 		this.title = (TextView)RootView.findViewById(R.id.header_title) ;
 		this.list = (PullToRefreshListView)RootView.findViewById(R.id.titlelist_list) ;
-		this.expandablelist = (ExpandableListView)RootView.findViewById(R.id.titlelist_expandablelist);
 		this.back = (ImageButton)RootView.findViewById(R.id.header_back) ;
 //		this.mSwipeLayout = (SwipeRefreshLayout)RootView.findViewById(R.id.swipe_ly);
 		loading = (LoadingView)RootView.findViewById(R.id.titlelist_loading);
+	
 	}
 
 	private void initView() {
@@ -97,6 +97,7 @@ public abstract class TitleListFragment extends BaseFragment implements OnRefres
 		list.getLoadingLayoutProxy(false, true).setPullLabel("上拉加载...");  
 	    list.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");  
 	    list.getLoadingLayoutProxy(false, true).setReleaseLabel("放开加载更多...");
+	    
 		//设置标题
 		if(titlestr != null){
 			this.title.setText(titlestr) ;
@@ -129,13 +130,6 @@ public abstract class TitleListFragment extends BaseFragment implements OnRefres
 	 * @param list
 	 */
 	public abstract void setList(String data,PullToRefreshListView list);
-	
-	/**
-	 * 设置可扩展列表
-	 * @param data
-	 * @param list
-	 */
-	public abstract void setList(String data,ExpandableListView list);
 	/**
 	 * 返回键监听
 	 * @param back2
@@ -153,19 +147,6 @@ public abstract class TitleListFragment extends BaseFragment implements OnRefres
 			
 		}) ;
 	}
-	/**
-	 * 展示可扩展列表
-	 * @param isshow 是否展示。true展示，false 不展示
-	 */
-	public void showExpandableList(boolean isshow){
-		if(isshow){
-			this.expandablelist.setVisibility(View.VISIBLE);
-			this.list.setVisibility(View.GONE);
-		}else{
-			this.expandablelist.setVisibility(View.GONE);
-			this.list.setVisibility(View.VISIBLE);
-		}
-	}
 	
 //	@Override
 //	public void onRefresh() {
@@ -179,7 +160,27 @@ public abstract class TitleListFragment extends BaseFragment implements OnRefres
 	}
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+		Log.i(TAG, "上拉刷新中。。。");
 //		list.onRefreshComplete();
 		getMore();
 	}
+	public class GetDataTask extends AsyncTask<Void, Void, String> {
+
+		@Override
+		protected String doInBackground(Void... params) {
+			// Simulates a background job.
+			
+			return "";
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+
+			// Call onRefreshComplete when the list has been refreshed.
+			list.onRefreshComplete();
+
+			super.onPostExecute(result);
+		}
+	}
+
 }

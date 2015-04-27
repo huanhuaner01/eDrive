@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.huishen.edrive.login.VerifyPhoneActivity;
 import com.huishen.edrive.util.AppUtil;
@@ -30,6 +31,7 @@ public final class DefaultErrorListener implements ErrorListener {
 	private LoadingView loading ;
 	private SwipeRefreshLayout refresh ;
 	private PullToRefreshListView list ; //列表
+	private PullToRefreshExpandableListView expandlist ;
 	public DefaultErrorListener(Activity context ,Dialog dialog) {
 		
 		super();
@@ -67,6 +69,14 @@ public final class DefaultErrorListener implements ErrorListener {
 		this.context = context ;
 		this.list = list ;
 	}
+public DefaultErrorListener(Activity context ,Dialog dialog,LoadingView loading ,PullToRefreshExpandableListView list) {
+		
+		super();
+		this.loading =loading ;
+		this.dialog = dialog ;
+		this.context = context ;
+		this.expandlist = list ;
+	}
 	public DefaultErrorListener(Activity context ,View btn) {
 		
 		super();
@@ -101,6 +111,9 @@ public final class DefaultErrorListener implements ErrorListener {
 		}
 		if(list != null && list.isRefreshing()){
 			list.onRefreshComplete();
+		}
+		if(expandlist != null && expandlist.isRefreshing()){
+			expandlist.onRefreshComplete();
 		}
 		if (arg0.networkResponse == null) {
 			Toast.makeText(context, "网络连接断开,请检查网络",

@@ -69,7 +69,12 @@ public final class SRL {
 		 * 获取教练个人基本信息（教龄 ，驾校，地区，感言）
 		 */
 		public static final String METHOD_GET_COACH_INFO = "stuMobile/queryCoachInfoById" ;
-		public static final String METHOD_GET_COACH_JUDGE_LIST = "stuMobile/queryCommentInfo"  ;
+	    /**
+	     * 获取评价列表
+	     */
+//		public static final String METHOD_GET_COACH_JUDGE_LIST = "stuMobile/queryCommentInfo"  ;
+		public static final String METHOD_GET_COACH_JUDGE_LIST = "stuMobile/queryCommentInfoPage"  ;
+		
 		public static final String METHOD_GET_COACH_FIELDPIC="stuMobile/queryCoachPicture";
 		public static final String METHOD_GET_COACH_FIELD = "stuMobile/queryCoachCampus" ;
 		public static final String METHOD_GET_COACH_MEAL = "stuMobile/queryServicebillInfoByCoachID" ;
@@ -104,7 +109,10 @@ public final class SRL {
 		public static final String METHOD_UPLOAD_PHOTO = "stuMobile/updateStuImg" ;
 		public static final String METHOD_EDIT_USERINFO = "stuMobile/updateStuInfo" ;
 		public static final String METHOD_GET_MSG_LIST = "stuMobile/queryStuAllPushLogInfo" ;
-		public static final String METHOD_GET_ORDER_LIST = "stuMobile/queryTempBillInfoByStuId" ;
+		
+//		public static final String METHOD_GET_ORDER_LIST = "stuMobile/queryTempBillInfoByStuId" ;
+		public static final String METHOD_GET_ORDER_LIST = "stuMobile/queryTempBillInfoByStuIdPage" ;
+		
 		public static final String METHOD_GET_ORDER_DETAIL = "stuMobile/queryTempBillInfoById";
 		public static final String METHOD_CANCEL_ORDER = "stuMobile/updateTempBill" ;
 		public static final String METHOD_JUDGE = "stuMobile/addComment" ;

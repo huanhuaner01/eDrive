@@ -7,42 +7,117 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.huishen.edrive.R;
 import com.huishen.edrive.net.DefaultErrorListener;
 import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
+import com.huishen.edrive.widget.BaseFragment;
+import com.huishen.edrive.widget.LoadingView;
 import com.huishen.edrive.widget.TitleListFragment;
 
-public class CoachMealListFragment extends TitleListFragment {
+public class CoachMealListFragment extends BaseFragment {
 	private int coachId ;
 	private ArrayList<HashMap<String ,String>> mGroupData = null;
 	private ArrayList<ArrayList<String>>   mData = null;
+	private View RootView ;
+	private PullToRefreshExpandableListView list ;
+	private TextView title ;
+	private ImageButton back ;
+	private String titlestr ;
+	private LoadingView loading ; //加载页面
+	@Override
+	public void onResume() {
+		//获取网络数据
+		getWebData();
+		super.onResume();
+		
+	}
+	
 	public CoachMealListFragment(Context context, String titlestr, String url ,int coachId) {
-		super(context, titlestr, url);
 		this.coachId = coachId ;
+		this.titlestr = titlestr ;
 		this.setTag("CoachMealListFragment");
 	}
 
 	public CoachMealListFragment(Context context, Object tag,
 			String titlestr, String url ,int coachId) {
-		super(context, tag, titlestr, url);
 		this.coachId = coachId ;
+		this.titlestr = titlestr ;
 		this.setTag("CoachMealListFragment");
 	}
 
 	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		try{
+			RootView = inflater.inflate(R.layout.fragment_meallist, null);
+			registView();
+			initView();
+		  } catch (Exception e) {
+		}
+		return RootView;
+		
+	}
+
+	private void initView() {
+		this.title.setText(titlestr);
+		back.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				getActivity().finish();
+			}
+			
+		});
+		list.setMode(Mode.PULL_FROM_START);
+		list.setOnRefreshListener(new OnRefreshListener<ExpandableListView>() {
+
+			@Override
+			public void onRefresh(
+					PullToRefreshBase<ExpandableListView> refreshView) {
+				getWebData();
+			}
+		});
+		this.loading.setReLoadingListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				getWebData();
+			}
+			
+		});
+	}
+
+	private void registView() {
+		list = (PullToRefreshExpandableListView)RootView.findViewById(R.id.f_meallist);
+		title = (TextView)RootView.findViewById(R.id.header_title);
+		back = (ImageButton)RootView.findViewById(R.id.header_back);
+		loading = (LoadingView)RootView.findViewById(R.id.titlelist_loading);
+		
+	}
+
 	public void getWebData() {
-		this.showExpandableList(true) ;
 		if(coachId == -1){
-			AppUtil.ShowShortToast(this.context,"获取数据异常") ;
+			AppUtil.ShowShortToast(this.getActivity(),"获取数据异常") ;
 		}
 		
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -51,22 +126,18 @@ public class CoachMealListFragment extends TitleListFragment {
 
 			@Override
 			public void onResponse(String result) {
+				Log.i(TAG, "list is null ? "+(list==null));
+//				list.onRefreshComplete();
 				if(result == null || result.equals("")){
-					AppUtil.ShowShortToast(context.getApplicationContext(), "获取数据异常");
+					AppUtil.ShowShortToast(getActivity(), "获取数据异常");
 				}else{
-					setList(result,CoachMealListFragment.this.expandablelist);
+					setList(result,list.getRefreshableView());
 				}
 			}
 			
 		}, new DefaultErrorListener(this.getActivity() ,null ,loading ,list)) ;
 	}
-
-	@Override
-	public void setList(String data, PullToRefreshListView list) {
-		
-	}
-
-	@Override
+	
 	public void setList(String data, ExpandableListView list) {
 		if(loading.getVisibility() == View.VISIBLE){
 			loading.setVisibility(View.GONE);
@@ -94,7 +165,7 @@ public class CoachMealListFragment extends TitleListFragment {
 			mData.add(childmap);
 		}
 		
-		CoachMealListExpandAdapter judgeAdapter = new CoachMealListExpandAdapter(this.context,mGroupData,mData);
+		CoachMealListExpandAdapter judgeAdapter = new CoachMealListExpandAdapter(this.getActivity(),mGroupData,mData);
 		list.setAdapter(judgeAdapter);
 		if(mGroupData.size()>0){
 		list.expandGroup(0);
@@ -102,28 +173,6 @@ public class CoachMealListFragment extends TitleListFragment {
 		}catch(Exception e){
 			e.printStackTrace() ;
 		}
-//		if(list.isRefreshing()){
-//			mSwipeLayout.setRefreshing(false);
-//		}
-	}
-	
-	@Override
-	public void setBack(ImageButton back2) {
-	
-		back2.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View arg0) {
-				CoachMealListFragment.this.getActivity().finish();
-			}
-			
-		});
-	}
-
-	@Override
-	public void getMore() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

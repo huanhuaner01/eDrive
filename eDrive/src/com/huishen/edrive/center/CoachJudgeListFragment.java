@@ -22,6 +22,7 @@ import com.huishen.edrive.net.NetUtil;
 import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.widget.TitleListFragment;
+import com.huishen.edrive.widget.TitleListFragment.GetDataTask;
 
 /**
  * 教练评价列表
@@ -32,6 +33,9 @@ public class CoachJudgeListFragment extends TitleListFragment {
     private int coachId ;
     private String coachName ;
     private float score ;
+    private int pageNumber=0 ,pageTotal =0 ; //分页
+    private ArrayList<Map<String ,Object>> judgeListData = new ArrayList<Map<String ,Object>>();
+    CoachJudgeListAdapter judgeAdapter ;
 	public CoachJudgeListFragment(Context context, String titlestr, String url ,int coachId ,String coachName ,float score) {
 		super(context, titlestr, url);
 		this.coachId = coachId ;
@@ -50,18 +54,39 @@ public class CoachJudgeListFragment extends TitleListFragment {
 
 	@Override
 	public void setList(String data, PullToRefreshListView list) {
-//		[{"content":"很好","contentTime":"2015-02-04","phone":"13558657902","score":5.0},
-//		  {"content":"21","contentTime":"2015-02-05","phone":"313","score":3.0}]
+//		{"conditions":{"id":154},"pageNumber":1,"pageSize":10,
+//			"rows":[{"content":"呵呵没事","contentTime":"2015-04-16 09:28:53","phone":"180***112","score":4.0},
+//			        {"content":"不是这样好不","contentTime":"2015-04-16 10:35:50","phone":"170***713","score":4.3},
+//			        {"content":"51326528","contentTime":"2015-04-16 17:01:59","phone":"158***379","score":4.0},
+//			        {"content":"我评价一下","contentTime":"2015-04-21 15:00:06","phone":"183***843","score":5.0}],
+//			        "total":0}
 		Log.i(TAG, data) ;
 		//设置列表项
-		ArrayList<Map<String ,Object>> judgeListData = new ArrayList<Map<String ,Object>>();
+		judgeListData.clear() ; //清除数据
 		HashMap<String , Object> map = new HashMap<String , Object>();
 		map.put("name",coachName);
 		map.put("rating",this.score);
 		map.put("score",this.score);
 		judgeListData.add(map);
+		addData(data);
+		judgeAdapter = new CoachJudgeListAdapter(this.context,judgeListData);
+		list.setAdapter(judgeAdapter);
+	}
+	
+	/**
+	 * 解析数据，添加到listdata里面
+	 * @param data
+	 *        原始数据
+	 */
+    private void addData(String data){
 		try{
-			JSONArray array = new JSONArray(data);
+			JSONObject jo = new JSONObject(data);
+			JSONArray array = jo.getJSONArray("rows");
+			pageNumber = jo.getInt("pageNumber");
+			if(jo.getInt("pageSize")>0){
+			pageTotal = (int) Math.ceil(jo.getInt("total")/(double)jo.getInt("pageSize"));
+			}
+			
 			for(int i = 0 ;i<array.length() ;i++){
 				HashMap<String , Object> mapa = new HashMap<String , Object>();
 				JSONObject json = array.getJSONObject(i);
@@ -79,11 +104,7 @@ public class CoachJudgeListFragment extends TitleListFragment {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		CoachJudgeListAdapter judgeAdapter = new CoachJudgeListAdapter(this.context,judgeListData);
-		list.setAdapter(judgeAdapter);
-		list.onRefreshComplete(); 
-	}
-
+    }
 	@Override
 	public void getWebData() {
 		if(coachId == -1){
@@ -95,6 +116,7 @@ public class CoachJudgeListFragment extends TitleListFragment {
 
 			@Override
 			public void onResponse(String result) {
+				list.onRefreshComplete(); 
 				if(result == null || result.equals("")){
 					AppUtil.ShowShortToast(context.getApplicationContext(), "获取数据异常");
 				}else{
@@ -120,11 +142,6 @@ public class CoachJudgeListFragment extends TitleListFragment {
 			
 		});
 	}
-    
-	@Override
-	public void setList(String data, ExpandableListView list) {
-		
-	}
 
 	@Override
 	public void onDestroy() {
@@ -134,9 +151,41 @@ public class CoachJudgeListFragment extends TitleListFragment {
 
 	@Override
 	public void getMore() {
-		
+	if(pageNumber >= pageTotal){
+    	    
+			AppUtil.ShowShortToast(getActivity(), "没有更多了...");
+			new GetDataTask().execute();
+//			list.setMode(Mode.PULL_FROM_START);//仅支持下拉
+			return ;
+		}
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("page",(pageNumber+1)+"");
+		map.put("id", coachId+"");
+		NetUtil.requestStringData(SRL.Method.METHOD_GET_COACH_JUDGE_LIST, TAG ,map,
+				new Response.Listener<String>() {
+                       
+					@Override
+					public void onResponse(String result) {
+						Log.i(TAG, result);
+						list.onRefreshComplete(); //停止加载框
+						if(result == null || result.equals("")){
+							AppUtil.ShowShortToast(getActivity(), "服务器繁忙");
+						}else{
+							updateList(result);
+						}
+						
+					}
+				},new DefaultErrorListener(this.getActivity() ,null ,loading ,list));
 	}
 	
 	
+	/**
+	 * 加载更多
+	 * @param data
+	 */
+    public void updateList(String data){
+    	addData(data);
+    	judgeAdapter.notifyDataSetChanged();
+    }
 
 }

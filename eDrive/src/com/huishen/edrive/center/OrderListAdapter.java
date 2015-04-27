@@ -27,7 +27,13 @@ public class OrderListAdapter extends SimpleAdapter {
 		this.context = context ;
 		
 	}
-
+	/**
+	 * 数据更新
+	 */
+    public void updateData(List<? extends Map<String, ?>> data){
+    	this.data = data ;
+    	this.notifyDataSetChanged();
+    }
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View root = super.getView(position, convertView, parent);
