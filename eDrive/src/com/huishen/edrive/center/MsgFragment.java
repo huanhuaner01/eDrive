@@ -117,18 +117,14 @@ public class MsgFragment extends TitleListFragment {
 				R.layout.item_msg_lay, from, to);
 
 		// 单击事件
-		list.setOnItemClickListener(new OnItemClickListener() {
+		list.getRefreshableView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				Log.i(TAG, "id is "
-						+ listdata.get(position+1).get("id").toString());
+				final int id = Integer.parseInt(arg1.getTag().toString());
 				Intent i = new Intent(getActivity(), MsgDetailActivity.class);
-				i.putExtra(
-						"id",
-						Integer.parseInt(listdata.get(position).get("id")
-								.toString()));
+				i.putExtra("id",id);
 				getActivity().startActivity(i);
 			}
 		});
@@ -138,7 +134,7 @@ public class MsgFragment extends TitleListFragment {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				Log.i(TAG, "长按事件");
+				Log.i(TAG, "长按事件 position is "+position);
 				final int id = Integer.parseInt(arg1.getTag().toString());
 				final int index = position;
 				canceldialog = new AlertDialog.Builder(getActivity())
@@ -150,7 +146,7 @@ public class MsgFragment extends TitleListFragment {
 									@Override
 									public void onClick(DialogInterface dialog,
 											int which) {
-										deteleMsg(id, index); // 删除消息
+										deteleMsg(id, index-1); // 删除消息
 									}
 								}).setNegativeButton("取消", null).show();
 
@@ -172,7 +168,8 @@ public class MsgFragment extends TitleListFragment {
 	private void deteleMsg(int id, int position) {
 		MeaasgeDbManager db = new MeaasgeDbManager(this.getActivity());
 		db.deleteMessages(id);
-		listdata.remove(position);
+		Log.i(TAG, "position is "+position);
+		listdata.remove(position);     
 		adapter.notifyDataSetChanged();
 	}
 
@@ -221,6 +218,7 @@ public class MsgFragment extends TitleListFragment {
 			} else {
 				img.setVisibility(View.GONE);
 			}
+			Log.i(TAG, "getView position is "+position);
 			root.setTag(listdata.get(position).get("id"));
 			return root;
 		}

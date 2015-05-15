@@ -69,6 +69,23 @@ public class AppUtil {
 	
 	public static void preLoginSave(Context context ,JSONObject stuInfojson){
 		Log.i("AppUtil",stuInfojson.toString() );
+		/**
+		 * {"userInfo":{"licenceCode":null,"stuCode":null,
+		 * "licenceType":null,"birthday":null,"sex":null,
+		 * "phone":"18384296843","stuType":0,"addr":null,
+		 * "forShort":null,"id":62,"photoId":null,
+		 * "address":null,"dataFrom":null,"cash":null,
+		 * "gps":null,"baseUserId":210,"stuName":null,
+		 * "createDate":null,"stuRealName":null,"drivingLicenceId":null},
+		 * "status":1,"coachInfo":
+		 * {"id":null,"coachId":154,
+		 * "stuLicenceCode":null,"status":null,
+		 * "drivingLicence":null,"stuName":null,"schoolId":null,"orderUID":null},
+		 * "baseUser":{"id":210,"phone":"18384296843",
+		 * "mobileFlag":"d4d64d062f504847a05446e9f3a800f2","status":null,
+		 * "email":null,"device_token":null,"userInfoId":null,
+		 * "userName":null,"roleType":2,"password":null,"roleId":2}}
+		 */
 		try{
 		JSONObject baseUserjson = stuInfojson.optJSONObject("baseUser");
 		JSONObject userInfojson = stuInfojson.optJSONObject("userInfo");

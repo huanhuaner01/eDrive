@@ -64,9 +64,11 @@ public final class MeaasgeDbManager {
      * @see IMsgStorage#saveAppMessage(AppMessage)
      */
     public boolean saveAppMessage(AppMessage msg) {
+    	
         if (msg == null) {
             return false;
         }
+        Log.i(LOG_TAG, "msg is "+msg.toString());
         long id = db.insert(MessageDbHelper.TABLE_MESSAGE, null, getContentValues(msg));
         if (id != -1) {
             msg.setId(id);

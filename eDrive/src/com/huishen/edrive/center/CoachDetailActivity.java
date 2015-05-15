@@ -16,6 +16,7 @@ import com.huishen.edrive.net.SRL;
 import com.huishen.edrive.util.AppController;
 import com.huishen.edrive.util.AppUtil;
 import com.huishen.edrive.util.Const;
+import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.LoadingDialog;
 import com.huishen.edrive.widget.LoadingView;
@@ -25,6 +26,7 @@ import com.tencent.stat.common.StatLogger;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -46,7 +48,7 @@ import android.widget.TextView;
  */
 public class CoachDetailActivity extends BaseActivity implements OnClickListener ,SwipeRefreshLayout.OnRefreshListener{
 	private String TAG = "CoachDetailActivity" ;
-	private TextView title , coachname , goodnum ,judgescore ,detailContent,stunum;
+	private TextView title ,note , coachname , goodnum ,judgescore ,detailContent,stunum;
 	private TextView demandnum ,judgenum ,ranking ;
 	private RatingBar judgerating ;
     private Button call ; //呼叫教练
@@ -68,6 +70,7 @@ public class CoachDetailActivity extends BaseActivity implements OnClickListener
     private ArrayList<String> imgUrls ;
     
 	/***************************腾讯统计相关框架*************************************/
+    
     //继承BaseActivity已经集成
 	@Override
 	protected void onDestroy() {
@@ -174,6 +177,7 @@ public class CoachDetailActivity extends BaseActivity implements OnClickListener
 	
 	private void registView() {
 		title = (TextView)this.findViewById(R.id.header_title);
+		note = (TextView)findViewById(R.id.header_note);
 		back = (ImageButton)this.findViewById(R.id.header_back) ;
 		call = (Button)this.findViewById(R.id.coach_detail_btn_call) ;
 		good = (ImageButton)this.findViewById(R.id.coach_detail_btn_good) ;
@@ -214,19 +218,42 @@ public class CoachDetailActivity extends BaseActivity implements OnClickListener
 		this.setmeal.setOnClickListener(this) ;
 	
 		this.call.setOnClickListener(this);
-		if(tag == 1){
-			TextView note = (TextView)findViewById(R.id.header_note);
-			note.setText("投诉");
-			note.setOnClickListener(new OnClickListener(){
+		
+		//第二版新增分享功能
+		Drawable nav_up=getResources().getDrawable(R.drawable.ic_share);
+		nav_up.setBounds(0, 0, nav_up.getMinimumWidth(), nav_up.getMinimumHeight());
+		note.setCompoundDrawables(null,nav_up, null, null);
+		
+		note.setOnClickListener(new OnClickListener(){
 
-				@Override
-				public void onClick(View arg0) {
-					Intent i = new Intent(CoachDetailActivity.this ,ComplainActivity.class);
-					i.putExtra("coachId",coachId);
-					startActivity(i);
-				}
-				
-			});
+			@Override
+			public void onClick(View arg0) {
+				Intent sendIntent = new Intent();
+				// 分享内容
+				String shareContent = "e驾学车老总发飙了！有钱！任性！转发就领100元学车券！迎娶白富美从此走上人生巅峰" ;
+				String shareCoach =shareContent+NetUtil.getAbsolutePath("share/coh")+"?coachId="+coachId; //分享的内容
+				sendIntent.setAction(Intent.ACTION_SEND);
+				sendIntent.putExtra(Intent.EXTRA_TEXT, shareCoach);
+				sendIntent.setType("text/plain");
+				startActivity(Intent.createChooser(sendIntent, "选择接收者"));
+			}
+			
+		});
+		//新增功能结束
+		
+		if(tag == 1){
+			
+//			note.setText("投诉");
+//			note.setOnClickListener(new OnClickListener(){
+//
+//				@Override
+//				public void onClick(View arg0) {
+//					Intent i = new Intent(CoachDetailActivity.this ,ComplainActivity.class);
+//					i.putExtra("coachId",coachId);
+//					startActivity(i);
+//				}
+//				
+//	  		});
 			this.call.setText("解除绑定");
 		}
 		
@@ -272,6 +299,10 @@ public class CoachDetailActivity extends BaseActivity implements OnClickListener
 			if(coachtel == null || coachtel.equals("")){
 				AppUtil.ShowShortToast(getApplicationContext(), "对不起，此教练没有电话号码") ;
 			}else{
+				
+			//第二版功能
+				sendtelLog();
+		    //第二版功能结束
 			Uri uri = Uri.parse("tel:"+coachtel);
 			Intent it = new Intent(Intent.ACTION_CALL, uri);
 			startActivity(it);
@@ -280,6 +311,25 @@ public class CoachDetailActivity extends BaseActivity implements OnClickListener
 		}
 	}
 	
+	/**
+	 * 发送通话记录
+	 */
+	private void sendtelLog(){
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("coachId", coachId+"");
+		map.put("stuId", Prefs.readString(this, Const.USER_ID));
+		map.put("fromType", 1+"");
+//		map.put(SRL.Param.PARAM_LATITUDE, lat+"");
+		NetUtil.requestStringData(SRL.Method.METHOD_CONTROL_PHONE,TAG, map, new Response.Listener<String>() {
+
+			@Override
+			public void onResponse(String result) {
+				Log.i(TAG, "通话监听返回值："+result);
+			      
+			}
+			
+		}, new DefaultErrorListener(this,null ,loading ,mSwipeLayout)) ;
+	}
 	/**
 	 * 响应学员评价按钮，跳转到学员评价列表
 	 */

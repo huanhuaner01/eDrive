@@ -86,6 +86,21 @@ public final class SRL {
 		public static final String METHOD_GET_SERVICE_INFO ="stuMobile/queryTermOfService" ;
 		public static final String METHOD_SEND_SOUND_ORDER = "stuMobile/uploadAudio" ;
 		public static final String METHOD_RESEND_ORDER = "stuMobile/rePublish" ;
+		
+		/**
+		 * 分类教练界面       根据自己的地理位置，获取周边教练的地理信息
+		 */
+		public static final String METHOD_GET_ROUND_COACH_INFO ="stuMobile/queryDistanceCoachInfoList" ;
+		
+		/**
+		 * 分类教练界面       根据自己的地理位置，获取周边教练的地理信息
+		 */
+		public static final String METHOD_GET_ROUND_COACH_INFO_BY_AREA ="stuMobile/queryCohInfoByPcregion" ; //mobileFlag=，province=，city=，region=
+		
+		/**
+		 * 分类教练界面       获取存在教练的省市区
+		 */
+		public static final String METHOD_GET_CITY_BY_COACH ="stuMobile/queryProvinceCityInfo" ;
 		//------------------------------发布需求结束！----------------------------
 		
 		//-------------------------------绑定教练---------------------------------
@@ -134,6 +149,11 @@ public final class SRL {
 		 * 
 		 */
 		public static final String METHOD_CHECK_UPDATE = "/queryVersion";
+		
+		/**
+		 * 监测通话记录
+		 */
+		public static final String METHOD_CONTROL_PHONE = "/addCallLog" ;
 		
 	}
 	//请求参数

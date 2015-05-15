@@ -51,7 +51,7 @@ public class AppController extends Application {
 		mInstance = this;
 		requestQueue = Volley.newRequestQueue(this);
 		SDKInitializer.initialize(this);
-		PushAgent.getInstance(mInstance).setMessageHandler(new CustomUMessageHandler());//设置友盟自定义处理。
+		   PushAgent.getInstance(mInstance).setMessageHandler(new CustomUMessageHandler());//设置友盟自定义处理。
 	}
 
 	public static synchronized AppController getInstance() {
@@ -67,7 +67,7 @@ public class AppController extends Application {
 //			requestQueue.add(request);
 //		}
 //	}
-   
+    
 
    ///////////////////////////退出应用相关////////////////////////////////////
 	private List<Activity> list = new ArrayList<Activity>();

@@ -94,15 +94,18 @@ public final class CustomUMessageHandler extends UmengMessageHandler {
 	 * @param msg
 	 */
 	private void insertDB(Context context, UMessage msg){
+		Log.i(LOG_TAG, "massage is "+msg.toString());
 		MeaasgeDbManager db = new MeaasgeDbManager(context);
 		AppMessage appmsg = new AppMessage();
 		appmsg.setContent(msg.text); //消息内容
 		appmsg.setTitle(msg.title); //消息标题
-		if(!msg.extra.get("headline").equals("")){
+		if(msg.extra.get("headline") != null&&!msg.extra.get("headline").equals("")){
 			appmsg.setTitle(msg.extra.get("headline")); //消息标题
 		}
 		appmsg.setType(Integer.parseInt(msg.extra.get("msgType"))); //消息类型
-		appmsg.setIconPath(msg.extra.get("img")); //图片路径
+		if(msg.extra.get("img")!= null &&!msg.extra.get("headline").equals("")){
+		  appmsg.setIconPath(msg.extra.get("img")); //图片路径
+		}
 		appmsg.setTime(CalendarUtil.getCurrentTime()) ; //消息时间
 //		db.clearAllMessages(); //测试删除
 		if(db.saveAppMessage(appmsg)){

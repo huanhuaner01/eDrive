@@ -32,6 +32,7 @@ import com.baidu.mapapi.map.offline.MKOLUpdateElement;
 import com.baidu.mapapi.map.offline.MKOfflineMap;
 import com.baidu.mapapi.map.offline.MKOfflineMapListener;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.huishen.edrive.MainActivity;
 import com.huishen.edrive.R;
 import com.huishen.edrive.apointment.MassageListener;
@@ -50,6 +51,7 @@ import com.huishen.edrive.util.Prefs;
 import com.huishen.edrive.widget.BaseActivity;
 import com.huishen.edrive.widget.GuideView;
 import com.huishen.edrive.widget.LoadingDialog;
+import com.huishen.edrive.widget.ZoomControlsView;
 import com.tencent.stat.StatService;
 import com.tencent.stat.common.StatLogger;
 
@@ -110,6 +112,13 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
     private MessageDialog Offlinedialog ; //离线弹出框
     private int cityId ; //城市id,用于离线地图下载
     
+    private ZoomControlsView zcvZomm;//缩放控件
+    ImageView coach_class_img;
+    String intentResult;
+    double currentLat; //当前经度
+    double currentLng; //当前维度
+    private String Province,City,Area;
+    
 	/***************************腾讯统计相关框架*************************************/
 	
 	/***************************腾讯统计基本框架结束*************************************/
@@ -128,6 +137,11 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 		/*******************************************/
     	setContentView(R.layout.activity_demand);	
 		mMapView = (MapView) findViewById(R.id.bmapView);
+		mMapView.showZoomControls(false);//隐藏缩放控件
+		//获取缩放控件
+        zcvZomm=(ZoomControlsView) findViewById(R.id.zcv_zoom);
+        zcvZomm.setMapView(mMapView);//设置百度地图控件
+        
 		mBaiduMap = mMapView.getMap();
 		
 		
@@ -147,6 +161,9 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 		bg = (FrameLayout)findViewById(R.id.demand_bg);
 		msg = (ImageButton)findViewById(R.id.main_btn_msg);
 		msgTag = (ImageView)findViewById(R.id.have_message_tag);
+		
+		coach_class_img = (ImageView) findViewById(R.id.coach_class_img);
+		coach_class_img.setOnClickListener(this);
 	}
 	
 	/**
@@ -207,11 +224,12 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 						if(dialog.isShowing()){
 						dialog.dismiss();
 						}
-//						Log.i(TAG, result);
+//						Log.i("www", result);
 						try {
 							//返回值：[{"coachId":1,"coachName":"张三","coachScore":2.1,"issue":20,
 //							"lat":30.575699,"lng":104.068216,
 //							"path":"/static/img/coachHeader.png","phone":"3558657902"}]
+							intentResult = result;
 							JSONArray array = new JSONArray(result);
 							mBaiduMap.clear();
 							for(int i = 0 ; i<array.length() ;i++){
@@ -337,9 +355,15 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 				LatLng ll = new LatLng(location.getLatitude(),
 						location.getLongitude());
 				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(ll,15);
-				Log.w("LocationDemo","地理位置"+location.getLatitude()+","+location.getLongitude());
+				Log.i("LocationDemo","地理位置"+location.getLatitude()+","+location.getLongitude());
+				currentLat = location.getLatitude();
+				currentLng = location.getLongitude();
 				mBaiduMap.animateMapStatus(u);
 				addr = location.getAddrStr() ;
+				Province = location.getProvince();
+				City = location.getCity();
+				Area = location.getStreet();
+//				Log.i("www", ""+addr);
 				mLocClient.stop();
 				if(location.getCityCode() == null){
 					Log.i(TAG, "location.getCityCode() is null");
@@ -443,7 +467,25 @@ public class DemandActivity extends BaseActivity implements OnClickListener{
 			Intent i = new Intent(this,ListActivity.class);
 			i.putExtra(ListActivity.STATUS_KEY,ListActivity.STATUS_ORDERLIST);
 			startActivity(i);
+//			Toast.makeText(DemandActivity.this, "跳转11111111....", Toast.LENGTH_SHORT).show();
 			break ;
+		case R.id.coach_class_img:
+			if(!"".equals(intentResult) && null != intentResult){
+				Intent intent = new Intent(DemandActivity.this,ChooseAdressOrCoachActivity.class);
+				intent.putExtra("currentLat", currentLat);
+				intent.putExtra("currentLng", currentLng);
+				intent.putExtra("Province", Province);
+				intent.putExtra("City", City);
+				intent.putExtra("Area", Area);
+				
+				startActivity(intent);
+			}else{
+				Toast.makeText(DemandActivity.this, "正在加载信息，请稍后...", Toast.LENGTH_SHORT).show();
+			}
+			break;
+		
+		default:
+			break;
 		}
 	}
 	@Override

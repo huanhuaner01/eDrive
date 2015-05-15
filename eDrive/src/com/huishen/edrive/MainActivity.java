@@ -227,9 +227,7 @@ public class MainActivity extends FragmentActivity implements OnCheckedChangeLis
     	//如果用户已经绑定手机，则获取登录数据
 		if (Prefs.checkUser(this)) { 
 			//获得本地用户数据
-				
-				coachId =  Prefs.readString(this,Const.USER_COACH_ID) ;
-		
+		   coachId =  Prefs.readString(this,Const.USER_COACH_ID) ;
 		}
 		 if(isFirstMain){
 		//如果用户教练不存在则跳转到发布需求界面

@@ -13,7 +13,10 @@
         android:id="@+id/f_meallist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        
+           android:groupIndicator="@null"
+           android:divider="@color/main_bg_color"
+           android:dividerHeight="@dimen/divide_line"
+           android:listSelector="@drawable/transparent_selector"
         />
          <com.huishen.edrive.widget.LoadingView
             android:id="@+id/titlelist_loading"

@@ -127,7 +127,7 @@ public class CoachMealListFragment extends BaseFragment {
 			@Override
 			public void onResponse(String result) {
 				Log.i(TAG, "list is null ? "+(list==null));
-//				list.onRefreshComplete();
+				list.onRefreshComplete();
 				if(result == null || result.equals("")){
 					AppUtil.ShowShortToast(getActivity(), "获取数据异常");
 				}else{

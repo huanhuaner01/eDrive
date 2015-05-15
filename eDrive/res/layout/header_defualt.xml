@@ -42,6 +42,8 @@
          android:paddingTop="@dimen/header_title_padding"
          android:paddingBottom="@dimen/header_title_padding"
          android:paddingRight="@dimen/header_title_padding"
+         android:background="@drawable/selector_default_btn"
+         
          />
 </RelativeLayout>
     <View
